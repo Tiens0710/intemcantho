@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 400" preserveAspectRatio="none">
+  <defs>
+    <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#b45309" stop-opacity="0"/>
+      <stop offset="60%" stop-color="#b45309" stop-opacity="0.03"/>
+      <stop offset="100%" stop-color="#b45309" stop-opacity="0.08"/>
+    </linearGradient>
+    <linearGradient id="bldgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#92400e" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#92400e" stop-opacity="0.12"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Sky gradient -->
+  <rect width="1440" height="400" fill="url(#skyGrad)"/>
+  
+  <!-- Back layer buildings (lighter) -->
+  <g fill="#92400e" opacity="0.04">
+    <rect x="20" y="140" width="60" height="260" rx="2"/>
+    <rect x="90" y="180" width="40" height="220" rx="2"/>
+    <rect x="140" y="100" width="50" height="300" rx="2"/>
+    <rect x="200" y="160" width="70" height="240" rx="2"/>
+    <rect x="280" y="80" width="45" height="320" rx="2"/>
+    <rect x="335" y="200" width="55" height="200" rx="2"/>
+    <rect x="400" y="120" width="65" height="280" rx="2"/>
+    <rect x="475" y="170" width="40" height="230" rx="2"/>
+    <rect x="525" y="60" width="55" height="340" rx="2"/>
+    <rect x="590" y="190" width="50" height="210" rx="2"/>
+    <rect x="650" y="130" width="45" height="270" rx="2"/>
+    <rect x="705" y="150" width="60" height="250" rx="2"/>
+    <rect x="775" y="90" width="50" height="310" rx="2"/>
+    <rect x="835" y="210" width="40" height="190" rx="2"/>
+    <rect x="885" y="110" width="55" height="290" rx="2"/>
+    <rect x="950" y="170" width="65" height="230" rx="2"/>
+    <rect x="1025" y="70" width="45" height="330" rx="2"/>
+    <rect x="1080" y="200" width="50" height="200" rx="2"/>
+    <rect x="1140" y="140" width="60" height="260" rx="2"/>
+    <rect x="1210" y="100" width="40" height="300" rx="2"/>
+    <rect x="1260" y="180" width="55" height="220" rx="2"/>
+    <rect x="1325" y="120" width="50" height="280" rx="2"/>
+    <rect x="1385" y="160" width="55" height="240" rx="2"/>
+  </g>
+  
+  <!-- Front layer buildings (slightly darker) -->
+  <g fill="url(#bldgGrad)">
+    <rect x="0" y="240" width="50" height="160" rx="1"/>
+    <rect x="60" y="260" width="35" height="140" rx="1"/>
+    <rect x="105" y="220" width="55" height="180" rx="1"/>
+    <rect x="170" y="280" width="40" height="120" rx="1"/>
+    <rect x="220" y="230" width="60" height="170" rx="1"/>
+    <rect x="290" y="250" width="45" height="150" rx="1"/>
+    <rect x="345" y="200" width="50" height="200" rx="1"/>
+    <rect x="405" y="270" width="55" height="130" rx="1"/>
+    <rect x="470" y="210" width="40" height="190" rx="1"/>
+    <rect x="520" y="240" width="65" height="160" rx="1"/>
+    <rect x="595" y="190" width="45" height="210" rx="1"/>
+    <rect x="650" y="260" width="50" height="140" rx="1"/>
+    <rect x="710" y="220" width="60" height="180" rx="1"/>
+    <rect x="780" y="250" width="35" height="150" rx="1"/>
+    <rect x="825" y="200" width="55" height="200" rx="1"/>
+    <rect x="890" y="270" width="45" height="130" rx="1"/>
+    <rect x="945" y="230" width="50" height="170" rx="1"/>
+    <rect x="1005" y="210" width="60" height="190" rx="1"/>
+    <rect x="1075" y="260" width="40" height="140" rx="1"/>
+    <rect x="1125" y="240" width="55" height="160" rx="1"/>
+    <rect x="1190" y="220" width="45" height="180" rx="1"/>
+    <rect x="1245" y="250" width="50" height="150" rx="1"/>
+    <rect x="1305" y="200" width="60" height="200" rx="1"/>
+    <rect x="1375" y="270" width="65" height="130" rx="1"/>
+  </g>
+  
+  <!-- Window dots on front buildings -->
+  <g fill="#b45309" opacity="0.04">
+    <rect x="112" y="235" width="4" height="5" rx="0.5"/>
+    <rect x="120" y="235" width="4" height="5" rx="0.5"/>
+    <rect x="112" y="245" width="4" height="5" rx="0.5"/>
+    <rect x="120" y="245" width="4" height="5" rx="0.5"/>
+    <rect x="112" y="255" width="4" height="5" rx="0.5"/>
+    <rect x="120" y="255" width="4" height="5" rx="0.5"/>
+    
+    <rect x="352" y="215" width="4" height="5" rx="0.5"/>
+    <rect x="360" y="215" width="4" height="5" rx="0.5"/>
+    <rect x="352" y="225" width="4" height="5" rx="0.5"/>
+    <rect x="360" y="225" width="4" height="5" rx="0.5"/>
+    <rect x="352" y="235" width="4" height="5" rx="0.5"/>
+    <rect x="360" y="235" width="4" height="5" rx="0.5"/>
+    
+    <rect x="832" y="215" width="4" height="5" rx="0.5"/>
+    <rect x="840" y="215" width="4" height="5" rx="0.5"/>
+    <rect x="832" y="225" width="4" height="5" rx="0.5"/>
+    <rect x="840" y="225" width="4" height="5" rx="0.5"/>
+    <rect x="832" y="235" width="4" height="5" rx="0.5"/>
+    <rect x="840" y="235" width="4" height="5" rx="0.5"/>
+    
+    <rect x="1012" y="225" width="4" height="5" rx="0.5"/>
+    <rect x="1020" y="225" width="4" height="5" rx="0.5"/>
+    <rect x="1012" y="235" width="4" height="5" rx="0.5"/>
+    <rect x="1020" y="235" width="4" height="5" rx="0.5"/>
+    
+    <rect x="1312" y="215" width="4" height="5" rx="0.5"/>
+    <rect x="1320" y="215" width="4" height="5" rx="0.5"/>
+    <rect x="1312" y="225" width="4" height="5" rx="0.5"/>
+    <rect x="1320" y="225" width="4" height="5" rx="0.5"/>
+    <rect x="1312" y="235" width="4" height="5" rx="0.5"/>
+    <rect x="1320" y="235" width="4" height="5" rx="0.5"/>
+  </g>
+</svg>

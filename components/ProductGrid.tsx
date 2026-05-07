@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ShoppingCart } from "lucide-react";
+import { Heart, ShoppingCart } from "lucide-react";
 import { useEffect, useState } from "react";
 import { getRecommendations, Product } from "@/lib/wordpress";
 import { useAppStore } from "@/lib/store";
@@ -53,24 +53,24 @@ export default function ProductGrid() {
   };
 
   return (
-    <section id="featured-products" className="py-16 md:py-24">
+    <section id="featured-products" className="py-0 md:py-0">
       <div className="container mx-auto px-4">
-        {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
+          initial={{ opacity: 0, y: -18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+          className="mx-auto mb-8 flex max-w-[28rem] flex-col items-center justify-center px-6 py-2 text-center"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-foreground">
-            Sản phẩm được đề xuất
+          <div className="mb-2 flex items-center gap-4 text-[0.65rem] uppercase tracking-[0.42em] text-amber-700/80">
+            <span className="h-px w-10 bg-amber-700/35" />
+            BEST SELLER
+            <span className="h-px w-10 bg-amber-700/35" />
+          </div>
+          <h2 className="font-sans text-4xl font-semibold uppercase tracking-wide md:text-5xl">
+            BEST SELLER
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            {persona
-              ? "Dựa trên loại hình kinh doanh của bạn, chúng tôi gợi ý những sản phẩm phù hợp nhất"
-              : "Khám phá các sản phẩm in ấn chất lượng cao của chúng tôi"}
-          </p>
+          <span className="mt-4 h-[3px] w-14 bg-amber-700" />
         </motion.div>
 
         {/* Loading State */}
@@ -86,84 +86,64 @@ export default function ProductGrid() {
 
         {/* Products Grid */}
         {!isLoading && products.length > 0 && (
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
-          >
-            {products.map((product, index) => (
-              <motion.div
-                key={product.id}
-                variants={itemVariants}
-                transition={itemTransition}
-                className={`group relative overflow-hidden rounded-xl bg-card border border-border hover:border-primary/50 transition-all duration-300 ${
-                  index % 3 === 1 ? "md:translate-y-8" : ""
-                }`}
-              >
-                {/* Image Container */}
-                <div className="relative h-64 md:h-72 overflow-hidden bg-secondary">
-                  <motion.img
-                    src={product.image}
-                    alt={product.title}
-                    className="w-full h-full object-cover"
-                    whileHover={{ scale: 1.05 }}
-                    transition={{ duration: 0.4 }}
-                  />
-                  {/* Overlay */}
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    whileHover={{ opacity: 1 }}
-                    className="absolute inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center"
-                  >
-                    <motion.button
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="btn-neumorph-primary flex items-center gap-2"
+          <>
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4"
+            >
+              {products.slice(0, 8).map((product) => (
+                <motion.div
+                  key={product.id}
+                  variants={itemVariants}
+                  transition={itemTransition}
+                  className="group flex h-full flex-col border border-[#e8e8e8] bg-white transition-transform duration-300 hover:shadow-md"
+                >
+                  <div className="relative bg-[#f0f0f0]">
+                    <button
+                      type="button"
+                      aria-label="Yêu thích sản phẩm"
+                      className="absolute right-4 top-4 z-10 flex items-center justify-center rounded-full p-1 text-gray-500 transition-colors hover:text-rose-500"
                     >
-                      <ShoppingCart className="w-5 h-5" />
-                      Xem chi tiết
-                    </motion.button>
-                  </motion.div>
-                </div>
+                      <Heart className="h-5 w-5" strokeWidth={1.5} />
+                    </button>
 
-                {/* Content */}
-                <div className="p-6">
-                  <div className="flex items-start justify-between mb-3">
-                    <h3 className="text-lg font-semibold text-foreground flex-1 group-hover:text-primary transition-colors">
+                    <div className="flex h-[250px] items-center justify-center px-4 py-5 md:h-[280px]">
+                      <motion.img
+                        src={product.image}
+                        alt={product.title}
+                        className="max-h-full max-w-full object-contain"
+                        whileHover={{ scale: 1.02 }}
+                        transition={{ duration: 0.3 }}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex-1 flex flex-col px-4 py-4 text-left md:px-5">
+                    <h3 className="mb-3 font-sans text-base md:text-base font-bold leading-snug !text-black">
                       {product.title}
                     </h3>
-                    {product.featured && (
-                      <motion.span
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        className="ml-2 px-2 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold"
-                      >
-                        ⭐ Nổi bật
-                      </motion.span>
-                    )}
+                    <button
+                      className="group mt-auto inline-flex items-center justify-center rounded-lg bg-amber-600 px-6 py-2.5 text-sm font-medium text-white transition-all hover:bg-amber-700"
+                    >
+                      <span className="text-white transition-opacity duration-200 group-hover:opacity-0">
+                        Đọc Tiếp
+                      </span>
+                      <ShoppingCart className="absolute h-5 w-5 text-white opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
+                    </button>
                   </div>
+                </motion.div>
+              ))}
+            </motion.div>
 
-                  <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
-                    {product.description}
-                  </p>
-
-                  <div className="flex items-center justify-between pt-4 border-t border-border">
-                    <span className="text-lg font-bold text-primary">{product.price}</span>
-                    <span className="text-xs text-muted-foreground bg-secondary px-2 py-1 rounded">
-                      {product.category}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Gradient Border Effect */}
-                <div className="absolute inset-0 rounded-xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-primary/20 via-transparent to-transparent" />
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
+            <div className="mt-12 flex justify-center md:mt-16">
+              <button className="rounded-full border border-[#6b6b6b] px-8 py-3 text-sm font-medium text-[#333333] transition-colors hover:bg-amber-600 hover:!text-white hover:border-amber-600">
+                Khám phá thêm
+              </button>
+            </div>
+          </>
         )}
 
         {/* Empty State */}

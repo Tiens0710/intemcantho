@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useAppStore } from "@/lib/store";
 
@@ -11,16 +12,31 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const { persona } = useAppStore();
+  const pathname = usePathname();
+  const isHomePage = pathname === "/";
+  const shouldUseGlassHeader = !isHomePage || isScrolled;
 
   useEffect(() => {
+    if (!isHomePage) {
+      return;
+    }
+
+    let ticking = false;
+
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 40);
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const next = window.scrollY > 40;
+        setIsScrolled((prev) => (prev === next ? prev : next));
+        ticking = false;
+      });
     };
 
     handleScroll();
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isHomePage]);
 
   const menuItems = [
     { label: "Trang chủ", href: "/" },
@@ -33,15 +49,14 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-40 w-full transition-all duration-300 backdrop-blur-md ${
-        isScrolled
-          ? "bg-white/75 shadow-lg shadow-black/10"
-          : "bg-white/0 shadow-none"
+      className={`fixed top-0 left-0 right-0 z-40 w-full transition-[background-color,box-shadow,backdrop-filter] duration-300 ${
+        shouldUseGlassHeader
+          ? "bg-white/45 shadow-[0_14px_42px_rgba(15,23,42,0.12),inset_0_1px_0_rgba(255,255,255,0.55)] backdrop-blur-2xl"
+          : "bg-white/0 shadow-none backdrop-blur-0"
       }`}
     >
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-[auto_1fr_auto] items-center h-20 gap-6">
-          {/* Logo */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -53,7 +68,7 @@ export default function Navbar() {
               aria-label="Duky Printing"
             >
               <Image
-                src={isScrolled ? "/logo.png" : "/logo-white.png"}
+                src={shouldUseGlassHeader ? "/logo.png" : "/logo-white.png"}
                 alt="Duky Printing"
                 width={180}
                 height={56}
@@ -63,7 +78,6 @@ export default function Navbar() {
             </Link>
           </motion.div>
 
-          {/* Desktop Menu */}
           <div className="hidden md:flex items-center justify-center gap-2">
             {menuItems.map((item, index) => (
               <motion.div
@@ -75,7 +89,7 @@ export default function Navbar() {
                 <Link
                   href={item.href}
                   className={`inline-flex items-center px-3 py-2 text-base font-bold tracking-wide transition-colors ${
-                    isScrolled
+                    shouldUseGlassHeader
                       ? "text-black/90 hover:text-black"
                       : "text-white/95 hover:text-white"
                   }`}
@@ -86,15 +100,14 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* Auth Buttons & Persona */}
           <div className="hidden md:flex gap-3 items-center justify-self-end">
             {persona && (
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 className={`px-3 py-1 rounded-sm text-xs font-light border ${
-                  isScrolled
-                    ? "bg-black/5 text-black border-black/10"
+                  shouldUseGlassHeader
+                    ? "bg-white/40 text-black border-white/40 shadow-[inset_0_1px_0_rgba(255,255,255,0.5)] backdrop-blur-md"
                     : "bg-white/10 text-white border-white/30"
                 }`}
               >
@@ -103,48 +116,36 @@ export default function Navbar() {
             )}
             <Link
               href="/dang-nhap"
-              className={`px-4 py-2 text-sm font-light transition-colors ${
-                isScrolled
-                  ? "text-black/70 hover:text-black"
-                  : "text-white/95 hover:text-white"
+              className={`px-4 py-2 text-sm font-semibold tracking-wide transition-all ${
+                shouldUseGlassHeader
+                  ? "rounded-full border border-[#e9e2d6]/55 bg-white/20 text-[#f7f2e9]/90 shadow-[0_8px_24px_rgba(15,23,42,0.08),inset_0_1px_0_rgba(255,255,255,0.5)] backdrop-blur-md hover:border-[#f7f2e9]/75 hover:bg-white/30 hover:text-[#f7f2e9]"
+                  : "text-[#f7f2e9]/90 bg-white/10 border border-[#e9e2d6]/45 rounded-full shadow-[0_8px_24px_rgba(255,255,255,0.08)] hover:bg-white/15 hover:text-[#f7f2e9]"
               }`}
             >
               Đăng nhập
             </Link>
-            <Link
-              href="/dang-ky"
-              className="px-4 py-2 text-sm font-light text-white bg-amber-800 hover:bg-amber-900 rounded-sm transition-colors"
-            >
-              Đăng ký
-            </Link>
           </div>
 
-          {/* Mobile Menu Button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
             className={`md:hidden p-2 rounded-sm transition-colors ${
-              isScrolled
+              shouldUseGlassHeader
                 ? "text-black hover:bg-black/5"
                 : "text-white hover:bg-white/10"
             }`}
           >
-            {isOpen ? (
-              <X className="w-6 h-6" />
-            ) : (
-              <Menu className="w-6 h-6" />
-            )}
+            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
 
-        {/* Mobile Menu */}
         {isOpen && (
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className={`md:hidden pb-6 space-y-2 border-t pt-4 backdrop-blur-md ${
-              isScrolled
-                ? "border-black/10 bg-white/90"
+            className={`md:hidden pb-6 space-y-2 border-t pt-4 backdrop-blur-xl ${
+              shouldUseGlassHeader
+                ? "border-white/35 bg-white/55 shadow-[0_18px_38px_rgba(15,23,42,0.12),inset_0_1px_0_rgba(255,255,255,0.45)]"
                 : "border-white/20 bg-black/35"
             }`}
           >
@@ -153,7 +154,7 @@ export default function Navbar() {
                 key={index}
                 href={item.href}
                 className={`block px-4 py-3 text-sm font-light rounded-sm transition-all ${
-                  isScrolled
+                  shouldUseGlassHeader
                     ? "text-black/70 hover:text-black hover:bg-black/5"
                     : "text-white/95 hover:text-white hover:bg-white/10"
                 }`}
@@ -163,27 +164,20 @@ export default function Navbar() {
               </Link>
             ))}
             <div
-              className={`border-t pt-4 mt-4 space-y-2 ${
-                isScrolled ? "border-black/10" : "border-white/20"
+              className={`border-t pt-4 mt-4 ${
+                shouldUseGlassHeader ? "border-black/10" : "border-white/20"
               }`}
             >
               <Link
                 href="/dang-nhap"
-                className={`block px-4 py-2 text-sm font-light rounded-sm transition-all ${
-                  isScrolled
-                    ? "text-black/70 hover:text-black hover:bg-black/5"
-                    : "text-white/95 hover:text-white hover:bg-white/10"
+                className={`block px-4 py-2 text-sm font-semibold tracking-wide rounded-full transition-all ${
+                  shouldUseGlassHeader
+                    ? "text-[#f7f2e9]/90 hover:bg-white/15 hover:text-[#f7f2e9]"
+                    : "text-white bg-white/10 border border-white/30 hover:bg-white/15"
                 }`}
                 onClick={() => setIsOpen(false)}
               >
                 Đăng nhập
-              </Link>
-              <Link
-                href="/dang-ky"
-                className="block px-4 py-2 text-sm font-light text-white bg-amber-800 hover:bg-amber-900 rounded-sm transition-all"
-                onClick={() => setIsOpen(false)}
-              >
-                Đăng ký
               </Link>
             </div>
           </motion.div>

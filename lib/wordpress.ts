@@ -36,22 +36,22 @@ export interface ProcessStep {
 const PRODUCTS: Product[] = [
   {
     id: "brochure-1",
-    title: "Premium Brochures",
+    title: "Bao thư A4",
     description:
       "High-quality tri-fold and multi-page brochures with vibrant colors and professional finishes.",
     category: "office-products",
-    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=500&fit=crop",
+    image: "/2.jpg",
     price: "From $0.50/unit",
     personas: ["office-worker", "cafe-owner"],
     featured: true,
   },
   {
     id: "labels-1",
-    title: "Custom Labels & Stickers",
+    title: "Catalogue chuẩn",
     description:
       "Durable, waterproof labels perfect for product branding and packaging.",
     category: "labels",
-    image: "https://images.unsplash.com/photo-1578500494198-246f612d03b3?w=500&h=500&fit=crop",
+    image: "/34.jpg",
     price: "From $0.15/unit",
     personas: ["cafe-owner", "fashion-lover"],
     featured: true,
@@ -62,18 +62,18 @@ const PRODUCTS: Product[] = [
     description:
       "Branded boxes, bags, and packaging solutions that elevate your product presentation.",
     category: "packaging",
-    image: "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?w=500&h=500&fit=crop",
+    image: "/37-1500x1500.jpg",
     price: "From $0.75/unit",
     personas: ["cafe-owner", "fashion-lover"],
     featured: true,
   },
   {
     id: "business-cards-1",
-    title: "Business Cards",
+    title: "Backdrop sự kiện",
     description:
       "Premium business cards with various finishes: matte, glossy, or textured.",
     category: "office-products",
-    image: "https://images.unsplash.com/photo-1611532736579-6b16e2b50449?w=500&h=500&fit=crop",
+    image: "/180-1.jpg",
     price: "From $0.08/unit",
     personas: ["office-worker"],
     featured: false,
@@ -84,7 +84,7 @@ const PRODUCTS: Product[] = [
     description:
       "Eye-catching flyers for events, promotions, and announcements.",
     category: "marketing",
-    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=500&fit=crop",
+    image: "/214-1.jpg",
     price: "From $0.12/unit",
     personas: ["office-worker", "cafe-owner"],
     featured: false,
@@ -95,7 +95,7 @@ const PRODUCTS: Product[] = [
     description:
       "Large-format standees for retail displays and event promotions.",
     category: "display",
-    image: "https://images.unsplash.com/photo-1578500494198-246f612d03b3?w=500&h=500&fit=crop",
+    image: "/219.jpg",
     price: "From $5.00/unit",
     personas: ["cafe-owner", "fashion-lover"],
     featured: false,
@@ -106,7 +106,7 @@ const PRODUCTS: Product[] = [
     description:
       "Professional hang tags for clothing, accessories, and retail products.",
     category: "labels",
-    image: "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?w=500&h=500&fit=crop",
+    image: "/225.jpg",
     price: "From $0.10/unit",
     personas: ["fashion-lover"],
     featured: false,
@@ -117,7 +117,7 @@ const PRODUCTS: Product[] = [
     description:
       "Laminated and bound menus with custom designs for cafes and restaurants.",
     category: "office-products",
-    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=500&fit=crop",
+    image: "/247.jpg",
     price: "From $1.50/unit",
     personas: ["cafe-owner"],
     featured: false,
@@ -257,12 +257,15 @@ export async function getRecommendations(
 ): Promise<Product[]> {
   await new Promise((resolve) => setTimeout(resolve, 300));
 
-  if (!persona) return [];
+  // Show featured products when no persona is selected
+  if (!persona) {
+    return PRODUCTS.slice(0, 8);
+  }
 
   const personaRecommendations: Record<Exclude<PersonaType, null>, string[]> = {
     "cafe-owner": ["labels-1", "packaging-1", "menus-1", "standee-1"],
-    "office-worker": ["business-cards-1", "brochure-1", "flyers-1"],
-    "fashion-lover": ["hang-tags-1", "labels-1", "packaging-1"],
+    "office-worker": ["business-cards-1", "brochure-1", "flyers-1", "standee-1"],
+    "fashion-lover": ["hang-tags-1", "labels-1", "packaging-1", "business-cards-1"],
   };
 
   const recommendedIds = personaRecommendations[persona] || [];

@@ -5,7 +5,7 @@
  * Elegant layout with split fonts and minimalist elements
  */
 
-import { useRef, useCallback, useEffect, useState } from 'react';
+import { useRef, useCallback, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectFade, Autoplay } from 'swiper/modules';
 import type { Swiper as SwiperType } from 'swiper';
@@ -21,17 +21,6 @@ export default function HeroSlider() {
   const swiperRef = useRef<SwiperType | null>(null);
   const timelineRef = useRef<gsap.core.Timeline | null>(null);
   const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isScrolled, setIsScrolled] = useState(false);
-
-  // Handle scroll to change header background
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   const playSlide = useCallback((index: number) => {
     if (timelineRef.current) {
@@ -51,7 +40,6 @@ export default function HeroSlider() {
 
   const handleSlideChange = useCallback(
     (swiper: SwiperType) => {
-      setActiveIndex(swiper.realIndex);
       playSlide(swiper.realIndex);
     },
     [playSlide],
@@ -60,9 +48,7 @@ export default function HeroSlider() {
   const handleSwiperInit = useCallback(
     (swiper: SwiperType) => {
       swiperRef.current = swiper;
-      requestAnimationFrame(() => {
-        playSlide(0);
-      });
+      requestAnimationFrame(() => playSlide(0));
     },
     [playSlide],
   );
@@ -82,9 +68,9 @@ export default function HeroSlider() {
         modules={[EffectFade, Autoplay]}
         effect="fade"
         fadeEffect={{ crossFade: true }}
-        speed={1000}
+        speed={700}
         loop={false}
-        autoplay={{ delay: 7000, disableOnInteraction: false }}
+        autoplay={{ delay: 8000, disableOnInteraction: false }}
         allowTouchMove={true}
         onSwiper={handleSwiperInit}
         onSlideChange={handleSlideChange}
@@ -104,6 +90,9 @@ export default function HeroSlider() {
                   alt=""
                   className="hero-slide-bg"
                   draggable={false}
+                  loading={i === 0 ? 'eager' : 'lazy'}
+                  decoding="async"
+                  fetchPriority={i === 0 ? 'high' : 'auto'}
                 />
               </div>
 
@@ -136,6 +125,9 @@ export default function HeroSlider() {
                     alt={slide.title.replace('\n', ' ')}
                     className="hero-slide-product"
                     draggable={false}
+                    loading={i === 0 ? 'eager' : 'lazy'}
+                    decoding="async"
+                    fetchPriority={i === 0 ? 'high' : 'auto'}
                   />
                 </div>
               </div>
@@ -159,16 +151,16 @@ export default function HeroSlider() {
         <button
           className="hero-nav-btn hero-nav-prev"
           onClick={() => swiperRef.current?.slidePrev()}
-          aria-label="Previous slide"
+          aria-label="Slide trước"
         >
-          PREVIOUS
+          TRƯỚC
         </button>
         <button
           className="hero-nav-btn hero-nav-next"
           onClick={() => swiperRef.current?.slideNext()}
-          aria-label="Next slide"
+          aria-label="Slide sau"
         >
-          NEXT
+          SAU
         </button>
       </div>
 
