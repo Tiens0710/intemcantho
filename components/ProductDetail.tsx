@@ -140,7 +140,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
   };
 
   return (
-    <section className="bg-[#fffdf9] min-h-screen py-10 px-4">
+    <section className="bg-gray-50 min-h-screen py-10 px-4">
       <div className="mx-auto max-w-7xl">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-[620px_1fr]">
 
@@ -199,7 +199,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
           >
             {/* Product Title */}
             <div className="border-b border-gray-100 pb-4 mb-5">
-              <h1 className="!font-sans text-xl font-extrabold uppercase tracking-wide !text-[#d97706]">
+              <h1 className="!font-sans text-xl font-extrabold uppercase tracking-wide !text-[#9a5b24]">
                 {p.title}
               </h1>
               <p className="mt-1 text-sm !text-gray-500">{p.subtitle}</p>
@@ -337,7 +337,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
 
               {/* Review options — Chỉ hiện khi chọn "Tôi đã có file thiết kế" */}
               {designOption === "has-file" && (
-                <div className="border-[3px] !border-[#9a5b24] shadow-md bg-white overflow-hidden rounded-lg">
+                <div className="border-2 !border-[#9a5b24] shadow-sm bg-white overflow-hidden rounded-lg">
                   <label
                     className="grid cursor-pointer grid-cols-[100px_1fr] items-center p-5 hover:bg-gray-50 transition-colors group"
                   >
@@ -403,7 +403,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
 
               {/* Online Design Options — Chỉ hiện khi chọn "Tôi sẽ thiết kế trực tuyến" */}
               {designOption === "online" && (
-                <div className="border-[3px] !border-[#9a5b24] shadow-md bg-white overflow-hidden rounded-lg p-5">
+                <div className="border-2 !border-[#9a5b24] shadow-sm bg-white overflow-hidden rounded-lg p-5">
                   <div className="space-y-3">
                     <p className="text-sm text-gray-700">
                       Bạn sẽ sử dụng công cụ thiết kế trực tuyến miễn phí của chúng tôi để tạo thiết kế của mình.
@@ -412,7 +412,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                       href="https://dukyai.com/tool/free-generation"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-block bg-[#d97706] hover:bg-[#b45309] text-white font-semibold py-2.5 px-4 rounded-lg transition-colors"
+                      className="inline-block bg-[#9a5b24] hover:bg-[#7a4819] text-white font-semibold py-2.5 px-4 rounded-lg transition-colors"
                     >
                       Bắt đầu thiết kế ngay →
                     </a>
@@ -422,7 +422,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
 
               {/* Support Design Options — Chỉ hiện khi chọn "Tôi cần hỗ trợ thiết kế" */}
               {designOption === "support" && (
-                <div className="border-[3px] !border-[#9a5b24] shadow-md bg-white overflow-hidden rounded-lg">
+                <div className="border-2 !border-[#9a5b24] shadow-sm bg-white overflow-hidden rounded-lg">
                   <label
                     className="grid cursor-pointer grid-cols-[100px_1fr] items-center p-5 hover:bg-gray-50 transition-colors group"
                   >
@@ -572,7 +572,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                     <motion.div
                       key={combo.id}
                       whileHover={{ x: 4 }}
-                      className="flex cursor-pointer items-center gap-4 rounded-xl border border-gray-200 bg-gray-50 p-3 transition-all hover:border-[#d97706] hover:bg-[#fffbeb]"
+                      className="flex cursor-pointer items-center gap-4 rounded-xl border border-gray-200 bg-gray-50 p-3 transition-all hover:border-[#9a5b24] hover:bg-[#fffbeb]"
                     >
                       {/* Combo image */}
                       <div className="flex h-14 w-20 shrink-0 items-center justify-center rounded-lg bg-[#fde68a]/40 overflow-hidden">
@@ -590,7 +590,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                       <div className="flex-1 min-w-0">
                         <p className="text-xs font-bold text-gray-800 uppercase truncate">{combo.title}</p>
                         <div className="flex items-center gap-2 mt-0.5">
-                          <span className="text-sm font-bold text-[#d97706]">
+                          <span className="text-sm font-bold text-[#9a5b24]">
                             {formatPrice(combo.price)}
                           </span>
                           <span className="text-xs text-gray-400 line-through">
@@ -602,7 +602,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                           Đặt và xem thêm 2 combo khác
                         </p>
                       </div>
-                      <Tag className="h-5 w-5 shrink-0 text-[#d97706]" />
+                      <Tag className="h-5 w-5 shrink-0 text-[#9a5b24]" />
                     </motion.div>
                   ))}
                 </div>

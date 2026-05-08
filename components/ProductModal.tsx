@@ -59,7 +59,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
             {/* Header bar */}
             <div className="flex shrink-0 items-center justify-between border-b border-gray-200 bg-white px-6 py-4 rounded-t-3xl">
               <div>
-                <h2 className="!font-sans text-base font-bold uppercase tracking-wide !text-[#d97706]">
+                <h2 className="!font-sans text-base font-bold uppercase tracking-wide !text-[#9a5b24]">
                   {product.title}
                 </h2>
                 <p className="text-xs !text-gray-400 mt-0.5">Chi tiết sản phẩm &amp; đặt hàng</p>
@@ -86,7 +86,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                   image: product.image,
                 }}
               />
-              <ProductDetailTabs />
+              <ProductDetailTabs productName={product.title} />
             </div>
           </motion.div>
         </>

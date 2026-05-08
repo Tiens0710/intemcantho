@@ -53,10 +53,10 @@ const FILE_NOTES = [
 ];
 
 const PRICE_FILES = [
-  { label: "BẢNG GIÁ", sub: "File Excel",      bg: "bg-[#217346]", icon: "xlsx" },
-  { label: "FILE CHUẨN", sub: "Illustrator",   bg: "bg-[#4a2c1a]", icon: "ai" },
-  { label: "FILE CHUẨN", sub: "Vector EPS",    bg: "bg-[#d97706]", icon: "eps" },
-  { label: "FILE CHUẨN", sub: "pdf",           bg: "bg-[#c0392b]", icon: "pdf" },
+  { label: "BẢNG GIÁ", sub: "File Excel",      bg: "bg-[#dff1e7]", icon: "xlsx" },
+  { label: "FILE CHUẨN", sub: "Illustrator",   bg: "bg-[#efe2d7]", icon: "ai" },
+  { label: "FILE CHUẨN", sub: "Vector EPS",    bg: "bg-[#f3dfc3]", icon: "eps" },
+  { label: "FILE CHUẨN", sub: "pdf",           bg: "bg-[#f7dedd]", icon: "pdf" },
 ];
 
 const SAMPLE_REVIEWS: Review[] = [
@@ -88,7 +88,7 @@ function Stars({ rating, max = 5, size = "h-4 w-4" }: { rating: number; max?: nu
       {Array.from({ length: max }).map((_, i) => (
         <Star
           key={i}
-          className={`${size} ${i < rating ? "fill-[#d97706] text-[#d97706]" : "fill-gray-200 text-gray-200"}`}
+          className={`${size} ${i < rating ? "fill-[#9a5b24] text-[#9a5b24]" : "fill-gray-200 text-gray-200"}`}
         />
       ))}
     </span>
@@ -101,7 +101,7 @@ function TabTitle({ children }: { children: React.ReactNode }) {
   return (
     <div className="mb-6 flex items-center justify-center gap-4">
       <span className="h-px w-16 bg-[#9a5b24]" />
-      <h2 className="!font-sans text-xl font-bold !text-gray-800">{children}</h2>
+      <h2 className="!font-sans text-xl font-bold !text-[#9a5b24]">{children}</h2>
       <span className="h-px w-16 bg-[#9a5b24]" />
     </div>
   );
@@ -109,7 +109,11 @@ function TabTitle({ children }: { children: React.ReactNode }) {
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 
-export default function ProductDetailTabs() {
+interface ProductDetailTabsProps {
+  productName?: string;
+}
+
+export default function ProductDetailTabs({ productName }: ProductDetailTabsProps) {
   const [activeTab, setActiveTab] = useState<TabKey>("intro");
   const [replyTexts, setReplyTexts] = useState<Record<string, string>>({});
   const [writeReview, setWriteReview] = useState(false);
@@ -126,23 +130,39 @@ export default function ProductDetailTabs() {
   const avgRating = (SAMPLE_REVIEWS.reduce((s, r) => s + r.rating, 0) / SAMPLE_REVIEWS.length).toFixed(1);
 
   return (
-    <section className="mx-auto max-w-6xl px-4 pb-16">
+    <section className="w-[87%] mx-auto px-4 pb-16">
+      {/* Divider above tabs */}
+      <div className="flex justify-center mb-4">
+        <span className="h-0.5 w-80 bg-[#9a5b24] rounded-md" />
+      </div>
+
       {/* ── Tab Navigation ─────────────────────────────────────────────── */}
       <div className="border border-gray-200 bg-white">
-        <div className="grid grid-cols-4">
+        <div className="grid grid-cols-4" role="tablist" aria-label="Product detail tabs">
           {TABS.map((tab) => (
             <button
               key={tab.key}
               id={`tab-${tab.key}`}
+              role="tab"
+              aria-selected={activeTab === tab.key}
+              aria-current={activeTab === tab.key ? "true" : undefined}
               type="button"
               onClick={() => setActiveTab(tab.key)}
-              className={`relative py-4 text-xs font-semibold uppercase tracking-wide transition-colors duration-200 ${
+              className={`relative py-5 text-sm md:text-base uppercase tracking-wide font-semibold transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#9a5b24]/40 ${
                 activeTab === tab.key
-                  ? "border-b-2 border-[#9a5b24] text-[#9a5b24]"
-                  : "text-gray-500 hover:text-[#9a5b24] border-b-2 border-transparent hover:border-b-[#9a5b24]"
+                  ? "text-[#9a5b24] font-bold"
+                  : "text-gray-500 hover:text-[#9a5b24]"
               }`}
             >
               {tab.label}
+
+              {/* animated underline indicator */}
+              <span
+                aria-hidden="true"
+                className={`absolute -bottom-1 left-1/2 transform -translate-x-1/2 h-0.5 rounded-md bg-[#9a5b24] w-52 transition-all duration-200 origin-center ${
+                  activeTab === tab.key ? "scale-x-100 opacity-100" : "scale-x-0 opacity-0"
+                }`}
+              />
             </button>
           ))}
         </div>
@@ -163,13 +183,26 @@ export default function ProductDetailTabs() {
             {activeTab === "intro" && (
               <div className="space-y-10">
                 {/* Title */}
-                <TabTitle>Băng Rôn Hiflex</TabTitle>
-
+                <TabTitle>{productName ?? "Băng Rôn Hiflex"}</TabTitle>
                 {/* Description */}
                 <p className="text-sm leading-relaxed !text-gray-600">
                   Băng rôn · Banner · Backdrop chung 1 nghĩa giống nhau đều là biểu ngữ để quảng cáo hay làm phông
                   nền quảng bá cho một sự kiện gì đó. Băng rôn thường được làm bằng chất liệu Hiflex.
                 </p>
+
+                <div className="space-y-4 text-sm leading-relaxed !text-gray-600">
+                  <p>
+                    Danh thiếp là ấn phẩm marketing không thể thiếu đối với cá nhân, doanh nghiệp và cửa hàng kinh doanh trong thời đại hiện nay. Một mẫu danh thiếp đẹp, chuyên nghiệp không chỉ cung cấp thông tin liên hệ mà còn thể hiện rõ hình ảnh thương hiệu, phong cách và mức độ uy tín của người sử dụng. Vì vậy, việc thiết kế và in ấn danh thiếp chất lượng cao luôn được nhiều khách hàng quan tâm.
+                  </p>
+
+                  <p>
+                    Danh thiếp thường bao gồm các thông tin quan trọng như: tên cá nhân hoặc doanh nghiệp, chức vụ, số điện thoại, email, địa chỉ, website và logo thương hiệu. Tùy theo nhu cầu, khách hàng có thể lựa chọn nhiều kiểu dáng khác nhau như bo góc, ép kim, cán mờ/cán bóng hay danh thiếp giấy mỹ thuật cao cấp. Mỗi loại đều mang đến ấn tượng riêng, giúp người nhận dễ dàng ghi nhớ và nhận diện thương hiệu.
+                  </p>
+
+                  <p>
+                    Chất liệu in phổ biến hiện nay là giấy Couche, Bristol, Ivory hoặc giấy mỹ thuật với độ dày từ 300gsm – 350gsm, đảm bảo độ cứng cáp, bền đẹp và sang trọng, góp phần nâng cao hình ảnh chuyên nghiệp cho doanh nghiệp.
+                  </p>
+                </div>
 
                 {/* YouTube Embed */}
                 <div className="overflow-hidden rounded-xl border border-gray-200 shadow-sm">
@@ -187,9 +220,9 @@ export default function ProductDetailTabs() {
                 {/* Features */}
                 <div>
                   <div className="mb-4 flex items-center gap-4">
-                    <span className="h-px w-16 bg-[#d97706]" />
+                    <span className="h-px w-16 bg-[#9a5b24]" />
                     <h3 className="!font-sans text-lg font-bold !text-gray-800">Đặc Điểm Của Chất Liệu Hiflex</h3>
-                    <span className="h-px w-16 bg-[#d97706]" />
+                    <span className="h-px w-16 bg-[#9a5b24]" />
                   </div>
                   <ul className="space-y-3">
                     {[
@@ -309,12 +342,12 @@ export default function ProductDetailTabs() {
                       type="button"
                       whileHover={{ scale: 1.04 }}
                       whileTap={{ scale: 0.97 }}
-                      className={`flex items-center gap-3 rounded-xl ${f.bg} px-5 py-4 shadow-md transition-colors hover:opacity-80`}
+                      className={`flex items-center gap-3 rounded-xl ${f.bg} px-5 py-4 shadow-md transition-colors hover:opacity-90 text-gray-800`}
                     >
-                      <Download className="h-5 w-5 shrink-0 text-white" />
+                      <Download className="h-5 w-5 shrink-0 text-[#9a5b24]" />
                       <div className="text-left">
-                        <p className="text-xs font-bold text-white">{f.label}</p>
-                        <p className="text-[11px] text-white/80">{f.sub}</p>
+                        <p className="text-xs font-bold text-gray-800">{f.label}</p>
+                        <p className="text-[11px] text-gray-700">{f.sub}</p>
                       </div>
                     </motion.button>
                   ))}
@@ -344,7 +377,7 @@ export default function ProductDetailTabs() {
                     {ratingBreakdown.map(({ star, pct }) => (
                       <div key={star} className="flex items-center gap-2">
                         <span className="w-3 text-right text-xs text-gray-500">{star}</span>
-                        <Star className="h-3.5 w-3.5 fill-[#d97706] text-[#d97706]" />
+                        <Star className="h-3.5 w-3.5 fill-[#9a5b24] text-[#9a5b24]" />
                         <div className="flex-1 overflow-hidden rounded-full bg-gray-100 h-2">
                           <div
                             className="h-2 rounded-full bg-[#9a5b24] transition-all duration-700"
@@ -363,7 +396,8 @@ export default function ProductDetailTabs() {
                       whileHover={{ scale: 1.03 }}
                       whileTap={{ scale: 0.97 }}
                       onClick={() => setWriteReview(!writeReview)}
-                      className="rounded-lg bg-[#d97706] px-5 py-2.5 text-sm font-semibold text-white shadow-md hover:text-[#9a5b24] transition-colors"
+                      className="rounded-lg bg-[#d97706] px-5 py-2.5 text-sm font-semibold !text-white shadow-md transition-colors"
+                      style={{ color: "#ffffff" }}
                     >
                       Viết nhận xét của bạn
                     </motion.button>
@@ -387,7 +421,7 @@ export default function ProductDetailTabs() {
                                 onClick={() => setNewRating(s)}
                               >
                                 <Star
-                                  className={`h-5 w-5 transition-colors ${s <= (hoverRating || newRating) ? "fill-[#d97706] text-[#d97706]" : "fill-gray-200 text-gray-200"}`}
+                                  className={`h-5 w-5 transition-colors ${s <= (hoverRating || newRating) ? "fill-[#9a5b24] text-[#9a5b24]" : "fill-gray-200 text-gray-200"}`}
                                 />
                               </button>
                             ))}
