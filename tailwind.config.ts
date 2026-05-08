@@ -7,7 +7,7 @@ const config: Config = {
     "./lib/**/*.{ts,tsx}",
     "./hooks/**/*.{ts,tsx}",
   ],
-  darkMode: ["class"],
+  darkMode: ["class", ".dark"],
   theme: {
     extend: {
       colors: {

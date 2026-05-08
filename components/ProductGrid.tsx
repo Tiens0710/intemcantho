@@ -5,6 +5,7 @@ import { Heart, ShoppingCart } from "lucide-react";
 import { useEffect, useState } from "react";
 import { getRecommendations, Product } from "@/lib/wordpress";
 import { useAppStore } from "@/lib/store";
+import Link from "next/link";
 
 export default function ProductGrid() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -125,14 +126,15 @@ export default function ProductGrid() {
                     <h3 className="mb-3 font-sans text-base md:text-base font-bold leading-snug !text-black">
                       {product.title}
                     </h3>
-                    <button
-                      className="group mt-auto inline-flex items-center justify-center rounded-lg bg-amber-600 px-6 py-2.5 text-sm font-medium text-white transition-all hover:bg-amber-700"
+                    <Link
+                      href={`/san-pham/${product.id}`}
+                      className="group/btn relative mt-auto inline-flex items-center justify-center overflow-hidden rounded-lg bg-amber-600 px-6 py-2.5 text-sm font-medium text-white transition-all hover:bg-amber-700 active:scale-95"
                     >
-                      <span className="text-white transition-opacity duration-200 group-hover:opacity-0">
+                      <span className="text-white transition-opacity duration-200 group-hover/btn:opacity-0">
                         Đọc Tiếp
                       </span>
-                      <ShoppingCart className="absolute h-5 w-5 text-white opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
-                    </button>
+                      <ShoppingCart className="absolute h-5 w-5 text-white opacity-0 transition-opacity duration-200 group-hover/btn:opacity-100" />
+                    </Link>
                   </div>
                 </motion.div>
               ))}
