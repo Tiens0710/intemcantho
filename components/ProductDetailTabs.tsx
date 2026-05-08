@@ -136,10 +136,10 @@ export default function ProductDetailTabs() {
               id={`tab-${tab.key}`}
               type="button"
               onClick={() => setActiveTab(tab.key)}
-              className={`relative py-4 text-xs font-semibold uppercase tracking-wide transition-all duration-200 ${
+              className={`relative py-4 text-xs font-semibold uppercase tracking-wide transition-colors duration-200 ${
                 activeTab === tab.key
-                  ? "border-b-2 border-[#9a5b24] text-[#9a5b24] bg-[#f0f7ed]"
-                  : "text-gray-500 hover:text-gray-800 hover:bg-gray-50 border-b-2 border-transparent"
+                  ? "border-b-2 border-[#9a5b24] text-[#9a5b24]"
+                  : "text-gray-500 hover:text-[#9a5b24] border-b-2 border-transparent hover:border-b-[#9a5b24]"
               }`}
             >
               {tab.label}
@@ -309,7 +309,7 @@ export default function ProductDetailTabs() {
                       type="button"
                       whileHover={{ scale: 1.04 }}
                       whileTap={{ scale: 0.97 }}
-                      className={`flex items-center gap-3 rounded-xl ${f.bg} px-5 py-4 shadow-md transition-all hover:brightness-110`}
+                      className={`flex items-center gap-3 rounded-xl ${f.bg} px-5 py-4 shadow-md transition-colors hover:opacity-80`}
                     >
                       <Download className="h-5 w-5 shrink-0 text-white" />
                       <div className="text-left">
@@ -363,7 +363,7 @@ export default function ProductDetailTabs() {
                       whileHover={{ scale: 1.03 }}
                       whileTap={{ scale: 0.97 }}
                       onClick={() => setWriteReview(!writeReview)}
-                      className="rounded-lg bg-[#d97706] px-5 py-2.5 text-sm font-semibold text-white shadow-md hover:bg-[#b45309] transition-colors"
+                      className="rounded-lg bg-[#d97706] px-5 py-2.5 text-sm font-semibold text-white shadow-md hover:text-[#9a5b24] transition-colors"
                     >
                       Viết nhận xét của bạn
                     </motion.button>
@@ -401,7 +401,7 @@ export default function ProductDetailTabs() {
                           />
                           <button
                             type="button"
-                            className="rounded-lg bg-[#9a5b24] px-4 py-2 text-xs font-semibold text-white hover:bg-[#7a4819] transition-colors"
+                            className="rounded-lg bg-[#9a5b24] px-4 py-2 text-xs font-semibold text-white hover:text-[#9a5b24] hover:bg-white transition-colors"
                           >
                             Gửi nhận xét
                           </button>

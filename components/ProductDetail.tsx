@@ -122,6 +122,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
   const [purpose, setPurpose] = useState(p.purposes[0]);
   const [designOption, setDesignOption] = useState<"has-file" | "online" | "support">("has-file");
   const [reviewOption, setReviewOption] = useState<"review" | "skip">("review");
+  const [supportOption, setSupportOption] = useState<"new" | "redesign">("new");
   const [addedToCart, setAddedToCart] = useState(false);
 
   const designOptions = [
@@ -261,11 +262,10 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                       id={`size-${size.value}`}
                       type="button"
                       onClick={() => setSelectedSize(size.value)}
-                      className={`rounded-lg border px-4 py-2 text-sm font-medium transition-all duration-200 ${
-                        selectedSize === size.value
-                          ? "border-[#9a5b24] bg-[#fdf4e8] text-[#9a5b24] shadow-sm"
+                      className={`rounded-lg border px-4 py-2 text-sm font-medium transition-colors duration-200 ${selectedSize === size.value
+                          ? "border-[#9a5b24] bg-white !text-[#9a5b24] shadow-sm ring-2 ring-[#9a5b24]/60"
                           : "border-gray-300 bg-white text-gray-600 hover:border-[#9a5b24] hover:text-[#9a5b24]"
-                      }`}
+                        }`}
                     >
                       {size.label}
                     </button>
@@ -324,11 +324,10 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                       id={`design-${opt.key}`}
                       type="button"
                       onClick={() => setDesignOption(opt.key)}
-                      className={`rounded-lg border px-4 py-2 text-sm font-medium transition-all duration-200 ${
-                        designOption === opt.key
-                          ? "border-[#9a5b24] bg-[#fdf4e8] text-[#9a5b24] shadow-sm"
+                      className={`rounded-lg border px-4 py-2 text-sm font-medium transition-colors duration-200 ${designOption === opt.key
+                          ? "border-[#9a5b24] bg-white !text-[#9a5b24] shadow-sm ring-2 ring-[#9a5b24]/60"
                           : "border-gray-300 bg-white text-gray-600 hover:border-[#9a5b24] hover:text-[#9a5b24]"
-                      }`}
+                        }`}
                     >
                       {opt.label}
                     </button>
@@ -338,19 +337,29 @@ export default function ProductDetail({ product }: ProductDetailProps) {
 
               {/* Review options — Chỉ hiện khi chọn "Tôi đã có file thiết kế" */}
               {designOption === "has-file" && (
-                <div className="border border-[#9a5b24] shadow-sm bg-white overflow-hidden">
+                <div className="border-[3px] !border-[#9a5b24] shadow-md bg-white overflow-hidden rounded-lg">
                   <label
-                    className="grid cursor-pointer grid-cols-[100px_1fr] items-center p-5 hover:bg-gray-50 transition-colors"
+                    className="grid cursor-pointer grid-cols-[100px_1fr] items-center p-5 hover:bg-gray-50 transition-colors group"
                   >
                     <div className="flex items-center justify-center">
-                      <input
-                        type="radio"
-                        name="review-option"
-                        id="review-yes"
-                        checked={reviewOption === "review"}
-                        onChange={() => setReviewOption("review")}
-                        className="h-4 w-4 accent-[#9a5b24]"
-                      />
+                      <div className="relative flex items-center justify-center">
+                        <input
+                          type="radio"
+                          name="review-option"
+                          id="review-yes"
+                          checked={reviewOption === "review"}
+                          onChange={() => setReviewOption("review")}
+                          className="sr-only"
+                        />
+                        {/* Custom Radio Outer */}
+                        <div className={`h-5 w-5 rounded-full border-2 flex items-center justify-center transition-all ${reviewOption === "review" ? "border-[#9a5b24]" : "border-gray-300"
+                          }`}>
+                          {/* Custom Radio Inner Dot */}
+                          {reviewOption === "review" && (
+                            <div className="h-2.5 w-2.5 rounded-full bg-[#9a5b24]" />
+                          )}
+                        </div>
+                      </div>
                     </div>
                     <span className="text-sm leading-relaxed text-gray-700">
                       TGIA kiểm tra chất lượng <strong>File thiết kế</strong>, mô tả chi tiết thành phẩm và gửi lại Tôi xác nhận lại.{" "}
@@ -363,17 +372,27 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                   <div className="border-t border-gray-200" />
 
                   <label
-                    className="grid cursor-pointer grid-cols-[100px_1fr] items-center p-5 hover:bg-gray-50 transition-colors"
+                    className="grid cursor-pointer grid-cols-[100px_1fr] items-center p-5 hover:bg-gray-50 transition-colors group"
                   >
                     <div className="flex items-center justify-center">
-                      <input
-                        type="radio"
-                        name="review-option"
-                        id="review-no"
-                        checked={reviewOption === "skip"}
-                        onChange={() => setReviewOption("skip")}
-                        className="h-4 w-4 accent-[#9a5b24]"
-                      />
+                      <div className="relative flex items-center justify-center">
+                        <input
+                          type="radio"
+                          name="review-option"
+                          id="review-no"
+                          checked={reviewOption === "skip"}
+                          onChange={() => setReviewOption("skip")}
+                          className="sr-only"
+                        />
+                        {/* Custom Radio Outer */}
+                        <div className={`h-5 w-5 rounded-full border-2 flex items-center justify-center transition-all ${reviewOption === "skip" ? "border-[#9a5b24]" : "border-gray-300"
+                          }`}>
+                          {/* Custom Radio Inner Dot */}
+                          {reviewOption === "skip" && (
+                            <div className="h-2.5 w-2.5 rounded-full bg-[#9a5b24]" />
+                          )}
+                        </div>
+                      </div>
                     </div>
                     <span className="text-sm text-gray-700">
                       Tôi không cần hỗ trợ kiểm tra <strong>File thiết kế</strong> và không cần xác nhận lại.
@@ -382,21 +401,107 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                 </div>
               )}
 
+              {/* Online Design Options — Chỉ hiện khi chọn "Tôi sẽ thiết kế trực tuyến" */}
+              {designOption === "online" && (
+                <div className="border-[3px] !border-[#9a5b24] shadow-md bg-white overflow-hidden rounded-lg p-5">
+                  <div className="space-y-3">
+                    <p className="text-sm text-gray-700">
+                      Bạn sẽ sử dụng công cụ thiết kế trực tuyến miễn phí của chúng tôi để tạo thiết kế của mình.
+                    </p>
+                    <a
+                      href="https://dukyai.com/tool/free-generation"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-block bg-[#d97706] hover:bg-[#b45309] text-white font-semibold py-2.5 px-4 rounded-lg transition-colors"
+                    >
+                      Bắt đầu thiết kế ngay →
+                    </a>
+                  </div>
+                </div>
+              )}
+
+              {/* Support Design Options — Chỉ hiện khi chọn "Tôi cần hỗ trợ thiết kế" */}
+              {designOption === "support" && (
+                <div className="border-[3px] !border-[#9a5b24] shadow-md bg-white overflow-hidden rounded-lg">
+                  <label
+                    className="grid cursor-pointer grid-cols-[100px_1fr] items-center p-5 hover:bg-gray-50 transition-colors group"
+                  >
+                    <div className="flex items-center justify-center">
+                      <div className="relative flex items-center justify-center">
+                        <input
+                          type="radio"
+                          name="support-option"
+                          id="support-new"
+                          checked={supportOption === "new"}
+                          onChange={() => setSupportOption("new")}
+                          className="sr-only"
+                        />
+                        {/* Custom Radio Outer */}
+                        <div className={`h-5 w-5 rounded-full border-2 flex items-center justify-center transition-all ${supportOption === "new" ? "border-[#9a5b24]" : "border-gray-300"}`}>
+                          {/* Custom Radio Inner Dot */}
+                          {supportOption === "new" && (
+                            <div className="h-2.5 w-2.5 rounded-full bg-[#9a5b24]" />
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                    <span className="text-sm leading-relaxed text-gray-700">
+                      Tôi cần thiết kế hoàn toàn mới độc quyền, dựa trên yêu cầu của tôi{" "}
+                      <span className="text-red-600">
+                        (400,000 vnd - thời gian thêm 2 ngày làm việc)
+                      </span>
+                    </span>
+                  </label>
+
+                  <div className="border-t border-gray-200" />
+
+                  <label
+                    className="grid cursor-pointer grid-cols-[100px_1fr] items-center p-5 hover:bg-gray-50 transition-colors group"
+                  >
+                    <div className="flex items-center justify-center">
+                      <div className="relative flex items-center justify-center">
+                        <input
+                          type="radio"
+                          name="support-option"
+                          id="support-redesign"
+                          checked={supportOption === "redesign"}
+                          onChange={() => setSupportOption("redesign")}
+                          className="sr-only"
+                        />
+                        {/* Custom Radio Outer */}
+                        <div className={`h-5 w-5 rounded-full border-2 flex items-center justify-center transition-all ${supportOption === "redesign" ? "border-[#9a5b24]" : "border-gray-300"}`}>
+                          {/* Custom Radio Inner Dot */}
+                          {supportOption === "redesign" && (
+                            <div className="h-2.5 w-2.5 rounded-full bg-[#9a5b24]" />
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                    <span className="text-sm leading-relaxed text-gray-700">
+                      Tôi cần thiết lại dựa trên thiết kế có sẵn{" "}
+                      <span className="text-red-600">
+                        (300,000 vnd - thời gian thêm 4 giờ làm việc)
+                      </span>
+                    </span>
+                  </label>
+                </div>
+              )}
+
               {/* Price & Delivery */}
               <div className="grid grid-cols-2 gap-3">
-                <div className="rounded-xl border border-gray-200 bg-gray-50 p-3.5 text-center">
+                <div className="rounded-xl border border-gray-200 bg-white p-3.5 text-center">
                   <p className="text-xs text-gray-500 mb-1">
                     Thời gian dự kiến thành phẩm{" "}
                     <span className="text-[#d97706]">(*)</span>
                   </p>
-                  <p className="font-bold text-gray-800 text-sm">{p.deliveryDate}</p>
+                  <p className="font-bold text-green-600 text-sm">{p.deliveryDate}</p>
                   <p className="mt-1 text-[10px] text-gray-400">
                     (Từ khi xác nhận file thiết kế + Đặt cọc)
                   </p>
                 </div>
-                <div className="rounded-xl border border-[#fde68a] bg-[#fffbeb] p-3.5 text-center">
+                <div className="rounded-xl border border-gray-200 bg-white p-3.5 text-center">
                   <p className="text-xs text-gray-500 mb-1">Thành tiền</p>
-                  <p className="font-extrabold text-[#d97706] text-xl">
+                  <p className="font-extrabold !text-red-600 text-2xl">
                     {formatPrice(p.price)}
                   </p>
                   <p className="mt-1 text-[10px] text-gray-400">
@@ -412,7 +517,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                   type="button"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.97 }}
-                  className="rounded-xl bg-[#9a5b24] py-3.5 text-sm font-bold uppercase tracking-wide text-white shadow-md shadow-[#9a5b24]/30 transition-all hover:bg-[#7a4819]"
+                  className="rounded-xl bg-green-600 py-3.5 text-sm font-bold uppercase tracking-wide !text-white shadow-md shadow-green-600/30 transition-colors hover:!text-[#9a5b24]"
                 >
                   Đặt In Ngay
                 </motion.button>
@@ -423,9 +528,8 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.97 }}
                   onClick={handleAddToCart}
-                  className={`flex items-center justify-center gap-2 rounded-xl border-2 border-[#d97706] bg-[#d97706] py-3.5 text-sm font-bold uppercase tracking-wide text-white shadow-md shadow-[#d97706]/30 transition-all hover:bg-[#b45309] ${
-                    addedToCart ? "bg-green-600 border-green-600" : ""
-                  }`}
+                  className={`flex items-center justify-center gap-2 rounded-xl border-2 border-yellow-400 bg-yellow-400 py-3.5 text-sm font-bold uppercase tracking-wide !text-white shadow-md shadow-yellow-400/30 transition-colors hover:!text-[#9a5b24] ${addedToCart ? "bg-yellow-400 border-yellow-400" : ""
+                    }`}
                 >
                   <AnimatePresence mode="wait">
                     {addedToCart ? (
