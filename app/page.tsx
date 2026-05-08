@@ -262,11 +262,31 @@ export default function Home() {
                 <div className="absolute right-16 top-24 h-3 w-3 rounded-full border border-amber-800/25" />
                 <div className="absolute left-8 top-20 h-8 w-8 rounded-full bg-amber-700/70" />
                 <div className="absolute bottom-10 right-12 h-6 w-6 rounded-full bg-amber-800/70" />
-                <img
-                  src="/best-saler.webp"
-                  alt="Thiết kế và in ấn tem nhãn"
-                  className="relative z-10 w-full object-contain drop-shadow-[0_24px_50px_rgba(0,0,0,0.12)]"
-                />
+                <div className="relative">
+                  <motion.img
+                    src="/bg001.png"
+                    alt="Thiết kế và in ấn tem nhãn"
+                    className="relative z-10 w-full object-contain drop-shadow-[0_24px_50px_rgba(0,0,0,0.12)]"
+                    animate={{ y: [-8, 8, -8] }}
+                    transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                  />
+
+                  <motion.img
+                    src="/sanpham002.png"
+                    alt="Sản phẩm mẫu"
+                    className="pointer-events-none absolute left-[40%] top-[40%] z-20 w-[120%] max-w-[1500px] -translate-x-1/2 -translate-y-1/2 object-contain"
+                    animate={{ y: [-12, 12, -12], rotate: [-2, 2, -2] }}
+                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                  />
+
+                  <motion.img
+                    src="/sanpham001.png"
+                    alt="Sản phẩm mẫu"
+                    className="pointer-events-none absolute left-[61%] top-[63%] z-20 w-[120%] max-w-[1500px] -translate-x-1/2 -translate-y-1/2 object-contain"
+                    animate={{ y: [8, -8, 8], rotate: [1, -1, 1] }}
+                    transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 0.2 }}
+                  />
+                </div>
               </div>
             </div>
           </motion.div>

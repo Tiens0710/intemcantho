@@ -473,16 +473,23 @@ select:focus {
 
 
 
-.hero-swiper {
+/* ── WebGL Background Canvas ── */
+.hero-webgl-canvas {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
+  z-index: 0;
+  display: block;
 }
 
-.hero-swiper .swiper-slide {
-  overflow: hidden;
+/* ── Single Slide (content overlay on top of canvas) ── */
+.hero-slide--overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
 }
 
-/* ── Single Slide ── */
 .hero-slide {
   position: relative;
   width: 100%;
@@ -499,9 +506,6 @@ select:focus {
   no flash between SSR render and GSAP initialization.
   GSAP gsap.set() will override these with inline styles immediately.
 */
-.hero-slide-bg {
-  opacity: 0;
-}
 .hero-slide-overlay {
   opacity: 0;
 }
