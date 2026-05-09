@@ -125,8 +125,7 @@ export default function Home() {
             {[
               {
                 title: "IN STANDEE KHỔ LỚN",
-                image:
-                  "https://d2xsxph8kpxj0f.cloudfront.net/90078694/ERMxTyYJFnFBQeNjeF6P4w/service-brochure-luxury-DDmwtYLkufziWByNSE9fSY.webp",
+                image: "/dv01.jpeg",
                 layout: "md:col-span-2 lg:col-span-6 min-h-[260px] md:min-h-[320px]",
               },
               {

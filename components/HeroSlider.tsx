@@ -80,32 +80,21 @@ export default function HeroSlider() {
           transitioningRef.current = false;
           currentIdxRef.current = idx;
 
-          // Kill all GSAP tweens on every slide
-          slideRefs.current.forEach((el) => {
-            if (el) killSlideAnimation(el);
-          });
-
-          // Reset ALL inline styles on the new slide's elements
-          // so animateSlideIn starts from a clean CSS state
-          if (nextSlide) {
-            const resetEls = nextSlide.querySelectorAll(
-              '.hero-slide-overlay, .hero-slide-product, .hero-slide-title-line, .hero-slide-desc, .hero-slide-cta, .hero-slide-counter'
-            );
-            resetEls.forEach((el) => gsap.set(el, { clearProps: 'all' }));
+          // Kill and cleanup only the OLD slide
+          if (currentSlide) {
+            killSlideAnimation(currentSlide);
           }
 
           // Show new slide content container
           setSlideVisible(idx);
 
-          // Animate new content IN (next frame to ensure DOM is ready)
+          // rAF đảm bảo visibility:visible đã apply trước khi GSAP đọc layout
           requestAnimationFrame(() => {
             if (nextSlide) {
               timelineRef.current = animateSlideIn(nextSlide);
             }
+            resetAutoplay();
           });
-
-          // Restart autoplay
-          resetAutoplay();
         },
       });
 
@@ -157,10 +146,12 @@ export default function HeroSlider() {
     wgl.loadImages(bgUrls).then(() => {
       wgl.showSlide(0);
       setSlideVisible(0);
-      // Animate first slide content in
+      // Animate first slide content in — wrap in rAF to ensure DOM is fully rendered
       const firstSlide = slideRefs.current[0];
       if (firstSlide) {
-        timelineRef.current = animateSlideIn(firstSlide);
+        requestAnimationFrame(() => {
+          timelineRef.current = animateSlideIn(firstSlide);
+        });
       }
       // Start autoplay
       resetAutoplay();
