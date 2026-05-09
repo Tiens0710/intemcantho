@@ -13,6 +13,14 @@ export function animateSlideIn(slideEl: HTMLElement): gsap.core.Timeline {
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
+  // Debug: log when animateSlideIn runs and which slide (title text)
+  try {
+    const title = (slideEl.querySelector('.hero-slide-title') as HTMLElement)?.innerText?.trim();
+    console.debug('[heroAnimation] animateSlideIn:', title ? title.replace(/\n/g, ' | ') : 'unknown');
+  } catch (e) {
+    // ignore
+  }
+
   const overlay = slideEl.querySelector('.hero-slide-overlay') as HTMLElement;
   const product = slideEl.querySelector('.hero-slide-product') as HTMLElement;
   const titleLines = slideEl.querySelectorAll('.hero-slide-title-line');

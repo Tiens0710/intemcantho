@@ -43,33 +43,35 @@ void main() {
 
   float p = u_progress;
 
-  /* ── Directional wipe: right → left ── */
-  /* Wavefront edge moves from right (1.0) to left (0.0) */
-  float edge = 1.0 - p * 1.2 + 0.1;  /* slight overshoot for clean finish */
+  /* Wavefront runs off-screen completely (to -0.3 at p=1.0) */
+  float edge = 1.1 - p * 1.4;
 
-  /* Distance from wavefront; noise perturbs the edge for organic feel */
-  float noiseEdge = disp.x * 0.08;
+  /* Distance from wavefront; reduced noise for smoother edge */
+  float noiseEdge = disp.x * 0.04;
   float dist = v_uv.x - edge + noiseEdge;
 
-  /* Transition zone width — wider = softer blend */
-  float zoneWidth = 0.22;
+  /* Wider transition zone for smoother, more natural blend */
+  float zoneWidth = 0.35;
 
   /* Blend factor: 0 = show "from", 1 = show "to" */
   float blend = smoothstep(-zoneWidth, zoneWidth, dist);
 
   /* ── Water distortion strongest at the wavefront ── */
-  /* Gaussian falloff centered on the edge */
+  /* Gaussian falloff centered on the edge; naturally goes to zero as wavefront exits */
   float distMask = exp(-(dist * dist) / (zoneWidth * zoneWidth * 2.0));
 
-  /* Ripple strength */
-  float strength = u_intensity * distMask;
+  /* Fade out completely when wavefront exits left side (edge < -zoneWidth) */
+  float exitFade = 1.0 - smoothstep(0.0, zoneWidth, -edge);
+
+  /* Ripple strength — distortion fades naturally and exits cleanly */
+  float strength = u_intensity * distMask * exitFade;
 
   /* Distort UVs */
   vec2 uv1 = coverUV(v_uv + disp * strength, u_fromRes, u_res);
   vec2 uv2 = coverUV(v_uv - disp * strength * 0.6, u_toRes, u_res);
 
-  /* Chromatic aberration near wavefront */
-  float aberr = strength * 0.008;
+  /* Chromatic aberration near wavefront — reduced for smoother look */
+  float aberr = strength * 0.006;
   vec2 aberrDir = vec2(aberr, aberr * 0.5);
 
   vec4 c1 = vec4(
@@ -158,7 +160,7 @@ function generateNoiseTexture(gl: WebGLRenderingContext): WebGLTexture {
       const b = fbm(nx * 1.3 + 0.7, ny * 1.3 + 3.1, 50);
 
       const idx = (y * size + x) * 4;
-      data[idx]     = Math.floor(r * 255);
+      data[idx] = Math.floor(r * 255);
       data[idx + 1] = Math.floor(g * 255);
       data[idx + 2] = Math.floor(b * 255);
       data[idx + 3] = 255;
@@ -207,6 +209,7 @@ export class WaterTransition {
   private rafId = 0;
 
   progress = 0;
+  private intensity = 0.35;
 
   constructor(private canvas: HTMLCanvasElement) {
     const gl = canvas.getContext('webgl', {
@@ -231,7 +234,7 @@ export class WaterTransition {
     gl.uniform1i(this.loc.u_from, 0);
     gl.uniform1i(this.loc.u_to, 1);
     gl.uniform1i(this.loc.u_disp, 2);
-    gl.uniform1f(this.loc.u_intensity, 0.35);
+    gl.uniform1f(this.loc.u_intensity, this.intensity);
 
     this.resize();
   }
@@ -300,13 +303,13 @@ export class WaterTransition {
   }
 
   completeTransition(toIdx: number) {
+    // Render final frame at progress=1.0 so edge=-0.3 (off-screen left)
+    // and exitFade = 0 → no distortion anywhere on screen.
     this.stopLoop();
     this.currentIndex = toIdx;
+    this.renderFrame(toIdx, toIdx, 1.0);
     this.progress = 0;
-    // Defer render to next frame so the render loop is fully stopped
-    requestAnimationFrame(() => {
-      this.renderFrame(toIdx, toIdx, 0);
-    });
+    return Promise.resolve();
   }
 
   showSlide(idx: number) {
@@ -330,6 +333,7 @@ export class WaterTransition {
   }
 
   setIntensity(val: number) {
+    this.intensity = val;
     this.gl.useProgram(this.program);
     this.gl.uniform1f(this.loc.u_intensity, val);
   }

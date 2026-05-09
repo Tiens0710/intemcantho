@@ -104,11 +104,10 @@ export default function OnboardingModal() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.15 + index * 0.1 }}
                     onClick={() => handleSelectPersona(p.id)}
-                    className={`relative p-6 rounded-xl transition-all duration-200 border-2 ${
-                      selectedPersona === p.id
+                    className={`relative p-6 rounded-xl transition-all duration-200 border-2 ${selectedPersona === p.id
                         ? "border-primary bg-primary/10"
                         : "border-border hover:border-primary/50 bg-card hover:bg-secondary"
-                    }`}
+                      }`}
                   >
                     {/* Selected indicator */}
                     {selectedPersona === p.id && (
@@ -162,7 +161,7 @@ export default function OnboardingModal() {
             </div>
           </motion.div>
         </>
-      )}
+      )}y
     </AnimatePresence>
   );
 }

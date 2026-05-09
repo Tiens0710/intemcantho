@@ -74,9 +74,9 @@ export default function HeroSlider() {
       // 3. Drive wgl.progress from 0 → 1
       const progressObj = { value: 0 };
       const master = gsap.timeline({
-        onComplete: () => {
-          // Stop render loop and show final slide
-          wgl.completeTransition(idx);
+        onComplete: async () => {
+          // Wait for WebGL to finish and fade out distortion, then show final slide
+          await wgl.completeTransition(idx);
           transitioningRef.current = false;
           currentIdxRef.current = idx;
 
@@ -111,8 +111,8 @@ export default function HeroSlider() {
 
       master.to(progressObj, {
         value: 1,
-        duration: 2.0,
-        ease: 'power2.inOut',
+        duration: 3.2,
+        ease: 'power1.inOut',
         onUpdate: () => {
           wgl.progress = progressObj.value;
         },
