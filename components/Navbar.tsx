@@ -291,7 +291,7 @@ export default function Navbar() {
             />
 
             {/* Quick Quote */}
-            <WarmButton href="/lien-he" size="sm" variant={shouldUseGlassHeader ? "filled" : "outline"}>
+            <WarmButton href="/lien-he" size="sm" variant={shouldUseGlassHeader ? "filled" : "white"}>
               Báo Giá Nhanh
             </WarmButton>
           </div>
