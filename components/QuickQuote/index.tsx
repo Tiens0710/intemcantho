@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { CheckCircle, ChevronDown, Clock } from "lucide-react";
+import WarmButton from "@/components/WarmButton";
 import { useMemo, useState } from "react";
 import { materials, laminationOptions, quantityPresets } from "./PricingData";
 import { calculatePrice } from "./calculatePrice";
@@ -60,25 +61,103 @@ export default function QuickQuote() {
   const isFormValid = !!(material && isSizeValid && quantity > 0);
 
   return (
-    <section className="relative py-16 md:py-20 overflow-hidden" style={{ background: "#EDE8DF" }}>
-      {/* ── Floating Animated Circles ── */}
+    <section className="relative py-16 md:py-20 overflow-hidden" style={{ background: "#D17515" }}>
+
+      {/* ── Large Gradient Orbs ── */}
       <motion.div
-        animate={{ scale: [1, 1.2, 1], opacity: [0.12, 0.22, 0.12] }}
+        animate={{ scale: [1, 1.15, 1], opacity: [0.2, 0.35, 0.2] }}
         transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute -top-20 -right-20 w-80 h-80 rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(circle, #C4A882 0%, transparent 70%)" }}
+        className="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full pointer-events-none z-0"
+        style={{ background: "radial-gradient(circle, rgba(209,117,21,0.6) 0%, rgba(209,117,21,0) 70%)", filter: "blur(2px)" }}
       />
       <motion.div
-        animate={{ scale: [1, 1.25, 1], opacity: [0.1, 0.18, 0.1] }}
+        animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.28, 0.15] }}
         transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-        className="absolute -bottom-12 -left-16 w-64 h-64 rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(circle, #B8956A 0%, transparent 70%)" }}
+        className="absolute -bottom-24 -left-24 w-[400px] h-[400px] rounded-full pointer-events-none z-0"
+        style={{ background: "radial-gradient(circle, rgba(255,200,120,0.25) 0%, transparent 70%)" }}
+      />
+
+      {/* ── Wave SVG Bottom ── */}
+      <div className="absolute bottom-0 left-0 right-0 pointer-events-none z-0">
+        <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full" style={{ opacity: 0.08 }}>
+          <path d="M0 60L48 55C96 50 192 40 288 45C384 50 480 70 576 75C672 80 768 70 864 60C960 50 1056 40 1152 45C1248 50 1344 70 1392 80L1440 90V120H1392C1344 120 1248 120 1152 120C1056 120 960 120 864 120C768 120 672 120 576 120C480 120 384 120 288 120C192 120 96 120 48 120H0V60Z" fill="white"/>
+        </svg>
+      </div>
+
+      {/* ── Wave SVG Top ── */}
+      <div className="absolute top-0 left-0 right-0 pointer-events-none z-0 rotate-180">
+        <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full" style={{ opacity: 0.06 }}>
+          <path d="M0 60L48 55C96 50 192 40 288 45C384 50 480 70 576 75C672 80 768 70 864 60C960 50 1056 40 1152 45C1248 50 1344 70 1392 80L1440 90V120H1392C1344 120 1248 120 1152 120C1056 120 960 120 864 120C768 120 672 120 576 120C480 120 384 120 288 120C192 120 96 120 48 120H0V60Z" fill="white"/>
+        </svg>
+      </div>
+
+      {/* ── Geometric Shapes ── */}
+      <motion.div
+        animate={{ rotate: 360 }}
+        transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+        className="absolute top-8 right-[12%] w-20 h-20 pointer-events-none z-0"
+        style={{ border: "2px solid rgba(255,255,255,0.08)", borderRadius: "20%" }}
       />
       <motion.div
-        animate={{ y: [-10, 10, -10], opacity: [0.08, 0.16, 0.08] }}
-        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-        className="absolute top-1/4 left-1/3 w-40 h-40 rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(circle, #D4B896 0%, transparent 70%)" }}
+        animate={{ rotate: -360 }}
+        transition={{ duration: 45, repeat: Infinity, ease: "linear" }}
+        className="absolute bottom-16 left-[8%] w-16 h-16 pointer-events-none z-0"
+        style={{ border: "2px solid rgba(255,255,255,0.06)", borderRadius: "30%" }}
+      />
+
+      {/* ── Shimmer Light Sweep ── */}
+      <motion.div
+        animate={{ x: ["-100%", "200%"] }}
+        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", repeatDelay: 3 }}
+        className="absolute top-0 left-0 w-[200px] h-full pointer-events-none z-0"
+        style={{
+          background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent)",
+          transform: "skewX(-20deg)",
+        }}
+      />
+
+      {/* ── Cross / Plus shapes ── */}
+      <motion.div
+        animate={{ y: [-8, 8, -8], rotate: [0, 90, 0] }}
+        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-[20%] left-[6%] pointer-events-none z-0"
+        style={{ opacity: 0.1 }}
+      >
+        <div className="relative w-6 h-6">
+          <div className="absolute top-1/2 left-0 w-full h-0.5 bg-white -translate-y-1/2" />
+          <div className="absolute left-1/2 top-0 h-full w-0.5 bg-white -translate-x-1/2" />
+        </div>
+      </motion.div>
+      <motion.div
+        animate={{ y: [6, -6, 6], rotate: [0, -90, 0] }}
+        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
+        className="absolute bottom-[30%] right-[7%] pointer-events-none z-0"
+        style={{ opacity: 0.08 }}
+      >
+        <div className="relative w-4 h-4">
+          <div className="absolute top-1/2 left-0 w-full h-0.5 bg-white -translate-y-1/2" />
+          <div className="absolute left-1/2 top-0 h-full w-0.5 bg-white -translate-x-1/2" />
+        </div>
+      </motion.div>
+
+      {/* ── Floating Animated Dots ── */}
+      <motion.div
+        animate={{ y: [-6, 6, -6] }}
+        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-16 left-[25%] w-2.5 h-2.5 rounded-full pointer-events-none z-0"
+        style={{ background: "rgba(255,255,255,0.2)" }}
+      />
+      <motion.div
+        animate={{ y: [5, -5, 5] }}
+        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+        className="absolute bottom-24 right-[18%] w-3.5 h-3.5 rounded-full pointer-events-none z-0"
+        style={{ background: "rgba(255,255,255,0.15)" }}
+      />
+      <motion.div
+        animate={{ y: [-4, 4, -4] }}
+        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+        className="absolute top-[40%] right-[30%] w-2 h-2 rounded-full pointer-events-none z-0"
+        style={{ background: "rgba(255,255,255,0.18)" }}
       />
 
       <div className="container mx-auto px-4 relative z-10">
@@ -90,10 +169,13 @@ export default function QuickQuote() {
           className="mx-auto"
           style={{
             background: "#FFFFFF",
-            borderRadius: "10px",
-            boxShadow: "0 4px 24px rgba(92, 61, 30, 0.06), 0 1px 3px rgba(92, 61, 30, 0.04)",
+            borderRadius: "16px",
+            border: "1px solid rgba(255, 255, 255, 0.6)",
+            boxShadow: "0 8px 40px rgba(0, 0, 0, 0.15), 0 2px 12px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(255,255,255,0.3), inset 0 1px 0 rgba(255,255,255,0.9)",
             padding: "40px",
-            maxWidth: "1177px",
+            maxWidth: "1320px",
+            backdropFilter: "blur(20px)",
+            WebkitBackdropFilter: "blur(20px)",
           }}
         >
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.7fr_auto] gap-10 lg:gap-12 items-center">
@@ -177,26 +259,32 @@ export default function QuickQuote() {
                   Kích thước (mm)
                 </label>
                 <div className="grid grid-cols-2 gap-2">
-                  <input
-                    type="number"
-                    value={width}
-                    onChange={(e) => setWidth(e.target.value)}
-                    placeholder="Ngang"
-                    min={10}
-                    max={300}
-                    className="w-full bg-white rounded-[10px] px-3 py-2.5 text-sm focus:outline-none transition-colors"
-                    style={{ border: `1px solid ${width && !isSizeValid ? "#E53E3E" : "#E8E0D6"}`, color: "#3D2E1E", fontWeight: 500 }}
-                  />
-                  <input
-                    type="number"
-                    value={height}
-                    onChange={(e) => setHeight(e.target.value)}
-                    placeholder="Cao"
-                    min={10}
-                    max={300}
-                    className="w-full bg-white rounded-[10px] px-3 py-2.5 text-sm focus:outline-none transition-colors"
-                    style={{ border: `1px solid ${height && !isSizeValid ? "#E53E3E" : "#E8E0D6"}`, color: "#3D2E1E", fontWeight: 500 }}
-                  />
+                  <div className="relative w-full">
+                    <input
+                      type="number"
+                      value={width}
+                      onChange={(e) => setWidth(e.target.value)}
+                      placeholder="Rộng"
+                      min={10}
+                      max={300}
+                      className="!w-full !bg-white !rounded-[10px] !pl-3 !pr-12 !py-2.5 !text-sm focus:!outline-none"
+                      style={{ border: `1px solid ${width && !isSizeValid ? "#E53E3E" : "#E8E0D6"}`, color: "#3D2E1E", fontWeight: 500, padding: "10px 48px 10px 12px", borderRadius: "10px" }}
+                    />
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm font-medium pointer-events-none" style={{ color: "#9A8472" }}>mm</span>
+                  </div>
+                  <div className="relative w-full">
+                    <input
+                      type="number"
+                      value={height}
+                      onChange={(e) => setHeight(e.target.value)}
+                      placeholder="Cao"
+                      min={10}
+                      max={300}
+                      className="!w-full !bg-white !rounded-[10px] !pl-3 !pr-12 !py-2.5 !text-sm focus:!outline-none"
+                      style={{ border: `1px solid ${height && !isSizeValid ? "#E53E3E" : "#E8E0D6"}`, color: "#3D2E1E", fontWeight: 500, padding: "10px 48px 10px 12px", borderRadius: "10px" }}
+                    />
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm font-medium pointer-events-none" style={{ color: "#9A8472" }}>mm</span>
+                  </div>
                 </div>
                 {width && height && !isSizeValid && (
                   <p style={{ fontSize: "10px", color: "#E53E3E", marginTop: "4px" }}>
@@ -228,16 +316,14 @@ export default function QuickQuote() {
 
             {/* ── Vùng 3: CTA ── */}
             <div className="flex flex-col gap-3">
-              <motion.button
-                whileHover={isFormValid ? { scale: 1.02 } : {}}
-                whileTap={isFormValid ? { scale: 0.98 } : {}}
+              <WarmButton
                 onClick={handleSubmit}
                 disabled={!isFormValid || isSubmitting}
-                className="w-full flex items-center justify-center gap-2 transition-all disabled:cursor-not-allowed"
-                style={{ padding: "16px 24px", borderRadius: "10px", fontSize: "14px", fontWeight: 700, color: "#FFFFFF", background: isFormValid ? "#7A4E2D" : "#C8BFB4", border: "none", cursor: isFormValid ? "pointer" : "not-allowed", whiteSpace: "nowrap" }}
+                size="md"
+                icon={<span style={{ fontSize: "16px" }}>→</span>}
               >
-                {isSubmitting ? "Đang gửi..." : submitResult === "success" ? (<><CheckCircle className="w-4 h-4" /> Đã gửi!</>) : (<>Nhận báo giá ngay<span style={{ fontSize: "18px" }}>→</span></>)}
-              </motion.button>
+                {isSubmitting ? "Đang gửi..." : submitResult === "success" ? "Đã gửi!" : "Nhận báo giá ngay"}
+              </WarmButton>
               <div className="flex items-start gap-1.5 justify-center">
                 <Clock className="w-3.5 h-3.5 mt-0.5 flex-shrink-0" style={{ color: "#A08060" }} />
                 <p style={{ fontSize: "11px", lineHeight: 1.4, color: "#9A8472" }}>Chúng tôi sẽ liên hệ<br />với bạn trong vài phút!</p>
@@ -255,26 +341,16 @@ export default function QuickQuote() {
             className="max-w-6xl mx-auto mt-5"
             style={{ background: "#FFFFFF", borderRadius: "10px", boxShadow: "0 4px 24px rgba(92, 61, 30, 0.06), 0 1px 3px rgba(92, 61, 30, 0.04)", padding: "24px 40px" }}
           >
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-0">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-0">
               {/* Đơn giá */}
               <div className="text-center md:border-r md:pr-6" style={{ borderColor: "#E8E0D6" }}>
                 <p style={{ fontSize: "10px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.12em", color: "#9A8472" }}>Đơn giá</p>
                 <p style={{ fontSize: "16px", fontWeight: 700, color: "#3D2E1E", marginTop: "4px" }}>{priceResult.unitPrice.toLocaleString("vi-VN")}đ/sp</p>
               </div>
               {/* Thành tiền */}
-              <div className="text-center md:border-r md:px-6" style={{ borderColor: "#E8E0D6" }}>
-                <p style={{ fontSize: "10px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.12em", color: "#9A8472" }}>Thành tiền</p>
-                <p style={{ fontSize: "16px", fontWeight: 700, color: "#3D2E1E", marginTop: "4px" }}>{priceResult.totalPrice.toLocaleString("vi-VN")}đ</p>
-              </div>
-              {/* VAT 8% */}
-              <div className="text-center md:border-r md:px-6" style={{ borderColor: "#E8E0D6" }}>
-                <p style={{ fontSize: "10px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.12em", color: "#9A8472" }}>VAT 8%</p>
-                <p style={{ fontSize: "16px", fontWeight: 700, color: "#3D2E1E", marginTop: "4px" }}>+{priceResult.vatAmount.toLocaleString("vi-VN")}đ</p>
-              </div>
-              {/* Tổng cộng */}
               <div className="text-center md:pl-6">
-                <p style={{ fontSize: "10px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.12em", color: "#A06830" }}>Tổng cộng</p>
-                <p style={{ fontSize: "22px", fontWeight: 800, color: "#5C3D1E", marginTop: "4px" }}>{priceResult.grandTotal.toLocaleString("vi-VN")}đ</p>
+                <p style={{ fontSize: "10px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.12em", color: "#A06830" }}>Thành tiền</p>
+                <p style={{ fontSize: "22px", fontWeight: 800, color: "#5C3D1E", marginTop: "4px" }}>{priceResult.totalPrice.toLocaleString("vi-VN")}đ</p>
               </div>
             </div>
           </motion.div>

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import "./globals.css";
-import CustomCursor from "@/components/CustomCursor";
 
 export const metadata: Metadata = {
   title: "Duky Printing",
@@ -46,7 +45,6 @@ export default function RootLayout({
             </filter>
           </defs>
         </svg>
-        <CustomCursor />
         {children}
       </body>
     </html>

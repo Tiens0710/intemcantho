@@ -2,6 +2,7 @@
 
 import { navigationData } from "@/lib/navigation";
 import { useAppStore } from "@/lib/store";
+import WarmButton from "@/components/WarmButton";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown, Menu, Phone, Search, ShoppingBag, User, X } from "lucide-react";
 import Image from "next/image";
@@ -290,16 +291,9 @@ export default function Navbar() {
             />
 
             {/* Quick Quote */}
-            <Link
-              href="/lien-he"
-              className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full text-[12px] font-bold tracking-tight transition-all ${
-                shouldUseGlassHeader
-                  ? "bg-amber-800 text-white shadow-md shadow-amber-900/20 hover:bg-amber-900 hover:shadow-lg"
-                  : "bg-white/20 text-white backdrop-blur-sm border border-white/20 hover:bg-white/30"
-              }`}
-            >
-              <span>Báo Giá Nhanh</span>
-            </Link>
+            <WarmButton href="/lien-he" size="sm" variant={shouldUseGlassHeader ? "filled" : "outline"}>
+              Báo Giá Nhanh
+            </WarmButton>
           </div>
         </div>
       </motion.nav>

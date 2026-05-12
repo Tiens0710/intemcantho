@@ -142,8 +142,8 @@ export default function OrderProcess() {
             <p style={{ fontSize: "13px", fontWeight: 400, color: "#7A6A58", lineHeight: 1.5, marginBottom: "16px" }}>
               Hơn 1000+ khách hàng<br />đã tin tưởng và hài lòng
             </p>
-            <WarmButton href="/lien-he" size="md" icon={<span style={{ fontSize: "16px" }}>→</span>}>
-              Gửi yêu cầu ngay
+            <WarmButton href="/lien-he" size="sm" icon={<span style={{ fontSize: "14px" }}>→</span>}>
+              Gửi yêu cầu
             </WarmButton>
           </motion.div>
         </div>
@@ -199,8 +199,8 @@ export default function OrderProcess() {
             <p style={{ fontSize: "12px", fontWeight: 400, color: "#7A6A58", lineHeight: 1.5, marginBottom: "14px" }}>
               Hơn 1000+ khách hàng đã tin tưởng và hài lòng
             </p>
-            <WarmButton href="/lien-he" size="md" icon={<span style={{ fontSize: "16px" }}>→</span>}>
-              Gửi yêu cầu ngay
+            <WarmButton href="/lien-he" size="sm" icon={<span style={{ fontSize: "14px" }}>→</span>}>
+              Gửi yêu cầu
             </WarmButton>
           </motion.div>
         </div>

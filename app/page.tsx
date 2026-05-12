@@ -11,6 +11,7 @@ import OnboardingModal from "@/components/OnboardingModal";
 import PartnerCarousel from "@/components/PartnerCarousel";
 import ProductGrid from "@/components/ProductGrid";
 import StatsSection from "@/components/StatsSection";
+import StoreLocationSection from "@/components/StoreLocationSection";
 import WarmButton from "@/components/WarmButton";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, ClipboardCheck, HandCoins, Headset, Lightbulb, Printer, ThumbsUp } from "lucide-react";
@@ -693,6 +694,8 @@ export default function Home() {
         </div>
       </section>
 
+
+      <StoreLocationSection />
 
       {/* Footer */}
       <Footer />

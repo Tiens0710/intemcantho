@@ -39,6 +39,11 @@ export default function Footer() {
         className="duky-footer relative overflow-hidden text-white"
         style={{ background: "url('/bg_footer.jpeg') center/cover no-repeat" }}
       >
+        {/* Overlay to lighten background image */}
+        <div
+          className="absolute inset-0 z-0"
+          style={{ background: "rgba(255, 255, 255, 0.15)" }}
+        />
         {/* ── Cityscape silhouette at bottom — darker layer ── */}
         <div className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-[260px] opacity-[0.30]">
           <div className="h-full w-full bg-[url('/cityscape-bg.svg')] bg-bottom bg-repeat-x bg-[length:1500px_260px]" />

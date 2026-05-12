@@ -1,20 +1,9 @@
 "use client";
 
 /**
- * WarmButton — Reusable warm-brown CTA button with consistent styling.
- * Matches the brand's amber/brown color palette across the entire site.
- *
- * Props:
- * - children: Button content (text, icons, etc.)
- * - onClick: Optional click handler
- * - type: Button type (default: "button")
- * - href: If provided, renders as a Link
- * - disabled: Disabled state
- * - className: Additional CSS classes
- * - icon: Optional right icon/element
- * - size: "sm" | "md" | "lg" (default: "md")
- * - fullWidth: Stretch to full width
- * - variant: "filled" | "outline" (default: "filled")
+ * WarmButton — Reusable warm-brown CTA button.
+ * Style inspired by the footer's glassmorphic "Tư vấn" button.
+ * Base color: #c7742c
  */
 
 import { motion } from "framer-motion";
@@ -30,48 +19,22 @@ interface WarmButtonProps {
   icon?: React.ReactNode;
   size?: "sm" | "md" | "lg";
   fullWidth?: boolean;
-  variant?: "filled" | "outline";
+  variant?: "filled" | "outline" | "white";
 }
 
 const SIZES = {
   sm: {
     padding: "8px 18px",
     fontSize: "12px",
-    borderRadius: "8px",
   },
   md: {
-    padding: "10px 22px",
-    fontSize: "13px",
-    borderRadius: "50px",
+    padding: "12px 28px",
+    fontSize: "14px",
   },
   lg: {
-    padding: "16px 32px",
-    fontSize: "14px",
-    borderRadius: "10px",
+    padding: "16px 36px",
+    fontSize: "15px",
   },
-};
-
-const FILLED_STYLE = {
-  background: "#b36e39",
-  borderColor: "#b36e39",
-  color: "#FFFFFF",
-};
-
-const FILLED_HOVER = {
-  background: "#9a5b24",
-  borderColor: "#9a5b24",
-};
-
-const OUTLINE_STYLE = {
-  background: "transparent",
-  borderColor: "#b36e39",
-  color: "#b36e39",
-};
-
-const OUTLINE_HOVER = {
-  background: "#b36e39",
-  borderColor: "#b36e39",
-  color: "#FFFFFF",
 };
 
 export default function WarmButton({
@@ -87,13 +50,13 @@ export default function WarmButton({
   variant = "filled",
 }: WarmButtonProps) {
   const sizeStyle = SIZES[size];
-  const baseStyle = variant === "filled" ? FILLED_STYLE : OUTLINE_STYLE;
-  const hoverStyle = variant === "filled" ? FILLED_HOVER : OUTLINE_HOVER;
+
+  const isFilled = variant === "filled";
+  const isWhite = variant === "white";
 
   const buttonStyle = {
     ...sizeStyle,
-    ...baseStyle,
-    border: `1.5px solid ${baseStyle.borderColor}`,
+    borderRadius: "10px",
     fontWeight: 600,
     whiteSpace: "nowrap" as const,
     cursor: disabled ? "not-allowed" : "pointer",
@@ -103,6 +66,22 @@ export default function WarmButton({
     alignItems: "center",
     justifyContent: "center",
     gap: "8px",
+    position: "relative" as const,
+    border: isFilled
+      ? "2px solid rgba(255,255,255,0.55)"
+      : isWhite
+        ? "1.5px solid rgba(255,255,255,0.6)"
+        : "1.5px solid #c7742c",
+    background: isFilled
+      ? "linear-gradient(180deg, #c7742c 0%, #a85f20 100%)"
+      : isWhite
+        ? "rgba(255,255,255,0.1)"
+        : "transparent",
+    color: isFilled ? "#fff" : isWhite ? "#fff" : "#c7742c",
+    boxShadow: isFilled
+      ? "0 6px 20px rgba(0,0,0,0.25), 0 2px 6px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.2), inset 0 -1px 0 rgba(0,0,0,0.12)"
+      : "none",
+    transition: "all 300ms cubic-bezier(0.22, 1, 0.36, 1)",
   };
 
   const content = (
@@ -112,11 +91,26 @@ export default function WarmButton({
     </>
   );
 
+  const hoverBg = isFilled
+    ? "linear-gradient(135deg, #d48030 0%, #b06828 100%)"
+    : isWhite
+      ? "rgba(255,255,255,0.2)"
+      : "rgba(199, 116, 44, 0.06)";
+
+  const hoverShadow = isFilled
+    ? "0 8px 28px rgba(0,0,0,0.3), 0 3px 8px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.25), inset 0 -1px 0 rgba(0,0,0,0.12)"
+    : isWhite
+      ? "0 0 0 1.5px rgba(255,255,255,0.8)"
+      : "0 0 0 1.5px #c7742c";
+
+  const leaveBg = buttonStyle.background;
+  const leaveShadow = buttonStyle.boxShadow;
+
   if (href && !disabled) {
     return (
       <Link href={href} className={className}>
         <motion.span
-          whileHover={{ scale: 1.03 }}
+          whileHover={{ scale: 1.03, y: -1 }}
           whileTap={{ scale: 0.97 }}
           className="inline-flex items-center justify-center"
           style={buttonStyle}
@@ -129,7 +123,7 @@ export default function WarmButton({
 
   return (
     <motion.button
-      whileHover={disabled ? {} : { scale: 1.03 }}
+      whileHover={disabled ? {} : { scale: 1.03, y: -1 }}
       whileTap={disabled ? {} : { scale: 0.97 }}
       type={type}
       onClick={disabled ? undefined : onClick}
@@ -138,18 +132,14 @@ export default function WarmButton({
       style={buttonStyle}
       onMouseEnter={(e) => {
         if (!disabled) {
-          e.currentTarget.style.background = hoverStyle.background;
-          e.currentTarget.style.borderColor = hoverStyle.borderColor;
-          if ("color" in hoverStyle) {
-            e.currentTarget.style.color = (hoverStyle as { color: string }).color;
-          }
+          e.currentTarget.style.background = hoverBg;
+          e.currentTarget.style.boxShadow = hoverShadow;
         }
       }}
       onMouseLeave={(e) => {
         if (!disabled) {
-          e.currentTarget.style.background = baseStyle.background;
-          e.currentTarget.style.borderColor = baseStyle.borderColor;
-          e.currentTarget.style.color = baseStyle.color;
+          e.currentTarget.style.background = leaveBg;
+          e.currentTarget.style.boxShadow = leaveShadow;
         }
       }}
     >
