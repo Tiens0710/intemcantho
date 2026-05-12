@@ -217,58 +217,69 @@ export default function OfficeProducts() {
                   </div>
                 </div>
 
-                {/* Sorting */}
-                <div className="bg-white/60 backdrop-blur-2xl border border-white/80 rounded-2xl p-6 shadow-2xl shadow-amber-900/5">
-                  <h3 className="text-[10px] font-black text-amber-900/40 mb-6 uppercase tracking-[0.3em]">
-                    Sắp xếp
-                  </h3>
-                  <div className="relative group">
-                    <select
-                      value={sortBy}
-                      onChange={(e) => setSortBy(e.target.value)}
-                      className="w-full bg-white/60 backdrop-blur-md border border-white/80 rounded-xl px-4 py-3 text-xs font-bold text-amber-900/60 appearance-none focus:outline-none focus:ring-2 focus:ring-amber-800/20 transition-all cursor-pointer"
-                    >
-                      <option value="default">Mặc định</option>
-                      <option value="newest">Mới nhất</option>
-                      <option value="price-low">Giá: Thấp đến Cao</option>
-                      <option value="price-high">Giá: Cao đến Thấp</option>
-                    </select>
-                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
-                      <ChevronRight className="w-3 h-3 text-amber-900/40 rotate-90" />
-                    </div>
-                  </div>
-                </div>
               </div>
             </motion.div>
 
             {/* Products Grid */}
             <div className="lg:col-span-3">
               {/* Header Toggle */}
-              <div className="flex items-center justify-between mb-10">
-                <p className="text-sm text-amber-900/40 font-medium">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-center mb-10">
+                <p className="text-sm text-amber-900/40 font-medium whitespace-nowrap">
                   Hiển thị <span className="text-amber-900/80 font-bold">{filteredProducts.length}</span> sản phẩm
                 </p>
-                <div className="flex gap-3 bg-white/40 backdrop-blur-md border border-white/60 rounded-2xl p-1.5">
-                  <button
-                    onClick={() => setViewMode("grid")}
-                    className={`p-2 rounded-xl transition-all duration-300 ${
-                      viewMode === "grid"
-                        ? "bg-amber-800 text-white shadow-lg shadow-amber-900/20"
-                        : "text-amber-900/30 hover:text-amber-900"
-                    }`}
-                  >
-                    <Grid3x3 className="w-5 h-5" />
-                  </button>
-                  <button
-                    onClick={() => setViewMode("list")}
-                    className={`p-2 rounded-xl transition-all duration-300 ${
-                      viewMode === "list"
-                        ? "bg-amber-800 text-white shadow-lg shadow-amber-900/20"
-                        : "text-amber-900/30 hover:text-amber-900"
-                    }`}
-                  >
-                    <List className="w-5 h-5" />
-                  </button>
+                <div className="relative flex-1">
+                  <input
+                    type="search"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Tìm kiếm sản phẩm"
+                    className="w-full bg-white/40 backdrop-blur-md border border-white/60 rounded-2xl pl-4 pr-10 py-2.5 text-xs font-bold text-amber-900/70 placeholder:text-amber-900/30 focus:outline-none focus:ring-2 focus:ring-amber-800/20 transition-all"
+                    aria-label="Tìm kiếm sản phẩm"
+                  />
+                  <div className="absolute right-3 top-1/2 -translate-y-1/2 text-black">
+                    <Search className="w-4 h-4" />
+                  </div>
+                </div>
+                <div className="flex flex-wrap items-center gap-3 sm:justify-end">
+                  <div className="relative">
+                    <select
+                      value={sortBy}
+                      onChange={(e) => setSortBy(e.target.value)}
+                      className="bg-white/40 backdrop-blur-md border border-white/60 rounded-2xl px-4 py-2.5 text-xs font-bold text-amber-900/60 appearance-none focus:outline-none focus:ring-2 focus:ring-amber-800/20 transition-all cursor-pointer"
+                    >
+                      <option value="default">Sắp xếp mặc định</option>
+                      <option value="popular">Sắp xếp theo mức độ phổ biến</option>
+                      <option value="rating">Sắp xếp theo xếp hạng trung bình</option>
+                      <option value="newest">Sắp xếp theo mới nhất</option>
+                      <option value="price-low">Sắp xếp theo giá: thấp đến cao</option>
+                      <option value="price-high">Sắp xếp theo giá: cao đến thấp</option>
+                    </select>
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
+                      <ChevronRight className="w-3 h-3 text-amber-900/40 rotate-90" />
+                    </div>
+                  </div>
+                  <div className="flex gap-3 bg-white/40 backdrop-blur-md border border-white/60 rounded-2xl p-1.5">
+                    <button
+                      onClick={() => setViewMode("grid")}
+                      className={`p-2 rounded-xl transition-all duration-300 ${
+                        viewMode === "grid"
+                          ? "bg-amber-800 text-white shadow-lg shadow-amber-900/20"
+                          : "text-amber-900/30 hover:text-amber-900"
+                      }`}
+                    >
+                      <Grid3x3 className="w-5 h-5" />
+                    </button>
+                    <button
+                      onClick={() => setViewMode("list")}
+                      className={`p-2 rounded-xl transition-all duration-300 ${
+                        viewMode === "list"
+                          ? "bg-amber-800 text-white shadow-lg shadow-amber-900/20"
+                          : "text-amber-900/30 hover:text-amber-900"
+                      }`}
+                    >
+                      <List className="w-5 h-5" />
+                    </button>
+                  </div>
                 </div>
               </div>
 

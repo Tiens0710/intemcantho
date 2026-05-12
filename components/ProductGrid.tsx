@@ -1,11 +1,29 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Heart, ShoppingCart } from "lucide-react";
+import { Heart } from "lucide-react";
 import { useEffect, useState, useCallback } from "react";
-import { getRecommendations, Product } from "@/lib/wordpress";
 import { useAppStore } from "@/lib/store";
 import Link from "next/link";
+
+type Product = {
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  image: string;
+  price: string;
+  personas: Array<"cafe-owner" | "office-worker" | "fashion-lover">;
+  featured: boolean;
+};
+
+type HomepageResponse = {
+  status: "success" | "error";
+  data?: {
+    recommendedProducts?: Product[];
+  };
+  message?: string;
+};
 
 export default function ProductGrid() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -17,8 +35,16 @@ export default function ProductGrid() {
     setIsLoading(true);
     setError(null);
     try {
-      const recs = await getRecommendations(persona);
-      setProducts(recs);
+      const query = persona ? `?persona=${encodeURIComponent(persona)}` : "";
+      const response = await fetch(`/api/v1/homepage${query}`);
+      if (!response.ok) {
+        throw new Error(`Request failed with status ${response.status}`);
+      }
+      const payload = (await response.json()) as HomepageResponse;
+      if (payload.status !== "success") {
+        throw new Error(payload.message || "API returned an error");
+      }
+      setProducts(payload.data?.recommendedProducts ?? []);
     } catch (err) {
       console.error("Failed to load products:", err);
       setError("Không thể tải sản phẩm. Vui lòng thử lại.");
@@ -219,6 +245,7 @@ export default function ProductGrid() {
                           <path d="m12 5 7 7-7 7" />
                         </svg>
                       </Link>
+                      {/* removed cart icon as requested */}
                     </div>
                   </div>
                 </motion.div>

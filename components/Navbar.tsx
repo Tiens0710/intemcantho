@@ -331,6 +331,17 @@ export default function Navbar() {
 
           {/* Mobile Right Icons */}
           <div className="flex items-center gap-1">
+            <Link
+              href="/cart"
+              className={`p-2 rounded-full transition-colors ${
+                shouldUseGlassHeader
+                  ? "text-slate-600 hover:bg-amber-50"
+                  : "text-white/80 hover:bg-white/10"
+              }`}
+            >
+              <ShoppingBag className="w-5 h-5" strokeWidth={2} />
+            </Link>
+
             <button
               className={`p-2 rounded-full transition-colors ${
                 shouldUseGlassHeader

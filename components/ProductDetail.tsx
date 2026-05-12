@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { ShoppingCart, ChevronDown, HelpCircle, Info, Tag, CheckCircle2, ExternalLink } from "lucide-react";
 import { useState } from "react";
+import { useAppStore } from "@/lib/store";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -21,6 +22,7 @@ interface ComboItem {
 
 interface ProductDetailProps {
   product?: {
+    id?: string;
     title?: string;
     subtitle?: string;
     image?: string;
@@ -135,6 +137,16 @@ export default function ProductDetail({ product }: ProductDetailProps) {
     price.toLocaleString("vi-VN") + "đ";
 
   const handleAddToCart = () => {
+    // Use global store addToCart
+    const qty = parseInt(quantity || "1", 10) || 1;
+    const priceNumber = typeof p.price === "number" ? p.price : parseInt(String(p.price).replace(/[^0-9]/g, "")) || 0;
+    useAppStore.getState().addToCart({
+      id: product?.id || p.title,
+      title: p.title,
+      price: priceNumber,
+      quantity: qty,
+      image: p.image,
+    });
     setAddedToCart(true);
     setTimeout(() => setAddedToCart(false), 2000);
   };

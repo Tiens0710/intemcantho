@@ -45,6 +45,7 @@ export default async function ProductPage({ params }: Props) {
       {/* Product Detail + Tabs */}
       <ProductDetail
         product={{
+          id,
           title: product.title,
           subtitle: product.description,
           image: product.image,
