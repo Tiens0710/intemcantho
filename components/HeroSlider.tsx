@@ -1,14 +1,22 @@
 'use client';
 
 /**
- * HeroSlider — Completely rebuilt from scratch.
- * Keeps only the WebGL water transition for backgrounds.
- * Content (text + product images) uses simple React state + CSS transitions.
+ * HeroSlider — Rebuilt with guaranteed no-flash architecture.
+ *
+ * Key insight: only the ACTIVE slide renders product content.
+ * A single "animator" div handles the entering image overlay,
+ * positioned absolutely and animated with CSS transitions.
+ * This eliminates all stale-image-flash bugs by design.
  */
 
 import { useRef, useCallback, useEffect, useState } from 'react';
+import Link from 'next/link';
 import { slides } from '@/lib/data/slides';
 import { WaterTransition } from '@/lib/webgl/WaterTransition';
+
+/** Progress value where wave edge is at screen center.
+ *  edge = 1.1 - p * 1.4  →  edge = 0.5  →  p = 0.4286 */
+const WAVE_MIDPOINT_P = 0.4286;
 
 export default function HeroSlider() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -17,6 +25,40 @@ export default function HeroSlider() {
   const transitioningRef = useRef(false);
   const autoplayRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [, forceRender] = useState(0);
+
+  // Product image animator state
+  const [productAnim, setProductAnim] = useState<{
+    mode: 'idle' | 'exiting' | 'entering-offscreen' | 'entering';
+    slideIdx: number;  // which slide's image to show during entering
+  }>({ mode: 'idle', slideIdx: 0 });
+
+  // Track active text slide visibility for slide-up/fade transitions
+  // 'visible' = settled at center
+  // 'fading-out' = sliding up + fading out (old text)
+  // 'entering-offscreen' = positioned below, invisible (new text, no transition)
+  // 'entering' = sliding up from below + fading in (new text)
+  const [textFade, setTextFade] = useState<'visible' | 'fading-out' | 'entering-offscreen' | 'entering'>('visible');
+
+  // ── Advance entering-offscreen → entering on next frame ──
+  useEffect(() => {
+    if (productAnim.mode !== 'entering-offscreen') return;
+    const raf = requestAnimationFrame(() => {
+      setProductAnim(prev => prev.mode === 'entering-offscreen'
+        ? { ...prev, mode: 'entering' }
+        : prev
+      );
+    });
+    return () => cancelAnimationFrame(raf);
+  }, [productAnim.mode]);
+
+  // ── Advance text entering-offscreen → entering on next frame ──
+  useEffect(() => {
+    if (textFade !== 'entering-offscreen') return;
+    const raf = requestAnimationFrame(() => {
+      setTextFade(prev => prev === 'entering-offscreen' ? 'entering' : prev);
+    });
+    return () => cancelAnimationFrame(raf);
+  }, [textFade]);
 
   // ── Go to specific slide ──
   const goTo = useCallback((targetIdx: number) => {
@@ -27,18 +69,24 @@ export default function HeroSlider() {
     if (idx === activeIdxRef.current) return;
 
     transitioningRef.current = true;
+    const oldIdx = activeIdxRef.current;
 
     // Start WebGL water transition on background
     wgl.beginTransition(idx);
 
-    // Drive progress 0 → 1
+    // Start text exit: slide up + fade out
+    setTextFade('fading-out');
+
+    // Start product image exit animation
+    setProductAnim({ mode: 'exiting', slideIdx: oldIdx });
+
+    // Drive progress 0 → 1 for WebGL
     const startTime = performance.now();
     const duration = 3200; // ms
 
     const tick = (now: number) => {
       const elapsed = now - startTime;
       const raw = Math.min(elapsed / duration, 1);
-      // ease in-out
       const p = raw < 0.5
         ? 2 * raw * raw
         : 1 - Math.pow(-2 * raw + 2, 2) / 2;
@@ -48,11 +96,23 @@ export default function HeroSlider() {
       if (raw < 1) {
         requestAnimationFrame(tick);
       } else {
-        // Transition complete
+        // WebGL transition complete — now trigger BOTH image + text enter together
         wgl.completeTransition(idx);
         activeIdxRef.current = idx;
         transitioningRef.current = false;
-        forceRender((n) => n + 1); // trigger React re-render
+
+        // Position both image and text offscreen (no transition), then animate in
+        setProductAnim({ mode: 'entering-offscreen', slideIdx: idx });
+        setTextFade('entering-offscreen');
+
+        forceRender((n) => n + 1);
+
+        // After entering animation completes (1.2s), reset to idle
+        setTimeout(() => {
+          setProductAnim({ mode: 'idle', slideIdx: idx });
+          setTextFade('visible');
+        }, 1400);
+
         // Reset autoplay
         if (autoplayRef.current) clearTimeout(autoplayRef.current);
         autoplayRef.current = setTimeout(() => {
@@ -102,188 +162,307 @@ export default function HeroSlider() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [goTo]);
 
+  // Current active slide
+  const activeSlide = slides[activeIdxRef.current];
+
+  // Product image styles based on anim state
+  const getProductImgStyle = (mode: typeof productAnim.mode): React.CSSProperties => {
+    switch (mode) {
+      case 'exiting':
+        return {
+          transform: 'translateX(-150px) scale(0.95)',
+          opacity: 0,
+          transition: 'transform 1.4s cubic-bezier(0.55, 0, 1, 0.45), opacity 0.8s ease',
+        };
+      case 'entering-offscreen':
+        // Instant jump to off-screen right, no transition
+        return {
+          transform: 'translateX(150px) scale(0.95)',
+          opacity: 0,
+          transition: 'none',
+        };
+      case 'entering':
+        // Smooth slide-in from right to center
+        return {
+          transform: 'translateX(0) scale(1)',
+          opacity: 1,
+          transition: 'transform 1.2s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.6s ease',
+        };
+      case 'idle':
+      default:
+        return {
+          transform: 'translateX(0) scale(1)',
+          opacity: 1,
+          transition: 'none',
+        };
+    }
+  };
+
+  // Text animation styles based on fade state
+  const getTextAnimStyle = (): React.CSSProperties => {
+    switch (textFade) {
+      case 'fading-out':
+        // Old text: slide up + fade out, clipped by overflow:hidden
+        return {
+          transform: 'translateY(-60px)',
+          opacity: 0,
+          transition: 'transform 1.2s cubic-bezier(0.55, 0, 1, 0.45), opacity 0.8s ease',
+        };
+      case 'entering-offscreen':
+        // New text: position below, invisible, no transition (instant jump)
+        return {
+          transform: 'translateY(60px)',
+          opacity: 0,
+          transition: 'none',
+        };
+      case 'entering':
+        // New text: slide up from below into view
+        return {
+          transform: 'translateY(0)',
+          opacity: 1,
+          transition: 'transform 1.2s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.6s ease',
+        };
+      case 'visible':
+      default:
+        return {
+          transform: 'translateY(0)',
+          opacity: 1,
+          transition: 'none',
+        };
+    }
+  };
+
   return (
     <section className="hero-slider-wrap" id="hero-slider">
       {/* WebGL Canvas — renders background transitions */}
       <canvas ref={canvasRef} className="hero-webgl-canvas" aria-hidden="true" />
 
-      {/* Content Overlays — one per slide */}
-      {slides.map((slide, i) => {
-        const isActive = i === activeIdxRef.current;
-        return (
+      {/* Content Overlay — single instance, always shows active slide */}
+      <div
+        className="hero-slide-content-wrap"
+        style={{
+          position: 'absolute',
+          inset: 0,
+          zIndex: 5,
+          pointerEvents: 'auto',
+        }}
+      >
+        {/* Dark gradient overlay */}
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            zIndex: 1,
+            background: 'linear-gradient(90deg, rgba(34,30,26,0.55) 0%, rgba(34,30,26,0.3) 35%, rgba(34,30,26,0.12) 65%, rgba(34,30,26,0) 100%)',
+            pointerEvents: 'none',
+          }}
+        />
+
+        {/* Content Grid */}
+        <div
+          style={{
+            position: 'relative',
+            zIndex: 5,
+            display: 'grid',
+            alignItems: 'center',
+            width: '100%',
+            maxWidth: '1400px',
+            margin: '0 auto',
+            padding: '0 6rem',
+            height: '100%',
+            gap: '3rem',
+          }}
+          className="hero-grid-responsive"
+        >
+          {/* Left: Text — always shows active slide, with slide-up/fade animation */}
           <div
-            key={slide.id}
-            className="hero-slide-content-wrap"
             style={{
-              position: 'absolute',
-              inset: 0,
-              zIndex: isActive ? 5 : 1,
-              opacity: isActive ? 1 : 0,
-              transition: 'opacity 0.8s ease',
-              pointerEvents: isActive ? 'auto' : 'none',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              gap: '0',
+              paddingLeft: '2rem',
+              overflow: 'hidden', // clip text as it slides up out of bounds
             }}
+            className="hero-text-responsive"
           >
-            {/* Dark gradient overlay */}
-            <div
-              style={{
-                position: 'absolute',
-                inset: 0,
-                zIndex: 1,
-                background: 'linear-gradient(90deg, rgba(34,30,26,0.55) 0%, rgba(34,30,26,0.3) 35%, rgba(34,30,26,0.12) 65%, rgba(34,30,26,0) 100%)',
-                pointerEvents: 'none',
-              }}
-            />
-
-            {/* Content Grid */}
-            <div
-              style={{
-                position: 'relative',
-                zIndex: 5,
-                display: 'grid',
-                alignItems: 'center',
-                width: '100%',
-                maxWidth: '1400px',
-                margin: '0 auto',
-                padding: '0 6rem',
-                height: '100%',
-                gap: '3rem',
-              }}
-              className="hero-grid-responsive"
-            >
-              {/* Left: Text */}
-              <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '0', paddingLeft: '2rem' }} className="hero-text-responsive">
-                {/* Title */}
-                <div style={{ margin: '0 0 1.5rem 0' }}>
-                  {slide.title.split('\n').map((line, li) => (
-                    <div
-                      key={li}
-                      style={{
-                        fontFamily: "'Cormorant Garamond', 'Playfair Display', serif",
-                        fontSize: li === 0 ? 'clamp(3.7rem, 7.5vw, 6.6rem)' : 'clamp(3.2rem, 7.3vw, 6.1rem)',
-                        fontWeight: 400,
-                        color: li === 0 ? '#efe7d8' : '#e3dac8',
-                        lineHeight: li === 0 ? 0.85 : 1,
-                        textTransform: li === 1 ? 'uppercase' : 'none',
-                        letterSpacing: li === 1 ? '0.06em' : 'normal',
-                        textShadow: '0 10px 24px rgba(0,0,0,0.25)',
-                      }}
-                    >
-                      {line}
-                    </div>
-                  ))}
-                </div>
-
-                {/* Description */}
-                <p style={{
-                  fontFamily: "'Nunito', sans-serif",
-                  fontSize: '0.95rem',
-                  fontWeight: 300,
-                  lineHeight: 1.7,
-                  color: 'rgba(233,226,214,0.85)',
-                  maxWidth: '480px',
-                  marginBottom: '2.5rem',
-                }}>
-                  {slide.description}
-                </p>
-
-                {/* CTA Button */}
-                <button
+            <div style={getTextAnimStyle()}>
+            {/* Title */}
+            <div style={{ margin: '0 0 1.5rem 0' }}>
+              {activeSlide.title.split('\n').map((line, li) => (
+                <div
+                  key={li}
                   style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    padding: '16px 40px',
-                    border: '1px solid rgba(233,226,214,0.5)',
-                    borderRadius: '999px',
-                    color: '#f7f2e9',
-                    fontFamily: "'Nunito', sans-serif",
-                    fontSize: '1rem',
-                    fontWeight: 500,
-                    letterSpacing: '0.04em',
-                    cursor: 'pointer',
-                    background: 'linear-gradient(135deg, rgba(255,255,255,0.2), rgba(217,207,189,0.08))',
-                    boxShadow: '0 14px 34px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.3)',
-                    backdropFilter: 'blur(16px)',
-                    WebkitBackdropFilter: 'blur(16px)',
-                    width: 'fit-content',
-                    transition: 'transform 0.3s ease, border-color 0.3s ease, background 0.3s ease',
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-2px)';
-                    e.currentTarget.style.borderColor = 'rgba(247,242,233,0.78)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.borderColor = 'rgba(233,226,214,0.5)';
+                    fontFamily: "'Cormorant Garamond', 'Playfair Display', serif",
+                    fontSize: li === 0 ? 'clamp(3.7rem, 7.5vw, 6.6rem)' : 'clamp(3.2rem, 7.3vw, 6.1rem)',
+                    fontWeight: 400,
+                    color: li === 0 ? '#efe7d8' : '#e3dac8',
+                    lineHeight: li === 0 ? 0.85 : 1,
+                    textTransform: li === 1 ? 'uppercase' : 'none',
+                    letterSpacing: li === 1 ? '0.06em' : 'normal',
+                    textShadow: '0 10px 24px rgba(0,0,0,0.25)',
                   }}
                 >
-                  {slide.cta}
-                </button>
-              </div>
+                  {line}
+                </div>
+              ))}
+            </div>
 
-              {/* Right: Product Image */}
-              <div style={{
-                display: 'flex',
-                flexDirection: 'column',
+            {/* Description */}
+            <p style={{
+              fontFamily: "'Nunito', sans-serif",
+              fontSize: '0.95rem',
+              fontWeight: 300,
+              lineHeight: 1.7,
+              color: 'rgba(233,226,214,0.85)',
+              maxWidth: '480px',
+              marginBottom: '2.5rem',
+            }}>
+              {activeSlide.description}
+            </p>
+
+            {/* CTA Button */}
+            <Link
+              href="/van-phong"
+              style={{
+                display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                position: 'relative',
-                height: '100%',
-                paddingRight: '40px',
-              }} className="hero-product-responsive">
-                <img
-                  src={slide.product}
-                  alt={slide.title.replace('\n', ' ')}
-                  style={{
-                    width: 'auto',
-                    maxWidth: '600px',
-                    height: 'auto',
-                    maxHeight: '60vh',
-                    objectFit: 'contain',
-                    filter: 'drop-shadow(0 20px 40px rgba(0,0,0,0.3))',
-                  }}
-                  draggable={false}
-                  loading="eager"
-                  decoding="async"
-                />
-              </div>
-            </div>
-
-            {/* Slide Counter */}
-            <div style={{
-              position: 'absolute',
-              bottom: '3rem',
-              left: '5.5rem',
-              zIndex: 10,
-              display: 'flex',
-              alignItems: 'baseline',
-            }} className="hero-counter-responsive">
-              <span style={{
-                fontFamily: "'Playfair Display', serif",
-                fontSize: '3.8rem',
-                color: '#e0d6c5',
-                fontWeight: 400,
-                lineHeight: 1,
-              }}>
-                {String(i + 1).padStart(2, '0')}
-              </span>
-              <span style={{
+                padding: '16px 40px',
+                border: '1px solid rgba(233,226,214,0.5)',
+                borderRadius: '999px',
+                color: '#f7f2e9',
                 fontFamily: "'Nunito', sans-serif",
-                fontSize: '1.35rem',
-                color: 'rgba(233,226,214,0.6)',
-                marginLeft: '4px',
-              }}>
-                /{String(slides.length).padStart(2, '0')}
-              </span>
+                fontSize: '1rem',
+                fontWeight: 500,
+                letterSpacing: '0.04em',
+                cursor: 'pointer',
+                background: 'linear-gradient(135deg, rgba(255,255,255,0.2), rgba(217,207,189,0.08))',
+                boxShadow: '0 14px 34px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.3)',
+                backdropFilter: 'blur(16px)',
+                WebkitBackdropFilter: 'blur(16px)',
+                width: 'fit-content',
+                transition: 'transform 0.3s ease, border-color 0.3s ease, background 0.3s ease',
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
+                (e.currentTarget as HTMLElement).style.borderColor = 'rgba(247,242,233,0.78)';
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
+                (e.currentTarget as HTMLElement).style.borderColor = 'rgba(233,226,214,0.5)';
+              }}
+            >
+              {activeSlide.cta}
+            </Link>
             </div>
           </div>
-        );
-      })}
 
-      {/* Navigation */}
-      <div className="hero-nav">
-        <button className="hero-nav-btn hero-nav-prev" onClick={goPrev} aria-label="Slide trước">TRƯỚC</button>
-        <button className="hero-nav-btn hero-nav-next" onClick={goNext} aria-label="Slide sau">SAU</button>
+          {/* Right: Product Image */}
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            position: 'relative',
+            height: '100%',
+            paddingRight: '40px',
+            overflow: 'hidden',
+          }} className="hero-product-responsive">
+            {/* Only render ONE product image at a time */}
+            <img
+              key={productAnim.slideIdx} // force remount when slide changes
+              src={slides[productAnim.slideIdx].product}
+              alt={slides[productAnim.slideIdx].title.replace('\n', ' ')}
+              style={{
+                width: 'auto',
+                maxWidth: '480px',
+                height: 'auto',
+                maxHeight: '50vh',
+                objectFit: 'contain',
+                filter: 'drop-shadow(0 20px 40px rgba(0,0,0,0.3))',
+                ...getProductImgStyle(productAnim.mode),
+              }}
+              draggable={false}
+              loading="eager"
+              decoding="async"
+            />
+          </div>
+        </div>
+
+        {/* Slide Counter */}
+        <div style={{
+          position: 'absolute',
+          bottom: '3rem',
+          left: '5.5rem',
+          zIndex: 10,
+          display: 'flex',
+          alignItems: 'baseline',
+        }} className="hero-counter-responsive">
+          <span style={{
+            fontFamily: "'Playfair Display', serif",
+            fontSize: '3.8rem',
+            color: '#e0d6c5',
+            fontWeight: 400,
+            lineHeight: 1,
+          }}>
+            {String(activeIdxRef.current + 1).padStart(2, '0')}
+          </span>
+          <span style={{
+            fontFamily: "'Nunito', sans-serif",
+            fontSize: '1.35rem',
+            color: 'rgba(233,226,214,0.6)',
+            marginLeft: '4px',
+          }}>
+            /{String(slides.length).padStart(2, '0')}
+          </span>
+        </div>
+      </div>
+
+      {/* Dot Navigation — frosted glass effect */}
+      <div
+        className="hero-dots"
+        style={{
+          position: 'absolute',
+          bottom: '2rem',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: 20,
+          display: 'flex',
+          alignItems: 'center',
+          gap: '12px',
+          padding: '10px 20px',
+          borderRadius: '999px',
+          background: 'rgba(255,255,255,0.12)',
+          backdropFilter: 'blur(16px)',
+          WebkitBackdropFilter: 'blur(16px)',
+          border: '1px solid rgba(255,255,255,0.18)',
+          boxShadow: '0 8px 24px rgba(0,0,0,0.15)',
+        }}
+      >
+        {slides.map((_, i) => {
+          const isActive = i === activeIdxRef.current;
+          return (
+            <button
+              key={i}
+              onClick={() => goTo(i)}
+              aria-label={`Slide ${i + 1}`}
+              style={{
+                width: isActive ? '28px' : '10px',
+                height: '10px',
+                borderRadius: '999px',
+                border: 'none',
+                cursor: 'pointer',
+                backgroundColor: isActive
+                  ? 'rgba(247,242,233,0.95)'
+                  : 'rgba(233,226,214,0.4)',
+                transition: 'width 0.4s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.3s ease',
+                padding: 0,
+                outline: 'none',
+              }}
+            />
+          );
+        })}
       </div>
 
     </section>

@@ -70,7 +70,7 @@ export default function CategoryGrid() {
                 className="group flex flex-col items-center justify-center transition-all duration-300 hover:bg-amber-50/40"
                 style={{ padding: "20px 8px", borderRight: "1px solid #E8E8E8", borderBottom: index < 10 ? "1px solid #E8E8E8" : "none" }}
               >
-                <div className="mb-3 overflow-hidden transition-transform duration-400 group-hover:scale-110" style={{ width: "90px", height: "90px", borderRadius: "14px", boxShadow: "0 2px 10px rgba(92,61,30,0.08)" }}>
+                <div className="mb-3 overflow-hidden transition-transform duration-400 group-hover:scale-110" style={{ width: "90px", height: "90px", borderRadius: "5px", boxShadow: "0 2px 10px rgba(92,61,30,0.08)" }}>
                   <img src={cat.image} alt={cat.label} className="w-full h-full object-cover" />
                 </div>
                 <span style={{ fontSize: "12px", fontWeight: 700, color: "#3D2E1E", textAlign: "center", lineHeight: 1.3 }}>{cat.label}</span>

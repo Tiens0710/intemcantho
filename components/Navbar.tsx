@@ -267,19 +267,20 @@ export default function Navbar() {
               </Link>
             </motion.div>
 
-            {/* Cart Icon */}
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              className={`p-2 rounded-full transition-colors ${
-                shouldUseGlassHeader
-                  ? "text-slate-600 hover:text-amber-800 hover:bg-amber-50"
-                  : "text-white/80 hover:text-white hover:bg-white/10"
-              }`}
-              aria-label="Giỏ hàng"
-            >
-              <ShoppingBag className="w-[18px] h-[18px]" strokeWidth={2} />
-            </motion.button>
+            {/* Cart Icon (navigates to /cart) */}
+            <Link href="/cart" aria-label="Giỏ hàng" className="inline-block">
+              <motion.div
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                className={`p-2 rounded-full transition-colors ${
+                  shouldUseGlassHeader
+                    ? "text-slate-600 hover:text-amber-800 hover:bg-amber-50"
+                    : "text-white/80 hover:text-white hover:bg-white/10"
+                }`}
+              >
+                <ShoppingBag className="w-[18px] h-[18px]" strokeWidth={2} />
+              </motion.div>
+            </Link>
 
             {/* Divider */}
             <div

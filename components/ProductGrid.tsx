@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Heart, ShoppingCart } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { getRecommendations, Product } from "@/lib/wordpress";
 import { useAppStore } from "@/lib/store";
 import Link from "next/link";
@@ -10,23 +10,26 @@ import Link from "next/link";
 export default function ProductGrid() {
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const { persona } = useAppStore();
 
-  useEffect(() => {
-    const loadProducts = async () => {
-      setIsLoading(true);
-      try {
-        const recs = await getRecommendations(persona);
-        setProducts(recs);
-      } catch (error) {
-        console.error("Failed to load products:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadProducts();
+  const loadProducts = useCallback(async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const recs = await getRecommendations(persona);
+      setProducts(recs);
+    } catch (err) {
+      console.error("Failed to load products:", err);
+      setError("Không thể tải sản phẩm. Vui lòng thử lại.");
+    } finally {
+      setIsLoading(false);
+    }
   }, [persona]);
+
+  useEffect(() => {
+    loadProducts();
+  }, [loadProducts]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -126,10 +129,17 @@ export default function ProductGrid() {
 
                     <div className="flex h-[220px] items-center justify-center px-6 py-5">
                       <img
-                        src={product.image}
+                        src={product.image || '/no-image.svg'}
                         alt={product.title}
                         className="max-h-full max-w-full object-contain group-hover:scale-110 transition-transform duration-700 ease-out"
                         loading="lazy"
+                        onError={(e) => {
+                          try {
+                            (e.currentTarget as HTMLImageElement).src = '/no-image.svg';
+                          } catch {
+                            /* noop */
+                          }
+                        }}
                       />
                     </div>
                   </div>
@@ -239,16 +249,23 @@ export default function ProductGrid() {
           </>
         )}
 
+        {/* Error State */}
+        {error && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-12">
+            <p className="text-lg text-red-500 mb-4">{error}</p>
+            <button
+              onClick={() => loadProducts()}
+              className="inline-flex items-center gap-2 px-4 py-2 bg-amber-800 text-white rounded-full"
+            >
+              Thử lại
+            </button>
+          </motion.div>
+        )}
+
         {/* Empty State */}
-        {!isLoading && products.length === 0 && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-center py-12"
-          >
-            <p className="text-lg text-gray-500">
-              Không có sản phẩm nào được đề xuất.
-            </p>
+        {!isLoading && !error && products.length === 0 && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-12">
+            <p className="text-lg text-gray-500">Không có sản phẩm nào được đề xuất.</p>
           </motion.div>
         )}
       </div>
