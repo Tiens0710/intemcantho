@@ -1,13 +1,12 @@
 import { getProduct } from "@/lib/wordpress";
 import { NextResponse } from "next/server";
 
-interface Props {
-  params: { id: string };
-}
-
-export async function GET(request: Request, { params }: Props) {
+export async function GET(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
-    const { id } = params;
+    const { id } = await params;
     const product = await getProduct(id);
 
     if (!product) {
