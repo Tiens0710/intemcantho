@@ -509,8 +509,44 @@ select:focus {
 
 /*
   Hero slide elements — no CSS opacity overrides.
-  Initial states are managed by inline styles and GSAP in HeroSlider.tsx.
+  Initial states are managed by inline styles in HeroSlider.tsx.
 */
+
+/* Responsive grid for hero content */
+@media (min-width: 1024px) {
+  .hero-grid-responsive {
+    grid-template-columns: 0.7fr 1.3fr;
+    padding: 0 6rem;
+    gap: 3rem;
+  }
+}
+
+@media (max-width: 1023px) {
+  .hero-grid-responsive {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding: 8rem 2rem 4rem;
+  }
+
+  .hero-text-responsive {
+    padding-left: 0;
+    align-items: center;
+  }
+
+  .hero-product-responsive {
+    order: 2;
+  }
+
+  .hero-counter-responsive {
+    left: 2rem;
+    bottom: 2rem;
+  }
+
+  .hero-nav,
+  .hero-pagination {
+    display: none;
+  }
+}
 
 /* ── Background Layer ── */
 .hero-slide-bg-wrap {

@@ -1,182 +1,71 @@
 'use client';
 
 /**
- * HeroSlider - Cinematic full-screen slider with WebGL water/liquid
- * distortion transition between slides.
- *
- * Simplified architecture: each slide's content is always in the DOM
- * and rendered. We use opacity + z-index for visibility instead of
- * visibility:hidden which causes browser rendering issues.
+ * HeroSlider — Completely rebuilt from scratch.
+ * Keeps only the WebGL water transition for backgrounds.
+ * Content (text + product images) uses simple React state + CSS transitions.
  */
 
 import { useRef, useCallback, useEffect, useState } from 'react';
-import gsap from 'gsap';
-
 import { slides } from '@/lib/data/slides';
 import { WaterTransition } from '@/lib/webgl/WaterTransition';
 
 export default function HeroSlider() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const wglRef = useRef<WaterTransition | null>(null);
-  const slideElsRef = useRef<(HTMLDivElement | null)[]>([]);
-  const autoplayRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const activeIdxRef = useRef(0);
   const transitioningRef = useRef(false);
-  const currentIdxRef = useRef(0);
-  const [currentIdx, setCurrentIdx] = useState(0);
+  const autoplayRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [, forceRender] = useState(0);
 
-  // ── Show a slide (hide all others) ──
-  const showSlide = useCallback((idx: number) => {
-    slideElsRef.current.forEach((el, i) => {
-      if (!el) return;
-      if (i === idx) {
-        el.style.opacity = '1';
-        el.style.zIndex = '2';
-        el.style.pointerEvents = 'auto';
-      } else {
-        el.style.opacity = '0';
-        el.style.zIndex = '1';
-        el.style.pointerEvents = 'none';
-      }
-    });
-  }, []);
-
-  // ── Animate slide content in ──
-  const animateIn = useCallback((slideEl: HTMLElement) => {
-    const overlay = slideEl.querySelector('.hero-slide-overlay') as HTMLElement;
-    const product = slideEl.querySelector('.hero-slide-product') as HTMLElement;
-    const titleLines = slideEl.querySelectorAll('.hero-slide-title-line');
-    const desc = slideEl.querySelector('.hero-slide-desc') as HTMLElement;
-    const cta = slideEl.querySelector('.hero-slide-cta') as HTMLElement;
-    const counter = slideEl.querySelector('.hero-slide-counter') as HTMLElement;
-
-    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-
-    if (overlay) {
-      gsap.set(overlay, { opacity: 0 });
-      tl.to(overlay, { opacity: 1, duration: 0.8 }, 0);
-    }
-
-    if (product) {
-      const isDesktop = window.innerWidth >= 1024;
-      gsap.set(product, { opacity: 0, y: 24 });
-      tl.to(product, { opacity: 1, y: 0, scale: isDesktop ? 0.98 : 1, duration: 0.95 }, 0.15);
-    }
-
-    if (titleLines.length) {
-      gsap.set(titleLines, { opacity: 0, y: 18 });
-      tl.to(titleLines, { opacity: 1, y: 0, duration: 0.7, stagger: 0.08 }, 0.25);
-    }
-
-    if (desc) {
-      gsap.set(desc, { opacity: 0, y: 12 });
-      tl.to(desc, { opacity: 1, y: 0, duration: 0.55 }, 0.4);
-    }
-
-    if (cta) {
-      gsap.set(cta, { opacity: 0, y: 10 });
-      tl.to(cta, { opacity: 1, y: 0, duration: 0.45 }, 0.5);
-    }
-
-    if (counter) {
-      gsap.set(counter, { opacity: 0, x: -10 });
-      tl.to(counter, { opacity: 1, x: 0, duration: 0.45 }, 0.55);
-    }
-
-    return tl;
-  }, []);
-
-  // ── Animate slide content out ──
-  const animateOut = useCallback((slideEl: HTMLElement) => {
-    const overlay = slideEl.querySelector('.hero-slide-overlay');
-    const product = slideEl.querySelector('.hero-slide-product');
-    const titleLines = slideEl.querySelectorAll('.hero-slide-title-line');
-    const desc = slideEl.querySelector('.hero-slide-desc');
-    const cta = slideEl.querySelector('.hero-slide-cta');
-    const counter = slideEl.querySelector('.hero-slide-counter');
-
-    const tl = gsap.timeline({ defaults: { ease: 'power2.in' } });
-
-    if (titleLines.length) tl.to(titleLines, { opacity: 0, y: -8, duration: 0.45, stagger: 0.02 }, 0);
-    if (desc) tl.to(desc, { opacity: 0, duration: 0.4 }, 0);
-    if (cta) tl.to(cta, { opacity: 0, duration: 0.36 }, 0);
-    if (counter) tl.to(counter, { opacity: 0, duration: 0.3 }, 0);
-    if (product) tl.to(product, { opacity: 0, scale: 1.03, duration: 0.45 }, 0);
-    if (overlay) tl.to(overlay, { opacity: 0, duration: 0.45 }, 0);
-
-    return tl;
-  }, []);
-
-  // ── Reset autoplay timer ──
-  const resetAutoplay = useCallback(() => {
-    if (autoplayRef.current) clearTimeout(autoplayRef.current);
-    autoplayRef.current = setTimeout(() => {
-      goToSlide(currentIdxRef.current + 1);
-    }, 8000);
-  }, []);
-
-  // ── Transition to a slide ──
-  const goToSlide = useCallback((nextIdx: number) => {
+  // ── Go to specific slide ──
+  const goTo = useCallback((targetIdx: number) => {
     const wgl = wglRef.current;
     if (!wgl || transitioningRef.current) return;
 
-    const curIdx = currentIdxRef.current;
-    const idx = ((nextIdx % slides.length) + slides.length) % slides.length;
-    if (idx === curIdx) return;
+    const idx = ((targetIdx % slides.length) + slides.length) % slides.length;
+    if (idx === activeIdxRef.current) return;
 
     transitioningRef.current = true;
 
-    const currentSlide = slideElsRef.current[curIdx];
-    const nextSlide = slideElsRef.current[idx];
-
-    // 1. Animate current content OUT
-    if (currentSlide) {
-      animateOut(currentSlide);
-    }
-
-    // 2. Start WebGL water distortion
+    // Start WebGL water transition on background
     wgl.beginTransition(idx);
 
-    // 3. Drive wgl.progress from 0 → 1
-    const progressObj = { value: 0 };
-    const master = gsap.timeline({
-      onComplete: async () => {
-        // Finalize WebGL
-        await wgl.completeTransition(idx);
+    // Drive progress 0 → 1
+    const startTime = performance.now();
+    const duration = 3200; // ms
+
+    const tick = (now: number) => {
+      const elapsed = now - startTime;
+      const raw = Math.min(elapsed / duration, 1);
+      // ease in-out
+      const p = raw < 0.5
+        ? 2 * raw * raw
+        : 1 - Math.pow(-2 * raw + 2, 2) / 2;
+
+      wgl.progress = p;
+
+      if (raw < 1) {
+        requestAnimationFrame(tick);
+      } else {
+        // Transition complete
+        wgl.completeTransition(idx);
+        activeIdxRef.current = idx;
         transitioningRef.current = false;
-        currentIdxRef.current = idx;
-        setCurrentIdx(idx);
+        forceRender((n) => n + 1); // trigger React re-render
+        // Reset autoplay
+        if (autoplayRef.current) clearTimeout(autoplayRef.current);
+        autoplayRef.current = setTimeout(() => {
+          goTo(activeIdxRef.current + 1);
+        }, 8000);
+      }
+    };
 
-        // Show new slide (CSS opacity + z-index)
-        showSlide(idx);
+    requestAnimationFrame(tick);
+  }, []);
 
-        // Animate new slide content in
-        requestAnimationFrame(() => {
-          if (nextSlide) {
-            animateIn(nextSlide);
-          }
-          resetAutoplay();
-        });
-      },
-    });
-
-    master.to(progressObj, {
-      value: 1,
-      duration: 3.2,
-      ease: 'power1.inOut',
-      onUpdate: () => {
-        wgl.progress = progressObj.value;
-      },
-    });
-  }, [animateOut, animateIn, showSlide, resetAutoplay]);
-
-  // ── Navigation ──
-  const goNext = useCallback(() => {
-    goToSlide(currentIdxRef.current + 1);
-  }, [goToSlide]);
-
-  const goPrev = useCallback(() => {
-    goToSlide(currentIdxRef.current - 1);
-  }, [goToSlide]);
+  const goNext = useCallback(() => goTo(activeIdxRef.current + 1), [goTo]);
+  const goPrev = useCallback(() => goTo(activeIdxRef.current - 1), [goTo]);
 
   // ── Initialize WebGL ──
   useEffect(() => {
@@ -192,24 +81,15 @@ export default function HeroSlider() {
       return;
     }
 
-    // Load all background images
     const bgUrls = slides.map((s) => s.bg);
     wgl.loadImages(bgUrls).then(() => {
       wgl.showSlide(0);
-      showSlide(0);
-
-      // Animate first slide content in
-      const firstSlide = slideElsRef.current[0];
-      if (firstSlide) {
-        requestAnimationFrame(() => {
-          animateIn(firstSlide);
-        });
-      }
-
-      resetAutoplay();
+      // Start autoplay
+      autoplayRef.current = setTimeout(() => {
+        goTo(1);
+      }, 8000);
     });
 
-    // Resize handler
     const onResize = () => wgl.resize();
     window.addEventListener('resize', onResize);
 
@@ -220,87 +100,192 @@ export default function HeroSlider() {
       wglRef.current = null;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [goTo]);
 
   return (
     <section className="hero-slider-wrap" id="hero-slider">
-      {/* WebGL Canvas */}
-      <canvas
-        ref={canvasRef}
-        className="hero-webgl-canvas"
-        aria-hidden="true"
-      />
+      {/* WebGL Canvas — renders background transitions */}
+      <canvas ref={canvasRef} className="hero-webgl-canvas" aria-hidden="true" />
 
-      {/* Content Overlays */}
-      {slides.map((slide, i) => (
-        <div
-          key={slide.id}
-          ref={(el) => { slideElsRef.current[i] = el; }}
-          className="hero-slide hero-slide--overlay"
-          style={{
-            '--accent-color': slide.accent,
-            opacity: i === 0 ? 1 : 0,
-            zIndex: i === 0 ? 2 : 1,
-            pointerEvents: i === 0 ? 'auto' : 'none',
-          } as React.CSSProperties}
-        >
-          <div className="hero-slide-overlay" style={{ opacity: 1 }} />
+      {/* Content Overlays — one per slide */}
+      {slides.map((slide, i) => {
+        const isActive = i === activeIdxRef.current;
+        return (
+          <div
+            key={slide.id}
+            className="hero-slide-content-wrap"
+            style={{
+              position: 'absolute',
+              inset: 0,
+              zIndex: isActive ? 5 : 1,
+              opacity: isActive ? 1 : 0,
+              transition: 'opacity 0.8s ease',
+              pointerEvents: isActive ? 'auto' : 'none',
+            }}
+          >
+            {/* Dark gradient overlay */}
+            <div
+              style={{
+                position: 'absolute',
+                inset: 0,
+                zIndex: 1,
+                background: 'linear-gradient(90deg, rgba(34,30,26,0.55) 0%, rgba(34,30,26,0.3) 35%, rgba(34,30,26,0.12) 65%, rgba(34,30,26,0) 100%)',
+                pointerEvents: 'none',
+              }}
+            />
 
-          <div className="hero-slide-content">
-            <div className="hero-slide-text">
-              <h1 className="hero-slide-title">
-                {slide.title.split('\n').map((line, li) => (
-                  <span key={li} className="hero-slide-title-line">
-                    {line}
-                  </span>
-                ))}
-              </h1>
-              <p className="hero-slide-desc">{slide.description}</p>
-              <button className="hero-slide-cta">
-                <span>{slide.cta}</span>
-              </button>
+            {/* Content Grid */}
+            <div
+              style={{
+                position: 'relative',
+                zIndex: 5,
+                display: 'grid',
+                alignItems: 'center',
+                width: '100%',
+                maxWidth: '1400px',
+                margin: '0 auto',
+                padding: '0 6rem',
+                height: '100%',
+                gap: '3rem',
+              }}
+              className="hero-grid-responsive"
+            >
+              {/* Left: Text */}
+              <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '0', paddingLeft: '2rem' }} className="hero-text-responsive">
+                {/* Title */}
+                <div style={{ margin: '0 0 1.5rem 0' }}>
+                  {slide.title.split('\n').map((line, li) => (
+                    <div
+                      key={li}
+                      style={{
+                        fontFamily: "'Cormorant Garamond', 'Playfair Display', serif",
+                        fontSize: li === 0 ? 'clamp(3.7rem, 7.5vw, 6.6rem)' : 'clamp(3.2rem, 7.3vw, 6.1rem)',
+                        fontWeight: 400,
+                        color: li === 0 ? '#efe7d8' : '#e3dac8',
+                        lineHeight: li === 0 ? 0.85 : 1,
+                        textTransform: li === 1 ? 'uppercase' : 'none',
+                        letterSpacing: li === 1 ? '0.06em' : 'normal',
+                        textShadow: '0 10px 24px rgba(0,0,0,0.25)',
+                      }}
+                    >
+                      {line}
+                    </div>
+                  ))}
+                </div>
+
+                {/* Description */}
+                <p style={{
+                  fontFamily: "'Nunito', sans-serif",
+                  fontSize: '0.95rem',
+                  fontWeight: 300,
+                  lineHeight: 1.7,
+                  color: 'rgba(233,226,214,0.85)',
+                  maxWidth: '480px',
+                  marginBottom: '2.5rem',
+                }}>
+                  {slide.description}
+                </p>
+
+                {/* CTA Button */}
+                <button
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '16px 40px',
+                    border: '1px solid rgba(233,226,214,0.5)',
+                    borderRadius: '999px',
+                    color: '#f7f2e9',
+                    fontFamily: "'Nunito', sans-serif",
+                    fontSize: '1rem',
+                    fontWeight: 500,
+                    letterSpacing: '0.04em',
+                    cursor: 'pointer',
+                    background: 'linear-gradient(135deg, rgba(255,255,255,0.2), rgba(217,207,189,0.08))',
+                    boxShadow: '0 14px 34px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.3)',
+                    backdropFilter: 'blur(16px)',
+                    WebkitBackdropFilter: 'blur(16px)',
+                    width: 'fit-content',
+                    transition: 'transform 0.3s ease, border-color 0.3s ease, background 0.3s ease',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                    e.currentTarget.style.borderColor = 'rgba(247,242,233,0.78)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.borderColor = 'rgba(233,226,214,0.5)';
+                  }}
+                >
+                  {slide.cta}
+                </button>
+              </div>
+
+              {/* Right: Product Image */}
+              <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                position: 'relative',
+                height: '100%',
+                paddingRight: '40px',
+              }} className="hero-product-responsive">
+                <img
+                  src={slide.product}
+                  alt={slide.title.replace('\n', ' ')}
+                  style={{
+                    width: 'auto',
+                    maxWidth: '600px',
+                    height: 'auto',
+                    maxHeight: '60vh',
+                    objectFit: 'contain',
+                    filter: 'drop-shadow(0 20px 40px rgba(0,0,0,0.3))',
+                  }}
+                  draggable={false}
+                  loading="eager"
+                  decoding="async"
+                />
+              </div>
             </div>
 
-            <div className="hero-slide-product-wrap">
-              <img
-                src={slide.product}
-                alt={slide.title.replace('\n', ' ')}
-                className="hero-slide-product"
-                draggable={false}
-                loading="eager"
-                decoding="async"
-              />
+            {/* Slide Counter */}
+            <div style={{
+              position: 'absolute',
+              bottom: '3rem',
+              left: '5.5rem',
+              zIndex: 10,
+              display: 'flex',
+              alignItems: 'baseline',
+            }} className="hero-counter-responsive">
+              <span style={{
+                fontFamily: "'Playfair Display', serif",
+                fontSize: '3.8rem',
+                color: '#e0d6c5',
+                fontWeight: 400,
+                lineHeight: 1,
+              }}>
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <span style={{
+                fontFamily: "'Nunito', sans-serif",
+                fontSize: '1.35rem',
+                color: 'rgba(233,226,214,0.6)',
+                marginLeft: '4px',
+              }}>
+                /{String(slides.length).padStart(2, '0')}
+              </span>
             </div>
           </div>
-
-          <div className="hero-slide-counter">
-            <span className="counter-current">
-              {String(i + 1).padStart(2, '0')}
-            </span>
-            <span className="counter-total">
-              /{String(slides.length).padStart(2, '0')}
-            </span>
-          </div>
-        </div>
-      ))}
+        );
+      })}
 
       {/* Navigation */}
       <div className="hero-nav">
-        <button
-          className="hero-nav-btn hero-nav-prev"
-          onClick={goPrev}
-          aria-label="Slide trước"
-        >
-          TRƯỚC
-        </button>
-        <button
-          className="hero-nav-btn hero-nav-next"
-          onClick={goNext}
-          aria-label="Slide sau"
-        >
-          SAU
-        </button>
+        <button className="hero-nav-btn hero-nav-prev" onClick={goPrev} aria-label="Slide trước">TRƯỚC</button>
+        <button className="hero-nav-btn hero-nav-next" onClick={goNext} aria-label="Slide sau">SAU</button>
       </div>
+
     </section>
   );
 }
