@@ -39,7 +39,7 @@ export default function StatsSection() {
       className="relative mt-16"
     >
       {/* Top rule */}
-      <div className="mb-14 h-px w-full bg-gradient-to-r from-transparent via-amber-800/20 to-transparent" />
+      <div className="mb-8 h-px w-full bg-gradient-to-r from-transparent via-amber-800/20 to-transparent" />
 
       {/* Stats row */}
       <div className="grid grid-cols-1 md:grid-cols-3">
@@ -74,8 +74,6 @@ export default function StatsSection() {
         ))}
       </div>
 
-      {/* Bottom rule */}
-      <div className="mt-14 h-px w-full bg-gradient-to-r from-transparent via-amber-800/20 to-transparent" />
     </motion.div>
   );
 }

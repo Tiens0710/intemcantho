@@ -2,11 +2,6 @@
 @import "tailwindcss";
 
 /* ── Global font: Nunito ── */
-*,
-*::before,
-*::after {
-  font-family: 'Nunito', Arial, Helvetica, sans-serif !important;
-}
 
 :root {
   /* Modern SaaS Color Palette */
@@ -68,7 +63,7 @@ html {
 body {
   background-color: var(--background);
   color: var(--text-primary);
-  font-family: "Manrope", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: 'Nunito', Arial, Helvetica, sans-serif;
   font-weight: 400;
 }
 
@@ -81,7 +76,7 @@ h5,
 h6 {
   font-weight: 600;
   letter-spacing: -0.02em;
-  font-family: "Cormorant Garamond", "Playfair Display", serif;
+  font-family: 'Cormorant Garamond', 'Playfair Display', serif;
 }
 
 h1 {
@@ -312,7 +307,7 @@ select {
   background-color: var(--background);
   color: var(--text-primary);
   transition: all 300ms ease-out;
-  font-family: "Inter", sans-serif;
+  font-family: 'Nunito', Arial, Helvetica, sans-serif;
 }
 
 input::placeholder,
@@ -513,33 +508,9 @@ select:focus {
 }
 
 /*
-  GSAP Initial States — elements start hidden via CSS so there is
-  no flash between SSR render and GSAP initialization.
-  GSAP gsap.set() will override these with inline styles immediately.
+  Hero slide elements — no CSS opacity overrides.
+  Initial states are managed by inline styles and GSAP in HeroSlider.tsx.
 */
-.hero-slide-overlay {
-  opacity: 0;
-}
-
-.hero-slide-product {
-  opacity: 0;
-}
-
-.hero-slide-title-line {
-  opacity: 0;
-}
-
-.hero-slide-desc {
-  opacity: 0;
-}
-
-.hero-slide-cta {
-  opacity: 0;
-}
-
-.hero-slide-counter {
-  opacity: 0;
-}
 
 /* ── Background Layer ── */
 .hero-slide-bg-wrap {
@@ -614,7 +585,7 @@ select:focus {
 }
 
 .hero-slide-title-line:nth-child(1) {
-  font-family: 'Alex Brush', 'Great Vibes', cursive;
+  font-family: 'Cormorant Garamond', 'Playfair Display', serif;
   font-size: clamp(3.7rem, 7.5vw, 6.6rem);
   font-weight: 400;
   color: #efe7d8;
@@ -636,7 +607,7 @@ select:focus {
 }
 
 .hero-slide-desc {
-  font-family: 'Lato', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.9rem;
   font-weight: 300;
   line-height: 1.7;
@@ -657,7 +628,7 @@ select:focus {
   border: 1px solid rgba(233, 226, 214, 0.5);
   border-radius: 999px;
   color: #f7f2e9;
-  font-family: 'Lato', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 1.1rem;
   font-weight: 400;
   letter-spacing: 0.02em;
@@ -748,7 +719,7 @@ select:focus {
 }
 
 .counter-total {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 1.35rem;
   color: rgba(233, 226, 214, 0.6);
   margin-left: 4px;
@@ -777,7 +748,7 @@ select:focus {
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   color: rgba(247, 242, 233, 0.88);
-  font-family: 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.9rem;
   font-weight: 500;
   letter-spacing: 0.26em;
@@ -873,6 +844,113 @@ select:focus {
   .hero-slide-counter {
     will-change: auto;
   }
+}
+
+/* =============================================
+   FLOATING NAVBAR - Frosted Glass Noise
+   ============================================= */
+@keyframes liquidBorderShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.floating-navbar {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1.5px solid rgba(255, 255, 255, 0.9);
+  box-shadow:
+    0 8px 40px rgba(0, 0, 0, 0.12),
+    0 2px 8px rgba(0, 0, 0, 0.06),
+    inset 0 2px 0 rgba(255, 255, 255, 1),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.04),
+    0 0 0 1px rgba(255, 255, 255, 0.6),
+    0 0 60px -10px rgba(180, 83, 9, 0.08);
+}
+
+.floating-navbar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 180px 180px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Liquid glass specular highlight — top edge glow */
+.floating-navbar::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.3) 20%,
+    rgba(255, 255, 255, 0.95) 40%,
+    rgba(255, 255, 255, 0.6) 50%,
+    rgba(255, 255, 255, 0.95) 60%,
+    rgba(255, 255, 255, 0.3) 80%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: liquidBorderShift 6s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 50;
+}
+
+.floating-navbar-transparent {
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border: 1.5px solid rgba(255, 255, 255, 0.18);
+  box-shadow:
+    0 8px 40px rgba(0, 0, 0, 0.2),
+    0 2px 8px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.floating-navbar-transparent::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 180px 180px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.floating-navbar-transparent::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.08) 20%,
+    rgba(255, 255, 255, 0.25) 40%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(255, 255, 255, 0.25) 60%,
+    rgba(255, 255, 255, 0.08) 80%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: liquidBorderShift 6s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 50;
 }
 
 /* =============================================

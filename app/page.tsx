@@ -1,14 +1,20 @@
 ﻿"use client";
 
 import ChatSearch from "@/components/ChatSearch";
+import CategoryGrid from "@/components/CategoryGrid";
+import QuickQuote from "@/components/QuickQuote";
+import OrderProcess from "@/components/OrderProcess";
+import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import Navbar from "@/components/Navbar";
 import OnboardingModal from "@/components/OnboardingModal";
 import PartnerCarousel from "@/components/PartnerCarousel";
 import ProductGrid from "@/components/ProductGrid";
 import StatsSection from "@/components/StatsSection";
+import WarmButton from "@/components/WarmButton";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronLeft, ChevronRight, ClipboardCheck, HandCoins, Headset, Lightbulb, Mail, Phone, Printer, Send, ThumbsUp } from "lucide-react";
+import { ChevronLeft, ChevronRight, ClipboardCheck, HandCoins, Headset, Lightbulb, Printer, ThumbsUp } from "lucide-react";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function Home() {
@@ -84,109 +90,11 @@ export default function Home() {
       {/* Hero Section */}
       <Hero />
 
-      {/* Highlights Strip */}
-      <section id="highlights" className="py-2 md:py-3 bg-white">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="flex items-center justify-center gap-4 pt-4 text-xs uppercase tracking-[0.35em] text-amber-800"
-          >
-            <span className="h-px w-10 bg-amber-800/40" />
-            Dịch vụ
-            <span className="h-px w-10 bg-amber-800/40" />
-          </motion.div>
-        </div>
-      </section>
+      {/* Category Grid Section */}
+      <CategoryGrid />
 
-      {/* Services Section - Luxury Grid */}
-      <section id="services" className="pt-4 pb-24 md:pt-6 md:pb-28 bg-white">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: -30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-12 md:mb-14"
-          >
-            <h2 className="text-5xl md:text-6xl font-light text-gray-900 mb-6">
-              DỊCH VỤ CỦA DUKY
-            </h2>
-            <p className="text-lg text-gray-600 font-light">
-              Mang lại sự bảo đảm cho từng sản phẩm
-            </p>
-            <div className="w-16 h-1 bg-amber-800 mx-auto mt-6"></div>
-          </motion.div>
-
-          {/* Service Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 lg:gap-8">
-            {[
-              {
-                title: "IN STANDEE KHỔ LỚN",
-                image: "/dv01.jpeg",
-                layout: "md:col-span-2 lg:col-span-6 min-h-[260px] md:min-h-[320px]",
-              },
-              {
-                title: "IN BAO BÌ",
-                image:
-                  "https://d2xsxph8kpxj0f.cloudfront.net/90078694/ERMxTyYJFnFBQeNjeF6P4w/service-brochure-luxury-DDmwtYLkufziWByNSE9fSY.webp",
-                layout: "md:col-span-1 lg:col-span-3 min-h-[240px] md:min-h-[260px]",
-              },
-              {
-                title: "In tem nhãn",
-                image:
-                  "https://d2xsxph8kpxj0f.cloudfront.net/90078694/ERMxTyYJFnFBQeNjeF6P4w/service-brochure-luxury-DDmwtYLkufziWByNSE9fSY.webp",
-                layout: "md:col-span-1 lg:col-span-3 min-h-[240px] md:min-h-[260px]",
-              },
-              {
-                title: "IN TỜ RƠI",
-                image:
-                  "https://d2xsxph8kpxj0f.cloudfront.net/90078694/ERMxTyYJFnFBQeNjeF6P4w/service-brochure-luxury-DDmwtYLkufziWByNSE9fSY.webp",
-                layout: "md:col-span-1 lg:col-span-4 min-h-[240px] md:min-h-[260px]",
-              },
-              {
-                title: "BROCHURE TỜ GẤP",
-                image:
-                  "https://d2xsxph8kpxj0f.cloudfront.net/90078694/ERMxTyYJFnFBQeNjeF6P4w/service-packaging-luxury-RYsTx6Y8m5SoyfySkzLoUA.webp",
-                layout: "md:col-span-1 lg:col-span-4 min-h-[240px] md:min-h-[260px]",
-              },
-              {
-                title: "IN DANH THIỆP",
-                image:
-                  "https://d2xsxph8kpxj0f.cloudfront.net/90078694/ERMxTyYJFnFBQeNjeF6P4w/service-brochure-luxury-DDmwtYLkufziWByNSE9fSY.webp",
-                layout: "md:col-span-1 lg:col-span-4 min-h-[240px] md:min-h-[260px]",
-              },
-            ].map((service, index) => (
-              <motion.div
-                key={`${service.title}-${index}`}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1, duration: 0.8 }}
-                className={`group relative overflow-hidden rounded-sm border border-gray-200 bg-white ${service.layout}`}
-              >
-                <img
-                  src={service.image}
-                  alt={service.title}
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-white/70 via-white/30 to-transparent" />
-                <div className="relative h-full p-6 flex flex-col justify-end text-left">
-                  <h3 className="text-3xl md:text-[2rem] font-light mb-1 leading-none">
-                    {service.title}
-                  </h3>
-
-                  <span className="mt-5 inline-flex w-fit cursor-pointer items-center justify-center border border-white/60 bg-black/5 backdrop-blur-md px-6 py-2.5 text-sm font-medium text-amber-900 shadow-[0_4px_16px_rgba(0,0,0,0.08)] transition-all duration-500 hover:bg-amber-800 hover:!text-white hover:border-amber-800 rounded-lg">
-                    Xem thêm
-                  </span>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Quick Quote Section */}
+      <QuickQuote />
 
       {/* Best Seller Section */}
       <section id="best-seller" className="pt-6 pb-12 md:pt-8 md:pb-16 bg-gray-50">
@@ -196,24 +104,204 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Why Choose Us - Luxury Style */}
-      <section id="why-us" className="pt-12 pb-24 md:pt-16 md:pb-32 bg-white">
+      {/* Why Choose Us — Cam kết chất lượng */}
+      <section id="why-us" className="relative pt-16 pb-12 md:pt-20 md:pb-16 bg-white overflow-hidden">
+
+        {/* ── Background: Dot Grid ── */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            backgroundImage: "radial-gradient(circle, rgba(139,94,60,0.06) 1.2px, transparent 1.2px)",
+            backgroundSize: "28px 28px",
+          }}
+        />
+
+        {/* ── Background: Diagonal Lines ── */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            backgroundImage: "repeating-linear-gradient(135deg, transparent, transparent 50px, rgba(139,94,60,0.03) 50px, rgba(139,94,60,0.03) 51px)",
+          }}
+        />
+
+        {/* ── Floating Circles (animated) ── */}
+        <motion.div
+          animate={{ scale: [1, 1.2, 1], opacity: [0.12, 0.2, 0.12] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute -top-16 -right-16 w-72 h-72 rounded-full pointer-events-none"
+          style={{ background: "radial-gradient(circle, rgba(196,168,130,0.12) 0%, transparent 70%)" }}
+        />
+        <motion.div
+          animate={{ scale: [1, 1.25, 1], opacity: [0.1, 0.18, 0.1] }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+          className="absolute -bottom-12 -left-20 w-56 h-56 rounded-full pointer-events-none"
+          style={{ background: "radial-gradient(circle, rgba(184,149,106,0.1) 0%, transparent 70%)" }}
+        />
+        <motion.div
+          animate={{ y: [-8, 8, -8], opacity: [0.08, 0.15, 0.08] }}
+          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+          className="absolute top-1/3 right-1/4 w-36 h-36 rounded-full pointer-events-none"
+          style={{ background: "radial-gradient(circle, rgba(212,184,150,0.08) 0%, transparent 70%)" }}
+        />
+
+        {/* ── Decorative Dots (animated) ── */}
+        <motion.div animate={{ y: [-5, 5, -5] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }} className="absolute top-12 left-[10%] w-3 h-3 rounded-full pointer-events-none" style={{ background: "rgba(139,94,60,0.1)" }} />
+        <motion.div animate={{ y: [4, -4, 4] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 0.5 }} className="absolute top-24 right-[15%] w-2 h-2 rounded-full pointer-events-none" style={{ background: "rgba(139,94,60,0.15)" }} />
+        <motion.div animate={{ y: [-7, 7, -7] }} transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }} className="absolute bottom-20 left-[20%] w-4 h-4 rounded-full pointer-events-none" style={{ background: "rgba(139,94,60,0.08)" }} />
+        <motion.div animate={{ y: [3, -3, 3] }} transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut", delay: 1.5 }} className="absolute bottom-12 right-[8%] w-3 h-3 rounded-full pointer-events-none" style={{ background: "rgba(139,94,60,0.12)" }} />
+        <div className="absolute top-1/2 left-[5%] w-5 h-5 rounded-full pointer-events-none" style={{ border: "2px solid rgba(139,94,60,0.1)" }} />
+        <div className="absolute top-1/4 right-[5%] w-4 h-4 rounded-full pointer-events-none" style={{ border: "2px solid rgba(139,94,60,0.08)" }} />
+
+        {/* ── Gradient Lines ── */}
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#8B5E3C]/20 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#8B5E3C]/20 to-transparent" />
+
+        <div className="container mx-auto px-4 relative z-10">
+
+          {/* Section Header */}
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-12"
+          >
+            <p
+              className="mb-3"
+              style={{
+                fontSize: "12px",
+                fontWeight: 600,
+                textTransform: "uppercase",
+                letterSpacing: "0.25em",
+                color: "#A08060",
+              }}
+            >
+              Vì sao chọn Intem Cần Thơ?
+            </p>
+            <h2
+              style={{
+                fontSize: "clamp(1.8rem, 4vw, 2.8rem)",
+                fontWeight: 700,
+                lineHeight: 1.2,
+                color: "#1C1007",
+              }}
+            >
+              Cam kết chất lượng – Dịch vụ tận tâm
+            </h2>
+          </motion.div>
+
+          {/* Features Grid — 6 columns */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-5">
+            {[
+              {
+                icon: Headset,
+                title: "Tư vấn\nđúng nhu cầu",
+                desc: "Đồng hành từ ý tưởng, chất liệu đến giải pháp in phù hợp với mục tiêu sử dụng.",
+              },
+              {
+                icon: HandCoins,
+                title: "Giá cả\nminh bạch",
+                desc: "Báo giá rõ ràng ngay từ đầu, hạn chế phát sinh và giữ đúng chất lượng cam kết.",
+              },
+              {
+                icon: Lightbulb,
+                title: "Thiết kế\ndễ in ấn",
+                desc: "Thiết kế đẹp, đúng kỹ thuật và tối ưu khi đưa vào sản xuất thực tế.",
+              },
+              {
+                icon: Printer,
+                title: "Công nghệ\nhiện đại",
+                desc: "Hệ thống in, cắt và phủ đồng bộ, đáp ứng nhiều chất liệu và số lượng.",
+              },
+              {
+                icon: ThumbsUp,
+                title: "Đúng\ntiến độ",
+                desc: "Lịch sản xuất rõ ràng, chủ động cập nhật để không làm trễ kế hoạch của bạn.",
+              },
+              {
+                icon: ClipboardCheck,
+                title: "Kiểm soát\nchất lượng",
+                desc: "Kiểm tra kỹ trước khi giao, đảm bảo đúng màu, đúng kích thước và thành phẩm.",
+              },
+            ].map((feature, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ delay: index * 0.08, duration: 0.5, ease: "easeOut" }}
+                className="group flex flex-col items-center text-center rounded-2xl transition-all duration-500 hover:-translate-y-2 hover:shadow-xl"
+                style={{
+                  background: "#FFFFFF",
+                  border: "1px solid rgba(222, 210, 194, 0.6)",
+                  padding: "28px 20px 24px",
+                  boxShadow: "0 2px 16px rgba(92, 61, 30, 0.06)",
+                }}
+              >
+                {/* Icon with circle background */}
+                <div
+                  className="mb-5 flex items-center justify-center rounded-full transition-all duration-500 group-hover:scale-110"
+                  style={{
+                    width: "64px",
+                    height: "64px",
+                    background: "linear-gradient(135deg, rgba(139,94,60,0.08) 0%, rgba(139,94,60,0.15) 100%)",
+                    boxShadow: "inset 0 2px 4px rgba(255,255,255,0.8), 0 4px 12px rgba(139,94,60,0.1)",
+                  }}
+                >
+                  <feature.icon
+                    style={{ width: "28px", height: "28px", color: "#8B5E3C" }}
+                    strokeWidth={1.5}
+                  />
+                </div>
+                <h3
+                  className="mb-3"
+                  style={{
+                    fontSize: "13px",
+                    fontWeight: 800,
+                    textTransform: "uppercase",
+                    letterSpacing: "0.06em",
+                    color: "#5C3D1E",
+                    lineHeight: 1.35,
+                  }}
+                >
+                  {feature.title.split('\n').map((line, i) => (
+                    <span key={i} className="block">
+                      {line}
+                    </span>
+                  ))}
+                </h3>
+                {/* Amber accent line */}
+                <div className="mb-3 w-8 h-0.5 rounded-full transition-all duration-500 group-hover:w-12" style={{ background: "rgba(139,94,60,0.3)" }} />
+                <p style={{ fontSize: "12px", fontWeight: 400, color: "#7A6A58", lineHeight: 1.65 }}>
+                  {feature.desc}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Stats Section */}
+          <StatsSection />
+        </div>
+      </section>
+
+      {/* Why Choose Us - Luxury Style (Thiết kế & In ấn) */}
+      <section id="why-us-2" className="bg-white">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: -30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="text-center mb-20"
+            className="text-center mb-16"
           >
             <div className="mb-4 flex items-center justify-center gap-4">
               <span className="h-px w-60 bg-amber-800/70" />
-              <h2 className="text-5xl md:text-6xl font-light mb-0 whitespace-nowrap">
+              <h2 className="text-4xl md:text-5xl font-light mb-0 whitespace-nowrap !text-amber-800">
                 TẠI SAO NÊN CHỌN CHÚNG TÔI
               </h2>
               <span className="h-px w-60 bg-amber-800/70" />
             </div>
-            <div className="w-60 h-1 bg-amber-800 mx-auto"></div>
+            <div className="w-40 h-1 bg-amber-800 mx-auto"></div>
           </motion.div>
 
           {/* Main Description */}
@@ -222,36 +310,37 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="mb-20 grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16"
+            className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16"
           >
-            <div className="text-center">
+            <div className="text-center lg:text-left">
               <h3 className="mb-6 font-semibold leading-none">
                 <span
                   className="block"
-                  style={{ color: "#9a5b24", fontSize: "clamp(3.2rem, 4vw, 4.8rem)", lineHeight: 0.95 }}
+                  style={{ color: "#9a5b24", fontSize: "clamp(2.8rem, 4vw, 4.2rem)", lineHeight: 0.95 }}
                 >
-                  THIẾT KẾ &amp; IN ẤN
+                  THIẾT KẾ & IN ẤN
                 </span>
                 <span
                   className="block"
-                  style={{ color: "#9a5b24", fontSize: "clamp(3.2rem, 4vw, 4.8rem)", lineHeight: 0.95 }}
+                  style={{ color: "#9a5b24", fontSize: "clamp(2.8rem, 4vw, 4.2rem)", lineHeight: 0.95 }}
                 >
                   TEM NHÃN
                 </span>
               </h3>
-              <p className="mx-auto max-w-2xl text-lg font-light leading-relaxed text-gray-600">
+              <p className="mx-auto lg:mx-0 max-w-2xl text-lg font-light leading-relaxed text-gray-600">
                 Chúng tôi cung cấp giải pháp thiết kế và in ấn tem nhãn chất lượng cao.
                 Đa dạng chất liệu, in ấn sắc nét, bám dính bền bỉ – giúp doanh nghiệp nổi bật
                 và nâng tầm giá trị sản phẩm trên thị trường.
               </p>
 
-              <div className="mt-10 flex justify-center">
-                <button
+              <div className="mt-10 flex justify-center lg:justify-start">
+                <Link
+                  href="/lien-he"
                   className="group inline-flex items-center justify-center rounded-full border-2 bg-white px-6 py-2.5 text-sm font-medium text-[#B56A29] transition-all hover:bg-amber-600 hover:border-amber-600"
                   style={{ borderColor: "#B56A29" }}
                 >
                   <span className="text-[#B56A29] transition-colors group-hover:text-white">Tư Vấn Ngay</span>
-                </button>
+                </Link>
               </div>
             </div>
 
@@ -289,156 +378,70 @@ export default function Home() {
               </div>
             </div>
           </motion.div>
-
-          {/* Features Grid */}
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 mb-20">
-            {[
-              {
-                icon: Headset,
-                title: "TƯ VẤN\nĐÚNG NHU CẦU",
-                desc: "Đồng hành từ ý tưởng, chất liệu đến giải pháp in phù hợp với mục tiêu sử dụng.",
-              },
-              {
-                icon: HandCoins,
-                title: "GIÁ CẢ\nMINH BẠCH",
-                desc: "Báo giá rõ ràng ngay từ đầu, hạn chế phát sinh và giữ đúng chất lượng cam kết.",
-              },
-              {
-                icon: Lightbulb,
-                title: "THIẾT KẾ\nDỄ IN ẤN",
-                desc: "Thiết kế đẹp, đúng kỹ thuật và tối ưu khi đưa vào sản xuất thực tế.",
-              },
-              {
-                icon: Printer,
-                title: "CÔNG NGHỆ\nHIỆN ĐẠI",
-                desc: "Hệ thống in, cắt và phủ đồng bộ, đáp ứng nhiều chất liệu và số lượng.",
-              },
-              {
-                icon: ThumbsUp,
-                title: "ĐÚNG\nTIẾN ĐỘ",
-                desc: "Lịch sản xuất rõ ràng, chủ động cập nhật để không làm trễ kế hoạch của bạn.",
-              },
-              {
-                icon: ClipboardCheck,
-                title: "KIỂM SOÁT\nCHẤT LƯỢNG",
-                desc: "Kiểm tra kỹ trước khi giao, đảm bảo đúng màu, đúng kích thước và thành phẩm.",
-              },
-            ].map((feature, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ delay: index * 0.06, duration: 0.5, ease: "easeOut" }}
-                className="group rounded-2xl border border-amber-900/10 bg-gradient-to-b from-white to-amber-50/5 p-8 text-center shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-amber-700/30 hover:shadow-lg"
-              >
-                <feature.icon className="mx-auto mb-6 h-14 w-14 text-amber-700" strokeWidth={1.75} />
-                <h3 className="mb-4 text-3xl font-semibold uppercase tracking-[0.06em] text-amber-700">
-                  {feature.title.split('\n').map((line, i) => (
-                    <span key={i} className="block">
-                      {line}
-                    </span>
-                  ))}
-                </h3>
-                <p className="text-lg font-light leading-relaxed text-gray-600">{feature.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Stats Section — premium dark counter strip */}
-          <StatsSection />
         </div>
       </section>
 
-      {/* Process Section */}
-      <section
-        id="process"
-        className="relative py-24 md:py-32 bg-white"
-        style={{
-          backgroundImage: "url('/bg_quytrinhlamviec.jpeg')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundAttachment: "fixed",
-        }}
-      >
-        {/* White glass overlay */}
-        <div className="absolute inset-0 bg-white/35 backdrop-blur-[2px]" />
-
-        <div className="container relative z-10 mx-auto px-4">
-          <div className="grid grid-cols-2 gap-6 md:grid-cols-4 md:gap-8">
-            {[
-              "/Artboard-3-copy-3-e1761969287672.png",
-              "/Artboard-3-e1761969267865.png",
-              "/Artboard-3-copy-e1761969278712.png",
-              "/Artboard-3-copy-2-e1761969298816.png",
-            ].map((src, i) => (
-              <motion.div
-                key={src}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.12, duration: 0.5, ease: "easeOut" }}
-                className="flex items-center justify-center"
-              >
-                <img
-                  src={src}
-                  alt={`Quy trình bước ${i + 1}`}
-                  className="h-auto w-full max-w-[280px] object-contain"
-                  loading="lazy"
-                />
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Order Process Section */}
+      <OrderProcess />
 
       {/* Testimonials Section */}
-      <section
-        id="testimonials"
-        className="group bg-[#f7f7f7] py-6 shadow-[inset_0_10px_22px_rgba(0,0,0,0.08)] md:py-7"
-      >
-        <div className="mx-auto max-w-[1120px] px-14">
+      <section id="testimonials" className="relative py-16 md:py-24 bg-white overflow-hidden">
+        {/* Background patterns */}
+        <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: "radial-gradient(circle, rgba(139,94,60,0.04) 1px, transparent 1px)", backgroundSize: "24px 24px" }} />
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#8B5E3C]/20 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#8B5E3C]/20 to-transparent" />
+
+        <div className="container mx-auto px-4 relative z-10">
+          {/* Header */}
           <motion.div
-            initial={{ opacity: 0, y: -30 }}
+            initial={{ opacity: 0, y: -20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="mb-4 text-center"
+            transition={{ duration: 0.6 }}
+            className="text-center mb-12"
           >
-            <h2 className="mb-3 font-sans text-[30px] font-extrabold uppercase leading-tight tracking-normal !text-[#b86c2b] md:text-[42px]">
-              ĐÁNH GIÁ CỦA KHÁCH HÀNG
-            </h2>
-            <div className="mx-auto h-[2px] w-[38px] bg-gray-300"></div>
+            <div className="flex items-center justify-center gap-4 mb-3">
+              <span className="h-px w-20 md:w-32" style={{ background: "#C8A882" }} />
+              <h2 style={{ fontSize: "14px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.25em", color: "#8B5E3C", margin: 0, whiteSpace: "nowrap" }}>
+                Đánh giá
+              </h2>
+              <span className="h-px w-20 md:w-32" style={{ background: "#C8A882" }} />
+            </div>
+            <p style={{ fontSize: "clamp(1.6rem, 3vw, 2.2rem)", fontWeight: 700, lineHeight: 1.3, color: "#1C1007" }}>
+              Khách hàng nói gì về chúng tôi
+            </p>
           </motion.div>
+
           {/* Testimonials Grid */}
-          <div className="relative">
+          <div className="relative max-w-5xl mx-auto">
+            {/* Nav arrows */}
             <motion.button
               type="button"
-              aria-label="Previous testimonials"
+              aria-label="Previous"
               onClick={showPreviousTestimonials}
-              whileHover={{ x: -6, scale: 1.08 }}
-              whileTap={{ scale: 0.92 }}
-              transition={{ type: "spring", stiffness: 420, damping: 20 }}
-              className="pointer-events-none absolute left-0 top-1/2 z-20 hidden -translate-x-10 -translate-y-1/2 items-center justify-center bg-transparent p-0 text-gray-400 opacity-0 transition-colors duration-300 hover:text-[#b86c2b] group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100 lg:flex"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              className="hidden lg:flex absolute -left-5 top-1/2 -translate-y-1/2 z-20 items-center justify-center w-10 h-10 rounded-full transition-all duration-300"
+              style={{ background: "rgba(255,255,255,0.9)", border: "1px solid rgba(222,210,194,0.6)", boxShadow: "0 2px 8px rgba(92,61,30,0.08)", color: "#8B5E3C" }}
             >
-              <ChevronLeft className="h-9 w-9" strokeWidth={1.5} />
+              <ChevronLeft className="w-5 h-5" strokeWidth={1.5} />
             </motion.button>
 
             <motion.button
               type="button"
-              aria-label="Next testimonials"
+              aria-label="Next"
               onClick={showNextTestimonials}
-              whileHover={{ x: 6, scale: 1.08 }}
-              whileTap={{ scale: 0.92 }}
-              transition={{ type: "spring", stiffness: 420, damping: 20 }}
-              className="pointer-events-none absolute right-0 top-1/2 z-20 hidden translate-x-10 -translate-y-1/2 items-center justify-center bg-transparent p-0 text-gray-800 opacity-0 transition-colors duration-300 hover:text-[#b86c2b] group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100 lg:flex"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              className="hidden lg:flex absolute -right-5 top-1/2 -translate-y-1/2 z-20 items-center justify-center w-10 h-10 rounded-full transition-all duration-300"
+              style={{ background: "rgba(255,255,255,0.9)", border: "1px solid rgba(222,210,194,0.6)", boxShadow: "0 2px 8px rgba(92,61,30,0.08)", color: "#8B5E3C" }}
             >
-              <ChevronRight className="h-9 w-9" strokeWidth={1.5} />
+              <ChevronRight className="w-5 h-5" strokeWidth={1.5} />
             </motion.button>
 
-            <div className="grid grid-cols-1 gap-7 overflow-hidden py-1 md:grid-cols-3">
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-3 overflow-hidden">
               <AnimatePresence initial={false} mode="popLayout" custom={testimonialDirection}>
-                {visibleTestimonials.map((testimonial) => (
+                {visibleTestimonials.map((testimonial, i) => (
                   <motion.article
                     layout
                     key={testimonial.id}
@@ -446,31 +449,51 @@ export default function Home() {
                     initial={{ opacity: 0, x: testimonialDirection * 28 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: testimonialDirection * -28 }}
-                    whileHover={{ y: -2 }}
                     transition={{
                       layout: { duration: 0.48, ease: [0.22, 1, 0.36, 1] },
-                      opacity: { duration: 0.22, ease: "easeOut" },
+                      opacity: { duration: 0.22 },
                       x: { duration: 0.48, ease: [0.22, 1, 0.36, 1] },
-                      y: { duration: 0.2, ease: "easeOut" },
                     }}
-                    className="flex aspect-square min-h-[0] transform-gpu flex-col items-center justify-center rounded-[10px] border border-gray-200 bg-white px-6 py-6 text-center shadow-[0_2px_14px_rgba(0,0,0,0.08)] transition-shadow duration-300 hover:shadow-[0_8px_22px_rgba(0,0,0,0.1)]"
+                    className="group flex flex-col rounded-2xl p-6 transition-all duration-500 hover:-translate-y-2 hover:shadow-xl"
+                    style={{
+                      background: "#FFFFFF",
+                      border: "1px solid rgba(222, 210, 194, 0.6)",
+                      boxShadow: "0 2px 16px rgba(92, 61, 30, 0.06)",
+                    }}
                   >
-                    <img
-                      src={testimonial.avatar}
-                      alt={testimonial.author}
-                      className="mb-5 h-[76px] w-[76px] rounded-full object-cover shadow-[0_8px_18px_rgba(0,0,0,0.1)]"
-                      loading="lazy"
-                      decoding="async"
-                    />
+                    {/* Quote icon */}
+                    <div className="mb-4" style={{ color: "rgba(139,94,60,0.15)" }}>
+                      <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+                      </svg>
+                    </div>
 
-                    <p className="mx-auto mb-4 max-w-[285px] font-sans text-[14px] font-semibold leading-[1.5] tracking-normal text-[#666]">
+                    {/* Content */}
+                    <p className="flex-1 mb-5" style={{ fontSize: "13px", fontWeight: 400, color: "#6B5744", lineHeight: 1.7 }}>
                       {testimonial.content}
                     </p>
 
-                    <p className="font-sans text-[14px] font-semibold tracking-normal text-[#222]">
-                      {testimonial.author}
-                      <span className="font-normal text-[#888]"> - {testimonial.role}</span>
-                    </p>
+                    {/* Amber accent line */}
+                    <div className="mb-5 w-8 h-0.5 rounded-full transition-all duration-500 group-hover:w-12" style={{ background: "rgba(139,94,60,0.25)" }} />
+
+                    {/* Author */}
+                    <div className="flex items-center gap-3">
+                      <img
+                        src={testimonial.avatar}
+                        alt={testimonial.author}
+                        className="w-11 h-11 rounded-full object-cover"
+                        style={{ boxShadow: "0 4px 12px rgba(92,61,30,0.12)" }}
+                        loading="lazy"
+                      />
+                      <div>
+                        <p style={{ fontSize: "13px", fontWeight: 700, color: "#1C1007" }}>
+                          {testimonial.author}
+                        </p>
+                        <p style={{ fontSize: "11px", fontWeight: 400, color: "#A08060" }}>
+                          {testimonial.role}
+                        </p>
+                      </div>
+                    </div>
                   </motion.article>
                 ))}
               </AnimatePresence>
@@ -480,27 +503,37 @@ export default function Home() {
       </section>
 
       {/* Partners Section */}
-      <section id="partners" className="py-14 md:py-18 bg-[#f7f7f7]">
-        <div className="container mx-auto px-4">
+      <section id="partners" className="relative py-16 md:py-20 bg-white overflow-hidden">
+        {/* Background patterns */}
+        <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: "radial-gradient(circle, rgba(139,94,60,0.04) 1px, transparent 1px)", backgroundSize: "24px 24px" }} />
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#8B5E3C]/20 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#8B5E3C]/20 to-transparent" />
 
-          {/* Title — bold amber with side lines */}
+        <div className="relative z-10">
+          {/* Header */}
           <motion.div
-            initial={{ opacity: 0, y: -16 }}
+            initial={{ opacity: 0, y: -20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="mb-10 flex items-center justify-center gap-4"
+            transition={{ duration: 0.6 }}
+            className="text-center mb-12 container mx-auto px-4"
           >
-            <span className="h-px w-40 bg-amber-800/70 md:w-60" />
-            <h2 className="whitespace-nowrap text-center text-2xl font-extrabold uppercase tracking-[0.12em] text-amber-700 md:text-3xl">
-              Đối Tác Của Chúng Tôi
-            </h2>
-            <span className="h-px w-40 bg-amber-800/70 md:w-60" />
+            <div className="flex items-center justify-center gap-4 mb-3">
+              <span className="h-px w-20 md:w-32" style={{ background: "#C8A882" }} />
+              <h2 style={{ fontSize: "14px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.25em", color: "#8B5E3C", margin: 0, whiteSpace: "nowrap" }}>
+                Đối tác
+              </h2>
+              <span className="h-px w-20 md:w-32" style={{ background: "#C8A882" }} />
+            </div>
+            <p style={{ fontSize: "clamp(1.6rem, 3vw, 2.2rem)", fontWeight: 700, lineHeight: 1.3, color: "#1C1007" }}>
+              Niềm tin từ các thương hiệu lớn
+            </p>
           </motion.div>
 
-          {/* Logo carousel — 6 per page, auto-scroll every 5s */}
-          <PartnerCarousel />
-
+          {/* Logo carousel — full width for marquee */}
+          <div className="px-4 md:px-8">
+            <PartnerCarousel />
+          </div>
         </div>
       </section>
 
@@ -614,14 +647,9 @@ export default function Home() {
                   />
                 </div>
 
-                <motion.button
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
-                  type="submit"
-                  className="mt-4 inline-flex w-fit cursor-pointer items-center justify-center border border-amber-800 bg-amber-800 backdrop-blur-md px-6 py-2.5 text-sm font-medium text-white shadow-[0_4px_16px_rgba(0,0,0,0.08)] transition-all duration-500 hover:bg-amber-900 hover:border-amber-900 rounded-lg"
-                >
+                <WarmButton type="submit" size="md">
                   Gửi Ngay
-                </motion.button>
+                </WarmButton>
               </form>
             </motion.div>
 
@@ -667,95 +695,7 @@ export default function Home() {
 
 
       {/* Footer */}
-      <div className="h-10 bg-white md:h-14" />
-      <footer className="duky-footer relative overflow-hidden bg-[#b86c2b] text-white">
-        <div className="pointer-events-none absolute inset-0 opacity-20">
-          <div className="h-full w-full bg-[radial-gradient(circle_at_12%_10%,rgba(255,255,255,0.2)_0,rgba(255,255,255,0.2)_6%,transparent_7%),radial-gradient(circle_at_90%_8%,rgba(255,255,255,0.18)_0,rgba(255,255,255,0.18)_2.6%,transparent_2.7%)]" />
-        </div>
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-[190px] bg-[url('/cityscape-bg.svg')] bg-bottom bg-repeat-x bg-[length:1300px_190px] opacity-35" />
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-[150px] bg-[url('/cityscape-bg.svg')] bg-bottom bg-repeat-x bg-[length:950px_150px] opacity-20 blur-[0.5px]" />
-        <div className="pointer-events-none absolute -right-16 -top-10 z-0 h-44 w-44 rounded-full bg-amber-200/12 blur-2xl" />
-
-        <div className="container relative z-10 mx-auto px-4 py-8 md:py-9">
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-6">
-            <div className="lg:col-span-4">
-              <img
-                src="/logo-white.png"
-                alt="Intem Cần Thơ"
-                className="mb-3 h-auto w-[180px] object-contain md:w-[210px]"
-              />
-              <p className="mb-5 max-w-[460px] text-sm font-medium leading-relaxed text-white md:text-base">
-                Intemcantho.vn (Duky Printing) chuyên in tem nhãn decal, tem bảo hành, tem chống giả tại Cần Thơ. Với
-                công nghệ in hiện đại và dịch vụ tận tâm, chúng tôi giúp sản phẩm của bạn nổi bật và chuyên nghiệp hơn.
-              </p>
-
-              <ul className="space-y-2 text-xs font-medium text-white md:text-sm">
-                <li className="flex items-start gap-3">
-                  <Send className="mt-0.5 h-4 w-4 shrink-0" />
-                  <span>Lầu 1, số 122 Nguyễn Hiền, P. Tân An, TP. Cần Thơ</span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <Phone className="h-4 w-4 shrink-0" />
-                  <a href="tel:0985463403" className="transition-colors hover:text-amber-100">0985 463 403</a>
-                </li>
-                <li className="flex items-center gap-3">
-                  <Mail className="h-4 w-4 shrink-0" />
-                  <a href="mailto:thanhngan989@gmail.com" className="transition-colors hover:text-amber-100">thanhngan989@gmail.com</a>
-                </li>
-              </ul>
-            </div>
-
-            <div className="lg:col-span-2 lg:pt-5">
-              <h4 className="mb-3 !text-lg font-semibold uppercase tracking-[0.03em] text-white md:!text-xl">CHÍNH SÁCH</h4>
-              <ul className="space-y-2 text-xs font-medium text-white md:text-sm">
-                <li><a href="#" className="transition-colors hover:text-amber-100">Qui Định Sử Dụng</a></li>
-                <li><a href="#" className="transition-colors hover:text-amber-100">Bảo Mật Thông Tin</a></li>
-                <li><a href="#" className="transition-colors hover:text-amber-100">Chính sách vận chuyển</a></li>
-                <li><a href="#" className="transition-colors hover:text-amber-100">Đổi Trả Và Hoàn Tiền</a></li>
-              </ul>
-            </div>
-
-            <div className="lg:col-span-2 lg:pt-5">
-              <h4 className="mb-3 !text-lg font-semibold uppercase tracking-[0.03em] text-white md:!text-xl">TRUY CẬP</h4>
-              <ul className="space-y-2 text-xs font-medium text-white md:text-sm">
-                <li><a href="#" className="transition-colors hover:text-amber-100">Ấn phẩm văn phòng</a></li>
-                <li><a href="#" className="transition-colors hover:text-amber-100">Ấn phẩm tiếp thị</a></li>
-                <li><a href="#" className="transition-colors hover:text-amber-100">Ấn Phẩm bao bì</a></li>
-                <li><a href="#" className="transition-colors hover:text-amber-100">Kinh nghiệm</a></li>
-                <li><a href="#" className="transition-colors hover:text-amber-100">Liên hệ</a></li>
-              </ul>
-            </div>
-
-            <div className="lg:col-span-4 lg:pt-1">
-              <div className="mb-4 overflow-hidden rounded-sm border border-white/40 bg-white/90 shadow-xl">
-                <iframe
-                  title="Bản đồ Duky Printing"
-                  src="https://www.google.com/maps?q=122%20Nguyen%20Hien%2C%20Tan%20An%2C%20Can%20Tho&z=16&output=embed"
-                  className="h-[210px] w-full md:h-[240px]"
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                />
-              </div>
-
-              <div className="flex flex-wrap items-center gap-3">
-                <button className="rounded bg-gradient-to-b from-amber-200 to-amber-500 px-6 py-2 text-xs font-semibold text-white shadow-lg transition-transform hover:scale-105 md:text-sm">
-                  Tư vấn
-                </button>
-                <a href="#" aria-label="Facebook" className="flex h-10 w-10 items-center justify-center rounded-full bg-[#315C9E] text-base font-bold text-white">f</a>
-                <a href="#" aria-label="Instagram" className="flex h-10 w-10 items-center justify-center rounded-full bg-[#ff0f80] text-base font-bold text-white">i</a>
-                <a href="#" aria-label="YouTube" className="flex h-10 w-10 items-center justify-center rounded-full bg-[#d31616] text-base font-bold text-white">▶</a>
-                <a href="#" aria-label="Pinterest" className="flex h-10 w-10 items-center justify-center rounded-full bg-[#c70820] text-base font-bold text-white">p</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="relative z-10 border-t border-white/30">
-          <div className="container mx-auto flex items-center px-4 py-3">
-            <p className="text-xs font-medium text-white md:text-sm">Website designed by Duky Agency</p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
 
       {/* Onboarding Modal */}
       <OnboardingModal />

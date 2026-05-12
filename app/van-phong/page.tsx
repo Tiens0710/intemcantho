@@ -1,5 +1,6 @@
 "use client";
 
+import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronRight, Grid3x3, List, ShoppingCart, Heart, Search, Award, Headphones, Truck, ShieldCheck } from "lucide-react";
@@ -385,60 +386,8 @@ export default function OfficeProducts() {
         </div>
       </section>
 
-      {/* Footer - Upgraded to match Home */}
-      <footer className="bg-amber-900 text-white py-20 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10 pointer-events-none">
-          <div className="h-full w-full bg-[radial-gradient(circle_at_12%_10%,rgba(255,255,255,0.4)_0,rgba(255,255,255,0.2)_6%,transparent_7%)]" />
-        </div>
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
-            <div className="col-span-1 md:col-span-1">
-              <h3 className="text-2xl font-serif mb-6 text-amber-100">Duky Printing</h3>
-              <p className="text-amber-100/60 font-light text-sm leading-relaxed mb-8">
-                Chuyên in tem nhãn decal, tem bảo hành, tem chống giả tại Cần Thơ. Đưa thương hiệu của bạn vươn tầm cao mới.
-              </p>
-              <div className="flex gap-4">
-                <a href="#" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">f</a>
-                <a href="#" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">i</a>
-              </div>
-            </div>
-            <div>
-              <h4 className="font-bold mb-6 text-amber-200 text-xs uppercase tracking-widest">Truy cập</h4>
-              <ul className="space-y-4 text-sm text-amber-100/60 font-light">
-                <li><Link href="/" className="hover:text-white transition-colors">Trang chủ</Link></li>
-                <li><Link href="/tiep-thi" className="hover:text-white transition-colors">Ấn phẩm tiếp thị</Link></li>
-                <li><Link href="/bao-bi" className="hover:text-white transition-colors">Ấn phẩm bao bì</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-bold mb-6 text-amber-200 text-xs uppercase tracking-widest">Chính sách</h4>
-              <ul className="space-y-4 text-sm text-amber-100/60 font-light">
-                <li><a href="#" className="hover:text-white transition-colors">Qui định sử dụng</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Bảo mật thông tin</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Chính sách vận chuyển</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-bold mb-6 text-amber-200 text-xs uppercase tracking-widest">Liên hệ</h4>
-              <ul className="space-y-4 text-sm text-amber-100/60 font-light">
-                <li className="flex gap-3">
-                  <span className="opacity-50">Add:</span>
-                  122 Nguyễn Hiền, P. Tân An, Cần Thơ
-                </li>
-                <li className="flex gap-3">
-                  <span className="opacity-50">Tel:</span>
-                  <a href="tel:0985463403" className="hover:text-white transition-colors">0985 463 403</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div className="border-t border-white/10 mt-20 pt-8 text-center">
-            <p className="text-xs text-amber-100/40 font-light tracking-widest uppercase">
-              &copy; 2026 Duky Printing. All rights reserved.
-            </p>
-          </div>
-        </div>
-      </footer>
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }

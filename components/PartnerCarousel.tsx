@@ -1,102 +1,117 @@
 "use client";
 
 /**
- * PartnerCarousel — Hiển thị 6 logo/lần, tự cuộn mỗi 5s.
- * Dùng Framer Motion AnimatePresence cho hiệu ứng slide mượt.
+ * PartnerCarousel — Premium infinite marquee with refined glassmorphism cards,
+ * gradient borders, subtle shine effects, and elegant hover animations.
  */
 
-import { useCallback, useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 
 const PARTNERS = [
   { src: "/NHAT-TAM-e1761967849296.jpg", alt: "Nhất Tâm" },
-  { src: "/MTC-e1761967872338.jpg",      alt: "MTC Aquatic" },
-  { src: "/con-son-e1761967835576.jpg",   alt: "Con Sơn" },
-  { src: "/DXMT.jpg",                     alt: "Đất Xanh Miền Tây" },
+  { src: "/MTC-e1761967872338.jpg", alt: "MTC Aquatic" },
+  { src: "/con-son-e1761967835576.jpg", alt: "Con Sơn" },
+  { src: "/DXMT.jpg", alt: "Đất Xanh Miền Tây" },
   { src: "/logo-yumi-1-e1761967884425.png", alt: "Yumi Foods" },
   { src: "/logo-gia-phast-noong-e1761967914774.png", alt: "Gia Phát Nông" },
-  { src: "/VIET-ARGO-1.jpg",              alt: "Viet Argo" },
-  { src: "/FPT.jpg",                      alt: "FPT Polytechnic" },
+  { src: "/VIET-ARGO-1.jpg", alt: "Viet Argo" },
+  { src: "/FPT.jpg", alt: "FPT Polytechnic" },
 ];
 
-const PER_PAGE = 6;
-const TOTAL_PAGES = Math.ceil(PARTNERS.length / PER_PAGE);
+// Double the array for seamless infinite loop
+const DOUBLED = [...PARTNERS, ...PARTNERS];
 
 export default function PartnerCarousel() {
-  const [page, setPage] = useState(0);
-  const [direction, setDirection] = useState(1);
-
-  const next = useCallback(() => {
-    setDirection(1);
-    setPage((p) => (p + 1) % TOTAL_PAGES);
-  }, []);
-
-  // Auto-advance every 5s
-  useEffect(() => {
-    const id = setInterval(next, 5000);
-    return () => clearInterval(id);
-  }, [next]);
-
-  // Current visible logos
-  const start = page * PER_PAGE;
-  const visible = PARTNERS.slice(start, start + PER_PAGE);
-
-  // Slide animation variants
-  const variants = {
-    enter: (dir: number) => ({ x: dir > 0 ? 120 : -120, opacity: 0 }),
-    center: { x: 0, opacity: 1 },
-    exit:  (dir: number) => ({ x: dir > 0 ? -120 : 120, opacity: 0 }),
-  };
-
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-gray-200 bg-white px-6 py-10 shadow-sm md:px-10">
-      <AnimatePresence mode="wait" custom={direction}>
-        <motion.div
-          key={page}
-          custom={direction}
-          variants={variants}
-          initial="enter"
-          animate="center"
-          exit="exit"
-          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-          className="grid grid-cols-3 gap-8 md:grid-cols-6"
-        >
-          {visible.map((partner) => (
+    <div className="relative overflow-hidden py-4">
+      {/* ── Decorative ambient glows ── */}
+      <div
+        className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[300px] w-[80%] rounded-full opacity-30 blur-[80px]"
+        style={{ background: "radial-gradient(circle, rgba(196,168,130,0.2) 0%, transparent 70%)" }}
+      />
+
+      {/* ── Edge fades ── */}
+      <div className="pointer-events-none absolute inset-y-0 left-0 z-20 w-32" style={{ background: "linear-gradient(to right, #ffffff 0%, rgba(255,255,255,0.6) 40%, transparent 100%)" }} />
+      <div className="pointer-events-none absolute inset-y-0 right-0 z-20 w-32" style={{ background: "linear-gradient(to left, #ffffff 0%, rgba(255,255,255,0.6) 40%, transparent 100%)" }} />
+
+      {/* ── Scrolling strip ── */}
+      <motion.div
+        className="flex gap-6 md:gap-8"
+        animate={{ x: ["0%", "-50%"] }}
+        transition={{
+          x: {
+            repeat: Infinity,
+            repeatType: "loop",
+            duration: 35,
+            ease: "linear",
+          },
+        }}
+      >
+        {DOUBLED.map((partner, i) => (
+          <motion.div
+            key={`${partner.alt}-${i}`}
+            whileHover={{ y: -6 }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            className="group relative flex-shrink-0"
+          >
+            {/* ── Card with gradient border effect ── */}
             <div
-              key={partner.alt}
-              className="flex items-center justify-center px-2"
+              className="relative flex h-40 w-56 items-center justify-center overflow-hidden rounded-2xl md:h-48 md:w-64"
+              style={{
+                background: "#ffffff",
+                boxShadow: "0 4px 20px rgba(92,61,30,0.06), 0 1px 4px rgba(92,61,30,0.04)",
+              }}
             >
+              {/* Gradient border */}
+              <div
+                className="absolute inset-0 rounded-2xl p-[1.5px]"
+                style={{
+                  background: "linear-gradient(135deg, rgba(196,168,130,0.4) 0%, rgba(232,224,214,0.6) 50%, rgba(196,168,130,0.3) 100%)",
+                }}
+              >
+                <div className="h-full w-full rounded-[14px] bg-white" />
+              </div>
+
+              {/* Shine sweep on hover */}
+              <div
+                className="absolute inset-0 -translate-x-full skew-x-[-20deg] bg-gradient-to-r from-transparent via-white/40 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-full"
+              />
+
+              {/* Subtle warm glow on hover */}
+              <div
+                className="absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                style={{
+                  background: "radial-gradient(ellipse at center, rgba(196,168,130,0.08) 0%, transparent 70%)",
+                }}
+              />
+
+              {/* ── Logo ── */}
               <img
                 src={partner.src}
                 alt={partner.alt}
-                className="h-36 w-auto max-w-[260px] object-contain transition-transform duration-300 hover:scale-110 md:h-40"
+                className="relative z-10 h-24 w-auto max-w-[200px] object-contain transition-all duration-500 group-hover:scale-105 md:h-28 md:max-w-[220px]"
                 loading="lazy"
               />
-            </div>
-          ))}
-        </motion.div>
-      </AnimatePresence>
 
-      {/* Page dots */}
-      {TOTAL_PAGES > 1 && (
-        <div className="mt-8 flex items-center justify-center gap-2">
-          {Array.from({ length: TOTAL_PAGES }, (_, i) => (
-            <button
-              key={i}
-              onClick={() => {
-                setDirection(i > page ? 1 : -1);
-                setPage(i);
-              }}
-              className={`h-2 rounded-full transition-all duration-300 ${
-                i === page
-                  ? "w-6 bg-amber-700"
-                  : "w-2 bg-amber-700/25 hover:bg-amber-700/50"
-              }`}
-              aria-label={`Trang ${i + 1}`}
-            />
-          ))}
-        </div>
-      )}
+              {/* ── Brand name label ── */}
+              <div
+                className="absolute bottom-2.5 left-0 right-0 z-10 text-center opacity-0 transition-all duration-500 group-hover:opacity-100"
+              >
+                <span
+                  className="inline-block rounded-full px-3 py-0.5 text-[9px] font-bold uppercase tracking-[0.15em]"
+                  style={{
+                    color: "#8B5E3C",
+                    background: "rgba(245,240,232,0.9)",
+                    border: "1px solid rgba(196,168,130,0.2)",
+                  }}
+                >
+                  {partner.alt}
+                </span>
+              </div>
+            </div>
+          </motion.div>
+        ))}
+      </motion.div>
     </div>
   );
 }

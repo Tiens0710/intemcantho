@@ -56,22 +56,24 @@ export default function ProductGrid() {
   return (
     <section id="featured-products" className="py-0 md:py-0">
       <div className="container mx-auto px-4">
+        {/* Section Header — same style as "Dịch vụ nổi bật" */}
         <motion.div
           initial={{ opacity: 0, y: -18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="mx-auto mb-8 flex max-w-[28rem] flex-col items-center justify-center px-6 py-2 text-center"
+          className="text-center mb-10"
         >
-          <div className="mb-2 flex items-center gap-4 text-[0.65rem] uppercase tracking-[0.42em] text-amber-700/80">
-            <span className="h-px w-10 bg-amber-700/35" />
-            BEST SELLER
-            <span className="h-px w-10 bg-amber-700/35" />
+          <div className="flex items-center justify-center gap-4 mb-3">
+            <span className="h-px w-20 md:w-32 bg-amber-800/70" />
+            <h2 className="text-3xl md:text-4xl font-bold mb-0 whitespace-nowrap !text-amber-800">
+              SẢN PHẨM NỔI BẬT
+            </h2>
+            <span className="h-px w-20 md:w-32 bg-amber-800/70" />
           </div>
-          <h2 className="font-sans text-4xl font-semibold uppercase tracking-wide md:text-5xl">
-            BEST SELLER
-          </h2>
-          <span className="mt-4 h-[3px] w-14 bg-amber-700" />
+          <p className="text-sm md:text-base text-gray-500 font-light max-w-xl mx-auto">
+            Các sản phẩm được khách hàng yêu thích và đặt in nhiều nhất
+          </p>
         </motion.div>
 
         {/* Loading State */}
@@ -80,7 +82,7 @@ export default function ProductGrid() {
             <motion.div
               animate={{ rotate: 360 }}
               transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-              className="w-12 h-12 rounded-full border-4 border-primary/20 border-t-primary"
+              className="w-12 h-12 rounded-full border-4 border-amber-200 border-t-amber-700"
             />
           </div>
         )}
@@ -100,50 +102,139 @@ export default function ProductGrid() {
                   key={product.id}
                   variants={itemVariants}
                   transition={itemTransition}
-                  className="group flex h-full flex-col border border-[#e8e8e8] bg-white transition-transform duration-300 hover:shadow-md"
+                  className="group flex h-full flex-col rounded-2xl overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-xl"
+                  style={{
+                    background: "#FFFFFF",
+                    border: "1px solid rgba(222, 210, 194, 0.6)",
+                    boxShadow: "0 2px 16px rgba(92, 61, 30, 0.06)",
+                  }}
                 >
-                  <div className="relative bg-[#f0f0f0]">
+                  {/* Image Area */}
+                  <div className="relative overflow-hidden" style={{ background: "linear-gradient(180deg, #FBF8F4 0%, #F5F0E8 100%)" }}>
                     <button
                       type="button"
                       aria-label="Yêu thích sản phẩm"
-                      className="absolute right-4 top-4 z-10 flex items-center justify-center rounded-full p-1 text-gray-500 transition-colors hover:text-rose-500"
+                      className="absolute right-3 top-3 z-10 flex items-center justify-center rounded-full w-9 h-9 text-gray-400 transition-all duration-300 hover:text-rose-500 hover:scale-110"
+                      style={{
+                        background: "rgba(255,255,255,0.85)",
+                        backdropFilter: "blur(8px)",
+                        boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+                      }}
                     >
-                      <Heart className="h-5 w-5" strokeWidth={1.5} />
+                      <Heart className="h-4 w-4" strokeWidth={1.5} />
                     </button>
 
-                    <div className="flex h-[250px] items-center justify-center px-4 py-5 md:h-[280px]">
-                      <motion.img
+                    <div className="flex h-[220px] items-center justify-center px-6 py-5">
+                      <img
                         src={product.image}
                         alt={product.title}
-                        className="max-h-full max-w-full object-contain"
-                        whileHover={{ scale: 1.02 }}
-                        transition={{ duration: 0.3 }}
+                        className="max-h-full max-w-full object-contain group-hover:scale-110 transition-transform duration-700 ease-out"
+                        loading="lazy"
                       />
                     </div>
                   </div>
 
-                  <div className="flex-1 flex flex-col px-4 py-4 text-left md:px-5">
-                    <h3 className="mb-3 font-sans text-base md:text-base font-bold leading-snug !text-black whitespace-normal min-h-[3rem]">
+                  {/* Content Area */}
+                  <div className="flex-1 flex flex-col p-5">
+                    <p
+                      className="mb-1.5"
+                      style={{
+                        fontSize: "10px",
+                        fontWeight: 700,
+                        textTransform: "uppercase",
+                        letterSpacing: "0.15em",
+                        color: "#A08060",
+                      }}
+                    >
+                      {product.category === "office-products" ? "Văn phòng" : product.category}
+                    </p>
+                    <h3
+                      className="mb-2 line-clamp-2"
+                      style={{
+                        fontSize: "15px",
+                        fontWeight: 700,
+                        color: "#1C1007",
+                        lineHeight: 1.4,
+                      }}
+                    >
                       {product.title}
                     </h3>
-                    <Link
-                      href={`/san-pham/${product.id}`}
-                      className="group/btn relative mt-auto inline-flex items-center justify-center overflow-hidden rounded-lg bg-amber-600 px-6 py-2.5 text-sm font-medium text-white transition-all hover:bg-amber-700 active:scale-95"
+                    <p
+                      className="mb-4 line-clamp-2"
+                      style={{
+                        fontSize: "12px",
+                        fontWeight: 400,
+                        color: "#7A6A58",
+                        lineHeight: 1.6,
+                      }}
                     >
-                      <span className="text-white transition-opacity duration-200 group-hover/btn:opacity-0">
-                        Đọc thêm
+                      {product.description}
+                    </p>
+
+                    {/* Amber accent line */}
+                    <div
+                      className="mb-4 w-8 h-0.5 rounded-full transition-all duration-500 group-hover:w-12"
+                      style={{ background: "rgba(139,94,60,0.25)" }}
+                    />
+
+                    <div className="mt-auto flex items-center justify-between">
+                      <span style={{ fontSize: "14px", fontWeight: 800, color: "#5C3D1E" }}>
+                        {product.price.includes("$") ? product.price : `${parseInt(product.price).toLocaleString("vi-VN")}đ`}
                       </span>
-                      <ShoppingCart className="absolute h-5 w-5 text-white opacity-0 transition-opacity duration-200 group-hover/btn:opacity-100" />
-                    </Link>
+                      <Link
+                        href={`/san-pham/${product.id}`}
+                        className="flex items-center justify-center transition-all duration-300 group-hover:scale-110"
+                        style={{
+                          width: "36px",
+                          height: "36px",
+                          borderRadius: "50%",
+                          border: "1.5px solid #8B5E3C",
+                          color: "#8B5E3C",
+                          background: "transparent",
+                        }}
+                        onMouseEnter={(e) => { e.currentTarget.style.background = "#8B5E3C"; e.currentTarget.style.color = "#FFFFFF"; }}
+                        onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#8B5E3C"; }}
+                      >
+                        <svg
+                          width="14"
+                          height="14"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path d="M5 12h14" />
+                          <path d="m12 5 7 7-7 7" />
+                        </svg>
+                      </Link>
+                    </div>
                   </div>
                 </motion.div>
               ))}
             </motion.div>
 
-            <div className="mt-12 flex justify-center md:mt-16">
-              <button className="rounded-full border border-[#6b6b6b] px-8 py-3 text-sm font-medium text-[#333333] transition-colors hover:bg-amber-600 hover:!text-white hover:border-amber-600">
-                Khám phá thêm
-              </button>
+            <div className="mt-10 flex justify-center">
+              <Link
+                href="/van-phong"
+                className="inline-flex items-center gap-2 px-8 py-3 border-2 border-amber-800 text-amber-800 font-semibold rounded-full transition-all duration-300 hover:bg-amber-800 hover:text-white"
+              >
+                Xem tất cả sản phẩm
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </svg>
+              </Link>
             </div>
           </>
         )}
@@ -155,8 +246,8 @@ export default function ProductGrid() {
             animate={{ opacity: 1 }}
             className="text-center py-12"
           >
-            <p className="text-lg text-muted-foreground">
-              Không có sản phẩm nào được đề xuất. Vui lòng chọn loại hình kinh doanh của bạn.
+            <p className="text-lg text-gray-500">
+              Không có sản phẩm nào được đề xuất.
             </p>
           </motion.div>
         )}

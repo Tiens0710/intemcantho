@@ -33,10 +33,19 @@ export default function RootLayout({
         */}
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Geist:wght@400;500;600;700&family=Great+Vibes&family=Lato:wght@300;400;500;700&family=Manrope:wght@300;400;500;600;700&family=Nunito:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Nunito:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap"
         />
       </head>
       <body className="min-h-screen bg-white text-gray-900" style={{ fontFamily: "'Nunito', Arial, Helvetica, sans-serif" }} suppressHydrationWarning>
+        {/* SVG Noise Filter for Frosted Glass effect */}
+        <svg className="fixed w-0 h-0" aria-hidden="true">
+          <defs>
+            <filter id="noise">
+              <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" />
+              <feColorMatrix type="saturate" values="0" />
+            </filter>
+          </defs>
+        </svg>
         <CustomCursor />
         {children}
       </body>

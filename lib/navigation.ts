@@ -34,7 +34,7 @@ export const navigationData: NavItem[] = [
       },
       columns: [
         {
-          title: "DANH THIẾP - NAMECARD",
+          title: "DANH THIẾP",
           items: [
             { label: "Danh thiếp kỹ thuật số", href: "/van-phong" },
             { label: "Danh thiếp in nhanh", href: "/van-phong" },
