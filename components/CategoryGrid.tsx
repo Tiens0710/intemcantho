@@ -1,90 +1,219 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
+import type { LucideIcon } from "lucide-react";
+import {
+  ArrowRight,
+  BookOpen,
+  Check,
+  Clock,
+  FileText,
+  Flag,
+  IdCard,
+  Layers,
+  Package,
+  Sparkles,
+  Star,
+  Tag,
+  Zap,
+} from "lucide-react";
 
-const CATEGORIES = [
-  { id: 1, label: "Bìa Đựng Hồ Sơ", slug: "bia-dung-ho-so", image: "/2.jpg" },
-  { id: 2, label: "Danh Thiếp", slug: "danh-thiep", image: "/34.jpg" },
-  { id: 3, label: "Vé", slug: "ve", image: "/214-1.jpg" },
-  { id: 4, label: "Tờ Gấp", slug: "to-gap", image: "/2.jpg" },
-  { id: 5, label: "Poster", slug: "poster", image: "/219.jpg" },
-  { id: 6, label: "Hộp Giấy", slug: "hop-giay", image: "/34.jpg" },
-  { id: 7, label: "Túi Giấy", slug: "tui-giay", image: "/214-1.jpg" },
-  { id: 8, label: "Biểu Mẫu", slug: "bieu-mau", image: "/2.jpg" },
-  { id: 9, label: "Thẻ Nhựa", slug: "the-nhua", image: "/180-1.jpg" },
-  { id: 10, label: "Thực Đơn", slug: "thuc-don", image: "/247.jpg" },
-  { id: 11, label: "Giấy Tiêu Đề", slug: "giay-tieu-de", image: "/34.jpg" },
-  { id: 12, label: "Bao Thư", slug: "bao-thu", image: "/2.jpg" },
-  { id: 13, label: "Tờ Rơi", slug: "to-roi", image: "/214-1.jpg" },
-  { id: 14, label: "Catalogue", slug: "catalogue", image: "/219.jpg" },
-  { id: 15, label: "Phiếu Quà Tặng", slug: "phieu-qua-tang", image: "/180-1.jpg" },
-  { id: 16, label: "Nhãn Dán", slug: "nhan-dan", image: "/34.jpg" },
-  { id: 17, label: "Mác Sản Phẩm", slug: "mac-san-pham", image: "/247.jpg" },
-  { id: 18, label: "Giấy Ghi Chú", slug: "giay-ghi-chu", image: "/2.jpg" },
-  { id: 19, label: "Phiếu Bảo Hành", slug: "phieu-bao-hanh", image: "/214-1.jpg" },
-  { id: 20, label: "Thiệp Mời", slug: "thiep-moi", image: "/180-1.jpg" },
+type ServiceHighlight = {
+  icon: LucideIcon;
+  label: string;
+};
+
+type Service = {
+  id: string;
+  title: string;
+  description: string;
+  href: string;
+  cta: string;
+  image: string;
+  imageAlt: string;
+  icon: LucideIcon;
+  highlights: ServiceHighlight[];
+};
+
+const SERVICES: Service[] = [
+  {
+    id: "tem-nhan",
+    title: "In tem nhãn",
+    description: "Tem chai lọ, tem hộp, sticker, decal giấy và decal nhựa cho sản phẩm.",
+    href: "/danh-muc/nhan-dan",
+    cta: "Báo giá tem nhãn",
+    image: "/danhmuc1.png",
+    imageAlt: "In tem nhãn",
+    icon: Tag,
+    highlights: [
+      { icon: Sparkles, label: "In số lượng ít" },
+      { icon: Star, label: "Thiết kế đẹp" },
+    ],
+  },
+  {
+    id: "standee",
+    title: "In standee khổ lớn",
+    description: "Standee khai trương, sự kiện, quảng cáo cửa hàng và showroom.",
+    href: "/danh-muc/poster",
+    cta: "Xem mẫu standee",
+    image: "/danhmuc2.png",
+    imageAlt: "In standee khổ lớn",
+    icon: Flag,
+    highlights: [
+      { icon: Check, label: "Màu sắc nét" },
+      { icon: Zap, label: "Dựng nhanh" },
+    ],
+  },
+  {
+    id: "brochure",
+    title: "In brochure / tờ gấp",
+    description: "Brochure giới thiệu công ty, sản phẩm, menu và profile bán hàng.",
+    href: "/danh-muc/to-gap",
+    cta: "Xem mẫu brochure",
+    image: "/danhmuc3.png",
+    imageAlt: "In brochure",
+    icon: BookOpen,
+    highlights: [
+      { icon: Layers, label: "Gấp 2 / gấp 3" },
+      { icon: Star, label: "Thiết kế chuyên nghiệp" },
+    ],
+  },
+  {
+    id: "to-roi",
+    title: "In tờ rơi",
+    description: "Tờ rơi quảng cáo, khai trương, khuyến mãi, spa và bất động sản.",
+    href: "/danh-muc/to-roi",
+    cta: "Nhận báo giá",
+    image: "/danhmuc4.png",
+    imageAlt: "In tờ rơi",
+    icon: FileText,
+    highlights: [
+      { icon: Clock, label: "In nhanh" },
+      { icon: Star, label: "Giá tốt" },
+    ],
+  },
+  {
+    id: "bao-bi",
+    title: "In bao bì",
+    description: "Hộp giấy, túi giấy, nhãn hộp và bao bì sản phẩm cho thương hiệu.",
+    href: "/danh-muc/hop-giay",
+    cta: "Tư vấn bao bì",
+    image: "/danhmuc5.png",
+    imageAlt: "In bao bì",
+    icon: Package,
+    highlights: [
+      { icon: Check, label: "Tư vấn chất liệu" },
+      { icon: Layers, label: "Đồng bộ nhận diện" },
+    ],
+  },
+  {
+    id: "danh-thiep",
+    title: "In danh thiếp",
+    description: "Name card cá nhân, doanh nghiệp, sales, spa, nhà hàng và showroom.",
+    href: "/danh-muc/danh-thiep",
+    cta: "Làm name card ngay",
+    image: "/danhmuc6.png",
+    imageAlt: "In danh thiếp",
+    icon: IdCard,
+    highlights: [
+      { icon: Check, label: "Cán mờ / cán bóng" },
+      { icon: Sparkles, label: "Ép kim nếu cần" },
+    ],
+  },
 ];
 
 export default function CategoryGrid() {
   return (
-    <section id="categories" className="relative pt-10 pb-24 md:pt-14 md:pb-32 bg-white overflow-hidden">
-      {/* Rotating ring — top right */}
-      <motion.div animate={{ rotate: 360 }} transition={{ duration: 30, repeat: Infinity, ease: "linear" }} className="absolute -top-16 -right-16 w-60 h-60 rounded-full pointer-events-none" style={{ border: "1px solid rgba(139,94,60,0.06)" }} />
-      <motion.div animate={{ rotate: -360 }} transition={{ duration: 40, repeat: Infinity, ease: "linear" }} className="absolute -bottom-20 -left-20 w-48 h-48 rounded-full pointer-events-none" style={{ border: "1px dashed rgba(139,94,60,0.05)" }} />
-
-      {/* Floating diamond shape */}
-      <motion.div animate={{ y: [-8, 8, -8], rotate: [0, 45, 0] }} transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }} className="absolute top-[20%] left-[8%] w-5 h-5 pointer-events-none" style={{ background: "rgba(139,94,60,0.04)", transform: "rotate(45deg)" }} />
-      <motion.div animate={{ y: [6, -6, 6], rotate: [45, 0, 45] }} transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }} className="absolute bottom-[25%] right-[6%] w-4 h-4 pointer-events-none" style={{ background: "rgba(139,94,60,0.05)", transform: "rotate(45deg)" }} />
-
-      {/* Animated plus signs */}
-      <motion.div animate={{ opacity: [0.03, 0.08, 0.03], rotate: [0, 90, 0] }} transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }} className="absolute top-[35%] right-[12%] pointer-events-none">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#8B5E3C" strokeWidth="1"><line x1="10" y1="2" x2="10" y2="18" /><line x1="2" y1="10" x2="18" y2="10" /></svg>
-      </motion.div>
-      <motion.div animate={{ opacity: [0.04, 0.1, 0.04], rotate: [45, 135, 45] }} transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 3 }} className="absolute bottom-[30%] left-[10%] pointer-events-none">
-        <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="#8B5E3C" strokeWidth="1"><line x1="10" y1="2" x2="10" y2="18" /><line x1="2" y1="10" x2="18" y2="10" /></svg>
-      </motion.div>
-
-      {/* Horizontal scanning line */}
-      <motion.div animate={{ x: ["-100%", "200%"] }} transition={{ duration: 8, repeat: Infinity, ease: "linear", repeatDelay: 4 }} className="absolute top-[60%] left-0 w-32 h-px pointer-events-none" style={{ background: "linear-gradient(90deg, transparent, rgba(139,94,60,0.08), transparent)" }} />
-
-      {/* Gradient lines */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#8B5E3C]/20 to-transparent" />
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#8B5E3C]/20 to-transparent" />
+    <section id="categories" className="relative overflow-hidden bg-white py-12 md:py-16">
+      <div className="absolute inset-0" style={{ backgroundImage: "none" }} />
+      <div className="absolute -top-24 -right-24 h-64 w-64 rounded-full bg-[#FFFEFD] opacity-0" />
+      <div className="absolute -bottom-24 -left-16 h-56 w-56 rounded-full bg-[#FFFFFF] opacity-0" />
 
       <div className="container mx-auto px-4 relative z-10">
-        <motion.div initial={{ opacity: 0, y: -30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-8 md:mb-10">
-          <div className="flex items-center justify-center gap-4 mb-3">
-            <span className="h-px w-20 md:w-32 bg-amber-800/70" />
-            <h2 className="text-3xl md:text-4xl font-bold mb-0 whitespace-nowrap !text-amber-800">DANH MỤC SẢN PHẨM</h2>
-            <span className="h-px w-20 md:w-32 bg-amber-800/70" />
-          </div>
-          <p className="text-sm md:text-base text-gray-500 font-light max-w-xl mx-auto">Khám phá đa dạng danh mục sản phẩm in ấn — Từ danh thiếp đến bao bì, đáp ứng mọi nhu cầu</p>
-        </motion.div>
-
-        <div className="grid grid-cols-4 md:grid-cols-5 xl:grid-cols-10">
-          {CATEGORIES.map((cat, index) => (
-            <motion.div key={cat.id} initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.02, duration: 0.3 }}>
-              <Link
-                href={`/danh-muc/${cat.slug}`}
-                className="group flex flex-col items-center justify-center transition-all duration-300 hover:bg-amber-50/40"
-                style={{ padding: "20px 8px", borderRight: "1px solid #E8E8E8", borderBottom: index < 10 ? "1px solid #E8E8E8" : "none" }}
-              >
-                <div className="mb-3 overflow-hidden transition-transform duration-400 group-hover:scale-110" style={{ width: "90px", height: "90px", borderRadius: "5px", boxShadow: "0 2px 10px rgba(92,61,30,0.08)" }}>
-                  <img src={cat.image} alt={cat.label} className="w-full h-full object-cover" />
-                </div>
-                <span style={{ fontSize: "12px", fontWeight: 700, color: "#3D2E1E", textAlign: "center", lineHeight: 1.3 }}>{cat.label}</span>
-              </Link>
-            </motion.div>
-          ))}
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+          <motion.div initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
+            <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-[#2C1A10]">
+              DỊCH VỤ IN ẤN CỦA <span className="text-[#E6792A]">INTEM CẦN THƠ</span>
+            </h2>
+            <p className="mt-2 text-sm md:text-base text-[#7B6758] max-w-2xl">
+              Giải pháp in ấn nhanh, đẹp và đồng bộ cho shop, doanh nghiệp và thương hiệu địa phương.
+            </p>
+          </motion.div>
+          <Link
+            href="/van-phong"
+            className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2 text-[13px] font-semibold text-[#E6792A] shadow-[0_10px_24px_-18px_rgba(198,106,39,0.8)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#FFF4EC]"
+            style={{
+              border: "1.5px solid rgba(230, 121, 42, 0.28)",
+              boxShadow: "0 0 0 1px rgba(230,121,42,0.18), 0 0 16px rgba(230,121,42,0.1)",
+            }}
+          >
+            Xem tất cả dịch vụ
+            <ArrowRight className="h-4 w-4" />
+          </Link>
         </div>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }} className="flex justify-center mt-12">
-          <Link href="/van-phong" className="inline-flex items-center gap-2 px-8 py-3 border-2 border-amber-800 text-amber-800 font-semibold rounded-full transition-all duration-300 hover:bg-amber-800 hover:text-white">
-            Xem tất cả danh mục
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
-          </Link>
-        </motion.div>
+        <div className="mt-7 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+          {SERVICES.map((service, index) => (
+            <motion.article
+              key={service.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: index * 0.05 }}
+              className="group relative overflow-visible rounded-xl p-4"
+              style={{
+                background: "rgba(255, 255, 255, 0.86)",
+                border: "1.5px solid rgba(230, 121, 42, 0.28)",
+                boxShadow:
+                  "0 0 0 1px rgba(230,121,42,0.18), 0 0 18px rgba(230,121,42,0.12), 0 18px 36px -24px rgba(176,108,51,0.5), inset 0 1px 0 rgba(255,255,255,0.6)",
+                backdropFilter: "blur(10px)",
+                WebkitBackdropFilter: "blur(10px)",
+              }}
+            >
+              <div className="absolute inset-2 rounded-xl overflow-hidden pointer-events-none">
+                <div className="absolute right-2 top-8 h-32 w-32 rounded-full bg-[#FDF2EA]" />
+              </div>
+              <div className="relative z-10 pr-28 sm:pr-32">
+                <div>
+                  <div className="mb-3 inline-flex h-9 w-9 items-center justify-center rounded-lg bg-[#FFF3EA] text-[#E6792A] shadow-[inset_0_0_0_1px_rgba(230,121,42,0.18)]">
+                    <service.icon className="h-4 w-4" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-[#2C1A10]">{service.title}</h3>
+                  <p className="mt-2 text-sm text-[#6F5B4E]">{service.description}</p>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {service.highlights.map((highlight) => (
+                      <span
+                        key={highlight.label}
+                        className="inline-flex items-center gap-2 rounded-full bg-[#FFF7F1] px-2 py-0.5 text-xs font-semibold text-[#8B6A52]"
+                      >
+                        <highlight.icon className="h-3.5 w-3.5 text-[#E6792A]" />
+                        {highlight.label}
+                      </span>
+                    ))}
+                  </div>
+                  <Link
+                    href={service.href}
+                    className="mt-4 inline-flex items-center gap-2 rounded-full bg-[#E6792A] px-3.5 py-1.5 text-xs font-semibold text-white shadow-[0_10px_20px_-14px_rgba(230,121,42,0.75)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#D26D23]"
+                  >
+                    {service.cta}
+                    <ArrowRight className="h-4 w-4" />
+                  </Link>
+                </div>
+              </div>
+              <div className="absolute -right-3 top-1/2 z-20 h-32 w-32 -translate-y-1/2 translate-x-6 sm:-right-4 sm:h-60 sm:w-60 sm:translate-x-8">
+                <Image
+                  src={service.image}
+                  alt={service.imageAlt}
+                  width={160}
+                  height={160}
+                  className="relative z-10 h-full w-full object-contain drop-shadow-[0_10px_16px_rgba(150,89,38,0.22)]"
+                />
+              </div>
+            </motion.article>
+          ))}
+        </div>
       </div>
     </section>
   );

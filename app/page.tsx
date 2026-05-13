@@ -181,10 +181,11 @@ export default function Home() {
             </p>
             <h2
               style={{
-                fontSize: "clamp(1.8rem, 4vw, 2.8rem)",
-                fontWeight: 700,
+                fontSize: "clamp(2.1rem, 4.2vw, 2.8rem)",
+                fontWeight: 600,
                 lineHeight: 1.2,
-                color: "#1C1007",
+                color: "#9A5B24",
+                fontFamily: "'Cormorant Garamond', 'Playfair Display', serif",
               }}
             >
               Cam kết chất lượng – Dịch vụ tận tâm
