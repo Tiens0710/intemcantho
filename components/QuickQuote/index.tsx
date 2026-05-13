@@ -192,7 +192,7 @@ export default function QuickQuote() {
                   color: "#5C3D1E",
                 }}
               >
-                Nhận báo giá in ấn<br />chỉ trong 5 phút
+                Nhận báo giá in ấn<br />chỉ trong vài giây
               </h2>
               <ul className="space-y-2">
                 {[

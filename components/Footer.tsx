@@ -2,6 +2,7 @@
 
 import { Mail, MapPin, Phone } from "lucide-react";
 import Link from "next/link";
+import { BannerPage } from "./BannerPage";
   
 /* ─── Inline SVG social icons ─── */
 const FacebookIcon = () => (
@@ -153,17 +154,9 @@ export default function Footer() {
               </ul>
             </div>
 
-            {/* ── Column 4: Map + Button + Social ── */}
+            {/* ── Column 4: BannerPage + Button + Social ── */}
             <div className="lg:col-span-4 lg:pt-1">
-              <div className="mb-4 overflow-hidden rounded-lg border border-white/25 bg-white/95 shadow-lg">
-                <iframe
-                  title="Bản đồ Duky Printing"
-                  src="https://www.google.com/maps?q=122%20Nguyen%20Hien%2C%20Tan%20An%2C%20Can%20Tho&z=16&output=embed"
-                  className="h-[170px] w-full md:h-[195px]"
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                />
-              </div>
+              <BannerPage className="mb-4" />
 
               <button className="mb-5 flex w-full items-center justify-center gap-2 rounded-lg border border-white/30 bg-gradient-to-r from-white/20 to-white/10 px-6 py-3 text-sm font-semibold shadow-md backdrop-blur-sm transition-all hover:from-white/30 hover:to-white/20 hover:shadow-lg" style={{ color: "#fff" }}>
                 <ShopIcon />

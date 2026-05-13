@@ -296,6 +296,63 @@ p {
   color: #fff7d6 !important;
 }
 
+/* Override duky-footer white color for fanpage card */
+.duky-footer .fanpage-card,
+.duky-footer .fanpage-card *,
+.duky-footer .fanpage-card h5,
+.duky-footer .fanpage-card p,
+.duky-footer .fanpage-card span {
+  color: initial !important;
+}
+
+/* Ensure avatar border is blue, not gray */
+.fanpage-card [class*="rounded-full"] {
+  border-color: #1877F2 !important;
+}
+
+.duky-footer .fanpage-card a {
+  color: #000000 !important;
+}
+
+.duky-footer .fanpage-card a:hover {
+  color: #333333 !important;
+  opacity: 0.85 !important;
+}
+
+/* Message button: white text + white icon */
+.duky-footer .fanpage-card .fanpage-btn-message,
+.duky-footer .fanpage-card .fanpage-btn-message span,
+.duky-footer .fanpage-card .fanpage-btn-message svg {
+  color: #ffffff !important;
+  fill: #ffffff !important;
+}
+
+.duky-footer .fanpage-card .fanpage-btn-message:hover {
+  color: #ffffff !important;
+  opacity: 1 !important;
+}
+
+/* Follow button: dark text */
+.duky-footer .fanpage-card .fanpage-btn-follow,
+.duky-footer .fanpage-card .fanpage-btn-follow span {
+  color: #1a1a1a !important;
+}
+
+.duky-footer .fanpage-card .fanpage-btn-follow svg {
+  fill: #1a1a1a !important;
+  stroke: #1a1a1a !important;
+}
+
+.duky-footer .fanpage-card .fanpage-btn-follow:hover {
+  color: #1a1a1a !important;
+  opacity: 1 !important;
+}
+
+.duky-footer .fanpage-card svg {
+  color: initial !important;
+  stroke: initial;
+}
+
 /* Input Styles */
 input,
 textarea,
