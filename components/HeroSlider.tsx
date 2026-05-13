@@ -164,6 +164,8 @@ export default function HeroSlider() {
 
   // Current active slide
   const activeSlide = slides[activeIdxRef.current];
+  const isCustomImageHero = activeSlide.custom?.type === 'imageHero';
+  const isProductVariant = activeSlide.custom?.variant === 'product';
 
   // Product image styles based on anim state
   const getProductImgStyle = (mode: typeof productAnim.mode): React.CSSProperties => {
@@ -247,16 +249,18 @@ export default function HeroSlider() {
           pointerEvents: 'auto',
         }}
       >
-        {/* Dark gradient overlay */}
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            zIndex: 1,
-            background: 'linear-gradient(90deg, rgba(34,30,26,0.55) 0%, rgba(34,30,26,0.3) 35%, rgba(34,30,26,0.12) 65%, rgba(34,30,26,0) 100%)',
-            pointerEvents: 'none',
-          }}
-        />
+        {/* Dark gradient overlay — only for non-imageHero slides */}
+        {!isCustomImageHero && (
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              zIndex: 1,
+              background: 'linear-gradient(90deg, rgba(34,30,26,0.55) 0%, rgba(34,30,26,0.3) 35%, rgba(34,30,26,0.12) 65%, rgba(34,30,26,0) 100%)',
+              pointerEvents: 'none',
+            }}
+          />
+        )}
 
         {/* Content Grid */}
         <div
@@ -282,79 +286,82 @@ export default function HeroSlider() {
               justifyContent: 'center',
               gap: '0',
               paddingLeft: '2rem',
-              overflow: 'hidden', // clip text as it slides up out of bounds
+              overflow: 'visible',
             }}
             className="hero-text-responsive"
           >
             <div style={getTextAnimStyle()}>
-            {/* Title */}
-            <div style={{ margin: '0 0 1.5rem 0' }}>
-              {activeSlide.title.split('\n').map((line, li) => (
-                <div
-                  key={li}
-                  style={{
-                    fontFamily: "'Cormorant Garamond', 'Playfair Display', serif",
-                    fontSize: li === 0 ? 'clamp(3.7rem, 7.5vw, 6.6rem)' : 'clamp(3.2rem, 7.3vw, 6.1rem)',
-                    fontWeight: 400,
-                    color: li === 0 ? '#efe7d8' : '#e3dac8',
-                    lineHeight: li === 0 ? 0.85 : 1,
-                    textTransform: li === 1 ? 'uppercase' : 'none',
-                    letterSpacing: li === 1 ? '0.06em' : 'normal',
-                    textShadow: '0 10px 24px rgba(0,0,0,0.25)',
-                  }}
-                >
-                  {line}
+              {activeSlide.custom?.type === 'imageHero' ? (
+                <div style={{ position: 'relative', maxWidth: '640px' }}>
+                  {activeSlide.custom.logo && (
+                    <img
+                      src={activeSlide.custom.logo}
+                      alt="Intem logo"
+                      style={{ width: '160px', height: 'auto', position: 'absolute', top: '-110px', left: '-10px', zIndex: 2 }}
+                      draggable={false} loading="eager" decoding="async"
+                    />
+                  )}
+                  {activeSlide.custom.header && (
+                    <img
+                      src={activeSlide.custom.header}
+                      alt="In tem Can Tho"
+                      style={{ width: '100%', maxWidth: '1100px', height: 'auto', display: 'block', marginTop: '50px' }}
+                      draggable={false} loading="eager" decoding="async"
+                    />
+                  )}
+                  {activeSlide.custom.badges && (
+                    <img
+                      src={activeSlide.custom.badges}
+                      alt="" aria-hidden="true"
+                      style={{ width: '100%', maxWidth: '680px', height: 'auto', display: 'block', marginTop: '0.8rem' }}
+                      draggable={false} loading="eager" decoding="async"
+                    />
+                  )}
+                  {activeSlide.custom.stats && (
+                    <img
+                      src={activeSlide.custom.stats}
+                      alt="" aria-hidden="true"
+                      style={{ width: '100%', maxWidth: '580px', height: 'auto', display: 'block', marginTop: '1.2rem' }}
+                      draggable={false} loading="eager" decoding="async"
+                    />
+                  )}
                 </div>
-              ))}
-            </div>
-
-            {/* Description */}
-            <p style={{
-              fontFamily: "'Nunito', sans-serif",
-              fontSize: '0.95rem',
-              fontWeight: 300,
-              lineHeight: 1.7,
-              color: 'rgba(233,226,214,0.85)',
-              maxWidth: '480px',
-              marginBottom: '2.5rem',
-            }}>
-              {activeSlide.description}
-            </p>
-
-            {/* CTA Button */}
-            <Link
-              href="/van-phong"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: '16px 40px',
-                border: '1px solid rgba(233,226,214,0.5)',
-                borderRadius: '999px',
-                color: '#f7f2e9',
-                fontFamily: "'Nunito', sans-serif",
-                fontSize: '1rem',
-                fontWeight: 500,
-                letterSpacing: '0.04em',
-                cursor: 'pointer',
-                background: 'linear-gradient(135deg, rgba(255,255,255,0.2), rgba(217,207,189,0.08))',
-                boxShadow: '0 14px 34px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.3)',
-                backdropFilter: 'blur(16px)',
-                WebkitBackdropFilter: 'blur(16px)',
-                width: 'fit-content',
-                transition: 'transform 0.3s ease, border-color 0.3s ease, background 0.3s ease',
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
-                (e.currentTarget as HTMLElement).style.borderColor = 'rgba(247,242,233,0.78)';
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
-                (e.currentTarget as HTMLElement).style.borderColor = 'rgba(233,226,214,0.5)';
-              }}
-            >
-              {activeSlide.cta}
-            </Link>
+              ) : (
+                <>
+                  <div style={{ margin: '0 0 1.5rem 0' }}>
+                    {activeSlide.title.split('\n').map((line, li) => (
+                      <div key={li} style={{
+                        fontFamily: "'Cormorant Garamond', 'Playfair Display', serif",
+                        fontSize: li === 0 ? 'clamp(3.7rem, 7.5vw, 6.6rem)' : 'clamp(3.2rem, 7.3vw, 6.1rem)',
+                        fontWeight: 400, color: li === 0 ? '#efe7d8' : '#e3dac8',
+                        lineHeight: li === 0 ? 0.85 : 1, textTransform: li === 1 ? 'uppercase' : 'none',
+                        letterSpacing: li === 1 ? '0.06em' : 'normal', textShadow: '0 10px 24px rgba(0,0,0,0.25)',
+                      }}>
+                        {line}
+                      </div>
+                    ))}
+                  </div>
+                  {activeSlide.description && (
+                    <p style={{ fontFamily: "'Nunito', sans-serif", fontSize: '0.95rem', fontWeight: 300, lineHeight: 1.7, color: 'rgba(233,226,214,0.85)', maxWidth: '480px', marginBottom: '2.5rem' }}>
+                      {activeSlide.description}
+                    </p>
+                  )}
+                  {activeSlide.cta && (
+                    <Link href="/van-phong" style={{
+                      display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                      padding: '16px 40px', border: '1px solid rgba(233,226,214,0.5)', borderRadius: '999px',
+                      color: '#f7f2e9', fontFamily: "'Nunito', sans-serif", fontSize: '1rem', fontWeight: 500,
+                      letterSpacing: '0.04em', cursor: 'pointer',
+                      background: 'linear-gradient(135deg, rgba(255,255,255,0.2), rgba(217,207,189,0.08))',
+                      boxShadow: '0 14px 34px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.3)',
+                      backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)', width: 'fit-content',
+                      transition: 'transform 0.3s ease, border-color 0.3s ease, background 0.3s ease',
+                    }} onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(247,242,233,0.78)'; }} onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.transform = 'translateY(0)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(233,226,214,0.5)'; }}>
+                      {activeSlide.cta}
+                    </Link>
+                  )}
+                </>
+              )}
             </div>
           </div>
 
@@ -363,30 +370,47 @@ export default function HeroSlider() {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            justifyContent: 'center',
+            justifyContent: 'flex-end',
             position: 'relative',
             height: '100%',
-            paddingRight: '40px',
-            overflow: 'hidden',
+            paddingRight: activeSlide.custom?.type === 'imageHero' ? '0' : '40px',
+            overflow: 'visible',
           }} className="hero-product-responsive">
-            {/* Only render ONE product image at a time */}
-            <img
-              key={productAnim.slideIdx} // force remount when slide changes
-              src={slides[productAnim.slideIdx].product}
-              alt={slides[productAnim.slideIdx].title.replace('\n', ' ')}
-              style={{
-                width: 'auto',
-                maxWidth: '480px',
-                height: 'auto',
-                maxHeight: '50vh',
-                objectFit: 'contain',
-                filter: 'drop-shadow(0 20px 40px rgba(0,0,0,0.3))',
-                ...getProductImgStyle(productAnim.mode),
-              }}
-              draggable={false}
-              loading="eager"
-              decoding="async"
-            />
+            {activeSlide.custom?.type === 'imageHero' ? (
+              <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', ...getProductImgStyle(productAnim.mode) }}>
+                {/* Background circle */}
+                <div style={{
+                  position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
+                  width: 'clamp(320px, 46vw, 640px)', aspectRatio: '1 / 1', borderRadius: '999px',
+                  backgroundImage: activeSlide.custom.circle ? `url(${activeSlide.custom.circle})` : 'radial-gradient(circle at 50% 45%, #f9d2a8 0%, #f1b877 60%, #e79d58 100%)',
+                  backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundSize: 'contain', zIndex: 0,
+                }} />
+                {/* Product/Character image */}
+                <img
+                  key={productAnim.slideIdx}
+                  src={slides[productAnim.slideIdx].product}
+                  alt={activeSlide.title.replace('\n', ' ')}
+                  style={{
+                    position: 'relative', zIndex: 2, width: 'auto',
+                    height: isProductVariant ? 'clamp(700px, 98vh, 1200px)' : 'clamp(580px, 92vh, 980px)',
+                    objectFit: 'contain', filter: 'drop-shadow(0 18px 36px rgba(0,0,0,0.18))',
+                  }}
+                  draggable={false} loading="eager" decoding="async"
+                />
+              </div>
+            ) : (
+              <img
+                key={productAnim.slideIdx}
+                src={slides[productAnim.slideIdx].product}
+                alt={activeSlide.title.replace('\n', ' ')}
+                style={{
+                  width: 'auto', maxWidth: '480px', height: 'auto', maxHeight: '50vh',
+                  objectFit: 'contain', filter: 'drop-shadow(0 20px 40px rgba(0,0,0,0.3))',
+                  ...getProductImgStyle(productAnim.mode),
+                }}
+                draggable={false} loading="eager" decoding="async"
+              />
+            )}
           </div>
         </div>
 

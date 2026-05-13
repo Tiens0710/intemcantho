@@ -21,6 +21,7 @@ uniform sampler2D u_to;
 uniform sampler2D u_disp;
 uniform float u_progress;
 uniform float u_intensity;
+uniform float u_time;
 uniform vec2 u_res;
 uniform vec2 u_fromRes;
 uniform vec2 u_toRes;
@@ -56,22 +57,36 @@ void main() {
   /* Blend factor: 0 = show "from", 1 = show "to" */
   float blend = smoothstep(-zoneWidth, zoneWidth, dist);
 
-  /* ── Water distortion strongest at the wavefront ── */
-  /* Gaussian falloff centered on the edge; naturally goes to zero as wavefront exits */
-  float distMask = exp(-(dist * dist) / (zoneWidth * zoneWidth * 2.0));
+  /* ── Multi-layer wave displacement ── */
+  float wave1 = sin(dist * 16.0 - u_time * 1.8) * 0.5 + 0.5;
+  float wave2 = sin(dist * 10.0 - u_time * 1.2 + 1.5) * 0.5 + 0.5;
+  float wave3 = sin(dist * 22.0 - u_time * 2.4 + v_uv.y * 3.0) * 0.5 + 0.5;
+  float wave4 = sin(dist * 6.0 - u_time * 0.8 + v_uv.y * 5.0) * 0.5 + 0.5;
 
-  /* Fade out completely when wavefront exits left side (edge < -zoneWidth) */
+  float distMask = exp(-(dist * dist) / (zoneWidth * zoneWidth * 1.5));
+  float waveDisp = (wave1 * 0.35 + wave2 * 0.3 + wave3 * 0.2 + wave4 * 0.15);
+
+  /* Fade out completely when wavefront exits left side */
   float exitFade = 1.0 - smoothstep(0.0, zoneWidth, -edge);
 
-  /* Ripple strength — distortion fades naturally and exits cleanly */
-  float strength = u_intensity * distMask * exitFade;
+  float baseStrength = u_intensity * distMask * exitFade;
+
+  /* Smooth pulse for fluid feel */
+  float smoothPulse = sin(clamp(dist / zoneWidth, -1.0, 1.0) * 3.14159 * 0.5) * 0.5 + 0.5;
+  baseStrength *= mix(0.6, 1.0, smoothPulse);
+
+  float dx = baseStrength * (disp.x * 1.0 + waveDisp * 0.4);
+  float dy = baseStrength * (disp.y * 0.7 + sin(dist * 12.0 - u_time * 1.5) * 0.25);
+  dy += baseStrength * sin(v_uv.y * 8.0 + u_time * 1.0) * 0.12;
+
+  vec2 rippleOffset = vec2(dx, dy);
 
   /* Distort UVs */
-  vec2 uv1 = coverUV(v_uv + disp * strength, u_fromRes, u_res);
-  vec2 uv2 = coverUV(v_uv - disp * strength * 0.6, u_toRes, u_res);
+  vec2 uv1 = coverUV(v_uv + disp * baseStrength + rippleOffset, u_fromRes, u_res);
+  vec2 uv2 = coverUV(v_uv - (disp * baseStrength * 0.6 + rippleOffset * 0.8), u_toRes, u_res);
 
-  /* Chromatic aberration near wavefront — reduced for smoother look */
-  float aberr = strength * 0.006;
+  /* Chromatic aberration near wavefront */
+  float aberr = baseStrength * 0.012 + waveDisp * baseStrength * 0.005;
   vec2 aberrDir = vec2(aberr, aberr * 0.5);
 
   vec4 c1 = vec4(
@@ -87,7 +102,13 @@ void main() {
     1.0
   );
 
-  gl_FragColor = mix(c1, c2, blend);
+  vec4 color = mix(c1, c2, blend);
+
+  /* Refraction brightness */
+  float refractBright = waveDisp * distMask * exitFade * 0.06;
+  color.rgb += refractBright;
+
+  gl_FragColor = color;
 }`;
 
 // ── Helpers ──────────────────────────────────────────────
@@ -207,9 +228,10 @@ export class WaterTransition {
   private loc: Record<string, WebGLUniformLocation | null> = {};
   private rendering = false;
   private rafId = 0;
+  private startTime = 0;
 
   progress = 0;
-  private intensity = 0.35;
+  private intensity = 0.4;
 
   constructor(private canvas: HTMLCanvasElement) {
     const gl = canvas.getContext('webgl', {
@@ -226,7 +248,7 @@ export class WaterTransition {
     gl.enableVertexAttribArray(aPos);
     gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
 
-    const names = ['u_from', 'u_to', 'u_disp', 'u_progress', 'u_intensity', 'u_res', 'u_fromRes', 'u_toRes'];
+    const names = ['u_from', 'u_to', 'u_disp', 'u_progress', 'u_intensity', 'u_time', 'u_res', 'u_fromRes', 'u_toRes'];
     names.forEach(n => { this.loc[n] = gl.getUniformLocation(this.program, n); });
 
     this.dispTex = generateNoiseTexture(gl);
@@ -277,7 +299,9 @@ export class WaterTransition {
     gl.activeTexture(gl.TEXTURE2);
     gl.bindTexture(gl.TEXTURE_2D, this.dispTex);
 
+    const time = this.startTime > 0 ? (performance.now() / 1000 - this.startTime) : 0;
     gl.uniform1f(this.loc.u_progress, progress);
+    gl.uniform1f(this.loc.u_time, time);
     gl.uniform2f(this.loc.u_res, this.canvas.width, this.canvas.height);
     gl.uniform2f(this.loc.u_fromRes, from.width, from.height);
     gl.uniform2f(this.loc.u_toRes, to.width, to.height);
@@ -288,6 +312,7 @@ export class WaterTransition {
   private startLoop(fromIdx: number, toIdx: number) {
     if (this.rendering) return;
     this.rendering = true;
+    this.startTime = performance.now() / 1000;
     const tick = () => {
       this.renderFrame(fromIdx, toIdx, this.progress);
       if (this.rendering) this.rafId = requestAnimationFrame(tick);
@@ -314,6 +339,7 @@ export class WaterTransition {
 
   showSlide(idx: number) {
     this.currentIndex = idx;
+    this.startTime = 0;
     this.renderFrame(idx, idx, 0);
   }
 

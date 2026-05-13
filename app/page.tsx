@@ -520,16 +520,29 @@ export default function Home() {
             transition={{ duration: 0.6 }}
             className="text-center mb-12 container mx-auto px-4"
           >
-            <div className="flex items-center justify-center gap-4 mb-3">
-              <span className="h-px w-20 md:w-32" style={{ background: "#C8A882" }} />
-              <h2 style={{ fontSize: "14px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.25em", color: "#8B5E3C", margin: 0, whiteSpace: "nowrap" }}>
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <span className="h-px w-12 md:w-24" style={{ background: "#E6D2BF" }} />
+              <span
+                className="inline-flex items-center gap-2 rounded-full border border-[#E6792A]/25 bg-white/90 px-4 py-1 text-[11px] font-semibold uppercase tracking-[0.35em] text-[#8B5E3C]"
+                style={{ boxShadow: "0 8px 18px -16px rgba(198,106,39,0.6)" }}
+              >
+                <span className="h-2 w-2 rounded-full bg-[#E6792A]" />
                 Đối tác
-              </h2>
-              <span className="h-px w-20 md:w-32" style={{ background: "#C8A882" }} />
+              </span>
+              <span className="h-px w-12 md:w-24" style={{ background: "#E6D2BF" }} />
             </div>
-            <p style={{ fontSize: "clamp(1.6rem, 3vw, 2.2rem)", fontWeight: 700, lineHeight: 1.3, color: "#1C1007" }}>
-              Niềm tin từ các thương hiệu lớn
-            </p>
+            <h2
+              style={{
+                fontSize: "clamp(1.7rem, 3vw, 2.3rem)",
+                fontWeight: 600,
+                lineHeight: 1.3,
+                color: "#1C1007",
+                fontFamily: "'Cormorant Garamond', 'Playfair Display', serif",
+              }}
+            >
+              Được tin dùng bởi <span style={{ color: "#E6792A" }}>500+</span> doanh nghiệp và{" "}
+              <span style={{ color: "#E6792A" }}>2.000+</span> người dùng
+            </h2>
           </motion.div>
 
           {/* Logo carousel — full width for marquee */}

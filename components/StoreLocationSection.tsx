@@ -140,13 +140,13 @@ export default function StoreLocationSection() {
                     label: "Zalo",
                     value: "0985 463 403",
                   },
-                  {
-                    icon: Navigation,
-                    label: "Google Maps",
-                    value: "Mở bản đồ",
-                    href: "https://www.google.com/maps?q=122%20Nguyen%20Hien%2C%20Tan%20An%2C%20Can%20Tho&z=16",
-                    external: true,
-                  },
+                  // {
+                  //   icon: Navigation,
+                  //   label: "Google Maps",
+                  //   value: "Mở bản đồ",
+                  //   href: "https://www.google.com/maps?q=122%20Nguyen%20Hien%2C%20Tan%20An%2C%20Can%20Tho&z=16",
+                  //   external: true,
+                  // },
                   {
                     icon: ShieldCheck,
                     label: "Chính sách",
@@ -175,11 +175,11 @@ export default function StoreLocationSection() {
                       >
                         {item.label}
                       </p>
-                      {item.href ? (
+                {item.href ? (
                         <a
                           href={item.href}
-                          target={item.external ? "_blank" : undefined}
-                          rel={item.external ? "noreferrer" : undefined}
+                          target={"_blank"}
+                          rel={"noreferrer"}
                           className="font-semibold text-sm transition-colors hover:opacity-80"
                           style={{ color: "#5C3D1E" }}
                         >

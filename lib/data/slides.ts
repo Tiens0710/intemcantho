@@ -12,40 +12,72 @@ export interface SlideData {
   description: string;
   cta: string;
   accent: string;
+  custom?: {
+    type: 'imageHero';
+    logo: string;
+    header: string;
+    badges: string;
+    stats: string;
+    circle: string;
+    /** 'character' = nhân vật, 'product' = sản phẩm (hiển thị lớn hơn) */
+    variant?: 'character' | 'product';
+  };
 }
 
 export const slides: SlideData[] = [
   {
     id: 1,
-    bg: '/bg2.jpeg',
-    product: '/obj2.png',
-    title: 'Bold\nARTISTRY',
+    bg: '/herobanner/slide1/background.jpeg',
+    product: '/herobanner/slide1/nhanvat1.png',
+    title: 'In tem Can Tho',
     subtitle: '',
-    description:
-      'Celebrate your modern romance with bold, artistic cakes that make a statement.',
-    cta: 'Discover Modern Styles',
-    accent: '#d9cfbd',
+    description: '',
+    cta: '',
+    accent: '#e9c7a3',
+    custom: {
+      type: 'imageHero',
+      logo: '/herobanner/slide1/logo.png',
+      header: '/herobanner/slide1/header1.png',
+      badges: '/herobanner/slide1/component1.png',
+      stats: '/herobanner/slide1/component2.png',
+      circle: '/herobanner/slide1/background_nhanvat.png',
+    },
   },
   {
     id: 2,
-    bg: '/bg3.jpeg',
-    product: '/obj3.png',
-    title: 'Modern\nROMANCE',
+    bg: '/herobanner/slide2/background.jpeg',
+    product: '/herobanner/slide2/sanpham.png',
+    title: 'In tem Can Tho',
     subtitle: '',
-    description:
-      'Clean lines, soft tones, and delicate textures crafted for the modern couple.',
-    cta: 'Explore Modern Romance',
-    accent: '#d4c8b6',
+    description: '',
+    cta: '',
+    accent: '#e9c7a3',
+    custom: {
+      type: 'imageHero',
+      logo: '/herobanner/slide2/logo.png',
+      header: '/herobanner/slide2/header1.png',
+      badges: '/herobanner/slide2/component1.png',
+      stats: '/herobanner/slide2/component2.png',
+      circle: '/herobanner/slide2/background_sanpham.png',
+      variant: 'product',
+    },
   },
   {
     id: 3,
-    bg: '/bg1.jpeg',
-    product: '/obj1.png',
-    title: 'Timeless\nELEGANCE',
+    bg: '/herobanner/slide3/background.jpeg',
+    product: '/herobanner/slide3/nhanvat.png',
+    title: 'In tem Can Tho',
     subtitle: '',
-    description:
-      'Refined silhouettes and subtle finishes made to feel classic and enduring.',
-    cta: 'View Timeless Designs',
-    accent: '#cbbba4',
+    description: '',
+    cta: '',
+    accent: '#e9c7a3',
+    custom: {
+      type: 'imageHero',
+      logo: '',
+      header: '/herobanner/slide3/header1.png',
+      badges: '/herobanner/slide3/component1.png',
+      stats: '/herobanner/slide3/component2.png',
+      circle: '/herobanner/slide3/background_nhanvat.png',
+    },
   },
 ];
