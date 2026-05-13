@@ -113,25 +113,32 @@ export default function QuickQuote() {
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="mx-auto relative" style={{ maxWidth: "1320px" }}>
-          {/* Static glow ring */}
+          {/* White outer glow — contrast on orange bg */}
           <div
-            className="absolute -inset-[3px] rounded-[19px] pointer-events-none"
+            className="absolute -inset-1 rounded-[18px] pointer-events-none"
             style={{
-              background: "linear-gradient(135deg, rgba(230,121,42,0.6), rgba(255,200,100,0.7), rgba(230,121,42,0.6), rgba(209,117,21,0.5))",
+              boxShadow: "0 0 30px rgba(255,255,255,0.35), 0 0 60px rgba(255,255,255,0.15)",
             }}
           />
 
-          {/* Pulse glow behind */}
+          {/* Golden gradient border ring */}
+          <div
+            className="absolute -inset-[3px] rounded-[19px] pointer-events-none"
+            style={{
+              background: "linear-gradient(135deg, rgba(255,220,150,0.95), rgba(230,121,42,0.85) 30%, rgba(255,200,100,0.9) 60%, rgba(230,121,42,0.8) 100%)",
+            }}
+          />
+
+          {/* Animated glow pulse */}
           <motion.div
             animate={{
-              opacity: [0.3, 0.7, 0.3],
-              scale: [1, 1.015, 1],
+              opacity: [0.25, 0.6, 0.25],
+              scale: [1, 1.02, 1],
             }}
             transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute -inset-6 rounded-[24px] pointer-events-none"
+            className="absolute -inset-8 rounded-[28px] pointer-events-none"
             style={{
-              boxShadow:
-                "0 0 40px rgba(230,121,42,0.6), 0 0 80px rgba(230,121,42,0.35), 0 0 120px rgba(209,117,21,0.2)",
+              background: "radial-gradient(ellipse at center, rgba(255,200,100,0.2) 0%, transparent 70%)",
             }}
           />
 
@@ -147,90 +154,104 @@ export default function QuickQuote() {
               borderRadius: "16px",
               padding: "40px",
               boxShadow:
-                "0 0 15px rgba(230, 121, 42, 0.4), 0 0 40px rgba(230, 121, 42, 0.25), inset 0 1px 0 rgba(255,255,255,0.6)",
+                "0 0 20px rgba(255,200,100,0.5), 0 0 50px rgba(230,121,42,0.3), 0 4px 20px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.8)",
             }}
           >
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.7fr_auto] gap-10 lg:gap-12 items-center">
 
             {/* ── Vùng 1: Heading trái + Bullet list ── */}
             <div className="flex flex-col justify-center">
+              {/* Accent dot + line */}
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-2 h-2 rounded-full" style={{ background: "#E6792A" }} />
+                <div className="w-8 h-0.5 rounded-full" style={{ background: "linear-gradient(to right, #E6792A, rgba(230,121,42,0.2))" }} />
+              </div>
+
               <h2
-                className="mb-4"
+                className="mb-5"
                 style={{
                   fontFamily: "'Cormorant Garamond', 'Playfair Display', serif",
-                  fontSize: "clamp(1.5rem, 3vw, 2.2rem)",
+                  fontSize: "clamp(1.6rem, 3.2vw, 2.4rem)",
                   fontWeight: 700,
-                  lineHeight: 1.2,
-                  color: "#5C3D1E",
+                  lineHeight: 1.15,
+                  color: "#3D2008",
                 }}
               >
-                Nhận báo giá in ấn<br />chỉ trong vài giây
+                Nhận báo giá in ấn<br />
+                <span style={{ color: "#E6792A" }}>chỉ trong vài giây</span>
               </h2>
-              <ul className="space-y-2">
+
+              <div className="w-10 h-0.5 rounded-full mb-5" style={{ background: "linear-gradient(to right, #E6792A, rgba(230,121,42,0.15))" }} />
+
+              <ul className="space-y-3">
                 {[
                   "Không cần đăng ký tài khoản",
                   "Nhận báo giá chính xác, nhanh chóng",
                   "Tư vấn tận tâm — hỗ trợ 24/7",
                 ].map((item, i) => (
-                  <li key={i} className="flex items-start gap-2">
-                    <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: "#A06830" }} />
-                    <span style={{ fontSize: "13px", color: "#6B5744", lineHeight: 1.4 }}>{item}</span>
+                  <li key={i} className="flex items-start gap-2.5">
+                    <div className="flex-shrink-0 mt-0.5 w-5 h-5 rounded-full flex items-center justify-center" style={{ background: "rgba(230,121,42,0.1)" }}>
+                      <CheckCircle className="w-3 h-3" style={{ color: "#E6792A" }} />
+                    </div>
+                    <span style={{ fontSize: "14px", color: "#4A3A2A", lineHeight: 1.5, fontWeight: 500 }}>{item}</span>
                   </li>
                 ))}
               </ul>
             </div>
 
             {/* ── Vùng 2: Form ── */}
-            <div className="grid grid-cols-2 gap-3">
-              {/* Chất liệu */}
-              <div>
-                <label className="block mb-1.5" style={{ fontSize: "11px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.12em", color: "#9A8472" }}>
-                  Chất liệu
-                </label>
-                <div className="relative">
-                  <select
-                    value={material}
-                    onChange={(e) => setMaterial(e.target.value)}
-                    className="w-full appearance-none bg-white rounded-[10px] px-3 py-2.5 pr-8 text-sm focus:outline-none transition-colors"
-                    style={{ border: "1px solid #E8E0D6", color: "#3D2E1E", fontWeight: 500 }}
-                  >
-                    <option value="">Chọn chất liệu</option>
-                    {materialOptions.map(([key, opt]) => (
-                      <option key={key} value={key}>{opt.label}</option>
-                    ))}
-                  </select>
-                  <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none" style={{ color: "#A06830" }} />
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                {/* Chất liệu */}
+                <div>
+                  <label className="block mb-2" style={{ fontSize: "12px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "#5C4A3A" }}>
+                    Chất liệu
+                  </label>
+                  <div className="relative">
+                    <select
+                      value={material}
+                      onChange={(e) => setMaterial(e.target.value)}
+                      className="w-full appearance-none rounded-xl px-4 py-3 pr-9 text-sm focus:outline-none transition-all focus:ring-2 focus:ring-[#E6792A]/30"
+                      style={{ background: "#FAFAF8", border: "1.5px solid #DDD5CA", color: "#3D2E1E", fontWeight: 500 }}
+                    >
+                      <option value="">Chọn chất liệu</option>
+                      {materialOptions.map(([key, opt]) => (
+                        <option key={key} value={key}>{opt.label}</option>
+                      ))}
+                    </select>
+                    <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none" style={{ color: "#A06830" }} />
+                  </div>
+                </div>
+
+                {/* Số lượng */}
+                <div>
+                  <label className="block mb-2" style={{ fontSize: "12px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "#5C4A3A" }}>
+                    Số lượng
+                  </label>
+                  <div className="relative">
+                    <select
+                      value={quantity || ""}
+                      onChange={(e) => setQuantity(parseInt(e.target.value) || 0)}
+                      className="w-full appearance-none rounded-xl px-4 py-3 pr-9 text-sm focus:outline-none transition-all focus:ring-2 focus:ring-[#E6792A]/30"
+                      style={{ background: "#FAFAF8", border: "1.5px solid #DDD5CA", color: "#3D2E1E", fontWeight: 500 }}
+                      disabled={!material}
+                    >
+                      <option value="">Chọn SL</option>
+                      {quantityPresets.map((q) => (
+                        <option key={q} value={q}>{q.toLocaleString("vi-VN")}</option>
+                      ))}
+                    </select>
+                    <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none" style={{ color: "#A06830" }} />
+                  </div>
                 </div>
               </div>
 
-              {/* Số lượng */}
+              {/* Kích thước */}
               <div>
-                <label className="block mb-1.5" style={{ fontSize: "11px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.12em", color: "#9A8472" }}>
-                  Số lượng
-                </label>
-                <div className="relative">
-                  <select
-                    value={quantity || ""}
-                    onChange={(e) => setQuantity(parseInt(e.target.value) || 0)}
-                    className="w-full appearance-none bg-white rounded-[10px] px-3 py-2.5 pr-8 text-sm focus:outline-none transition-colors"
-                    style={{ border: "1px solid #E8E0D6", color: "#3D2E1E", fontWeight: 500 }}
-                    disabled={!material}
-                  >
-                    <option value="">Chọn SL</option>
-                    {quantityPresets.map((q) => (
-                      <option key={q} value={q}>{q.toLocaleString("vi-VN")}</option>
-                    ))}
-                  </select>
-                  <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none" style={{ color: "#A06830" }} />
-                </div>
-              </div>
-
-              {/* Kích thước - 2 ô nhập */}
-              <div className="col-span-2">
-                <label className="block mb-1.5" style={{ fontSize: "11px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.12em", color: "#9A8472" }}>
+                <label className="block mb-2" style={{ fontSize: "12px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "#5C4A3A" }}>
                   Kích thước (mm)
                 </label>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-2 gap-4">
                   <div className="relative w-full">
                     <input
                       type="number"
@@ -239,10 +260,10 @@ export default function QuickQuote() {
                       placeholder="Rộng"
                       min={10}
                       max={300}
-                      className="!w-full !bg-white !rounded-[10px] !pl-3 !pr-12 !py-2.5 !text-sm focus:!outline-none"
-                      style={{ border: `1px solid ${width && !isSizeValid ? "#E53E3E" : "#E8E0D6"}`, color: "#3D2E1E", fontWeight: 500, padding: "10px 48px 10px 12px", borderRadius: "10px" }}
+                      className="w-full rounded-xl px-4 py-3 pr-14 text-sm focus:outline-none transition-all focus:ring-2 focus:ring-[#E6792A]/30"
+                      style={{ background: "#FAFAF8", border: `1.5px solid ${width && !isSizeValid ? "#E53E3E" : "#DDD5CA"}`, color: "#3D2E1E", fontWeight: 500 }}
                     />
-                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm font-medium pointer-events-none" style={{ color: "#9A8472" }}>mm</span>
+                    <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-semibold pointer-events-none px-1.5 py-0.5 rounded" style={{ color: "#A06830", background: "rgba(230,121,42,0.08)" }}>mm</span>
                   </div>
                   <div className="relative w-full">
                     <input
@@ -252,36 +273,36 @@ export default function QuickQuote() {
                       placeholder="Cao"
                       min={10}
                       max={300}
-                      className="!w-full !bg-white !rounded-[10px] !pl-3 !pr-12 !py-2.5 !text-sm focus:!outline-none"
-                      style={{ border: `1px solid ${height && !isSizeValid ? "#E53E3E" : "#E8E0D6"}`, color: "#3D2E1E", fontWeight: 500, padding: "10px 48px 10px 12px", borderRadius: "10px" }}
+                      className="w-full rounded-xl px-4 py-3 pr-14 text-sm focus:outline-none transition-all focus:ring-2 focus:ring-[#E6792A]/30"
+                      style={{ background: "#FAFAF8", border: `1.5px solid ${height && !isSizeValid ? "#E53E3E" : "#DDD5CA"}`, color: "#3D2E1E", fontWeight: 500 }}
                     />
-                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm font-medium pointer-events-none" style={{ color: "#9A8472" }}>mm</span>
+                    <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-semibold pointer-events-none px-1.5 py-0.5 rounded" style={{ color: "#A06830", background: "rgba(230,121,42,0.08)" }}>mm</span>
                   </div>
                 </div>
                 {width && height && !isSizeValid && (
-                  <p style={{ fontSize: "10px", color: "#E53E3E", marginTop: "4px" }}>
+                  <p style={{ fontSize: "11px", color: "#E53E3E", marginTop: "6px" }}>
                     Kích thước từ 10mm đến 300mm
                   </p>
                 )}
               </div>
 
               {/* Cán màng */}
-              <div className="col-span-2">
-                <label className="block mb-1.5" style={{ fontSize: "11px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.12em", color: "#9A8472" }}>
+              <div>
+                <label className="block mb-2" style={{ fontSize: "12px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "#5C4A3A" }}>
                   Cán màng
                 </label>
                 <div className="relative">
                   <select
                     value={lamination}
                     onChange={(e) => setLamination(e.target.value)}
-                    className="w-full appearance-none bg-white rounded-[10px] px-3 py-2.5 pr-8 text-sm focus:outline-none transition-colors"
-                    style={{ border: "1px solid #E8E0D6", color: "#3D2E1E", fontWeight: 500 }}
+                    className="w-full appearance-none rounded-xl px-4 py-3 pr-9 text-sm focus:outline-none transition-all focus:ring-2 focus:ring-[#E6792A]/30"
+                    style={{ background: "#FAFAF8", border: "1.5px solid #DDD5CA", color: "#3D2E1E", fontWeight: 500 }}
                   >
                     {laminationOptions.map((opt) => (
                       <option key={opt.value} value={opt.value}>{opt.label}</option>
                     ))}
                   </select>
-                  <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none" style={{ color: "#A06830" }} />
+                  <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none" style={{ color: "#A06830" }} />
                 </div>
               </div>
             </div>
