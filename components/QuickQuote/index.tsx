@@ -91,55 +91,6 @@ export default function QuickQuote() {
         </svg>
       </div>
 
-      {/* ── Geometric Shapes ── */}
-      <motion.div
-        animate={{ rotate: 360 }}
-        transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-        className="absolute top-8 right-[12%] w-20 h-20 pointer-events-none z-0"
-        style={{ border: "2px solid rgba(255,255,255,0.08)", borderRadius: "20%" }}
-      />
-      <motion.div
-        animate={{ rotate: -360 }}
-        transition={{ duration: 45, repeat: Infinity, ease: "linear" }}
-        className="absolute bottom-16 left-[8%] w-16 h-16 pointer-events-none z-0"
-        style={{ border: "2px solid rgba(255,255,255,0.06)", borderRadius: "30%" }}
-      />
-
-      {/* ── Shimmer Light Sweep ── */}
-      <motion.div
-        animate={{ x: ["-100%", "200%"] }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", repeatDelay: 3 }}
-        className="absolute top-0 left-0 w-[200px] h-full pointer-events-none z-0"
-        style={{
-          background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent)",
-          transform: "skewX(-20deg)",
-        }}
-      />
-
-      {/* ── Cross / Plus shapes ── */}
-      <motion.div
-        animate={{ y: [-8, 8, -8], rotate: [0, 90, 0] }}
-        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-[20%] left-[6%] pointer-events-none z-0"
-        style={{ opacity: 0.1 }}
-      >
-        <div className="relative w-6 h-6">
-          <div className="absolute top-1/2 left-0 w-full h-0.5 bg-white -translate-y-1/2" />
-          <div className="absolute left-1/2 top-0 h-full w-0.5 bg-white -translate-x-1/2" />
-        </div>
-      </motion.div>
-      <motion.div
-        animate={{ y: [6, -6, 6], rotate: [0, -90, 0] }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
-        className="absolute bottom-[30%] right-[7%] pointer-events-none z-0"
-        style={{ opacity: 0.08 }}
-      >
-        <div className="relative w-4 h-4">
-          <div className="absolute top-1/2 left-0 w-full h-0.5 bg-white -translate-y-1/2" />
-          <div className="absolute left-1/2 top-0 h-full w-0.5 bg-white -translate-x-1/2" />
-        </div>
-      </motion.div>
-
       {/* ── Floating Animated Dots ── */}
       <motion.div
         animate={{ y: [-6, 6, -6] }}
@@ -161,23 +112,44 @@ export default function QuickQuote() {
       />
 
       <div className="container mx-auto px-4 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mx-auto"
-          style={{
-            background: "#FFFFFF",
-            borderRadius: "16px",
-            border: "1px solid rgba(255, 255, 255, 0.6)",
-            boxShadow: "0 8px 40px rgba(0, 0, 0, 0.15), 0 2px 12px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(255,255,255,0.3), inset 0 1px 0 rgba(255,255,255,0.9)",
-            padding: "40px",
-            maxWidth: "1320px",
-            backdropFilter: "blur(20px)",
-            WebkitBackdropFilter: "blur(20px)",
-          }}
-        >
+        <div className="mx-auto relative" style={{ maxWidth: "1320px" }}>
+          {/* Static glow ring */}
+          <div
+            className="absolute -inset-[3px] rounded-[19px] pointer-events-none"
+            style={{
+              background: "linear-gradient(135deg, rgba(230,121,42,0.6), rgba(255,200,100,0.7), rgba(230,121,42,0.6), rgba(209,117,21,0.5))",
+            }}
+          />
+
+          {/* Pulse glow behind */}
+          <motion.div
+            animate={{
+              opacity: [0.3, 0.7, 0.3],
+              scale: [1, 1.015, 1],
+            }}
+            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute -inset-6 rounded-[24px] pointer-events-none"
+            style={{
+              boxShadow:
+                "0 0 40px rgba(230,121,42,0.6), 0 0 80px rgba(230,121,42,0.35), 0 0 120px rgba(209,117,21,0.2)",
+            }}
+          />
+
+          {/* Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="relative"
+            style={{
+              background: "#FFFFFF",
+              borderRadius: "16px",
+              padding: "40px",
+              boxShadow:
+                "0 0 15px rgba(230, 121, 42, 0.4), 0 0 40px rgba(230, 121, 42, 0.25), inset 0 1px 0 rgba(255,255,255,0.6)",
+            }}
+          >
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.7fr_auto] gap-10 lg:gap-12 items-center">
 
             {/* ── Vùng 1: Heading trái + Bullet list ── */}
@@ -331,6 +303,7 @@ export default function QuickQuote() {
             </div>
           </div>
         </motion.div>
+        </div>
 
         {/* ═══ BẢNG GIÁ THAM KHẢO — NGOÀI CARD (4 cột) ═══ */}
         {priceResult && (

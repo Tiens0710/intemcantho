@@ -132,27 +132,92 @@ export default function CategoryGrid() {
       <div className="absolute -bottom-24 -left-16 h-56 w-56 rounded-full bg-[#FFFFFF] opacity-0" />
 
       <div className="container mx-auto px-4 relative z-10">
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-          <motion.div initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-            <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-[#2C1A10]">
-              DỊCH VỤ IN ẤN CỦA <span className="text-[#E6792A]">INTEM CẦN THƠ</span>
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-10"
+        >
+          {/* Title with decorative lines */}
+          <div className="flex items-center justify-center gap-4 mb-4">
+            <span className="hidden md:block h-px w-20 lg:w-32" style={{ background: "linear-gradient(to right, transparent, #C8A882)" }} />
+            <h2
+              style={{
+                fontSize: "clamp(1.8rem, 3.5vw, 2.6rem)",
+                fontWeight: 600,
+                lineHeight: 1.2,
+                color: "#9A5B24",
+                fontFamily: "'Cormorant Garamond', 'Playfair Display', serif",
+                whiteSpace: "nowrap",
+              }}
+            >
+              DỊCH VỤ IN ẤN CỦA <span style={{ color: "#E6792A" }}>INTEM CẦN THƠ</span>
             </h2>
-            <p className="mt-2 text-sm md:text-base text-[#7B6758] max-w-2xl">
-              Giải pháp in ấn nhanh, đẹp và đồng bộ cho shop, doanh nghiệp và thương hiệu địa phương.
-            </p>
-          </motion.div>
-          <Link
-            href="/van-phong"
-            className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2 text-[13px] font-semibold text-[#E6792A] shadow-[0_10px_24px_-18px_rgba(198,106,39,0.8)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#FFF4EC]"
-            style={{
-              border: "1.5px solid rgba(230, 121, 42, 0.28)",
-              boxShadow: "0 0 0 1px rgba(230,121,42,0.18), 0 0 16px rgba(230,121,42,0.1)",
-            }}
+            <span className="hidden md:block h-px w-20 lg:w-32" style={{ background: "linear-gradient(to left, transparent, #C8A882)" }} />
+          </div>
+
+          {/* Animated accent bar */}
+          <div className="flex items-center justify-center gap-2 mb-5">
+            <motion.div
+              className="h-0.5 rounded-full"
+              style={{ background: "rgba(139,94,60,0.15)" }}
+              initial={{ width: 0 }}
+              whileInView={{ width: 40 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            />
+            <motion.div
+              className="h-0.5 rounded-full"
+              style={{ background: "#E6792A" }}
+              initial={{ width: 0 }}
+              whileInView={{ width: 64 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            />
+            <motion.div
+              className="h-0.5 rounded-full"
+              style={{ background: "rgba(139,94,60,0.15)" }}
+              initial={{ width: 0 }}
+              whileInView={{ width: 40 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+            />
+          </div>
+
+          {/* Subtitle */}
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="text-sm md:text-base max-w-2xl mx-auto mb-6"
+            style={{ color: "#7B6758", lineHeight: 1.7 }}
           >
-            Xem tất cả dịch vụ
-            <ArrowRight className="h-4 w-4" />
-          </Link>
-        </div>
+            Giải pháp in ấn nhanh, đẹp và đồng bộ cho shop, doanh nghiệp và thương hiệu địa phương.
+          </motion.p>
+
+          {/* "Xem tất cả" CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+          >
+            <Link
+              href="/van-phong"
+              className="group/link inline-flex items-center gap-2 rounded-full bg-white px-5 py-2 text-[13px] font-semibold text-[#E6792A] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#FFF4EC]"
+              style={{
+                border: "1.5px solid rgba(230, 121, 42, 0.28)",
+                boxShadow: "0 0 0 1px rgba(230,121,42,0.18), 0 0 16px rgba(230,121,42,0.1)",
+              }}
+            >
+              Xem tất cả dịch vụ
+              <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover/link:translate-x-1" />
+            </Link>
+          </motion.div>
+        </motion.div>
 
         <div className="mt-7 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
           {SERVICES.map((service, index) => (
