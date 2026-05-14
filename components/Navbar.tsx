@@ -3,11 +3,13 @@
 import { navigationData } from "@/lib/navigation";
 import { useAppStore } from "@/lib/store";
 import WarmButton from "@/components/WarmButton";
+import LoginModal from "@/components/LoginModal";
+import RegisterModal from "@/components/RegisterModal";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronDown, Menu, Phone, Search, ShoppingBag, User, X } from "lucide-react";
+import { ChevronDown, Menu, Package, Phone, Search, Settings, ShoppingBag, User, X, LogOut, MapPin } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 export default function Navbar() {
@@ -16,7 +18,15 @@ export default function Navbar() {
   const [activeMegaMenu, setActiveMegaMenu] = useState<string | null>(null);
   const [expandedMobileItem, setExpandedMobileItem] = useState<string | null>(null);
   const closeMenuTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userName, setUserName] = useState("");
+  const [showUserMenu, setShowUserMenu] = useState(false);
+  const userMenuTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [hasLoggedInBefore, setHasLoggedInBefore] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showRegisterModal, setShowRegisterModal] = useState(false);
   const { persona } = useAppStore();
+  const router = useRouter();
   const pathname = usePathname();
   const isHomePage = pathname === "/";
   const shouldUseGlassHeader = !isHomePage || isScrolled;
@@ -42,6 +52,48 @@ export default function Navbar() {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isHomePage]);
+
+  // Check auth status
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    const savedUser = localStorage.getItem("user");
+    const hasLoggedBefore = localStorage.getItem("duky_has_logged_in") === "true";
+
+    if (token) {
+      setIsLoggedIn(true);
+      if (!hasLoggedBefore) {
+        localStorage.setItem("duky_has_logged_in", "true");
+      }
+      if (savedUser) {
+        try {
+          const user = JSON.parse(savedUser);
+          setUserName(user.name || "Tài khoản");
+        } catch {
+          setUserName("Tài khoản");
+        }
+      }
+    }
+
+    setHasLoggedInBefore(hasLoggedBefore || !!token);
+  }, []);
+
+  const openUserMenu = () => {
+    if (userMenuTimerRef.current) clearTimeout(userMenuTimerRef.current);
+    setShowUserMenu(true);
+  };
+
+  const closeUserMenu = () => {
+    if (userMenuTimerRef.current) clearTimeout(userMenuTimerRef.current);
+    userMenuTimerRef.current = setTimeout(() => setShowUserMenu(false), 200);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("user");
+    setIsLoggedIn(false);
+    setShowUserMenu(false);
+    router.push("/");
+  };
 
   const cancelCloseTimer = () => {
     if (closeMenuTimerRef.current) {
@@ -260,35 +312,143 @@ export default function Navbar() {
               <Search className="w-[18px] h-[18px]" strokeWidth={2} />
             </motion.button>
 
-            {/* User Icon */}
-            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-              <Link
-                href="/dang-nhap"
-                className={`p-2 rounded-full transition-colors inline-flex items-center justify-center ${
+            {!isLoggedIn && !hasLoggedInBefore ? (
+              <button
+                type="button"
+                onClick={() => setShowLoginModal(true)}
+                className={`ml-1 rounded-full border px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.25em] transition-colors ${
                   shouldUseGlassHeader
-                    ? "text-slate-600 hover:text-amber-800 hover:bg-amber-50"
-                    : "text-white/80 hover:text-white hover:bg-white/10"
+                    ? "border-amber-200 bg-white/80 text-amber-800 hover:bg-amber-50"
+                    : "border-white/30 bg-white/10 text-white hover:bg-white/20"
                 }`}
-                aria-label="Tài khoản"
               >
-                <User className="w-[18px] h-[18px]" strokeWidth={2} />
-              </Link>
-            </motion.div>
+                Đăng nhập
+              </button>
+            ) : (
+              <>
+                {/* User Icon / Account */}
+                {isLoggedIn ? (
+                  <div
+                    className="relative"
+                    onMouseEnter={openUserMenu}
+                    onMouseLeave={closeUserMenu}
+                  >
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className={`flex items-center gap-2 px-2 py-1.5 rounded-full transition-colors ${
+                        shouldUseGlassHeader
+                          ? "text-slate-700 hover:bg-amber-50"
+                          : "text-white hover:bg-white/10"
+                      }`}
+                      aria-label="Tài khoản"
+                    >
+                      <div className="w-7 h-7 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-[11px] font-bold text-white shadow-md">
+                        {userName.charAt(0).toUpperCase()}
+                      </div>
+                    </motion.button>
 
-            {/* Cart Icon (navigates to /cart) */}
-            <Link href="/cart" aria-label="Giỏ hàng" className="inline-block">
-              <motion.div
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                className={`p-2 rounded-full transition-colors ${
-                  shouldUseGlassHeader
-                    ? "text-slate-600 hover:text-amber-800 hover:bg-amber-50"
-                    : "text-white/80 hover:text-white hover:bg-white/10"
-                }`}
-              >
-                <ShoppingBag className="w-[18px] h-[18px]" strokeWidth={2} />
-              </motion.div>
-            </Link>
+                    <AnimatePresence>
+                      {showUserMenu && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 8, scale: 0.95 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: 8, scale: 0.95 }}
+                          transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                          className="absolute right-0 top-full mt-2 w-56 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden"
+                          style={{ zIndex: 70 }}
+                          onMouseEnter={openUserMenu}
+                          onMouseLeave={closeUserMenu}
+                        >
+                          {/* User Info */}
+                          <div className="px-4 py-3 border-b border-gray-50 bg-gradient-to-r from-amber-50/50 to-orange-50/50">
+                            <p className="text-sm font-semibold text-gray-900 truncate">{userName}</p>
+                            <p className="text-[11px] text-gray-500">Thành viên</p>
+                          </div>
+
+                          {/* Menu Items */}
+                          <div className="py-1.5">
+                            <Link
+                              href="/tai-khoan"
+                              className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-amber-50 hover:text-amber-900 transition-colors"
+                              onClick={() => setShowUserMenu(false)}
+                            >
+                              <User className="w-4 h-4 text-gray-400" strokeWidth={2} />
+                              Tài khoản của tôi
+                            </Link>
+                            <Link
+                              href="/tai-khoan/don-hang"
+                              className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-amber-50 hover:text-amber-900 transition-colors"
+                              onClick={() => setShowUserMenu(false)}
+                            >
+                              <Package className="w-4 h-4 text-gray-400" strokeWidth={2} />
+                              Đơn hàng
+                            </Link>
+                            <Link
+                              href="/tai-khoan/dia-chi"
+                              className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-amber-50 hover:text-amber-900 transition-colors"
+                              onClick={() => setShowUserMenu(false)}
+                            >
+                              <MapPin className="w-4 h-4 text-gray-400" strokeWidth={2} />
+                              Địa chỉ
+                            </Link>
+                            <Link
+                              href="/tai-khoan/cai-dat"
+                              className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-amber-50 hover:text-amber-900 transition-colors"
+                              onClick={() => setShowUserMenu(false)}
+                            >
+                              <Settings className="w-4 h-4 text-gray-400" strokeWidth={2} />
+                              Cài đặt
+                            </Link>
+                          </div>
+
+                          {/* Logout */}
+                          <div className="border-t border-gray-50 py-1.5">
+                            <button
+                              onClick={handleLogout}
+                              className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                            >
+                              <LogOut className="w-4 h-4" strokeWidth={2} />
+                              Đăng xuất
+                            </button>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                ) : (
+                    <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+                    <button
+                      type="button"
+                      onClick={() => setShowLoginModal(true)}
+                      className={`p-2 rounded-full transition-colors inline-flex items-center justify-center ${
+                        shouldUseGlassHeader
+                          ? "text-slate-600 hover:text-amber-800 hover:bg-amber-50"
+                          : "text-white/80 hover:text-white hover:bg-white/10"
+                      }`}
+                      aria-label="Đăng nhập"
+                    >
+                      <User className="w-[18px] h-[18px]" strokeWidth={2} />
+                    </button>
+                  </motion.div>
+                )}
+
+                {/* Cart Icon (navigates to /cart) */}
+                <Link href="/cart" aria-label="Giỏ hàng" className="inline-block">
+                  <motion.div
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                    className={`p-2 rounded-full transition-colors ${
+                      shouldUseGlassHeader
+                        ? "text-slate-600 hover:text-amber-800 hover:bg-amber-50"
+                        : "text-white/80 hover:text-white hover:bg-white/10"
+                    }`}
+                  >
+                    <ShoppingBag className="w-[18px] h-[18px]" strokeWidth={2} />
+                  </motion.div>
+                </Link>
+              </>
+            )}
 
             {/* Divider */}
             <div
@@ -332,16 +492,30 @@ export default function Navbar() {
 
           {/* Mobile Right Icons */}
           <div className="flex items-center gap-1">
-            <Link
-              href="/cart"
-              className={`p-2 rounded-full transition-colors ${
-                shouldUseGlassHeader
-                  ? "text-slate-600 hover:bg-amber-50"
-                  : "text-white/80 hover:bg-white/10"
-              }`}
-            >
-              <ShoppingBag className="w-5 h-5" strokeWidth={2} />
-            </Link>
+            {!isLoggedIn && !hasLoggedInBefore ? (
+              <button
+                type="button"
+                onClick={() => setShowLoginModal(true)}
+                className={`rounded-full border px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] transition-colors ${
+                  shouldUseGlassHeader
+                    ? "border-amber-200 bg-white/80 text-amber-800"
+                    : "border-white/30 bg-white/10 text-white"
+                }`}
+              >
+                Đăng nhập
+              </button>
+            ) : (
+              <Link
+                href="/cart"
+                className={`p-2 rounded-full transition-colors ${
+                  shouldUseGlassHeader
+                    ? "text-slate-600 hover:bg-amber-50"
+                    : "text-white/80 hover:bg-white/10"
+                }`}
+              >
+                <ShoppingBag className="w-5 h-5" strokeWidth={2} />
+              </Link>
+            )}
 
             <button
               className={`p-2 rounded-full transition-colors ${
@@ -478,6 +652,23 @@ export default function Navbar() {
           )}
         </AnimatePresence>
       </nav>
+      {/* Login Modal */}
+      <LoginModal
+        open={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+        onSwitchToRegister={() => { setShowLoginModal(false); setShowRegisterModal(true); }}
+        onLoginSuccess={(user) => {
+          setIsLoggedIn(true);
+          setUserName(user.name);
+          localStorage.setItem("duky_has_logged_in", "true");
+          setHasLoggedInBefore(true);
+        }}
+      />
+      <RegisterModal
+        open={showRegisterModal}
+        onClose={() => setShowRegisterModal(false)}
+        onSwitchToLogin={() => { setShowRegisterModal(false); setShowLoginModal(true); }}
+      />
     </>
   );
 }

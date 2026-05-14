@@ -398,8 +398,8 @@ export default function ChinhSachBaoMat() {
         .privacy-page .contact-block {
           margin-top: 4rem;
           padding: 2.5rem;
-          background: var(--ink);
-          color: var(--paper);
+          background: #8B5E3C;
+          color: #fff;
           border-radius: 8px;
           display: grid;
           grid-template-columns: 1fr 1fr;
@@ -414,7 +414,7 @@ export default function ChinhSachBaoMat() {
         }
 
         .privacy-page .contact-block h3 span {
-          color: var(--accent);
+          color: #FFD7A8;
         }
 
         .privacy-page .contact-item {
@@ -427,17 +427,17 @@ export default function ChinhSachBaoMat() {
           font-size: .72rem;
           letter-spacing: .15em;
           text-transform: uppercase;
-          color: rgba(250,248,244,.45);
+          color: rgba(255,255,255,.7);
           font-weight: 600;
         }
 
         .privacy-page .contact-value {
           font-size: .95rem;
-          color: var(--paper);
+          color: #fff;
         }
 
         .privacy-page .contact-value a {
-          color: var(--accent);
+          color: #FFD7A8;
           text-decoration: none;
         }
 
