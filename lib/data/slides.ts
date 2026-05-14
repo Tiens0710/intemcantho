@@ -21,6 +21,15 @@ export interface SlideData {
     circle: string;
     /** 'character' = nhân vật, 'product' = sản phẩm (hiển thị lớn hơn) */
     variant?: 'character' | 'product';
+    /** Ảnh nổi bên trái nhân vật */
+    leftFloat?: string;
+    /** Ảnh nổi bên phải nhân vật */
+    rightFloat?: string;
+    /** Style riêng cho ảnh floating của từng slide */
+    floatStyle?: {
+      leftPos?: Record<string, string>;
+      rightPos?: Record<string, string>;
+    };
   };
 }
 
@@ -39,8 +48,14 @@ export const slides: SlideData[] = [
       logo: '/herobanner/slide1/logo.png',
       header: '/herobanner/slide1/header1.png',
       badges: '/herobanner/slide1/component1.png',
-      stats: '/herobanner/slide1/component2.png',
+      stats: '',
       circle: '/herobanner/slide1/background_nhanvat.png',
+      leftFloat: '/herobanner/slide1/component2_1.png',
+      rightFloat: '/herobanner/slide1/component2_2.png',
+      floatStyle: {
+        leftPos: { left: '-50%', top: '30%' },
+        rightPos: { right: '-50%', top: '70%' },
+      },
     },
   },
   {
@@ -54,12 +69,18 @@ export const slides: SlideData[] = [
     accent: '#e9c7a3',
     custom: {
       type: 'imageHero',
-      logo: '/herobanner/slide2/logo.png',
+      logo: '',
       header: '/herobanner/slide2/header1.png',
       badges: '/herobanner/slide2/component1.png',
-      stats: '/herobanner/slide2/component2.png',
+      stats: '',
       circle: '/herobanner/slide2/background_sanpham.png',
       variant: 'product',
+      leftFloat: '/herobanner/slide2/component2_1.png',
+      rightFloat: '/herobanner/slide2/component2_2.png',
+      floatStyle: {
+        leftPos: { left: '-35%', top: '30%' },
+        rightPos: { right: '-30%', top: '70%' },
+      },
     },
   },
   {
@@ -76,8 +97,14 @@ export const slides: SlideData[] = [
       logo: '',
       header: '/herobanner/slide3/header1.png',
       badges: '/herobanner/slide3/component1.png',
-      stats: '/herobanner/slide3/component2.png',
+      stats: '',
       circle: '/herobanner/slide3/background_nhanvat.png',
+      leftFloat: '/herobanner/slide3/component2_1.png',
+      rightFloat: '/herobanner/slide3/component2_2.png',
+      floatStyle: {
+        leftPos: { left: '-20%', top: '30%' },
+        rightPos: { right: '-20%', top: '80%' },
+      },
     },
   },
 ];

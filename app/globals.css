@@ -1221,6 +1221,12 @@ select:focus {
   z-index: 50;
 }
 
+/* ── Hero Floating Images Animation ── */
+@keyframes heroFloatY {
+  0%, 100% { transform: translateY(-50%) translateX(0); }
+  50% { transform: translateY(calc(-50% - 16px)) translateX(0); }
+}
+
 .floating-navbar-transparent {
   background: rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(20px) saturate(150%);

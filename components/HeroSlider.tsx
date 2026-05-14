@@ -297,7 +297,7 @@ export default function HeroSlider() {
                     <img
                       src={activeSlide.custom.logo}
                       alt="Intem logo"
-                      style={{ width: '160px', height: 'auto', position: 'absolute', top: '-110px', left: '-10px', zIndex: 2 }}
+                      style={{ width: '160px', height: 'auto', position: 'absolute', top: '-120px', left: '-80px', zIndex: 2 }}
                       draggable={false} loading="eager" decoding="async"
                     />
                   )}
@@ -305,7 +305,7 @@ export default function HeroSlider() {
                     <img
                       src={activeSlide.custom.header}
                       alt="In tem Can Tho"
-                      style={{ width: '100%', maxWidth: '1100px', height: 'auto', display: 'block', marginTop: '50px' }}
+                      style={{ width: '110%', maxWidth: '1500px', height: 'auto', display: 'block', marginTop: '50px', marginLeft: '-100px' }}
                       draggable={false} loading="eager" decoding="async"
                     />
                   )}
@@ -385,6 +385,38 @@ export default function HeroSlider() {
                   backgroundImage: activeSlide.custom.circle ? `url(${activeSlide.custom.circle})` : 'radial-gradient(circle at 50% 45%, #f9d2a8 0%, #f1b877 60%, #e79d58 100%)',
                   backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundSize: 'contain', zIndex: 0,
                 }} />
+                {/* Left floating image — vị trí lấy từ slide data */}
+                {slides[productAnim.slideIdx].custom?.leftFloat && (
+                  <img
+                    src={slides[productAnim.slideIdx].custom?.leftFloat}
+                    alt=""
+                    aria-hidden="true"
+                    style={{
+                      position: 'absolute', transform: 'translateY(-50%)',
+                      width: 'clamp(120px, 18vw, 240px)', height: 'auto', objectFit: 'contain',
+                      zIndex: 3, filter: 'drop-shadow(0 8px 20px rgba(0,0,0,0.15))',
+                      animation: 'heroFloatY 4s ease-in-out infinite',
+                      ...slides[productAnim.slideIdx].custom?.floatStyle?.leftPos,
+                    }}
+                    draggable={false} loading="eager" decoding="async"
+                  />
+                )}
+                {/* Right floating image — vị trí lấy từ slide data */}
+                {slides[productAnim.slideIdx].custom?.rightFloat && (
+                  <img
+                    src={slides[productAnim.slideIdx].custom?.rightFloat}
+                    alt=""
+                    aria-hidden="true"
+                    style={{
+                      position: 'absolute', transform: 'translateY(-50%)',
+                      width: 'clamp(120px, 18vw, 240px)', height: 'auto', objectFit: 'contain',
+                      zIndex: 3, filter: 'drop-shadow(0 8px 20px rgba(0,0,0,0.15))',
+                      animation: 'heroFloatY 4s ease-in-out infinite 0.5s',
+                      ...slides[productAnim.slideIdx].custom?.floatStyle?.rightPos,
+                    }}
+                    draggable={false} loading="eager" decoding="async"
+                  />
+                )}
                 {/* Product/Character image */}
                 <img
                   key={productAnim.slideIdx}
@@ -394,6 +426,7 @@ export default function HeroSlider() {
                     position: 'relative', zIndex: 2, width: 'auto',
                     height: isProductVariant ? 'clamp(700px, 98vh, 1200px)' : 'clamp(580px, 92vh, 980px)',
                     objectFit: 'contain', filter: 'drop-shadow(0 18px 36px rgba(0,0,0,0.18))',
+                    transform: isProductVariant ? 'scale(1.1)' : undefined,
                   }}
                   draggable={false} loading="eager" decoding="async"
                 />
