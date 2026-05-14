@@ -91,28 +91,28 @@ export default function Footer() {
               <h4 className="mb-6 text-[15px] font-bold uppercase tracking-[0.06em] text-white">CHÍNH SÁCH</h4>
               <ul className="space-y-3 text-[13px] text-white">
                 <li>
-                  <a href="#" className="flex items-center gap-2.5 transition-colors hover:text-white group">
+                  <Link href="/qui-dinh-su-dung" className="flex items-center gap-2.5 transition-colors hover:text-white group">
                     <span className="text-[11px] text-white/60 group-hover:text-white">›</span>
                     Qui Định Sử Dụng
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#" className="flex items-center gap-2.5 transition-colors hover:text-white group">
+                  <Link href="/bao-mat-thong-tin" className="flex items-center gap-2.5 transition-colors hover:text-white group">
                     <span className="text-[11px] text-white/60 group-hover:text-white">›</span>
                     Bảo Mật Thông Tin
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#" className="flex items-center gap-2.5 transition-colors hover:text-white group">
+                  <Link href="/chinh-sach-van-chuyen" className="flex items-center gap-2.5 transition-colors hover:text-white group">
                     <span className="text-[11px] text-white/60 group-hover:text-white">›</span>
                     Chính sách vận chuyển
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#" className="flex items-center gap-2.5 transition-colors hover:text-white group">
+                  <Link href="/doi-tra-hoan-tien" className="flex items-center gap-2.5 transition-colors hover:text-white group">
                     <span className="text-[11px] text-white/60 group-hover:text-white">›</span>
                     Đổi Trả Và Hoàn Tiền
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>

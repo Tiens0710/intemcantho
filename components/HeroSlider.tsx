@@ -313,7 +313,7 @@ export default function HeroSlider() {
                     <img
                       src={activeSlide.custom.badges}
                       alt="" aria-hidden="true"
-                      style={{ width: '100%', maxWidth: '680px', height: 'auto', display: 'block', marginTop: '0.8rem' }}
+                      style={{ width: '100%', maxWidth: '680px', height: 'auto', display: 'block', marginTop: '0.8rem', animation: 'heroFloatBadges 5s ease-in-out infinite' }}
                       draggable={false} loading="eager" decoding="async"
                     />
                   )}
@@ -490,11 +490,11 @@ export default function HeroSlider() {
           gap: '12px',
           padding: '10px 20px',
           borderRadius: '999px',
-          background: 'rgba(255,255,255,0.12)',
-          backdropFilter: 'blur(16px)',
-          WebkitBackdropFilter: 'blur(16px)',
-          border: '1px solid rgba(255,255,255,0.18)',
-          boxShadow: '0 8px 24px rgba(0,0,0,0.15)',
+          background: 'rgba(255,255,255,0.45)',
+          backdropFilter: 'blur(16px) saturate(180%)',
+          WebkitBackdropFilter: 'blur(16px) saturate(180%)',
+          border: '1.5px solid rgba(154,91,36,0.4)',
+          boxShadow: '0 4px 16px rgba(154,91,36,0.15), inset 0 1px 0 rgba(255,255,255,0.6)',
         }}
       >
         {slides.map((_, i) => {
@@ -511,8 +511,8 @@ export default function HeroSlider() {
                 border: 'none',
                 cursor: 'pointer',
                 backgroundColor: isActive
-                  ? 'rgba(247,242,233,0.95)'
-                  : 'rgba(233,226,214,0.4)',
+                  ? '#9A5B24'
+                  : 'rgba(154,91,36,0.25)',
                 transition: 'width 0.4s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.3s ease',
                 padding: 0,
                 outline: 'none',
@@ -521,6 +521,22 @@ export default function HeroSlider() {
           );
         })}
       </div>
+
+      {/* Arrow Navigation — left/right */}
+      <button
+        onClick={goPrev}
+        aria-label="Previous slide"
+        className="hero-arrow-btn hero-arrow-left"
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+      </button>
+      <button
+        onClick={goNext}
+        aria-label="Next slide"
+        className="hero-arrow-btn hero-arrow-right"
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+      </button>
 
     </section>
   );
