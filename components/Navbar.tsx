@@ -43,18 +43,20 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isHomePage]);
 
-  const openMegaMenu = (label: string) => {
+  const cancelCloseTimer = () => {
     if (closeMenuTimerRef.current) {
       clearTimeout(closeMenuTimerRef.current);
       closeMenuTimerRef.current = null;
     }
+  };
+
+  const openMegaMenu = (label: string) => {
+    cancelCloseTimer();
     setActiveMegaMenu(label);
   };
 
   const closeMegaMenu = () => {
-    if (closeMenuTimerRef.current) {
-      clearTimeout(closeMenuTimerRef.current);
-    }
+    cancelCloseTimer();
     closeMenuTimerRef.current = setTimeout(() => {
       setActiveMegaMenu(null);
     }, 150);
@@ -62,9 +64,7 @@ export default function Navbar() {
 
   useEffect(() => {
     return () => {
-      if (closeMenuTimerRef.current) {
-        clearTimeout(closeMenuTimerRef.current);
-      }
+      cancelCloseTimer();
     };
   }, []);
 
@@ -117,44 +117,51 @@ export default function Navbar() {
                 className="relative"
               >
                 {item.megaMenu ? (
-                  <div
-                    onMouseEnter={() => openMegaMenu(item.label)}
-                    onMouseLeave={closeMegaMenu}
-                    className="py-6"
-                  >
-                    <Link
-                      href={item.href}
-                      className={`group relative inline-flex items-center gap-1 px-3 py-2 text-[13px] font-semibold tracking-wide transition-colors ${
-                        shouldUseGlassHeader
-                          ? "text-slate-700 hover:text-amber-800"
-                          : "text-white/90 hover:text-white"
-                      }`}
+                  <>
+                    {/* Trigger area — only the link + padding */}
+                    <div
+                      onMouseEnter={() => openMegaMenu(item.label)}
+                      onMouseLeave={closeMegaMenu}
+                      className="py-6"
                     >
-                      {item.label}
-                      <ChevronDown
-                        className={`h-3.5 w-3.5 transition-transform duration-300 ${
-                          activeMegaMenu === item.label ? "rotate-180" : ""
+                      <Link
+                        href={item.href}
+                        className={`group relative inline-flex items-center gap-1 px-3 py-2 text-[13px] font-semibold tracking-wide transition-colors ${
+                          shouldUseGlassHeader
+                            ? "text-slate-700 hover:text-amber-800"
+                            : "text-white/90 hover:text-white"
                         }`}
-                      />
-                      <span
-                        className={`absolute bottom-0 left-3 right-3 h-0.5 scale-x-0 bg-amber-700 transition-transform duration-300 group-hover:scale-x-100 ${
-                          pathname === item.href ? "scale-x-100" : ""
-                        }`}
-                      />
-                    </Link>
+                      >
+                        {item.label}
+                        <ChevronDown
+                          className={`h-3.5 w-3.5 transition-transform duration-300 ${
+                            activeMegaMenu === item.label ? "rotate-180" : ""
+                          }`}
+                        />
+                        <span
+                          className={`absolute bottom-0 left-3 right-3 h-0.5 scale-x-0 bg-amber-700 transition-transform duration-300 group-hover:scale-x-100 ${
+                            pathname === item.href ? "scale-x-100" : ""
+                          }`}
+                        />
+                      </Link>
+                    </div>
 
+                    {/* Mega Menu Panel — fixed positioned, has its own hover handlers */}
                     <AnimatePresence>
                       {activeMegaMenu === item.label && (
                         <motion.div
+                          key={item.label}
                           initial={{ opacity: 0, y: 30, scale: 0.94, rotateX: -8 }}
                           animate={{ opacity: 1, y: 0, scale: 1, rotateX: 0 }}
-                          exit={{ opacity: 0, y: 20, scale: 0.94, rotateX: -8 }}
+                          exit={{ opacity: 0, y: 20, scale: 0.94, rotateX: -8, pointerEvents: "none" as any }}
                           transition={{
                             duration: 0.5,
                             ease: [0.16, 1, 0.3, 1],
                           }}
                           className="fixed left-1/2 w-[min(1400px,calc(100vw-3rem))] -translate-x-1/2 overflow-hidden bg-white p-0.5"
                           style={{ top: "60px", zIndex: 60, borderRadius: "24px", boxShadow: "0 50px 140px -30px rgba(15,23,42,0.6), 0 0 1px rgba(0,0,0,0.2)", perspective: "1500px", transformOrigin: "top center" }}
+                          onMouseEnter={cancelCloseTimer}
+                          onMouseLeave={closeMegaMenu}
                         >
                           <div className="absolute inset-0 rounded-[42px] bg-gradient-to-b from-white via-white/20 to-white/5 opacity-100" />
 
@@ -215,7 +222,7 @@ export default function Navbar() {
                         </motion.div>
                       )}
                     </AnimatePresence>
-                  </div>
+                  </>
                 ) : (
                   <Link
                     href={item.href}

@@ -14,7 +14,7 @@ import StatsSection from "@/components/StatsSection";
 import StoreLocationSection from "@/components/StoreLocationSection";
 import WarmButton from "@/components/WarmButton";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronLeft, ChevronRight, ClipboardCheck, HandCoins, Headset, Lightbulb, Printer, ThumbsUp } from "lucide-react";
+import { ClipboardCheck, HandCoins, Headset, Lightbulb, Printer, ThumbsUp } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -53,30 +53,22 @@ export default function Home() {
       role: "Chủ shop quà tặng",
     },
   ];
-  const testimonialCount = testimonials.length;
-  const [testimonialStart, setTestimonialStart] = useState(0);
-  const [testimonialDirection, setTestimonialDirection] = useState(1);
-  const visibleTestimonials = Array.from(
-    { length: 3 },
-    (_, offset) => testimonials[(testimonialStart + offset) % testimonialCount]
-  );
-  const showPreviousTestimonials = () => {
-    setTestimonialDirection(-1);
-    setTestimonialStart((current) => (current - 1 + testimonialCount) % testimonialCount);
-  };
-  const showNextTestimonials = () => {
-    setTestimonialDirection(1);
-    setTestimonialStart((current) => (current + 1) % testimonialCount);
-  };
+
+  const blogPosts = [
+    { id: 1, title: "In tem nhãn chống nước ở Cần Thơ", date: "29 Th4", image: "/nhap.webp", excerpt: "Tem nhãn chống nước đang trở thành lựa chọn gần như bắt buộc đối với nhiều doanh nghiệp, đặc biệt trong ngành thực phẩm." },
+    { id: 2, title: "Thiết kế in ấn danh thiếp ở Cần Thơ", date: "26 Th4", image: "/Bia-15.webp", excerpt: "Thiết kế in ấn danh thiếp vẫn là một trong những \"vũ khí nhỏ nhưng có võ\" trong kinh doanh hiện đại." },
+    { id: 3, title: "Dịch vụ in ấn ấn phẩm văn phòng", date: "23 Th4", image: "/Bia-12.webp", excerpt: "In ấn ấn phẩm văn phòng là một phần quan trọng trong cách doanh nghiệp thể hiện sự chuyên nghiệp." },
+    { id: 4, title: "In ấn ép nhựa giá rẻ theo yêu cầu", date: "20 Th4", image: "/Bia-14.webp", excerpt: "In ấn ép nhựa giá rẻ theo yêu cầu đang trở thành lựa chọn quen thuộc của nhiều cá nhân và doanh nghiệp." },
+  ];
+
+  const [blogStart, setBlogStart] = useState(0);
 
   useEffect(() => {
-    const intervalId = window.setInterval(() => {
-      setTestimonialDirection(1);
-      setTestimonialStart((current) => (current + 1) % testimonialCount);
+    const interval = window.setInterval(() => {
+      setBlogStart((prev) => (prev + 2) % blogPosts.length);
     }, 5000);
-
-    return () => window.clearInterval(intervalId);
-  }, [testimonialCount]);
+    return () => window.clearInterval(interval);
+  }, [blogPosts.length]);
 
   return (
     <motion.div
@@ -167,29 +159,32 @@ export default function Home() {
             transition={{ duration: 0.6 }}
             className="text-center mb-12"
           >
-            <p
-              className="mb-3"
-              style={{
-                fontSize: "12px",
-                fontWeight: 600,
-                textTransform: "uppercase",
-                letterSpacing: "0.25em",
-                color: "#A08060",
-              }}
-            >
-              Vì sao chọn Intem Cần Thơ?
-            </p>
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <span className="h-px w-8 md:w-16" style={{ background: "linear-gradient(90deg, transparent, #E6D2BF)" }} />
+              <span
+                className="inline-flex items-center gap-2 rounded-full border border-[#E6792A]/25 bg-white/90 px-5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.35em] text-[#8B5E3C]"
+                style={{ boxShadow: "0 8px 18px -16px rgba(198,106,39,0.6)" }}
+              >
+                <span className="h-2 w-2 rounded-full bg-[#E6792A]" />
+                Vì sao chọn Intem Cần Thơ?
+              </span>
+              <span className="h-px w-8 md:w-16" style={{ background: "linear-gradient(270deg, transparent, #E6D2BF)" }} />
+            </div>
             <h2
               style={{
                 fontSize: "clamp(2.1rem, 4.2vw, 2.8rem)",
-                fontWeight: 600,
+                fontWeight: 700,
                 lineHeight: 1.2,
-                color: "#9A5B24",
                 fontFamily: "'Cormorant Garamond', 'Playfair Display', serif",
+                background: "linear-gradient(135deg, #1C1007 0%, #9A5B24 50%, #E6792A 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
               }}
             >
               Cam kết chất lượng – Dịch vụ tận tâm
             </h2>
+            <div className="mt-4 mx-auto w-20 h-1 rounded-full" style={{ background: "linear-gradient(90deg, #E6792A, #C66A27, #E6D2BF)" }} />
           </motion.div>
 
           {/* Features Grid — 6 columns */}
@@ -296,14 +291,33 @@ export default function Home() {
             transition={{ duration: 0.8 }}
             className="text-center mb-16"
           >
-            <div className="mb-4 flex items-center justify-center gap-4">
-              <span className="h-px w-60 bg-amber-800/70" />
-              <h2 className="text-4xl md:text-5xl font-light mb-0 whitespace-nowrap !text-amber-800">
-                TẠI SAO NÊN CHỌN CHÚNG TÔI
-              </h2>
-              <span className="h-px w-60 bg-amber-800/70" />
+            <div className="flex items-center justify-center gap-3 mb-5">
+              <span className="h-px w-8 md:w-16" style={{ background: "linear-gradient(90deg, transparent, #E6D2BF)" }} />
+              <span
+                className="inline-flex items-center gap-2 rounded-full border border-[#E6792A]/25 bg-white/90 px-5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.35em] text-[#8B5E3C]"
+                style={{ boxShadow: "0 8px 18px -16px rgba(198,106,39,0.6)" }}
+              >
+                <span className="h-2 w-2 rounded-full bg-[#E6792A]" />
+                Điểm khác biệt
+              </span>
+              <span className="h-px w-8 md:w-16" style={{ background: "linear-gradient(270deg, transparent, #E6D2BF)" }} />
             </div>
-            <div className="w-40 h-1 bg-amber-800 mx-auto"></div>
+            <h2
+              className="mb-0 whitespace-nowrap"
+              style={{
+                fontSize: "clamp(2rem, 4vw, 3rem)",
+                fontWeight: 700,
+                lineHeight: 1.2,
+                fontFamily: "'Cormorant Garamond', 'Playfair Display', serif",
+                background: "linear-gradient(135deg, #1C1007 0%, #9A5B24 50%, #E6792A 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}
+            >
+              TẠI SAO NÊN CHỌN CHÚNG TÔI
+            </h2>
+            <div className="mt-4 mx-auto w-20 h-1 rounded-full" style={{ background: "linear-gradient(90deg, #E6792A, #C66A27, #E6D2BF)" }} />
           </motion.div>
 
           {/* Main Description */}
@@ -386,128 +400,21 @@ export default function Home() {
       {/* Order Process Section */}
       <OrderProcess />
 
-      {/* Testimonials Section */}
-      <section id="testimonials" className="relative py-16 md:py-24 bg-white overflow-hidden">
-        {/* Background patterns */}
-        <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: "radial-gradient(circle, rgba(139,94,60,0.04) 1px, transparent 1px)", backgroundSize: "24px 24px" }} />
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#8B5E3C]/20 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#8B5E3C]/20 to-transparent" />
-
-        <div className="container mx-auto px-4 relative z-10">
-          {/* Header */}
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-12"
-          >
-            <div className="flex items-center justify-center gap-4 mb-3">
-              <span className="h-px w-20 md:w-32" style={{ background: "#C8A882" }} />
-              <h2 style={{ fontSize: "14px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.25em", color: "#8B5E3C", margin: 0, whiteSpace: "nowrap" }}>
-                Đánh giá
-              </h2>
-              <span className="h-px w-20 md:w-32" style={{ background: "#C8A882" }} />
-            </div>
-            <p style={{ fontSize: "clamp(1.6rem, 3vw, 2.2rem)", fontWeight: 700, lineHeight: 1.3, color: "#1C1007" }}>
-              Khách hàng nói gì về chúng tôi
-            </p>
-          </motion.div>
-
-          {/* Testimonials Grid */}
-          <div className="relative max-w-5xl mx-auto">
-            {/* Nav arrows */}
-            <motion.button
-              type="button"
-              aria-label="Previous"
-              onClick={showPreviousTestimonials}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              className="hidden lg:flex absolute -left-5 top-1/2 -translate-y-1/2 z-20 items-center justify-center w-10 h-10 rounded-full transition-all duration-300"
-              style={{ background: "rgba(255,255,255,0.9)", border: "1px solid rgba(222,210,194,0.6)", boxShadow: "0 2px 8px rgba(92,61,30,0.08)", color: "#8B5E3C" }}
-            >
-              <ChevronLeft className="w-5 h-5" strokeWidth={1.5} />
-            </motion.button>
-
-            <motion.button
-              type="button"
-              aria-label="Next"
-              onClick={showNextTestimonials}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              className="hidden lg:flex absolute -right-5 top-1/2 -translate-y-1/2 z-20 items-center justify-center w-10 h-10 rounded-full transition-all duration-300"
-              style={{ background: "rgba(255,255,255,0.9)", border: "1px solid rgba(222,210,194,0.6)", boxShadow: "0 2px 8px rgba(92,61,30,0.08)", color: "#8B5E3C" }}
-            >
-              <ChevronRight className="w-5 h-5" strokeWidth={1.5} />
-            </motion.button>
-
-            <div className="grid grid-cols-1 gap-5 md:grid-cols-3 overflow-hidden">
-              <AnimatePresence initial={false} mode="popLayout" custom={testimonialDirection}>
-                {visibleTestimonials.map((testimonial, i) => (
-                  <motion.article
-                    layout
-                    key={testimonial.id}
-                    custom={testimonialDirection}
-                    initial={{ opacity: 0, x: testimonialDirection * 28 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: testimonialDirection * -28 }}
-                    transition={{
-                      layout: { duration: 0.48, ease: [0.22, 1, 0.36, 1] },
-                      opacity: { duration: 0.22 },
-                      x: { duration: 0.48, ease: [0.22, 1, 0.36, 1] },
-                    }}
-                    className="group flex flex-col rounded-2xl p-6 transition-all duration-500 hover:-translate-y-2 hover:shadow-xl"
-                    style={{
-                      background: "#FFFFFF",
-                      border: "1px solid rgba(222, 210, 194, 0.6)",
-                      boxShadow: "0 2px 16px rgba(92, 61, 30, 0.06)",
-                    }}
-                  >
-                    {/* Quote icon */}
-                    <div className="mb-4" style={{ color: "rgba(139,94,60,0.15)" }}>
-                      <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
-                      </svg>
-                    </div>
-
-                    {/* Content */}
-                    <p className="flex-1 mb-5" style={{ fontSize: "13px", fontWeight: 400, color: "#6B5744", lineHeight: 1.7 }}>
-                      {testimonial.content}
-                    </p>
-
-                    {/* Amber accent line */}
-                    <div className="mb-5 w-8 h-0.5 rounded-full transition-all duration-500 group-hover:w-12" style={{ background: "rgba(139,94,60,0.25)" }} />
-
-                    {/* Author */}
-                    <div className="flex items-center gap-3">
-                      <img
-                        src={testimonial.avatar}
-                        alt={testimonial.author}
-                        className="w-11 h-11 rounded-full object-cover"
-                        style={{ boxShadow: "0 4px 12px rgba(92,61,30,0.12)" }}
-                        loading="lazy"
-                      />
-                      <div>
-                        <p style={{ fontSize: "13px", fontWeight: 700, color: "#1C1007" }}>
-                          {testimonial.author}
-                        </p>
-                        <p style={{ fontSize: "11px", fontWeight: 400, color: "#A08060" }}>
-                          {testimonial.role}
-                        </p>
-                      </div>
-                    </div>
-                  </motion.article>
-                ))}
-              </AnimatePresence>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Partners Section */}
-      <section id="partners" className="relative py-16 md:py-20 bg-white overflow-hidden">
-        {/* Background patterns */}
-        <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: "radial-gradient(circle, rgba(139,94,60,0.04) 1px, transparent 1px)", backgroundSize: "24px 24px" }} />
+      {/* Testimonials Section — Premium Infinite Carousel */}
+      <section id="testimonials" className="relative py-20 md:py-28 bg-white overflow-hidden">
+        {/* Background decorations */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            backgroundImage: "radial-gradient(circle, rgba(139,94,60,0.04) 1px, transparent 1px)",
+            backgroundSize: "24px 24px",
+          }}
+        />
+        {/* Ambient warm glow */}
+        <div
+          className="pointer-events-none absolute left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/2 h-[500px] w-[70%] rounded-full opacity-20 blur-[120px]"
+          style={{ background: "radial-gradient(circle, rgba(196,168,130,0.3) 0%, transparent 70%)" }}
+        />
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#8B5E3C]/20 to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#8B5E3C]/20 to-transparent" />
 
@@ -518,39 +425,218 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="text-center mb-12 container mx-auto px-4"
+            className="text-center mb-14 container mx-auto px-4"
           >
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <span className="h-px w-12 md:w-24" style={{ background: "#E6D2BF" }} />
+            <div className="flex items-center justify-center gap-3 mb-5">
+              <span className="h-px w-8 md:w-16" style={{ background: "linear-gradient(90deg, transparent, #E6D2BF)" }} />
               <span
-                className="inline-flex items-center gap-2 rounded-full border border-[#E6792A]/25 bg-white/90 px-4 py-1 text-[11px] font-semibold uppercase tracking-[0.35em] text-[#8B5E3C]"
+                className="inline-flex items-center gap-2 rounded-full border border-[#E6792A]/25 bg-white/90 px-5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.35em] text-[#8B5E3C]"
                 style={{ boxShadow: "0 8px 18px -16px rgba(198,106,39,0.6)" }}
               >
                 <span className="h-2 w-2 rounded-full bg-[#E6792A]" />
-                Đối tác
+                Đánh giá
               </span>
-              <span className="h-px w-12 md:w-24" style={{ background: "#E6D2BF" }} />
+              <span className="h-px w-8 md:w-16" style={{ background: "linear-gradient(270deg, transparent, #E6D2BF)" }} />
             </div>
             <h2
               style={{
-                fontSize: "clamp(1.7rem, 3vw, 2.3rem)",
-                fontWeight: 600,
-                lineHeight: 1.3,
-                color: "#1C1007",
+                fontSize: "clamp(4rem, 3.2vw, 2.5rem)",
+                fontWeight: 700,
+                lineHeight: 1.25,
                 fontFamily: "'Cormorant Garamond', 'Playfair Display', serif",
+                background: "linear-gradient(135deg, #1C1007 0%, #9A5B24 60%, #E6792A 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
               }}
             >
-              Được tin dùng bởi <span style={{ color: "#E6792A" }}>500+</span> doanh nghiệp và{" "}
-              <span style={{ color: "#E6792A" }}>2.000+</span> người dùng
+              Khách hàng nói gì về chúng tôi
             </h2>
+            <div className="mt-4 mx-auto w-20 h-1 rounded-full" style={{ background: "linear-gradient(90deg, #E6792A, #C66A27, #E6D2BF)" }} />
+            <p
+              className="mt-4 mx-auto max-w-lg"
+              style={{ fontSize: "14px", fontWeight: 400, color: "#7A6A58", lineHeight: 1.75 }}
+            >
+              Hơn 2.000 khách hàng đã tin tưởng và hài lòng với dịch vụ in ấn của DuKy Printing
+            </p>
           </motion.div>
 
-          {/* Logo carousel — full width for marquee */}
-          <div className="px-4 md:px-8">
-            <PartnerCarousel />
+          {/* Edge fades */}
+          <div className="pointer-events-none absolute inset-y-0 left-0 z-20 w-20 md:w-44" style={{ background: "linear-gradient(to right, #ffffff 0%, rgba(255,255,255,0.7) 30%, transparent 100%)" }} />
+          <div className="pointer-events-none absolute inset-y-0 right-0 z-20 w-20 md:w-44" style={{ background: "linear-gradient(to left, #ffffff 0%, rgba(255,255,255,0.7) 30%, transparent 100%)" }} />
+
+          {/* Single Row — Infinite Scroll */}
+          <div className="testimonials-scroll-container">
+            <div className="testimonials-scroll-track">
+              {[...testimonials, ...testimonials].map((testimonial, i) => (
+                <div key={`row1-${testimonial.id}-${i}`} className="testimonial-card">
+                  {/* Top accent gradient bar */}
+                  <div className="testimonial-card-accent" />
+
+                  <div className="testimonial-card-body">
+                    <div className="testimonial-quote-icon">&ldquo;</div>
+
+                    {/* Star Rating + Verified Badge */}
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="testimonial-stars" style={{ marginBottom: 0 }}>
+                        {[...Array(5)].map((_, si) => (
+                          <svg key={si} className="testimonial-star" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                          </svg>
+                        ))}
+                      </div>
+                      <span className="testimonial-verified">
+                        <svg viewBox="0 0 20 20" fill="currentColor">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                        Đã xác minh
+                      </span>
+                    </div>
+
+                    {/* Content */}
+                    <p className="mb-5" style={{ fontSize: "14px", fontWeight: 400, color: "#5C4A3A", lineHeight: 1.75, fontStyle: "italic" }}>
+                      {testimonial.content}
+                    </p>
+
+                    {/* Amber accent line */}
+                    <div className="mb-5 w-10 h-0.5 rounded-full" style={{ background: "linear-gradient(90deg, rgba(139,94,60,0.4), rgba(139,94,60,0.1))" }} />
+
+                    {/* Author */}
+                    <div className="flex items-center gap-3.5">
+                      <div className="relative">
+                        <img
+                          src={testimonial.avatar}
+                          alt={testimonial.author}
+                          className="w-12 h-12 rounded-full object-cover"
+                          style={{
+                            boxShadow: "0 4px 14px rgba(92,61,30,0.15)",
+                            border: "2.5px solid rgba(196,168,130,0.3)",
+                          }}
+                          loading="lazy"
+                        />
+                        {/* Online indicator */}
+                        <div
+                          className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full"
+                          style={{
+                            background: "#22C55E",
+                            border: "2px solid #ffffff",
+                            boxShadow: "0 2px 6px rgba(34,197,94,0.3)",
+                          }}
+                        />
+                      </div>
+                      <div>
+                        <p style={{ fontSize: "14px", fontWeight: 700, color: "#1C1007" }}>
+                          {testimonial.author}
+                        </p>
+                        <p style={{ fontSize: "12px", fontWeight: 400, color: "#A08060" }}>
+                          {testimonial.role}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* Latest Blog Posts Section */}
+      <section id="latest-posts" className="relative py-16 md:py-20 bg-gray-50 overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: "radial-gradient(circle, rgba(139,94,60,0.04) 1px, transparent 1px)", backgroundSize: "24px 24px" }} />
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+            {/* Left — Title */}
+            <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="lg:col-span-4">
+              <div className="flex items-center gap-3 mb-5">
+                <span className="h-px w-8" style={{ background: "linear-gradient(90deg, transparent, #E6D2BF)" }} />
+    
+              </div>
+              <h2
+                style={{
+                  fontSize: "clamp(4.5rem, 5vw, 3.8rem)",
+                  fontWeight: 800,
+                  lineHeight: 1.1,
+                  fontFamily: "'Cormorant Garamond', 'Playfair Display', serif",
+                  background: "linear-gradient(135deg, #1C1007 0%, #9A5B24 40%, #E6792A 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                  filter: "drop-shadow(0 2px 6px rgba(154, 91, 36, 0.2))",
+                }}
+              >
+                Bài viết mới nhất
+              </h2>
+              <div className="mt-5 mb-5 w-24 h-1.5 rounded-full" style={{ background: "linear-gradient(90deg, #E6792A, #C66A27, #E6D2BF)" }} />
+              <p style={{ fontSize: "15px", fontWeight: 400, color: "#6B5A48", lineHeight: 1.75 }}>Chia sẻ kiến thức và kinh nghiệm về thiết kế, in ấn tem nhãn chuyên nghiệp</p>
+              <Link href="/kinh-nghiem" className="group/link inline-flex items-center gap-2.5 mt-8 text-sm font-bold transition-all duration-300 hover:gap-3.5 hover:text-amber-700" style={{ color: "#8B5E3C" }}>
+                Xem tất cả bài viết
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
+              </Link>
+            </motion.div>
+            {/* Right — 2 Cards with overlay style */}
+            <div className="lg:col-span-8">
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div key={blogStart} initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -40 }} transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }} className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  {blogPosts.slice(blogStart, blogStart + 2).map((post) => (
+                    <article key={post.id} className="group relative rounded-2xl overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2 hover:shadow-xl" style={{ height: "280px", boxShadow: "0 4px 20px rgba(92, 61, 30, 0.12)" }}>
+                      {/* Background Image */}
+                      <img
+                        src={post.image}
+                        alt={post.title}
+                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                        loading="lazy"
+                      />
+                      {/* Gradient Overlay — softer for text readability */}
+                      <div className="absolute inset-0 transition-all duration-500" style={{ background: "linear-gradient(to top, rgba(28, 16, 7, 0.75) 0%, rgba(28, 16, 7, 0.4) 40%, rgba(28, 16, 7, 0.08) 70%, transparent 100%)" }} />
+                      {/* Hover Overlay */}
+                      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ background: "linear-gradient(to top, rgba(230, 121, 42, 0.3) 0%, rgba(230, 121, 42, 0.1) 40%, transparent 60%)" }} />
+                      {/* Date Badge */}
+                      <div className="absolute top-4 left-4 z-10 px-3 py-1 rounded-full text-[11px] font-bold text-white" style={{ background: "rgba(139, 94, 60, 0.85)", backdropFilter: "blur(4px)" }}>{post.date}</div>
+                      {/* Content Overlay — Title only */}
+                      <div className="absolute bottom-0 left-0 right-0 p-5 z-10">
+                        <h3 className="mb-4 line-clamp-2 blog-card-title transition-colors duration-300" style={{ fontSize: "19px", fontWeight: 800, lineHeight: 1.3, fontFamily: "'Nunito', sans-serif", textShadow: "0 2px 12px rgba(0,0,0,0.8), 0 1px 4px rgba(0,0,0,0.6)" }}>{post.title}</h3>
+                        <Link href="/kinh-nghiem" className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-[12px] font-bold transition-all duration-300 hover:gap-3" style={{ background: "rgba(230, 121, 42, 0.9)", color: "#ffffff", backdropFilter: "blur(4px)" }}>
+                          Đọc tiếp
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
+                        </Link>
+                      </div>
+                    </article>
+                  ))}
+                </motion.div>
+              </AnimatePresence>
+              {/* Pagination Dots */}
+              <div className="flex items-center justify-center gap-3 mt-8">
+                {Array.from({ length: Math.ceil(blogPosts.length / 2) }).map((_, idx) => {
+                  const pageStart = idx * 2;
+                  const isActive = blogStart === pageStart;
+                  return (
+                    <button
+                      key={idx}
+                      onClick={() => setBlogStart(pageStart)}
+                      className="relative transition-all duration-300"
+                      style={{
+                        width: isActive ? "32px" : "10px",
+                        height: "10px",
+                        borderRadius: "9999px",
+                        background: isActive
+                          ? "linear-gradient(90deg, #E6792A, #C66A27)"
+                          : "rgba(139, 94, 60, 0.2)",
+                        boxShadow: isActive ? "0 2px 8px rgba(198, 106, 39, 0.4)" : "none",
+                      }}
+                      aria-label={`Chuyển sang trang ${idx + 1}`}
+                    />
+                  );
+                })}
+              </div>
+            </div>
           </div>
         </div>
       </section>
+
+      {/* Partners Section — Infinite Logo Ticker */}
+      <PartnerCarousel />
 
       {/* Contact Section */}
       <section id="contact" className="relative overflow-hidden py-20 md:py-28" style={{ background: "#FFFDF9" }}>
@@ -623,11 +709,28 @@ export default function Home() {
               transition={{ duration: 0.6 }}
             >
               {/* Title */}
+              <div className="flex items-center gap-3 mb-5">
+                <span className="h-px w-8" style={{ background: "linear-gradient(90deg, transparent, #E6D2BF)" }} />
+                <span className="inline-flex items-center gap-2 rounded-full border border-[#E6792A]/25 bg-white/90 px-5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.35em] text-[#8B5E3C]" style={{ boxShadow: "0 8px 18px -16px rgba(198,106,39,0.6)" }}>
+                  <span className="h-2 w-2 rounded-full bg-[#E6792A]" />
+                  Liên hệ
+                </span>
+              </div>
               <h2
-                className="mb-10 text-3xl font-extrabold uppercase italic tracking-wide text-amber-800 md:text-4xl"
+                style={{
+                  fontSize: "clamp(1.8rem, 3.2vw, 2.5rem)",
+                  fontWeight: 700,
+                  lineHeight: 1.25,
+                  fontFamily: "'Cormorant Garamond', 'Playfair Display', serif",
+                  background: "linear-gradient(135deg, #1C1007 0%, #9A5B24 60%, #E6792A 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }}
               >
                 Liên Hệ Với Chúng Tôi
               </h2>
+              <div className="mt-4 mb-8 w-20 h-1 rounded-full" style={{ background: "linear-gradient(90deg, #E6792A, #C66A27, #E6D2BF)" }} />
 
               {/* Form */}
               <form className="space-y-6">

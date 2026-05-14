@@ -1,8 +1,12 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight, Star } from "lucide-react";
-import { useEffect, useState } from "react";
+/**
+ * CategoryFeedback — Infinite marquee of testimonial cards,
+ * inspired by PartnerCarousel with framer-motion smooth scroll.
+ */
+
+import { motion } from "framer-motion";
+import { Quote, Star } from "lucide-react";
 import type { TestimonialData } from "@/lib/category-data";
 
 type Props = {
@@ -10,51 +14,19 @@ type Props = {
 };
 
 export default function CategoryFeedback({ testimonials }: Props) {
-  const [current, setCurrent] = useState(0);
-  const [direction, setDirection] = useState(1);
-  const count = testimonials.length;
-
-  const [visibleCount, setVisibleCount] = useState(1);
-
-  useEffect(() => {
-    const update = () => {
-      const w = window.innerWidth;
-      if (w >= 1024) setVisibleCount(3);
-      else if (w >= 640) setVisibleCount(2);
-      else setVisibleCount(1);
-    };
-    update();
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
-  }, []);
-
-  const visibleItems = Array.from(
-    { length: Math.min(visibleCount, count) },
-    (_, offset) => testimonials[(current + offset) % count]
-  );
-
-  const goNext = () => {
-    setDirection(1);
-    setCurrent((c) => (c + 1) % count);
-  };
-  const goPrev = () => {
-    setDirection(-1);
-    setCurrent((c) => (c - 1 + count) % count);
-  };
-
-  useEffect(() => {
-    if (count <= visibleCount) return;
-    const id = window.setInterval(() => {
-      setDirection(1);
-      setCurrent((c) => (c + 1) % count);
-    }, 5000);
-    return () => window.clearInterval(id);
-  }, [count, visibleCount]);
+  // Double the array for seamless infinite loop (same as PartnerCarousel)
+  const DOUBLED = [...testimonials, ...testimonials];
 
   return (
-    <section className="py-20 relative z-10">
+    <section className="py-20 relative z-10 overflow-hidden">
+      {/* ── Decorative ambient glows ── */}
+      <div
+        className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[400px] w-[80%] rounded-full opacity-20 blur-[100px]"
+        style={{ background: "radial-gradient(circle, rgba(196,168,130,0.25) 0%, transparent 70%)" }}
+      />
+
       <div className="container mx-auto px-4">
-        {/* Header */}
+        {/* ── Header ── */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -62,6 +34,15 @@ export default function CategoryFeedback({ testimonials }: Props) {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
+          <motion.div
+            initial={{ scale: 0 }}
+            whileInView={{ scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, type: "spring" }}
+            className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-amber-900/5 mb-5"
+          >
+            <Quote className="w-6 h-6 text-amber-800" />
+          </motion.div>
           <h2 className="text-4xl md:text-5xl font-serif text-amber-900 mb-4">
             Khách Hàng Nói Gì
           </h2>
@@ -69,118 +50,126 @@ export default function CategoryFeedback({ testimonials }: Props) {
             Đánh giá thực tế từ khách hàng đã sử dụng dịch vụ
           </p>
         </motion.div>
+      </div>
 
-        {/* Testimonials */}
-        <div className="relative max-w-5xl mx-auto">
-          {/* Nav arrows */}
-          {count > visibleCount && (
-            <>
-              <motion.button
-                type="button"
-                aria-label="Previous"
-                onClick={goPrev}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                className="hidden lg:flex absolute -left-5 top-1/2 -translate-y-1/2 z-20 items-center justify-center w-10 h-10 rounded-full bg-white/60 backdrop-blur-2xl border border-white/80 shadow-lg shadow-amber-900/5 text-amber-900/60 transition-all duration-300 hover:text-amber-900"
-              >
-                <ChevronLeft className="w-5 h-5" strokeWidth={1.5} />
-              </motion.button>
-              <motion.button
-                type="button"
-                aria-label="Next"
-                onClick={goNext}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                className="hidden lg:flex absolute -right-5 top-1/2 -translate-y-1/2 z-20 items-center justify-center w-10 h-10 rounded-full bg-white/60 backdrop-blur-2xl border border-white/80 shadow-lg shadow-amber-900/5 text-amber-900/60 transition-all duration-300 hover:text-amber-900"
-              >
-                <ChevronRight className="w-5 h-5" strokeWidth={1.5} />
-              </motion.button>
-            </>
-          )}
+      {/* ── Edge fades (same as PartnerCarousel) ── */}
+      <div
+        className="pointer-events-none absolute inset-y-0 left-0 z-20 w-32"
+        style={{ background: "linear-gradient(to right, #ffffff 0%, rgba(255,255,255,0.6) 40%, transparent 100%)" }}
+      />
+      <div
+        className="pointer-events-none absolute inset-y-0 right-0 z-20 w-32"
+        style={{ background: "linear-gradient(to left, #ffffff 0%, rgba(255,255,255,0.6) 40%, transparent 100%)" }}
+      />
 
-          <div
-            className="grid gap-6 overflow-hidden"
-            style={{
-              gridTemplateColumns: `repeat(${Math.min(visibleCount, count)}, 1fr)`,
-            }}
-          >
-            <AnimatePresence initial={false} mode="popLayout" custom={direction}>
-              {visibleItems.map((t) => (
-                <motion.article
-                  layout
-                  key={t.id}
-                  custom={direction}
-                  initial={{ opacity: 0, x: direction * 28 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: direction * -28 }}
-                  transition={{
-                    layout: { duration: 0.48, ease: [0.22, 1, 0.36, 1] },
-                    opacity: { duration: 0.22 },
-                    x: { duration: 0.48, ease: [0.22, 1, 0.36, 1] },
-                  }}
-                  className="group flex flex-col bg-white/60 backdrop-blur-2xl border border-white/80 rounded-2xl p-6 transition-all duration-500 hover:shadow-2xl hover:shadow-amber-900/10 hover:-translate-y-2"
-                >
-                  {/* Stars */}
-                  <div className="mb-4 flex gap-0.5">
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <Star
-                        key={i}
-                        className="h-3.5 w-3.5"
-                        fill={i < t.rating ? "#92400e" : "transparent"}
-                        stroke={i < t.rating ? "#92400e" : "#d6c4b0"}
-                        strokeWidth={1.5}
-                      />
-                    ))}
-                  </div>
+      {/* ── Scrolling strip (exact same pattern as PartnerCarousel) ── */}
+      <motion.div
+        className="flex gap-6 md:gap-8"
+        animate={{ x: ["0%", "-50%"] }}
+        transition={{
+          x: {
+            repeat: Infinity,
+            repeatType: "loop",
+            duration: 35,
+            ease: "linear",
+          },
+        }}
+      >
+        {DOUBLED.map((t, i) => (
+          <TestimonialCard key={`${t.id}-${i}`} testimonial={t} />
+        ))}
+      </motion.div>
+    </section>
+  );
+}
 
-                  {/* Content */}
-                  <p className="flex-1 mb-5 text-xs text-amber-900/50 font-medium leading-relaxed">
-                    {t.content}
-                  </p>
+/* ─────────── Testimonial Card ─────────── */
 
-                  {/* Divider */}
-                  <div className="mb-5 w-full h-px bg-amber-900/5" />
+function TestimonialCard({ testimonial: t }: { testimonial: TestimonialData }) {
+  return (
+    <motion.div
+      whileHover={{ y: -6 }}
+      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+      className="group relative flex-shrink-0"
+    >
+      {/* ── Card with gradient border effect ── */}
+      <div
+        className="relative flex h-48 w-72 flex-col overflow-hidden rounded-2xl p-6 md:h-56 md:w-80"
+        style={{
+          background: "#ffffff",
+          boxShadow: "0 4px 20px rgba(92,61,30,0.06), 0 1px 4px rgba(92,61,30,0.04)",
+        }}
+      >
+        {/* Gradient border */}
+        <div
+          className="absolute inset-0 rounded-2xl p-[1.5px]"
+          style={{
+            background: "linear-gradient(135deg, rgba(196,168,130,0.4) 0%, rgba(232,224,214,0.6) 50%, rgba(196,168,130,0.3) 100%)",
+          }}
+        >
+          <div className="h-full w-full rounded-[14px] bg-white" />
+        </div>
 
-                  {/* Author */}
-                  <div className="flex items-center gap-3">
-                    <img
-                      src={t.avatar}
-                      alt={t.author}
-                      className="w-10 h-10 rounded-full object-cover border-2 border-amber-900/10"
-                      loading="lazy"
-                    />
-                    <div>
-                      <p className="text-xs font-black text-amber-900">{t.author}</p>
-                      <p className="text-[10px] text-amber-900/40 font-medium">{t.role}</p>
-                    </div>
-                  </div>
-                </motion.article>
-              ))}
-            </AnimatePresence>
+        {/* Shine sweep on hover */}
+        <div
+          className="absolute inset-0 -translate-x-full skew-x-[-20deg] bg-gradient-to-r from-transparent via-white/40 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-full"
+        />
+
+        {/* Subtle warm glow on hover */}
+        <div
+          className="absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+          style={{
+            background: "radial-gradient(ellipse at center, rgba(196,168,130,0.08) 0%, transparent 70%)",
+          }}
+        />
+
+        {/* ── Content ── */}
+        <div className="relative z-10 flex h-full flex-col">
+          {/* Stars */}
+          <div className="mb-3 flex gap-0.5">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <Star
+                key={i}
+                className="h-3.5 w-3.5"
+                fill={i < t.rating ? "#92400e" : "transparent"}
+                stroke={i < t.rating ? "#92400e" : "#d6c4b0"}
+                strokeWidth={1.5}
+              />
+            ))}
           </div>
 
-          {/* Dots indicator */}
-          {count > visibleCount && (
-            <div className="mt-8 flex items-center justify-center gap-2">
-              {Array.from({ length: count }).map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => {
-                    setDirection(i > current ? 1 : -1);
-                    setCurrent(i);
-                  }}
-                  className="h-1.5 rounded-full transition-all duration-300"
-                  style={{
-                    width: i === current ? 24 : 8,
-                    background: i === current ? "#78350f" : "rgba(120,53,15,0.1)",
-                  }}
-                  aria-label={`Go to testimonial ${i + 1}`}
-                />
-              ))}
+          {/* Quote icon */}
+          <Quote
+            className="w-7 h-7 text-amber-800/10 mb-3 group-hover:text-amber-800/20 transition-colors duration-500"
+            strokeWidth={1}
+          />
+
+          {/* Content text */}
+          <p className="flex-1 mb-5 text-xs text-amber-900/50 font-medium leading-relaxed">
+            {t.content}
+          </p>
+
+          {/* Divider */}
+          <div className="mb-4 w-full h-px" style={{ background: "linear-gradient(90deg, rgba(196,168,130,0.05), rgba(196,168,130,0.15), rgba(196,168,130,0.05))" }} />
+
+          {/* Author */}
+          <div className="flex items-center gap-3">
+            <div className="relative">
+              <img
+                src={t.avatar}
+                alt={t.author}
+                className="w-10 h-10 rounded-full object-cover border-2 border-amber-900/10 group-hover:border-amber-800/30 transition-colors duration-300"
+                loading="lazy"
+              />
+              <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-400 rounded-full border-2 border-white" />
             </div>
-          )}
+            <div>
+              <p className="text-xs font-black text-amber-900">{t.author}</p>
+              <p className="text-[10px] text-amber-900/40 font-medium">{t.role}</p>
+            </div>
+          </div>
         </div>
       </div>
-    </section>
+    </motion.div>
   );
 }

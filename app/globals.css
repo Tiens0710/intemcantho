@@ -94,6 +94,11 @@ h6 {
   color: #9a5b24 !important;
 }
 
+.blog-card-title h3,
+article .blog-card-title {
+  color: #ffffff !important;
+}
+
 h1 {
   font-size: 2.25rem;
   font-weight: 700;
@@ -513,6 +518,224 @@ select:focus {
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+/* =============================================
+   TESTIMONIALS INFINITE CAROUSEL — Premium
+   ============================================= */
+.testimonials-scroll-container {
+  overflow: hidden;
+  width: 100%;
+  padding: 0.5rem 0;
+}
+
+.testimonials-scroll-track {
+  display: flex;
+  gap: 1.5rem;
+  width: max-content;
+  animation: testimonials-scroll 50s linear infinite;
+}
+
+.testimonials-scroll-container:hover .testimonials-scroll-track {
+  animation-play-state: paused;
+}
+
+@keyframes testimonials-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.testimonial-card {
+  position: relative;
+  flex-shrink: 0;
+  width: 400px;
+  min-width: 400px;
+  background: #ffffff;
+  border-radius: 1.25rem;
+  padding: 0;
+  transition: all 0.5s ease-out;
+  /* Amber border + layered shadows */
+  border: 2px solid rgba(196, 168, 130, 0.35);
+  box-shadow:
+    0 0 0 1px rgba(232, 224, 214, 0.3),
+    0 2px 8px rgba(92, 61, 30, 0.05),
+    0 4px 16px rgba(92, 61, 30, 0.06),
+    0 8px 32px rgba(92, 61, 30, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  overflow: hidden;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(196, 168, 130, 0.65);
+  box-shadow:
+    0 0 0 1px rgba(232, 224, 214, 0.5),
+    0 4px 12px rgba(92, 61, 30, 0.06),
+    0 12px 28px rgba(92, 61, 30, 0.1),
+    0 24px 48px rgba(92, 61, 30, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+/* Top accent gradient bar */
+.testimonial-card-accent {
+  height: 4px;
+  background: linear-gradient(90deg, #8B5E3C, #D4A853, #E6792A, #D4A853, #8B5E3C);
+  background-size: 200% 100%;
+  animation: testimonial-accent-shift 4s ease-in-out infinite;
+}
+
+@keyframes testimonial-accent-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Card body wrapper */
+.testimonial-card-body {
+  position: relative;
+  padding: 1.75rem 2rem 2rem;
+}
+
+/* Subtle corner decoration */
+.testimonial-card-body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle at top right, rgba(196, 168, 130, 0.06) 0%, transparent 70%);
+  pointer-events: none;
+  border-radius: 0 1.25rem 0 0;
+}
+
+/* Shine sweep on hover */
+.testimonial-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  transform: translateX(-100%) skewX(-20deg);
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(255, 255, 255, 0.25) 45%,
+    rgba(255, 255, 255, 0.35) 50%,
+    rgba(255, 255, 255, 0.25) 55%,
+    transparent 100%
+  );
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+.testimonial-card:hover::after {
+  transform: translateX(100%) skewX(-20deg);
+}
+
+/* Inner content sits above the shine layer */
+.testimonial-card > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Verified badge */
+.testimonial-verified {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px 3px 6px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  background: rgba(34, 197, 94, 0.08);
+  color: #16A34A;
+  border: 1px solid rgba(34, 197, 94, 0.15);
+}
+
+.testimonial-verified svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* Star rating */
+.testimonial-stars {
+  display: flex;
+  gap: 3px;
+  margin-bottom: 1rem;
+}
+
+.testimonial-star {
+  width: 16px;
+  height: 16px;
+  color: #D4A853;
+  fill: #D4A853;
+}
+
+.testimonial-star-empty {
+  width: 16px;
+  height: 16px;
+  color: #E8DFD0;
+  fill: #E8DFD0;
+}
+
+/* Quote icon styling */
+.testimonial-quote-icon {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.5rem;
+  opacity: 0.06;
+  font-size: 4.5rem;
+  font-family: Georgia, serif;
+  line-height: 1;
+  color: #8B5E3C;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* =============================================
+   PARTNER LOGO TICKER — Infinite Marquee
+   ============================================= */
+.partner-ticker-track {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+  width: max-content;
+  animation: partner-ticker-scroll 35s linear infinite;
+}
+
+.partner-ticker-wrap:hover .partner-ticker-track {
+  animation-play-state: paused;
+}
+
+@keyframes partner-ticker-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.partner-logo-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  transition: opacity 0.4s ease;
+}
+
+.partner-logo-item:hover {
+  opacity: 0.7;
+}
+
+@media (max-width: 768px) {
+  .partner-ticker-track {
+    gap: 36px;
+  }
 }
 
 /* =============================================
@@ -1045,4 +1268,5 @@ select:focus {
   pointer-events: none;
   z-index: 50;
 }
+
 

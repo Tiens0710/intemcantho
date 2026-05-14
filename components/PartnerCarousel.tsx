@@ -1,11 +1,10 @@
 "use client";
 
 /**
- * PartnerCarousel — Premium infinite marquee with refined glassmorphism cards,
- * gradient borders, subtle shine effects, and elegant hover animations.
+ * PartnerCarousel — Infinite logo ticker on a clean white background.
+ * All critical layout via inline styles; animation via embedded <style> tag
+ * to avoid any Tailwind CSS conflicts.
  */
-
-import { motion } from "framer-motion";
 
 const PARTNERS = [
   { src: "/NHAT-TAM-e1761967849296.jpg", alt: "Nhất Tâm" },
@@ -14,104 +13,112 @@ const PARTNERS = [
   { src: "/DXMT.jpg", alt: "Đất Xanh Miền Tây" },
   { src: "/logo-yumi-1-e1761967884425.png", alt: "Yumi Foods" },
   { src: "/logo-gia-phast-noong-e1761967914774.png", alt: "Gia Phát Nông" },
-  { src: "/VIET-ARGO-1.jpg", alt: "Viet Argo" },
+  { src: "/VIET-ARGO-1.jpg", alt: "Việt Argo" },
   { src: "/FPT.jpg", alt: "FPT Polytechnic" },
 ];
 
-// Double the array for seamless infinite loop
 const DOUBLED = [...PARTNERS, ...PARTNERS];
 
 export default function PartnerCarousel() {
   return (
-    <div className="relative overflow-hidden py-4">
-      {/* ── Decorative ambient glows ── */}
-      <div
-        className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[300px] w-[80%] rounded-full opacity-30 blur-[80px]"
-        style={{ background: "radial-gradient(circle, rgba(196,168,130,0.2) 0%, transparent 70%)" }}
-      />
+    <section
+      id="partners"
+      style={{
+        position: "relative",
+        padding: "4rem 0",
+        backgroundColor: "#ffffff",
+        overflow: "hidden",
+      }}
+    >
+      {/* ── Keyframe animation (inline to avoid Tailwind purge) ── */}
+      <style>{`
+        @keyframes pticker {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        .pticker-wrap:hover .pticker-track {
+          animation-play-state: paused !important;
+        }
+      `}</style>
 
-      {/* ── Edge fades ── */}
-      <div className="pointer-events-none absolute inset-y-0 left-0 z-20 w-32" style={{ background: "linear-gradient(to right, #ffffff 0%, rgba(255,255,255,0.6) 40%, transparent 100%)" }} />
-      <div className="pointer-events-none absolute inset-y-0 right-0 z-20 w-32" style={{ background: "linear-gradient(to left, #ffffff 0%, rgba(255,255,255,0.6) 40%, transparent 100%)" }} />
+      {/* ── Header ── */}
+      <div style={{ textAlign: "center", marginBottom: "2.5rem", padding: "0 1rem" }}>
+        {/* Label with lines */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "16px", marginBottom: "24px" }}>
+          <span style={{ flex: 1, maxWidth: "80px", height: "1px", background: "linear-gradient(90deg, transparent, #a0845c)" }} />
+          <span style={{ fontSize: "12px", fontWeight: 700, letterSpacing: "0.25em", color: "#a0845c", fontFamily: "'Nunito', sans-serif" }}>
+            • ĐỐI TÁC •
+          </span>
+          <span style={{ flex: 1, maxWidth: "80px", height: "1px", background: "linear-gradient(270deg, transparent, #a0845c)" }} />
+        </div>
 
-      {/* ── Scrolling strip ── */}
-      <motion.div
-        className="flex gap-6 md:gap-8"
-        animate={{ x: ["0%", "-50%"] }}
-        transition={{
-          x: {
-            repeat: Infinity,
-            repeatType: "loop",
-            duration: 35,
-            ease: "linear",
-          },
-        }}
-      >
-        {DOUBLED.map((partner, i) => (
-          <motion.div
-            key={`${partner.alt}-${i}`}
-            whileHover={{ y: -6 }}
-            transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            className="group relative flex-shrink-0"
-          >
-            {/* ── Card with gradient border effect ── */}
+        {/* Heading */}
+        <h2 style={{ fontSize: "clamp(1.6rem, 3.2vw, 2.4rem)", fontWeight: 700, lineHeight: 1.35, fontFamily: "'Cormorant Garamond', 'Playfair Display', serif", color: "#1C1007", margin: 0 }}>
+          Được tin dùng bởi{" "}
+          <span style={{ color: "#a0845c" }}>500+</span> doanh nghiệp và{" "}
+          <span style={{ color: "#a0845c" }}>2.000+</span> người dùng
+        </h2>
+
+        {/* Accent line */}
+        <div style={{ width: "48px", height: "3px", borderRadius: "2px", background: "#a0845c", margin: "20px auto 0" }} />
+      </div>
+
+      {/* ── Logo Ticker ── */}
+      <div className="pticker-wrap" style={{ overflow: "hidden", width: "100%" }}>
+        <div
+          className="pticker-track"
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            width: "max-content",
+            gap: "60px",
+            animation: "pticker 35s linear infinite",
+          }}
+        >
+          {DOUBLED.map((partner, i) => (
             <div
-              className="relative flex h-40 w-56 items-center justify-center overflow-hidden rounded-2xl md:h-48 md:w-64"
+              key={`${partner.alt}-${i}`}
               style={{
-                background: "#ffffff",
-                boxShadow: "0 4px 20px rgba(92,61,30,0.06), 0 1px 4px rgba(92,61,30,0.04)",
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                gap: "10px",
+                flexShrink: 0,
               }}
             >
-              {/* Gradient border */}
-              <div
-                className="absolute inset-0 rounded-2xl p-[1.5px]"
-                style={{
-                  background: "linear-gradient(135deg, rgba(196,168,130,0.4) 0%, rgba(232,224,214,0.6) 50%, rgba(196,168,130,0.3) 100%)",
-                }}
-              >
-                <div className="h-full w-full rounded-[14px] bg-white" />
-              </div>
-
-              {/* Shine sweep on hover */}
-              <div
-                className="absolute inset-0 -translate-x-full skew-x-[-20deg] bg-gradient-to-r from-transparent via-white/40 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-full"
-              />
-
-              {/* Subtle warm glow on hover */}
-              <div
-                className="absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-                style={{
-                  background: "radial-gradient(ellipse at center, rgba(196,168,130,0.08) 0%, transparent 70%)",
-                }}
-              />
-
-              {/* ── Logo ── */}
+              {/* Square logo image */}
               <img
                 src={partner.src}
                 alt={partner.alt}
-                className="relative z-10 h-24 w-auto max-w-[200px] object-contain transition-all duration-500 group-hover:scale-105 md:h-28 md:max-w-[220px]"
+                style={{
+                  width: "80px",
+                  height: "80px",
+                  objectFit: "contain",
+                  borderRadius: "8px",
+                  flexShrink: 0,
+                  display: "block",
+                }}
                 loading="lazy"
               />
 
-              {/* ── Brand name label ── */}
-              <div
-                className="absolute bottom-2.5 left-0 right-0 z-10 text-center opacity-0 transition-all duration-500 group-hover:opacity-100"
+              {/* Company name */}
+              <span
+                style={{
+                  fontSize: "14px",
+                  fontWeight: 700,
+                  color: "#8B5E3C",
+                  fontFamily: "'Nunito', sans-serif",
+                  whiteSpace: "nowrap",
+                  letterSpacing: "0.01em",
+                }}
               >
-                <span
-                  className="inline-block rounded-full px-3 py-0.5 text-[9px] font-bold uppercase tracking-[0.15em]"
-                  style={{
-                    color: "#8B5E3C",
-                    background: "rgba(245,240,232,0.9)",
-                    border: "1px solid rgba(196,168,130,0.2)",
-                  }}
-                >
-                  {partner.alt}
-                </span>
-              </div>
+                {partner.alt}
+              </span>
             </div>
-          </motion.div>
-        ))}
-      </motion.div>
-    </div>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
