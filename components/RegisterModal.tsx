@@ -190,8 +190,8 @@ export default function RegisterModal({ open, onClose, onSwitchToLogin }: Regist
                               <div className="rounded-[5px] border border-red-200 bg-red-50 px-4 py-2"><p className="text-xs text-red-700">{error}</p></div>
                             )}
                             <label className="flex items-start gap-2 cursor-pointer">
-                              <input type="checkbox" name="agreeTerms" checked={formData.agreeTerms} onChange={handleChange} className="h-4 w-4 rounded border-[#d9cbbb] accent-[#2d1d12] mt-0.5" />
-                              <span className="text-xs text-[#6f5d4b]">Toi dong y voi dieu khoan su dung va chinh sach bao mat</span>
+                              <input type="checkbox" name="agreeTerms" checked={formData.agreeTerms} onChange={handleChange} className="h-4 w-4 rounded border-[#d9cbbb] accent-[#2d1d12] mt-0.5 flex-shrink-0" />
+                              <span className="text-xs text-[#6f5d4b] leading-tight">Toi dong y voi dieu khoan su dung va chinh sach bao mat</span>
                             </label>
                             <button type="submit" disabled={isLoading} className="w-full rounded-[10px] py-3 text-sm font-semibold transition hover:-translate-y-[1px] disabled:cursor-not-allowed disabled:opacity-60 flex items-center justify-center gap-2" style={buttonStyle}>
                               {isLoading ? "Dang dang ky..." : "Dang ky"}

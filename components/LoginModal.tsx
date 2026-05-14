@@ -63,6 +63,19 @@ export default function LoginModal({ open, onClose, onLoginSuccess, onSwitchToRe
     return () => window.removeEventListener("keydown", handler);
   }, [open, onClose]);
 
+  const handleFacebookLogin = () => {
+    setIsLoading(true);
+    setTimeout(() => {
+      const fbUser = { name: "Facebook User", email: "fb_user@facebook.com" };
+      localStorage.setItem("authToken", "fb_demo_token_" + Date.now());
+      localStorage.setItem("user", JSON.stringify(fbUser));
+      onLoginSuccess?.(fbUser);
+      onClose();
+      router.push("/tai-khoan");
+      setIsLoading(false);
+    }, 800);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
@@ -168,7 +181,7 @@ export default function LoginModal({ open, onClose, onLoginSuccess, onSwitchToRe
                         </div>
                         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                           <button type="button" className="flex items-center justify-center gap-2 rounded-[5px] border border-[#ebe1d6] bg-white px-4 py-2.5 text-xs font-semibold text-[#3b2a1f] shadow-sm transition hover:bg-[#f7f4f0]"><GoogleIcon /> Google</button>
-                          <button type="button" className="flex items-center justify-center gap-2 rounded-[5px] border border-[#ebe1d6] bg-white px-4 py-2.5 text-xs font-semibold text-[#3b2a1f] shadow-sm transition hover:bg-[#f7f4f0]"><FacebookIcon /> Facebook</button>
+                          <button type="button" onClick={handleFacebookLogin} disabled={isLoading} className="flex items-center justify-center gap-2 rounded-[5px] border border-[#ebe1d6] bg-white px-4 py-2.5 text-xs font-semibold text-[#3b2a1f] shadow-sm transition hover:bg-[#f7f4f0] disabled:opacity-50"><FacebookIcon /> Facebook</button>
                         </div>
                         <p className="text-center text-xs text-[#8c7a68]">
                           Chua co tai khoan?{" "}
