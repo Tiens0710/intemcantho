@@ -14,7 +14,6 @@ import { useEffect, useRef, useState } from "react";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
   const [activeMegaMenu, setActiveMegaMenu] = useState<string | null>(null);
   const [expandedMobileItem, setExpandedMobileItem] = useState<string | null>(null);
   const closeMenuTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -28,30 +27,6 @@ export default function Navbar() {
   const { persona } = useAppStore();
   const router = useRouter();
   const pathname = usePathname();
-  const isHomePage = pathname === "/";
-  const shouldUseGlassHeader = !isHomePage || isScrolled;
-
-  useEffect(() => {
-    if (!isHomePage) {
-      setIsScrolled(true);
-      return;
-    }
-
-    let ticking = false;
-    const handleScroll = () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
-        const next = window.scrollY > 40;
-        setIsScrolled((prev) => (prev === next ? prev : next));
-        ticking = false;
-      });
-    };
-
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [isHomePage]);
 
   // Check auth status
   useEffect(() => {
@@ -127,11 +102,7 @@ export default function Navbar() {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className={`fixed top-2 left-1/2 -translate-x-1/2 z-50 max-w-[1520px] hidden md:block transition-all duration-500 ${
-          shouldUseGlassHeader
-            ? "floating-navbar"
-            : "floating-navbar-transparent"
-        }`}
+        className="fixed top-2 left-1/2 -translate-x-1/2 z-50 max-w-[1520px] hidden md:block transition-all duration-500 floating-navbar"
         style={{ borderRadius: "20px", width: "calc(98% - 30px)" }}
       >
         <div className="relative z-10 flex items-center justify-between h-[68px] px-4">
@@ -148,7 +119,7 @@ export default function Navbar() {
               aria-label="Duky Printing"
             >
               <Image
-                src={shouldUseGlassHeader ? "/logo.png" : "/logo-white.png"}
+                src="/logo.png"
                 alt="Duky Printing"
                 width={180}
                 height={56}
@@ -178,11 +149,7 @@ export default function Navbar() {
                     >
                       <Link
                         href={item.href}
-                        className={`group relative inline-flex items-center gap-1 px-3 py-2 text-[13px] font-semibold tracking-wide transition-colors ${
-                          shouldUseGlassHeader
-                            ? "text-slate-700 hover:text-amber-800"
-                            : "text-white/90 hover:text-white"
-                        }`}
+                        className="group relative inline-flex items-center gap-1 px-3 py-2 text-[13px] font-semibold tracking-wide transition-colors text-slate-700 hover:text-amber-800"
                       >
                         {item.label}
                         <ChevronDown
@@ -278,11 +245,7 @@ export default function Navbar() {
                 ) : (
                   <Link
                     href={item.href}
-                    className={`group relative inline-flex items-center px-3 py-2 text-[13px] font-semibold tracking-wide transition-colors ${
-                      shouldUseGlassHeader
-                        ? "text-slate-700 hover:text-amber-800"
-                        : "text-white/90 hover:text-white"
-                    }`}
+                    className="group relative inline-flex items-center px-3 py-2 text-[13px] font-semibold tracking-wide transition-colors text-slate-700 hover:text-amber-800"
                   >
                     {item.label}
                     <span
@@ -302,11 +265,7 @@ export default function Navbar() {
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
-              className={`p-2 rounded-full transition-colors ${
-                shouldUseGlassHeader
-                  ? "text-slate-600 hover:text-amber-800 hover:bg-amber-50"
-                  : "text-white/80 hover:text-white hover:bg-white/10"
-              }`}
+              className="p-2 rounded-full transition-colors text-slate-600 hover:text-amber-800 hover:bg-amber-50"
               aria-label="Tìm kiếm"
             >
               <Search className="w-[18px] h-[18px]" strokeWidth={2} />
@@ -316,11 +275,7 @@ export default function Navbar() {
               <button
                 type="button"
                 onClick={() => setShowLoginModal(true)}
-                className={`ml-1 rounded-full border px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.25em] transition-colors ${
-                  shouldUseGlassHeader
-                    ? "border-amber-200 bg-white/80 text-amber-800 hover:bg-amber-50"
-                    : "border-white/30 bg-white/10 text-white hover:bg-white/20"
-                }`}
+                  className="border-amber-200 bg-white/80 text-amber-800 hover:bg-amber-50 ml-1 rounded-full border px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.25em] transition-colors"
               >
                 Đăng nhập
               </button>
@@ -336,11 +291,7 @@ export default function Navbar() {
                     <motion.button
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
-                      className={`flex items-center gap-2 px-2 py-1.5 rounded-full transition-colors ${
-                        shouldUseGlassHeader
-                          ? "text-slate-700 hover:bg-amber-50"
-                          : "text-white hover:bg-white/10"
-                      }`}
+                      className="flex items-center gap-2 px-2 py-1.5 rounded-full transition-colors text-slate-700 hover:bg-amber-50"
                       aria-label="Tài khoản"
                     >
                       <div className="w-7 h-7 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-[11px] font-bold text-white shadow-md">
@@ -421,11 +372,7 @@ export default function Navbar() {
                     <button
                       type="button"
                       onClick={() => setShowLoginModal(true)}
-                      className={`p-2 rounded-full transition-colors inline-flex items-center justify-center ${
-                        shouldUseGlassHeader
-                          ? "text-slate-600 hover:text-amber-800 hover:bg-amber-50"
-                          : "text-white/80 hover:text-white hover:bg-white/10"
-                      }`}
+                      className="p-2 rounded-full transition-colors inline-flex items-center justify-center text-slate-600 hover:text-amber-800 hover:bg-amber-50"
                       aria-label="Đăng nhập"
                     >
                       <User className="w-[18px] h-[18px]" strokeWidth={2} />
@@ -438,11 +385,7 @@ export default function Navbar() {
                   <motion.div
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
-                    className={`p-2 rounded-full transition-colors ${
-                      shouldUseGlassHeader
-                        ? "text-slate-600 hover:text-amber-800 hover:bg-amber-50"
-                        : "text-white/80 hover:text-white hover:bg-white/10"
-                    }`}
+                    className="p-2 rounded-full transition-colors text-slate-600 hover:text-amber-800 hover:bg-amber-50"
                   >
                     <ShoppingBag className="w-[18px] h-[18px]" strokeWidth={2} />
                   </motion.div>
@@ -452,13 +395,11 @@ export default function Navbar() {
 
             {/* Divider */}
             <div
-              className={`mx-2 h-6 w-px ${
-                shouldUseGlassHeader ? "bg-slate-300/60" : "bg-white/30"
-              }`}
+              className="mx-2 h-6 w-px bg-slate-300/60"
             />
 
             {/* Quick Quote */}
-            <WarmButton href="/lien-he" size="sm" variant={shouldUseGlassHeader ? "filled" : "white"}>
+            <WarmButton href="/lien-he" size="sm" variant="filled">
               Báo Giá Nhanh
             </WarmButton>
           </div>
@@ -467,11 +408,7 @@ export default function Navbar() {
 
       {/* Mobile Navbar */}
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 w-full md:hidden transition-[background-color,box-shadow,backdrop-filter] duration-300 ${
-          shouldUseGlassHeader
-            ? "floating-navbar !rounded-none"
-            : "floating-navbar-transparent !rounded-none"
-        }`}
+        className="fixed top-0 left-0 right-0 z-50 w-full md:hidden transition-[background-color,box-shadow,backdrop-filter] duration-300 floating-navbar !rounded-none"
       >
         <div className="relative z-10 flex items-center justify-between h-16 px-4">
           {/* Logo */}
@@ -481,7 +418,7 @@ export default function Navbar() {
             aria-label="Duky Printing"
           >
             <Image
-              src={shouldUseGlassHeader ? "/logo.png" : "/logo-white.png"}
+              src="/logo.png"
               alt="Duky Printing"
               width={120}
               height={36}
@@ -496,33 +433,21 @@ export default function Navbar() {
               <button
                 type="button"
                 onClick={() => setShowLoginModal(true)}
-                className={`rounded-full border px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] transition-colors ${
-                  shouldUseGlassHeader
-                    ? "border-amber-200 bg-white/80 text-amber-800"
-                    : "border-white/30 bg-white/10 text-white"
-                }`}
+                  className="rounded-full border px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] transition-colors border-amber-200 bg-white/80 text-amber-800"
               >
                 Đăng nhập
               </button>
             ) : (
               <Link
                 href="/cart"
-                className={`p-2 rounded-full transition-colors ${
-                  shouldUseGlassHeader
-                    ? "text-slate-600 hover:bg-amber-50"
-                    : "text-white/80 hover:bg-white/10"
-                }`}
+                className="p-2 rounded-full transition-colors text-slate-600 hover:bg-amber-50"
               >
                 <ShoppingBag className="w-5 h-5" strokeWidth={2} />
               </Link>
             )}
 
             <button
-              className={`p-2 rounded-full transition-colors ${
-                shouldUseGlassHeader
-                  ? "text-slate-600 hover:bg-amber-50"
-                  : "text-white/80 hover:bg-white/10"
-              }`}
+              className="p-2 rounded-full transition-colors text-slate-600 hover:bg-amber-50"
               aria-label="Tìm kiếm"
             >
               <Search className="w-5 h-5" strokeWidth={2} />
@@ -530,11 +455,7 @@ export default function Navbar() {
 
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className={`p-2 rounded-full transition-all ${
-                shouldUseGlassHeader
-                  ? "text-slate-700 hover:bg-amber-50"
-                  : "text-white hover:bg-white/10"
-              }`}
+              className="p-2 rounded-full transition-all text-slate-700 hover:bg-amber-50"
               aria-label="Toggle menu"
             >
               {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -549,11 +470,7 @@ export default function Navbar() {
               initial={{ opacity: 0, height: 0, y: -10 }}
               animate={{ opacity: 1, height: "auto", y: 0 }}
               exit={{ opacity: 0, height: 0, y: -10 }}
-              className={`overflow-hidden border-t transition-all ${
-                shouldUseGlassHeader
-                  ? "border-amber-900/5 bg-white/95 backdrop-blur-2xl"
-                  : "border-white/10 bg-black/80 backdrop-blur-2xl"
-              }`}
+              className="overflow-hidden border-t transition-all border-amber-900/5 bg-white/95 backdrop-blur-2xl"
             >
               <div className="p-4 space-y-2">
                 {navigationData.map((item) => (
@@ -561,11 +478,7 @@ export default function Navbar() {
                     <div className="flex items-center justify-between">
                       <Link
                         href={item.href}
-                        className={`flex-1 px-4 py-3 text-sm font-bold rounded-2xl transition-all ${
-                          shouldUseGlassHeader
-                            ? "text-slate-800 hover:bg-amber-50"
-                            : "text-white hover:bg-white/10"
-                        }`}
+                        className="flex-1 px-4 py-3 text-sm font-bold rounded-2xl transition-all text-slate-800 hover:bg-amber-50"
                         onClick={() => !item.megaMenu && setIsOpen(false)}
                       >
                         {item.label}
@@ -577,11 +490,7 @@ export default function Navbar() {
                               expandedMobileItem === item.label ? null : item.label
                             )
                           }
-                          className={`p-3 rounded-2xl transition-all ${
-                            shouldUseGlassHeader
-                              ? "text-amber-800 hover:bg-amber-50"
-                              : "text-white hover:bg-white/10"
-                          }`}
+                          className="text-amber-800 hover:bg-amber-50 p-3 rounded-2xl transition-all"
                         >
                           <ChevronDown
                             className={`w-4 h-4 transition-transform duration-300 ${
@@ -601,11 +510,7 @@ export default function Navbar() {
                         {item.megaMenu.columns.map((column) => (
                           <div key={column.title} className="space-y-2">
                             <p
-                              className={`px-2 text-[10px] font-black uppercase tracking-widest ${
-                                shouldUseGlassHeader
-                                  ? "text-amber-700/70"
-                                  : "text-amber-400/70"
-                              }`}
+                              className="px-2 text-[10px] font-black uppercase tracking-widest text-amber-700/70"
                             >
                               {column.title}
                             </p>
@@ -614,11 +519,7 @@ export default function Navbar() {
                                 <Link
                                   key={subItem.label}
                                   href={subItem.href}
-                                  className={`px-3 py-2 text-sm font-medium rounded-xl transition-all ${
-                                    shouldUseGlassHeader
-                                      ? "text-slate-600 hover:bg-amber-50 hover:text-amber-900"
-                                      : "text-gray-300 hover:bg-white/5 hover:text-white"
-                                  }`}
+                                  className="px-3 py-2 text-sm font-medium rounded-xl transition-all text-slate-600 hover:bg-amber-50 hover:text-amber-900"
                                   onClick={() => setIsOpen(false)}
                                 >
                                   {subItem.label}
@@ -634,9 +535,7 @@ export default function Navbar() {
 
                 {/* Mobile Hotline */}
                 <div
-                  className={`pt-4 mt-4 border-t ${
-                    shouldUseGlassHeader ? "border-amber-900/5" : "border-white/10"
-                  }`}
+                  className="pt-4 mt-4 border-t border-amber-900/5"
                 >
                   <a
                     href="tel:0985463403"

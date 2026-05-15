@@ -805,6 +805,13 @@ export default function Home() {
                 alt="Nhân viên tư vấn DuKy"
                 className="relative z-10 h-[620px] w-auto object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.2)]"
               />
+              {/* Overlay FAQ image placed above the existing character image */}
+              <img
+                src="/faq.png"
+                alt="FAQ overlay"
+                aria-hidden="true"
+                className="absolute z-20 left-3 bottom-20 md:left-26 h-[400px] md:h-[600px] w-auto object-contain pointer-events-none drop-shadow-[0_12px_30px_rgba(0,0,0,0.15)]"
+              />
             </motion.div>
 
           </div>

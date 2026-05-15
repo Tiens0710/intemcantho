@@ -4,6 +4,7 @@ import type { CategoryData } from "@/lib/category-data";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CategoryHero from "./CategoryHero";
+import StandeeHeroBanner from "./StandeeHeroBanner";
 import CategoryPricing from "./CategoryPricing";
 import CategoryGallery from "./CategoryGallery";
 import CategoryCaseStudy from "./CategoryCaseStudy";
@@ -12,6 +13,9 @@ import StandeeComparison from "./StandeeComparison";
 import StandeePricingTable from "./StandeePricingTable";
 import StandeeGallery from "./StandeeGallery";
 import StandeeOrderProcess from "./StandeeOrderProcess";
+import StandeeFileAndFeedback from "./StandeeFileAndFeedback";
+import StandeeFAQ from "./StandeeFAQ";
+import StandeeBannerCTA from "./StandeeBannerCTA";
 
 type Props = {
   data: CategoryData;
@@ -24,50 +28,55 @@ export default function CategoryLandingTemplate({ data }: Props) {
       <Navbar />
 
       {/* 1. Hero Banner */}
-      <CategoryHero
-        title={data.hero.title}
-        subtitle={data.hero.subtitle}
-        bgImage={data.heroBg}
-        floatingImages={data.hero.floatingImages}
-        categoryLabel={data.categoryLabel}
-      />
+      {data.slug === "poster" ? (
+        <StandeeHeroBanner />
+      ) : (
+        <CategoryHero
+          title={data.hero.title}
+          subtitle={data.hero.subtitle}
+          bgImage={data.heroBg}
+          floatingImages={data.hero.floatingImages}
+          categoryLabel={data.categoryLabel}
+        />
+      )}
 
-      {/* 1.5 So sánh Standee & Báo giá chi tiết (chỉ hiển thị cho Standee) */}
+      {/* Standee sections */}
       {data.slug === "poster" && (
         <>
           <StandeePricingTable />
           <StandeeComparison />
           <StandeeGallery />
           <StandeeOrderProcess />
+          <StandeeFileAndFeedback />
+          <StandeeFAQ />
+          <StandeeBannerCTA />
         </>
       )}
 
-      {/* 2. Báo Giá */}
-      <CategoryPricing
-        title={data.pricing.title}
-        subtitle={data.pricing.subtitle}
-        packages={data.pricing.packages}
-      />
-
-      {/* 3. Thư Viện Mẫu */}
-      <CategoryGallery
-        title={data.gallery.title}
-        subtitle={data.gallery.subtitle}
-        images={data.gallery.images}
-      />
-
-      {/* 4. Case Study */}
-      <CategoryCaseStudy
-        client={data.caseStudy.client}
-        industry={data.caseStudy.industry}
-        challenge={data.caseStudy.challenge}
-        solution={data.caseStudy.solution}
-        result={data.caseStudy.result}
-        image={data.caseStudy.image}
-      />
-
-      {/* 5. Feedback Khách Hàng */}
-      <CategoryFeedback testimonials={data.testimonials} />
+      {/* Generic sections (không hiển thị cho Standee) */}
+      {data.slug !== "poster" && (
+        <>
+          <CategoryPricing
+            title={data.pricing.title}
+            subtitle={data.pricing.subtitle}
+            packages={data.pricing.packages}
+          />
+          <CategoryGallery
+            title={data.gallery.title}
+            subtitle={data.gallery.subtitle}
+            images={data.gallery.images}
+          />
+          <CategoryCaseStudy
+            client={data.caseStudy.client}
+            industry={data.caseStudy.industry}
+            challenge={data.caseStudy.challenge}
+            solution={data.caseStudy.solution}
+            result={data.caseStudy.result}
+            image={data.caseStudy.image}
+          />
+          <CategoryFeedback testimonials={data.testimonials} />
+        </>
+      )}
 
       {/* Footer */}
       <Footer />

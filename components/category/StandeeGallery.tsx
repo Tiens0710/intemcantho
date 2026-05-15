@@ -17,13 +17,13 @@ const categories = [
 const galleryItems = [
   {
     id: 1,
-    image: "/standee/bạn_hãy_giúp_tôi_làm_202605150948.jpeg",
+    image: "/standee/bạn_hãy_giúp_tôi_làm_202605151029.jpeg",
     category: "Khai trương",
     title: "Grand Opening - Giảm 50%",
   },
   {
     id: 2,
-    image: "/standee/bạn_hãy_giúp_tôi_làm_202605150950.jpeg",
+    image: "/standee/bạn_hãy_giúp_tôi_làm_202605151029.jpeg",
     category: "Nhà hàng - F&B",
     title: "Combo F&B - Khuyến mãi",
   },
@@ -59,7 +59,7 @@ const galleryItems = [
   },
   {
     id: 8,
-    image: "/standee/tôi_muốn_đổi_background_thành_202605150945.jpeg",
+    image: "/standee/bạn_hãy_giúp_tôi_làm_202605151029.jpeg",
     category: "Giáo dục",
     title: "Giáo dục - Tuyển sinh",
   },
