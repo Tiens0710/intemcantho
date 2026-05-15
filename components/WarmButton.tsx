@@ -3,7 +3,7 @@
 /**
  * WarmButton — Reusable warm-brown CTA button.
  * Style inspired by the footer's glassmorphic "Tư vấn" button.
- * Base color: #c7742c
+ * Base color: #E87C22
  */
 
 import { motion } from "framer-motion";
@@ -71,13 +71,13 @@ export default function WarmButton({
       ? "2px solid rgba(255,255,255,0.55)"
       : isWhite
         ? "1.5px solid rgba(255,255,255,0.6)"
-        : "1.5px solid #c7742c",
+        : "1.5px solid #E87C22",
     background: isFilled
-      ? "linear-gradient(180deg, #c7742c 0%, #a85f20 100%)"
+      ? "linear-gradient(180deg, #E87C22 0%, #b35a14 100%)"
       : isWhite
         ? "rgba(255,255,255,0.1)"
         : "transparent",
-    color: isFilled ? "#fff" : isWhite ? "#fff" : "#c7742c",
+    color: isFilled ? "#fff" : isWhite ? "#fff" : "#E87C22",
     boxShadow: isFilled
       ? "0 6px 20px rgba(0,0,0,0.25), 0 2px 6px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.2), inset 0 -1px 0 rgba(0,0,0,0.12)"
       : "none",
@@ -92,7 +92,7 @@ export default function WarmButton({
   );
 
   const hoverBg = isFilled
-    ? "linear-gradient(135deg, #d48030 0%, #b06828 100%)"
+    ? "linear-gradient(135deg, #f38931 0%, #c7601a 100%)"
     : isWhite
       ? "rgba(255,255,255,0.2)"
       : "rgba(199, 116, 44, 0.06)";
@@ -101,7 +101,7 @@ export default function WarmButton({
     ? "0 8px 28px rgba(0,0,0,0.3), 0 3px 8px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.25), inset 0 -1px 0 rgba(0,0,0,0.12)"
     : isWhite
       ? "0 0 0 1.5px rgba(255,255,255,0.8)"
-      : "0 0 0 1.5px #c7742c";
+      : "0 0 0 1.5px #E87C22";
 
   const leaveBg = buttonStyle.background;
   const leaveShadow = buttonStyle.boxShadow;

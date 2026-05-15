@@ -56,7 +56,7 @@ const SERVICES: Service[] = [
     id: "standee",
     title: "In standee khổ lớn",
     description: "Standee khai trương, sự kiện, quảng cáo cửa hàng và showroom.",
-    href: "/danh-muc/poster",
+    href: "/dich-vu/standee",
     cta: "Xem mẫu standee",
     image: "/danhmuc2.png",
     imageAlt: "In standee khổ lớn",

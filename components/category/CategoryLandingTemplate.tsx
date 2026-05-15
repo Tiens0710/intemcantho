@@ -8,6 +8,10 @@ import CategoryPricing from "./CategoryPricing";
 import CategoryGallery from "./CategoryGallery";
 import CategoryCaseStudy from "./CategoryCaseStudy";
 import CategoryFeedback from "./CategoryFeedback";
+import StandeeComparison from "./StandeeComparison";
+import StandeePricingTable from "./StandeePricingTable";
+import StandeeGallery from "./StandeeGallery";
+import StandeeOrderProcess from "./StandeeOrderProcess";
 
 type Props = {
   data: CategoryData;
@@ -27,6 +31,16 @@ export default function CategoryLandingTemplate({ data }: Props) {
         floatingImages={data.hero.floatingImages}
         categoryLabel={data.categoryLabel}
       />
+
+      {/* 1.5 So sánh Standee & Báo giá chi tiết (chỉ hiển thị cho Standee) */}
+      {data.slug === "poster" && (
+        <>
+          <StandeePricingTable />
+          <StandeeComparison />
+          <StandeeGallery />
+          <StandeeOrderProcess />
+        </>
+      )}
 
       {/* 2. Báo Giá */}
       <CategoryPricing

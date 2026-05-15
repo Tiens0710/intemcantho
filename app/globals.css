@@ -1346,4 +1346,52 @@ select:focus {
   z-index: 50;
 }
 
+/* ── Standee Order Process - Border Light Animation ── */
+@keyframes borderLightRotate {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
 
+.standee-process-wrapper {
+  position: relative;
+  padding: 3px;
+  border-radius: 16px;
+}
+
+.standee-process-border {
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.standee-process-border::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0%,
+    #E6792A 10%,
+    #FFD700 20%,
+    transparent 30%,
+    transparent 100%
+  );
+  animation: borderLightRotate 3s linear infinite;
+}
+
+.standee-process-wrapper > .standee-process-inner {
+  position: relative;
+  z-index: 1;
+  background: white;
+  border-radius: 14px;
+}
+ 

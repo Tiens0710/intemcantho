@@ -23,6 +23,36 @@ export interface MegaMenuConfig {
 export const navigationData: NavItem[] = [
   { label: "Trang chủ", href: "/" },
   {
+    label: "Dịch vụ",
+    href: "/van-phong",
+    megaMenu: {
+      banner: {
+        src: "/danhmuc1.png",
+        alt: "Dịch vụ in ấn Intem Cần Thơ",
+        title: "Giải pháp in ấn",
+        subtitle: "Trọn gói & chuyên nghiệp",
+      },
+      columns: [
+        {
+          title: "DỊCH VỤ IN ẤN",
+          items: [
+            { label: "In tem nhãn", href: "/danh-muc/nhan-dan" },
+            { label: "In standee khổ lớn", href: "/dich-vu/standee" },
+            { label: "In brochure / tờ gấp", href: "/danh-muc/to-gap" },
+          ],
+        },
+        {
+          title: "THIẾT KẾ & IN ẤN",
+          items: [
+            { label: "In tờ rơi", href: "/danh-muc/to-roi" },
+            { label: "In bao bì", href: "/danh-muc/hop-giay" },
+            { label: "In danh thiếp", href: "/danh-muc/danh-thiep" },
+          ],
+        },
+      ],
+    },
+  },
+  {
     label: "Ấn phẩm văn phòng",
     href: "/van-phong",
     megaMenu: {
@@ -79,7 +109,7 @@ export const navigationData: NavItem[] = [
           items: [
             { label: "Backdrop Sự Kiện", href: "/tiep-thi" },
             { label: "Băng Rôn Hiflex", href: "/tiep-thi" },
-            { label: "Standee Quảng Cáo", href: "/tiep-thi" },
+            { label: "Standee Quảng Cáo", href: "/dich-vu/standee" },
           ],
         },
         {

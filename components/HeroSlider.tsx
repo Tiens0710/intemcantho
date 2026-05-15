@@ -82,7 +82,7 @@ export default function HeroSlider() {
 
     // Drive progress 0 → 1 for WebGL
     const startTime = performance.now();
-    const duration = 3200; // ms
+    const duration = 1800; // ms — faster transition
 
     const tick = (now: number) => {
       const elapsed = now - startTime;
@@ -107,17 +107,17 @@ export default function HeroSlider() {
 
         forceRender((n) => n + 1);
 
-        // After entering animation completes (1.2s), reset to idle
+        // After entering animation completes, reset to idle
         setTimeout(() => {
           setProductAnim({ mode: 'idle', slideIdx: idx });
           setTextFade('visible');
-        }, 1400);
+        }, 800);
 
         // Reset autoplay
         if (autoplayRef.current) clearTimeout(autoplayRef.current);
         autoplayRef.current = setTimeout(() => {
           goTo(activeIdxRef.current + 1);
-        }, 8000);
+        }, 5000);
       }
     };
 
@@ -147,7 +147,7 @@ export default function HeroSlider() {
       // Start autoplay
       autoplayRef.current = setTimeout(() => {
         goTo(1);
-      }, 8000);
+      }, 5000);
     });
 
     const onResize = () => wgl.resize();
@@ -174,7 +174,7 @@ export default function HeroSlider() {
         return {
           transform: 'translateX(-150px) scale(0.95)',
           opacity: 0,
-          transition: 'transform 1.4s cubic-bezier(0.55, 0, 1, 0.45), opacity 0.8s ease',
+          transition: 'transform 0.8s cubic-bezier(0.55, 0, 1, 0.45), opacity 0.5s ease',
         };
       case 'entering-offscreen':
         // Instant jump to off-screen right, no transition
@@ -188,7 +188,7 @@ export default function HeroSlider() {
         return {
           transform: 'translateX(0) scale(1)',
           opacity: 1,
-          transition: 'transform 1.2s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.6s ease',
+          transition: 'transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease',
         };
       case 'idle':
       default:
@@ -208,7 +208,7 @@ export default function HeroSlider() {
         return {
           transform: 'translateY(-60px)',
           opacity: 0,
-          transition: 'transform 1.2s cubic-bezier(0.55, 0, 1, 0.45), opacity 0.8s ease',
+          transition: 'transform 0.7s cubic-bezier(0.55, 0, 1, 0.45), opacity 0.5s ease',
         };
       case 'entering-offscreen':
         // New text: position below, invisible, no transition (instant jump)
@@ -222,7 +222,7 @@ export default function HeroSlider() {
         return {
           transform: 'translateY(0)',
           opacity: 1,
-          transition: 'transform 1.2s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.6s ease',
+          transition: 'transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease',
         };
       case 'visible':
       default:
