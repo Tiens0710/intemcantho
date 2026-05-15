@@ -11,6 +11,12 @@ export interface SlideData {
   subtitle: string;
   description: string;
   cta: string;
+  /** Link destination for CTA button. Defaults to /van-phong if not set. */
+  ctaHref?: string;
+  /** Secondary CTA text (e.g. "Báo giá miễn phí") */
+  cta2?: string;
+  /** Link destination for secondary CTA button */
+  cta2Href?: string;
   accent: string;
   custom?: {
     type: 'imageHero';
