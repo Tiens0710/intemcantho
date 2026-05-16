@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import "./globals.css";
+import ScrollToTop from "@/components/ScrollToTop";
 
 export const metadata: Metadata = {
   title: "Duky Printing",
@@ -46,6 +47,7 @@ export default function RootLayout({
           </defs>
         </svg>
         {children}
+        <ScrollToTop />
       </body>
     </html>
   );

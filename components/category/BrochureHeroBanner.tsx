@@ -19,13 +19,13 @@ const breadcrumbJsonLd = {
     {
       "@type": "ListItem",
       "position": 2,
-      "name": "Standee",
-      "item": `${SITE_URL}/standee`
+      "name": "Brochure",
+      "item": `${SITE_URL}/brochure`
     }
   ]
 };
 
-export default function StandeeHeroBanner() {
+export default function BrochureHeroBanner() {
   return (
     <section style={{ position: "relative", width: "100%", height: "100vh", minHeight: "600px", overflow: "visible" }}>
         {/* JSON-LD Breadcrumb for SEO */}
@@ -34,8 +34,8 @@ export default function StandeeHeroBanner() {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
         />
         <Image
-          src="/standee/background.jpeg"
-          alt="Standee In Tem Cần Thơ"
+          src="/brochure/background1.jpeg"
+          alt="Brochure In Tem Cần Thơ"
           fill
           priority
           sizes="100vw"
@@ -47,7 +47,7 @@ export default function StandeeHeroBanner() {
           aria-label="Đường dẫn trang"
           style={{
             position: "absolute",
-            top: "8.5rem",
+            top: "7rem",
             left: "4.5rem",
             zIndex: 60,
           }}
@@ -84,7 +84,7 @@ export default function StandeeHeroBanner() {
             </li>
             <li>
               <span style={{ color: "#E6792A", fontWeight: 700 }} aria-current="page">
-                Standee
+                Brochure
               </span>
             </li>
           </ol>
@@ -93,7 +93,7 @@ export default function StandeeHeroBanner() {
         {/* Buttons — bottom left */}
         <div style={{
           position: "absolute",
-          bottom: "7.5rem",
+          bottom: "12rem",
           left: "4.5rem",
           zIndex: 10,
           display: "flex",
@@ -186,7 +186,7 @@ export default function StandeeHeroBanner() {
           transform: "translateY(50%)",
         }}>
           <Image
-            src="/standee/cta_banner.png"
+            src="/brochure/cta_banner.png"
             alt=""
             aria-hidden="true"
             width={960}

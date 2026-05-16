@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CategoryHero from "./CategoryHero";
 import StandeeHeroBanner from "./StandeeHeroBanner";
+import BrochureHeroBanner from "./BrochureHeroBanner";
 import CategoryPricing from "./CategoryPricing";
 import CategoryGallery from "./CategoryGallery";
 import CategoryCaseStudy from "./CategoryCaseStudy";
@@ -16,6 +17,13 @@ import StandeeOrderProcess from "./StandeeOrderProcess";
 import StandeeFileAndFeedback from "./StandeeFileAndFeedback";
 import StandeeFAQ from "./StandeeFAQ";
 import StandeeBannerCTA from "./StandeeBannerCTA";
+import BrochureGallery from "./BrochureGallery";
+import BrochureIndustries from "./BrochureIndustries";
+import BrochurePricingTable from "./BrochurePricingTable";
+import BrochureOrderProcess from "./BrochureOrderProcess";
+import BrochureFAQ from "./BrochureFAQ";
+import BrochureFileAndFeedback from "./BrochureFileAndFeedback";
+import StoreLocationSection from "@/components/StoreLocationSection";
 
 type Props = {
   data: CategoryData;
@@ -30,6 +38,8 @@ export default function CategoryLandingTemplate({ data }: Props) {
       {/* 1. Hero Banner */}
       {data.slug === "poster" ? (
         <StandeeHeroBanner />
+      ) : data.slug === "to-gap" ? (
+        <BrochureHeroBanner />
       ) : (
         <CategoryHero
           title={data.hero.title}
@@ -48,13 +58,27 @@ export default function CategoryLandingTemplate({ data }: Props) {
           <StandeeGallery />
           <StandeeOrderProcess />
           <StandeeFileAndFeedback />
+          <StoreLocationSection />
           <StandeeFAQ />
           <StandeeBannerCTA />
         </>
       )}
 
-      {/* Generic sections (không hiển thị cho Standee) */}
-      {data.slug !== "poster" && (
+      {/* Brochure sections */}
+      {data.slug === "to-gap" && (
+        <>
+          <BrochureIndustries />
+          <BrochureGallery />
+          <BrochurePricingTable />
+          <BrochureFileAndFeedback />
+          <BrochureOrderProcess />
+          <StoreLocationSection />
+          <BrochureFAQ />
+        </>
+      )}
+
+      {/* Generic sections (không hiển thị cho Standee và Brochure) */}
+      {data.slug !== "poster" && data.slug !== "to-gap" && (
         <>
           <CategoryPricing
             title={data.pricing.title}

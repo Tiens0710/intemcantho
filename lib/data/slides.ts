@@ -43,7 +43,7 @@ export const slides: SlideData[] = [
   {
     id: 1,
     bg: '/herobanner/slide1/background.jpeg',
-    product: '/herobanner/slide1/nhanvat1.png',
+    product: '/herobanner/slide1/nhanvatchinh.png',
     title: 'In tem Can Tho',
     subtitle: '',
     description: '',

@@ -87,9 +87,10 @@ export default function ChatSearch() {
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-8 right-8 z-20 w-14 h-14 rounded-full bg-gradient-to-br from-primary to-primary/70 text-white shadow-lg flex items-center justify-center hover:shadow-xl transition-shadow"
+          className="fixed bottom-8 right-8 z-20 w-14 h-14 rounded-full flex items-center justify-center hover:shadow-xl transition-shadow cursor-pointer"
+          style={{ background: "#E6792A", boxShadow: "0 4px 14px rgba(230,121,42,0.35)" }}
         >
-          <Search className="w-6 h-6" />
+          <Search className="w-6 h-6 text-white" strokeWidth={2} />
         </motion.button>
       )}
 
