@@ -25,6 +25,8 @@ export default function Navbar() {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showRegisterModal, setShowRegisterModal] = useState(false);
   const { persona } = useAppStore();
+  const cartItemCount = useAppStore((s) => s.cart.length);
+  const cartBadgeLabel = cartItemCount > 99 ? "99+" : String(cartItemCount);
   const router = useRouter();
   const pathname = usePathname();
 
@@ -381,13 +383,18 @@ export default function Navbar() {
                 )}
 
                 {/* Cart Icon (navigates to /cart) */}
-                <Link href="/cart" aria-label="Giỏ hàng" className="inline-block">
+                <Link href="/cart" aria-label="Giỏ hàng" className="inline-block" id="cart-icon">
                   <motion.div
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
-                    className="p-2 rounded-full transition-colors text-slate-600 hover:text-amber-800 hover:bg-amber-50"
+                    className="relative p-2 rounded-full transition-colors text-[#E6792A] hover:text-[#C66A27] hover:bg-amber-50"
                   >
                     <ShoppingBag className="w-[18px] h-[18px]" strokeWidth={2} />
+                    {cartItemCount > 0 && (
+                      <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#E6792A] px-1 text-[10px] font-bold leading-none text-white shadow-sm ring-2 ring-white">
+                        {cartBadgeLabel}
+                      </span>
+                    )}
                   </motion.div>
                 </Link>
               </>
@@ -440,9 +447,14 @@ export default function Navbar() {
             ) : (
               <Link
                 href="/cart"
-                className="p-2 rounded-full transition-colors text-slate-600 hover:bg-amber-50"
+                className="relative p-2 rounded-full transition-colors text-slate-600 hover:bg-amber-50"
               >
                 <ShoppingBag className="w-5 h-5" strokeWidth={2} />
+                {cartItemCount > 0 && (
+                  <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#E6792A] px-1 text-[10px] font-bold leading-none text-white shadow-sm ring-2 ring-white">
+                    {cartBadgeLabel}
+                  </span>
+                )}
               </Link>
             )}
 

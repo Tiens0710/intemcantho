@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import ProductDetail from "@/components/ProductDetail";
 import ProductDetailTabs from "@/components/ProductDetailTabs";
 import FeaturedProducts from "@/components/FeaturedProducts";
+import Footer from "@/components/Footer";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 
@@ -53,6 +54,7 @@ export default async function ProductPage({ params }: Props) {
       />
       <ProductDetailTabs productName={product.title} />
       <FeaturedProducts />
+      <Footer />
     </div>
   );
 }

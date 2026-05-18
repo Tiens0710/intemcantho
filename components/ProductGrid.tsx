@@ -5,6 +5,7 @@ import { Heart } from "lucide-react";
 import { useEffect, useState, useCallback } from "react";
 import { useAppStore } from "@/lib/store";
 import Link from "next/link";
+import BrandCard from "@/components/ui/BrandCard";
 
 type Product = {
   id: string;
@@ -131,13 +132,10 @@ export default function ProductGrid() {
                   key={product.id}
                   variants={itemVariants}
                   transition={itemTransition}
-                  className="group flex h-full flex-col rounded-2xl overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-xl"
-                  style={{
-                    background: "#FFFFFF",
-                    border: "1px solid rgba(222, 210, 194, 0.6)",
-                    boxShadow: "0 2px 16px rgba(92, 61, 30, 0.06)",
-                  }}
+                  className="group flex h-full flex-col transition-all duration-500 hover:-translate-y-2 hover:shadow-xl"
                 >
+                  <BrandCard borderOpacity={0.28} shadowOpacity={0.08} className="flex flex-col h-full overflow-hidden">
+                  <Link href={`/san-pham/${product.id}`} className="flex flex-col h-full">
                   {/* Image Area */}
                   <div className="relative overflow-hidden" style={{ background: "linear-gradient(180deg, #FBF8F4 0%, #F5F0E8 100%)" }}>
                     <button
@@ -217,19 +215,16 @@ export default function ProductGrid() {
                       <span style={{ fontSize: "14px", fontWeight: 800, color: "#5C3D1E" }}>
                         {product.price.includes("$") ? product.price : `${parseInt(product.price).toLocaleString("vi-VN")}đ`}
                       </span>
-                      <Link
-                        href={`/san-pham/${product.id}`}
-                        className="flex items-center justify-center transition-all duration-300 group-hover:scale-110"
+                      <span
+                        className="flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:bg-[#E6792A] group-hover:text-white"
                         style={{
                           width: "36px",
                           height: "36px",
                           borderRadius: "50%",
-                          border: "1.5px solid #8B5E3C",
-                          color: "#8B5E3C",
+                          border: "1.5px solid #E6792A",
+                          color: "#E6792A",
                           background: "transparent",
                         }}
-                        onMouseEnter={(e) => { e.currentTarget.style.background = "#8B5E3C"; e.currentTarget.style.color = "#FFFFFF"; }}
-                        onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#8B5E3C"; }}
                       >
                         <svg
                           width="14"
@@ -244,10 +239,12 @@ export default function ProductGrid() {
                           <path d="M5 12h14" />
                           <path d="m12 5 7 7-7 7" />
                         </svg>
-                      </Link>
+                      </span>
                       {/* removed cart icon as requested */}
                     </div>
                   </div>
+                  </Link>
+                  </BrandCard>
                 </motion.div>
               ))}
             </motion.div>

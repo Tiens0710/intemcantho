@@ -140,12 +140,19 @@ export default function ProductDetail({ product }: ProductDetailProps) {
     // Use global store addToCart
     const qty = parseInt(quantity || "1", 10) || 1;
     const priceNumber = typeof p.price === "number" ? p.price : parseInt(String(p.price).replace(/[^0-9]/g, "")) || 0;
+    const sizeLabel = p.sizes.find((s) => s.value === selectedSize)?.label || selectedSize;
+    const designLabel = designOptions.find((o) => o.key === designOption)?.label || "";
     useAppStore.getState().addToCart({
       id: product?.id || p.title,
       title: p.title,
       price: priceNumber,
       quantity: qty,
       image: p.image,
+      meta: {
+        size: selectedSize === "custom" ? customSize || "Tuy chinh" : sizeLabel,
+        purpose,
+        design: designLabel,
+      },
     });
     setAddedToCart(true);
     setTimeout(() => setAddedToCart(false), 2000);

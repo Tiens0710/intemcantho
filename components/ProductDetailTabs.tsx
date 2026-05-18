@@ -88,7 +88,7 @@ function Stars({ rating, max = 5, size = "h-4 w-4" }: { rating: number; max?: nu
       {Array.from({ length: max }).map((_, i) => (
         <Star
           key={i}
-          className={`${size} ${i < rating ? "fill-[#9a5b24] text-[#9a5b24]" : "fill-gray-200 text-gray-200"}`}
+          className={`${size} ${i < rating ? "fill-[#E6792A] text-[#E6792A]" : "fill-gray-200 text-gray-200"}`}
         />
       ))}
     </span>
@@ -100,9 +100,9 @@ function Stars({ rating, max = 5, size = "h-4 w-4" }: { rating: number; max?: nu
 function TabTitle({ children }: { children: React.ReactNode }) {
   return (
     <div className="mb-6 flex items-center justify-center gap-4">
-      <span className="h-px w-16 bg-[#9a5b24]" />
-      <h2 className="!font-sans text-xl font-bold !text-[#9a5b24]">{children}</h2>
-      <span className="h-px w-16 bg-[#9a5b24]" />
+      <span className="h-px w-16 bg-[#E6792A]" />
+      <h2 className="!font-sans text-xl font-bold !text-[#E6792A]">{children}</h2>
+      <span className="h-px w-16 bg-[#E6792A]" />
     </div>
   );
 }
@@ -133,7 +133,7 @@ export default function ProductDetailTabs({ productName }: ProductDetailTabsProp
     <section className="w-[87%] mx-auto px-4 pb-16">
       {/* Divider above tabs */}
       <div className="flex justify-center mb-4">
-        <span className="h-0.5 w-80 bg-[#9a5b24] rounded-md" />
+        <span className="h-0.5 w-80 bg-[#E6792A] rounded-md" />
       </div>
 
       {/* ── Tab Navigation ─────────────────────────────────────────────── */}
@@ -148,10 +148,10 @@ export default function ProductDetailTabs({ productName }: ProductDetailTabsProp
               aria-current={activeTab === tab.key ? "true" : undefined}
               type="button"
               onClick={() => setActiveTab(tab.key)}
-              className={`relative py-5 text-sm md:text-base uppercase tracking-wide font-semibold transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#9a5b24]/40 ${
+              className={`relative py-5 text-sm md:text-base uppercase tracking-wide font-semibold transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E6792A]/40 ${
                 activeTab === tab.key
-                  ? "text-[#9a5b24] font-bold"
-                  : "text-gray-500 hover:text-[#9a5b24]"
+                  ? "text-[#E6792A] font-bold"
+                  : "text-gray-500 hover:text-[#E6792A]"
               }`}
             >
               {tab.label}
@@ -159,7 +159,7 @@ export default function ProductDetailTabs({ productName }: ProductDetailTabsProp
               {/* animated underline indicator */}
               <span
                 aria-hidden="true"
-                className={`absolute -bottom-1 left-1/2 transform -translate-x-1/2 h-0.5 rounded-md bg-[#9a5b24] w-52 transition-all duration-200 origin-center ${
+                className={`absolute -bottom-1 left-1/2 transform -translate-x-1/2 h-0.5 rounded-md bg-[#E6792A] w-52 transition-all duration-200 origin-center ${
                   activeTab === tab.key ? "scale-x-100 opacity-100" : "scale-x-0 opacity-0"
                 }`}
               />
@@ -220,15 +220,15 @@ export default function ProductDetailTabs({ productName }: ProductDetailTabsProp
                 {/* Features */}
                 <div>
                   <div className="mb-4 flex items-center gap-4">
-                    <span className="h-px w-16 bg-[#9a5b24]" />
+                    <span className="h-px w-16 bg-[#E6792A]" />
                     <h3 className="!font-sans text-lg font-bold !text-gray-800">Đặc Điểm Của Chất Liệu Hiflex</h3>
-                    <span className="h-px w-16 bg-[#9a5b24]" />
+                    <span className="h-px w-16 bg-[#E6792A]" />
                   </div>
                   <ul className="space-y-3">
                     {[
-                      { color: "text-[#9a5b24]", text: "Chống nước và chịu nhiệt tốt. Dù nắng gắt hay mưa giông, băng rôn vẫn đảm bảo độ sắc nét và bền màu thiết kế cũng như truyền tải thông điệp lâu dài." },
-                      { color: "text-[#9a5b24]", text: "Dễ dàng nhìn từ xa: Công nghệ in hiện đại giúp màu sắc rõ nét và thu hút sự chú ý hơn ở khoảng cách xa, rất phù hợp cho quảng cáo ngoài trời." },
-                      { color: "text-[#9a5b24]", text: "Ít chi phí nhưng hiệu quả tối đa: So với billboard hay màn hình LED, băng rôn có giá rẻ hơn nhiều nhưng vẫn tiếp cận được lượng lớn khách hàng." },
+                      { color: "text-[#E6792A]", text: "Chống nước và chịu nhiệt tốt. Dù nắng gắt hay mưa giông, băng rôn vẫn đảm bảo độ sắc nét và bền màu thiết kế cũng như truyền tải thông điệp lâu dài." },
+                      { color: "text-[#E6792A]", text: "Dễ dàng nhìn từ xa: Công nghệ in hiện đại giúp màu sắc rõ nét và thu hút sự chú ý hơn ở khoảng cách xa, rất phù hợp cho quảng cáo ngoài trời." },
+                      { color: "text-[#E6792A]", text: "Ít chi phí nhưng hiệu quả tối đa: So với billboard hay màn hình LED, băng rôn có giá rẻ hơn nhiều nhưng vẫn tiếp cận được lượng lớn khách hàng." },
                     ].map((f, i) => (
                       <li key={i} className="flex items-start gap-2 text-sm">
                         <ChevronRight className={`mt-0.5 h-4 w-4 shrink-0 ${f.color}`} />
@@ -258,13 +258,13 @@ export default function ProductDetailTabs({ productName }: ProductDetailTabsProp
 
                 {/* 1. Quy trình đặt hàng */}
                 <div>
-                  <p className="mb-4 text-sm font-semibold text-[#9a5b24]">1. Quy trình đặt hàng</p>
+                  <p className="mb-4 text-sm font-semibold text-[#E6792A]">1. Quy trình đặt hàng</p>
                   <div className="overflow-hidden rounded-xl border border-gray-200 bg-gray-50 p-6">
                     <div className="flex flex-wrap items-center justify-center gap-2">
                       {ORDER_STEPS.map((step, i) => (
                         <div key={i} className="flex items-center gap-2">
                           <div className="flex flex-col items-center gap-2">
-                            <div className={`flex h-14 w-14 items-center justify-center rounded-full ${i < 3 ? "bg-[#9a5b24]" : "bg-gray-400"} shadow-md`}>
+                            <div className={`flex h-14 w-14 items-center justify-center rounded-full ${i < 3 ? "bg-[#E6792A]" : "bg-gray-400"} shadow-md`}>
                               <step.icon className="h-6 w-6 text-white" />
                             </div>
                             <span className="text-center text-[11px] font-medium text-gray-600 max-w-[70px]">{step.label}</span>
@@ -280,7 +280,7 @@ export default function ProductDetailTabs({ productName }: ProductDetailTabsProp
 
                 {/* 2. Lưu ý file in */}
                 <div>
-                  <p className="mb-1 text-sm font-semibold text-[#9a5b24]">2. Lưu ý về file in &amp; sản phẩm</p>
+                  <p className="mb-1 text-sm font-semibold text-[#E6792A]">2. Lưu ý về file in &amp; sản phẩm</p>
                   <p className="mb-4 text-xs text-gray-600">1. TGIA khuyến khích anh chị sử dụng hệ màu CMYK để thiết kế</p>
 
                   {/* Color diagram */}
@@ -301,7 +301,7 @@ export default function ProductDetailTabs({ productName }: ProductDetailTabsProp
                             }}
                           />
                           <p className="text-xs font-bold text-gray-700">{d.title}</p>
-                          <p className="mt-1 text-[11px] text-[#9a5b24]">{d.sub}</p>
+                          <p className="mt-1 text-[11px] text-[#E6792A]">{d.sub}</p>
                         </div>
                       ))}
                     </div>
@@ -320,7 +320,7 @@ export default function ProductDetailTabs({ productName }: ProductDetailTabsProp
 
                 {/* 3. Thanh toán & in ấn */}
                 <div>
-                  <p className="mb-3 text-sm font-semibold text-[#9a5b24]">3. Thanh toán &amp; in ấn</p>
+                  <p className="mb-3 text-sm font-semibold text-[#E6792A]">3. Thanh toán &amp; in ấn</p>
                   <div className="rounded-xl border border-gray-200 bg-gray-50 p-5 text-xs leading-relaxed text-gray-600 space-y-2">
                     <p>· Đặt cọc <strong className="text-gray-800">50%</strong> giá trị đơn hàng khi xác nhận thiết kế.</p>
                     <p>· Thanh toán phần còn lại khi nhận hàng hoặc trước khi giao hàng.</p>
@@ -344,7 +344,7 @@ export default function ProductDetailTabs({ productName }: ProductDetailTabsProp
                       whileTap={{ scale: 0.97 }}
                       className={`flex items-center gap-3 rounded-xl ${f.bg} px-5 py-4 shadow-md transition-colors hover:opacity-90 text-gray-800`}
                     >
-                      <Download className="h-5 w-5 shrink-0 text-[#9a5b24]" />
+                      <Download className="h-5 w-5 shrink-0 text-[#E6792A]" />
                       <div className="text-left">
                         <p className="text-xs font-bold text-gray-800">{f.label}</p>
                         <p className="text-[11px] text-gray-700">{f.sub}</p>
@@ -377,10 +377,10 @@ export default function ProductDetailTabs({ productName }: ProductDetailTabsProp
                     {ratingBreakdown.map(({ star, pct }) => (
                       <div key={star} className="flex items-center gap-2">
                         <span className="w-3 text-right text-xs text-gray-500">{star}</span>
-                        <Star className="h-3.5 w-3.5 fill-[#9a5b24] text-[#9a5b24]" />
+                        <Star className="h-3.5 w-3.5 fill-[#E6792A] text-[#E6792A]" />
                         <div className="flex-1 overflow-hidden rounded-full bg-gray-100 h-2">
                           <div
-                            className="h-2 rounded-full bg-[#9a5b24] transition-all duration-700"
+                            className="h-2 rounded-full bg-[#E6792A] transition-all duration-700"
                             style={{ width: `${pct}%` }}
                           />
                         </div>
@@ -396,7 +396,7 @@ export default function ProductDetailTabs({ productName }: ProductDetailTabsProp
                       whileHover={{ scale: 1.03 }}
                       whileTap={{ scale: 0.97 }}
                       onClick={() => setWriteReview(!writeReview)}
-                      className="rounded-lg bg-[#d97706] px-5 py-2.5 text-sm font-semibold !text-white shadow-md transition-colors"
+                      className="rounded-lg bg-[#E6792A] px-5 py-2.5 text-sm font-semibold !text-white shadow-md transition-colors"
                       style={{ color: "#ffffff" }}
                     >
                       Viết nhận xét của bạn
@@ -421,7 +421,7 @@ export default function ProductDetailTabs({ productName }: ProductDetailTabsProp
                                 onClick={() => setNewRating(s)}
                               >
                                 <Star
-                                  className={`h-5 w-5 transition-colors ${s <= (hoverRating || newRating) ? "fill-[#9a5b24] text-[#9a5b24]" : "fill-gray-200 text-gray-200"}`}
+                                  className={`h-5 w-5 transition-colors ${s <= (hoverRating || newRating) ? "fill-[#E6792A] text-[#E6792A]" : "fill-gray-200 text-gray-200"}`}
                                 />
                               </button>
                             ))}
@@ -431,11 +431,11 @@ export default function ProductDetailTabs({ productName }: ProductDetailTabsProp
                             placeholder="Nhập nhận xét của bạn..."
                             value={newReviewText}
                             onChange={(e) => setNewReviewText(e.target.value)}
-                            className="w-full rounded-lg border border-gray-300 p-2 text-xs focus:border-[#9a5b24] focus:outline-none resize-none"
+                            className="w-full rounded-lg border border-gray-300 p-2 text-xs focus:border-[#E6792A] focus:outline-none resize-none"
                           />
                           <button
                             type="button"
-                            className="rounded-lg bg-[#9a5b24] px-4 py-2 text-xs font-semibold text-white hover:text-[#9a5b24] hover:bg-white transition-colors"
+                            className="rounded-lg bg-[#E6792A] px-4 py-2 text-xs font-semibold text-white hover:text-[#E6792A] hover:bg-white transition-colors"
                           >
                             Gửi nhận xét
                           </button>
@@ -465,12 +465,12 @@ export default function ProductDetailTabs({ productName }: ProductDetailTabsProp
                           <p className="text-xs text-gray-600 mb-2">{review.content}</p>
                           <div className="flex items-center gap-4">
                             <span className="text-[11px] text-gray-400">{review.date}</span>
-                            <button type="button" className="flex items-center gap-1 text-[11px] text-gray-400 hover:text-[#9a5b24] transition-colors">
+                            <button type="button" className="flex items-center gap-1 text-[11px] text-gray-400 hover:text-[#E6792A] transition-colors">
                               <ThumbsUp className="h-3 w-3" /> Thích
                             </button>
                             <button
                               type="button"
-                              className="text-[11px] text-gray-400 hover:text-[#9a5b24] transition-colors"
+                              className="text-[11px] text-gray-400 hover:text-[#E6792A] transition-colors"
                               onClick={() => setReplyTexts((prev) => ({ ...prev, [review.id]: prev[review.id] ?? "" }))}
                             >
                               ↩ Trả lời
@@ -485,7 +485,7 @@ export default function ProductDetailTabs({ productName }: ProductDetailTabsProp
                                 placeholder="Nhập phản hồi của bạn..."
                                 value={replyTexts[review.id]}
                                 onChange={(e) => setReplyTexts((prev) => ({ ...prev, [review.id]: e.target.value }))}
-                                className="w-full rounded-lg border border-gray-200 p-2 text-xs focus:border-[#9a5b24] focus:outline-none resize-none"
+                                className="w-full rounded-lg border border-gray-200 p-2 text-xs focus:border-[#E6792A] focus:outline-none resize-none"
                               />
                             </div>
                           )}

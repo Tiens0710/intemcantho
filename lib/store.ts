@@ -26,6 +26,9 @@ interface AppState {
   clearCart: () => void;
   cartCount: () => number;
   cartTotal: () => number;
+  // buy now
+  buyNowItem: CartItem | null;
+  setBuyNowItem: (item: CartItem | null) => void;
   setPersona: (persona: PersonaType) => void;
   setOnboardingComplete: (complete: boolean) => void;
   reset: () => void;
@@ -37,6 +40,8 @@ export const useAppStore = create<AppState>((set, get) => ({
 
   // cart state
   cart: [],
+  // buy now
+  buyNowItem: null,
   addToCart: (item: CartItem) => {
     set((state) => {
       const existing = state.cart.find((c) => c.id === item.id);
@@ -80,6 +85,9 @@ export const useAppStore = create<AppState>((set, get) => ({
       return { cart: [] } as Partial<AppState> as AppState;
     });
   },
+  setBuyNowItem: (item: CartItem | null) => {
+    set({ buyNowItem: item } as Partial<AppState> as AppState);
+  },
   cartCount: () => get().cart.reduce((s, i) => s + i.quantity, 0),
   cartTotal: () => get().cart.reduce((s, i) => s + (i.price || 0) * i.quantity, 0),
 
@@ -99,7 +107,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   },
 
   reset: () => {
-    set({ persona: null, hasCompletedOnboarding: false, cart: [] });
+    set({ persona: null, hasCompletedOnboarding: false, cart: [], buyNowItem: null });
     if (typeof window !== "undefined") {
       localStorage.removeItem("duky_persona");
       localStorage.removeItem("duky_onboarding_complete");

@@ -177,7 +177,7 @@ export default function QuickQuote() {
                   color: "#3D2008",
                 }}
               >
-                Nhận báo giá in ấn<br />
+                Báo giá Tem Nhãn<br />
                 <span style={{ color: "#E6792A" }}>chỉ trong vài giây</span>
               </h2>
 

@@ -14,7 +14,7 @@ export default function BrandOutlineButton({
 }: BrandOutlineButtonProps) {
   return (
     <button
-      className={`px-8 py-3 rounded-full font-bold text-sm uppercase tracking-wider transition-all duration-300 hover:shadow-lg ${className}`}
+      className={`cursor-pointer px-8 py-3 rounded-full font-bold text-sm uppercase tracking-wider transition-all duration-300 hover:shadow-lg ${className}`}
       style={{
         border: "2px solid #E6792A",
         color: "#E6792A",

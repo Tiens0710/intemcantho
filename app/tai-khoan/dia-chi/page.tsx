@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import BrandCard from "@/components/ui/BrandCard";
 import {
   MapPin,
   Plus,
@@ -10,6 +10,7 @@ import {
   Home,
   Building,
   Star,
+  ArrowRight,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -111,104 +112,114 @@ export default function AddressPage() {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.4 }}
-      className="space-y-6"
-    >
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-xl font-bold text-gray-900 mb-1">Địa chỉ giao hàng</h2>
-          <p className="text-sm text-gray-500">Quản lý địa chỉ nhận hàng của bạn</p>
+    <div className="space-y-5">
+      <BrandCard className="bg-white/92 p-5 backdrop-blur-xl">
+        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+          <div>
+            <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#E6792A]">
+              Địa chỉ
+            </p>
+            <h2 className="mt-1 !font-sans !text-lg !font-black !text-[#1f2937]">
+              Địa chỉ giao hàng của tôi
+            </h2>
+          </div>
+          <button
+            type="button"
+            onClick={() => {
+              setEditingId(null);
+              setFormData({ name: "", phone: "", address: "", ward: "", district: "", city: "", type: "home" });
+              setShowForm(true);
+            }}
+            className="inline-flex w-fit items-center gap-2 rounded-full bg-[#E6792A] px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-white shadow-md shadow-[#E6792A]/25 transition hover:bg-[#C66A27]"
+          >
+            <Plus className="h-3.5 w-3.5" />
+            Thêm địa chỉ
+          </button>
         </div>
-        <button
-          onClick={() => {
-            setEditingId(null);
-            setFormData({ name: "", phone: "", address: "", ward: "", district: "", city: "", type: "home" });
-            setShowForm(true);
-          }}
-          className="flex items-center gap-2 px-4 py-2.5 bg-amber-800 text-white rounded-xl text-sm font-medium hover:bg-amber-900 transition-colors shadow-lg shadow-amber-900/20"
-        >
-          <Plus className="w-4 h-4" />
-          Thêm địa chỉ
-        </button>
-      </div>
+      </BrandCard>
 
-      {/* Address Form Modal */}
       {showForm && (
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-white rounded-2xl border border-amber-200 shadow-md p-6"
-        >
-          <h3 className="text-sm font-semibold text-gray-900 mb-4">
+        <BrandCard className="bg-white/92 p-5 backdrop-blur-xl">
+          <h3 className="!font-sans !text-sm !font-black !text-[#1f2937]">
             {editingId ? "Chỉnh sửa địa chỉ" : "Thêm địa chỉ mới"}
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
             <div>
-              <label className="block text-xs text-gray-500 mb-1.5">Họ và tên</label>
+              <label className="mb-1.5 block text-xs font-bold uppercase tracking-[0.12em] text-[#E6792A]">
+                Họ và tên
+              </label>
               <input
                 type="text"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 placeholder="Nguyễn Văn A"
-                className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-100"
+                className="h-11 w-full rounded-lg border border-[#dfe5ee] bg-white/90 px-3 text-sm font-semibold text-[#1f2937] placeholder:text-[#64748b] outline-none transition focus:border-[#E6792A] focus:ring-2 focus:ring-[#E6792A]/10"
               />
             </div>
             <div>
-              <label className="block text-xs text-gray-500 mb-1.5">Số điện thoại</label>
+              <label className="mb-1.5 block text-xs font-bold uppercase tracking-[0.12em] text-[#E6792A]">
+                Số điện thoại
+              </label>
               <input
                 type="tel"
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                 placeholder="0985 463 403"
-                className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-100"
+                className="h-11 w-full rounded-lg border border-[#dfe5ee] bg-white/90 px-3 text-sm font-semibold text-[#1f2937] placeholder:text-[#64748b] outline-none transition focus:border-[#E6792A] focus:ring-2 focus:ring-[#E6792A]/10"
               />
             </div>
             <div className="md:col-span-2">
-              <label className="block text-xs text-gray-500 mb-1.5">Địa chỉ</label>
+              <label className="mb-1.5 block text-xs font-bold uppercase tracking-[0.12em] text-[#E6792A]">
+                Địa chỉ
+              </label>
               <input
                 type="text"
                 value={formData.address}
                 onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                 placeholder="Số nhà, tên đường"
-                className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-100"
+                className="h-11 w-full rounded-lg border border-[#dfe5ee] bg-white/90 px-3 text-sm font-semibold text-[#1f2937] placeholder:text-[#64748b] outline-none transition focus:border-[#E6792A] focus:ring-2 focus:ring-[#E6792A]/10"
               />
             </div>
             <div>
-              <label className="block text-xs text-gray-500 mb-1.5">Phường/Xã</label>
+              <label className="mb-1.5 block text-xs font-bold uppercase tracking-[0.12em] text-[#E6792A]">
+                Phường/Xã
+              </label>
               <input
                 type="text"
                 value={formData.ward}
                 onChange={(e) => setFormData({ ...formData, ward: e.target.value })}
                 placeholder="Phường An Phú"
-                className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-100"
+                className="h-11 w-full rounded-lg border border-[#dfe5ee] bg-white/90 px-3 text-sm font-semibold text-[#1f2937] placeholder:text-[#64748b] outline-none transition focus:border-[#E6792A] focus:ring-2 focus:ring-[#E6792A]/10"
               />
             </div>
             <div>
-              <label className="block text-xs text-gray-500 mb-1.5">Quận/Huyện</label>
+              <label className="mb-1.5 block text-xs font-bold uppercase tracking-[0.12em] text-[#E6792A]">
+                Quận/Huyện
+              </label>
               <input
                 type="text"
                 value={formData.district}
                 onChange={(e) => setFormData({ ...formData, district: e.target.value })}
                 placeholder="Quận Ninh Kiều"
-                className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-100"
+                className="h-11 w-full rounded-lg border border-[#dfe5ee] bg-white/90 px-3 text-sm font-semibold text-[#1f2937] placeholder:text-[#64748b] outline-none transition focus:border-[#E6792A] focus:ring-2 focus:ring-[#E6792A]/10"
               />
             </div>
             <div>
-              <label className="block text-xs text-gray-500 mb-1.5">Tỉnh/Thành phố</label>
+              <label className="mb-1.5 block text-xs font-bold uppercase tracking-[0.12em] text-[#E6792A]">
+                Tỉnh/Thành phố
+              </label>
               <input
                 type="text"
                 value={formData.city}
                 onChange={(e) => setFormData({ ...formData, city: e.target.value })}
                 placeholder="TP. Cần Thơ"
-                className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-100"
+                className="h-11 w-full rounded-lg border border-[#dfe5ee] bg-white/90 px-3 text-sm font-semibold text-[#1f2937] placeholder:text-[#64748b] outline-none transition focus:border-[#E6792A] focus:ring-2 focus:ring-[#E6792A]/10"
               />
             </div>
             <div>
-              <label className="block text-xs text-gray-500 mb-1.5">Loại địa chỉ</label>
+              <label className="mb-1.5 block text-xs font-bold uppercase tracking-[0.12em] text-[#E6792A]">
+                Loại địa chỉ
+              </label>
               <div className="flex gap-2">
                 {[
                   { key: "home" as const, label: "Nhà riêng", icon: Home },
@@ -218,14 +229,15 @@ export default function AddressPage() {
                   return (
                     <button
                       key={t.key}
+                      type="button"
                       onClick={() => setFormData({ ...formData, type: t.key })}
-                      className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium border transition-all ${
+                      className={`flex items-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-bold transition ${
                         formData.type === t.key
-                          ? "border-amber-400 bg-amber-50 text-amber-800"
-                          : "border-gray-200 text-gray-600 hover:border-gray-300"
+                          ? "border-[#E6792A] bg-[#E6792A]/10 text-[#E6792A]"
+                          : "border-[#dfe5ee] text-[#1f2937] hover:border-[#E6792A] hover:text-[#E6792A]"
                       }`}
                     >
-                      <TIcon className="w-4 h-4" />
+                      <TIcon className="h-4 w-4" />
                       {t.label}
                     </button>
                   );
@@ -233,110 +245,121 @@ export default function AddressPage() {
               </div>
             </div>
           </div>
-          <div className="flex gap-3 mt-6">
+          <div className="mt-6 flex items-center gap-3 border-t border-[#E6792A]/15 pt-5">
             <button
+              type="button"
               onClick={handleSave}
-              className="px-5 py-2.5 bg-amber-800 text-white rounded-xl text-sm font-medium hover:bg-amber-900 transition-colors"
+              className="inline-flex items-center gap-2 rounded-full bg-[#E6792A] px-5 py-2.5 text-xs font-bold uppercase tracking-[0.14em] text-white shadow-md shadow-[#E6792A]/25 transition hover:bg-[#C66A27]"
             >
               {editingId ? "Cập nhật" : "Lưu địa chỉ"}
+              <ArrowRight className="h-3.5 w-3.5" />
             </button>
             <button
+              type="button"
               onClick={() => {
                 setShowForm(false);
                 setEditingId(null);
               }}
-              className="px-5 py-2.5 border border-gray-200 text-gray-600 rounded-xl text-sm font-medium hover:bg-gray-50 transition-colors"
+              className="rounded-full border border-[#E6792A]/25 px-5 py-2.5 text-xs font-bold text-[#1f2937] transition hover:border-[#E6792A] hover:text-[#E6792A]"
             >
               Hủy
             </button>
           </div>
-        </motion.div>
+        </BrandCard>
       )}
 
-      {/* Address Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {addresses.map((addr, index) => (
-          <motion.div
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        {addresses.map((addr) => (
+          <BrandCard
             key={addr.id}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.05 }}
-            className={`bg-white rounded-2xl border overflow-hidden transition-all hover:shadow-md ${
-              addr.isDefault
-                ? "border-amber-300 shadow-sm ring-1 ring-amber-100"
-                : "border-gray-100"
+            className={`flex min-h-[224px] flex-col overflow-hidden bg-white/92 backdrop-blur-xl transition-all hover:shadow-md ${
+              addr.isDefault ? "ring-2 ring-[#E6792A]/30" : ""
             }`}
           >
-            <div className="p-5">
-              <div className="flex items-start justify-between mb-3">
-                <div className="flex items-center gap-2">
-                  <div className={`p-2 rounded-lg ${
-                    addr.type === "home" ? "bg-blue-50 text-blue-600" : "bg-purple-50 text-purple-600"
-                  }`}>
+            <div className="flex-1 p-4">
+              <div className="flex items-start justify-between">
+                <div className="flex items-center gap-3">
+                  <div
+                    className={`flex h-10 w-10 items-center justify-center rounded-xl ${
+                      addr.type === "home"
+                        ? "bg-[#E6792A]/10 text-[#E6792A]"
+                        : "bg-sky-50 text-sky-600"
+                    }`}
+                  >
                     {addr.type === "home" ? (
-                      <Home className="w-4 h-4" strokeWidth={2} />
+                      <Home className="h-5 w-5" />
                     ) : (
-                      <Building className="w-4 h-4" strokeWidth={2} />
+                      <Building className="h-5 w-5" />
                     )}
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-gray-900">{addr.name}</p>
-                    <p className="text-xs text-gray-500">{addr.phone}</p>
+                    <p className="text-sm font-black text-[#1f2937]">{addr.name}</p>
+                    <p className="mt-0.5 text-xs font-semibold text-[#1f2937]">
+                      {addr.phone}
+                    </p>
                   </div>
                 </div>
                 {addr.isDefault && (
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-amber-100 text-amber-800 rounded-full text-[10px] font-bold">
-                    <Star className="w-2.5 h-2.5 fill-amber-500 text-amber-500" />
+                  <span className="inline-flex items-center gap-1 rounded-full bg-[#E6792A]/10 px-2.5 py-1 text-[10px] font-bold text-[#E6792A]">
+                    <Star className="h-2.5 w-2.5 fill-[#E6792A] text-[#E6792A]" />
                     Mặc định
                   </span>
                 )}
               </div>
-              <div className="flex items-start gap-2 mb-4">
-                <MapPin className="w-4 h-4 text-gray-400 mt-0.5 flex-shrink-0" />
-                <p className="text-sm text-gray-600 leading-relaxed">
+
+              <div className="mt-3 flex items-start gap-2">
+                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#64748b]" />
+                <p className="text-xs font-semibold leading-relaxed text-[#1f2937]">
                   {addr.address}, {addr.ward}, {addr.district}, {addr.city}
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center gap-2 px-5 py-3 border-t border-gray-50 bg-gray-50/50">
+            <div className="mt-auto flex min-h-[64px] items-center gap-2 border-t border-[#E6792A]/12 bg-[#fffaf6] px-4 py-3">
               <button
+                type="button"
                 onClick={() => handleEdit(addr)}
-                className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-600 hover:text-amber-800 rounded-lg hover:bg-white transition-all"
+                className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold text-[#1f2937] transition hover:bg-[#E6792A]/10 hover:text-[#E6792A]"
               >
-                <Edit3 className="w-3.5 h-3.5" />
+                <Edit3 className="h-3.5 w-3.5" />
                 Sửa
               </button>
               {!addr.isDefault && (
                 <button
+                  type="button"
                   onClick={() => handleSetDefault(addr.id)}
-                  className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-600 hover:text-amber-800 rounded-lg hover:bg-white transition-all"
+                  className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold text-[#1f2937] transition hover:bg-[#E6792A]/10 hover:text-[#E6792A]"
                 >
-                  <Check className="w-3.5 h-3.5" />
+                  <Check className="h-3.5 w-3.5" />
                   Đặt mặc định
                 </button>
               )}
               {!addr.isDefault && (
                 <button
+                  type="button"
                   onClick={() => handleDelete(addr.id)}
-                  className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-red-500 hover:text-red-700 rounded-lg hover:bg-red-50 transition-all ml-auto"
+                  className="ml-auto inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold text-red-500 transition hover:bg-red-50 hover:text-red-700"
                 >
-                  <Trash2 className="w-3.5 h-3.5" />
+                  <Trash2 className="h-3.5 w-3.5" />
                   Xóa
                 </button>
               )}
             </div>
-          </motion.div>
+          </BrandCard>
         ))}
       </div>
 
       {addresses.length === 0 && (
-        <div className="bg-white rounded-2xl border border-gray-100 p-12 text-center">
-          <MapPin className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-          <p className="text-sm font-medium text-gray-500">Chưa có địa chỉ nào</p>
-          <p className="text-xs text-gray-400 mt-1">Thêm địa chỉ giao hàng để đặt hàng nhanh hơn</p>
-        </div>
+        <BrandCard className="bg-white/92 p-12 text-center backdrop-blur-xl">
+          <MapPin className="mx-auto h-10 w-10 text-[#E6792A]" />
+          <p className="mt-3 text-sm font-black text-[#1f2937]">
+            Chưa có địa chỉ nào
+          </p>
+          <p className="mt-1 text-xs font-semibold text-[#1f2937]">
+            Thêm địa chỉ giao hàng để đặt hàng nhanh hơn
+          </p>
+        </BrandCard>
       )}
-    </motion.div>
+    </div>
   );
 }
