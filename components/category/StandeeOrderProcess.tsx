@@ -1,3 +1,7 @@
+type StandeeOrderProcessProps = {
+  label?: string;
+};
+
 const steps = [
   {
     number: "01",
@@ -26,7 +30,7 @@ const steps = [
   },
 ];
 
-export default function StandeeOrderProcess() {
+export default function StandeeOrderProcess({ label = "STANDEE" }: StandeeOrderProcessProps) {
   return (
     <section className="py-16 bg-white">
       <div className="container mx-auto px-6 max-w-[1100px]">
@@ -42,7 +46,7 @@ export default function StandeeOrderProcess() {
               style={{ fontFamily: "'Nunito', sans-serif", color: "#111111" }}
             >
               QUY TRÌNH ĐẶT IN{" "}
-              <span style={{ color: "#E6792A" }}>STANDEE</span>
+              <span style={{ color: "#E6792A" }}>{label}</span>
             </h2>
           </div>
 

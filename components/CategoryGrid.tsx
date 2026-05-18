@@ -42,7 +42,7 @@ const SERVICES: Service[] = [
     id: "tem-nhan",
     title: "In tem nhãn",
     description: "Tem chai lọ, tem hộp, sticker, decal giấy và decal nhựa cho sản phẩm.",
-    href: "/danh-muc/nhan-dan",
+    href: "/dich-vu/nhan-dan",
     cta: "Báo giá tem nhãn",
     image: "/danhmuc1.png",
     imageAlt: "In tem nhãn",

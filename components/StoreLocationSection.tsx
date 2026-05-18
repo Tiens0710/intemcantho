@@ -39,25 +39,26 @@ export default function StoreLocationSection() {
             <span className="h-px w-20 md:w-32" style={{ background: "#C8A882" }} />
             <h2
               style={{
-                fontSize: "30px",
-                fontWeight: 900,
-                textTransform: "uppercase",
-                letterSpacing: "0.25em",
-                color: "#8B5E3C",
+                fontSize: "clamp(1.8rem, 3.5vw, 2.6rem)",
+                fontWeight: 700,
+                lineHeight: 1.2,
+                color: "#9A5B24",
+                fontFamily: "'Cormorant Garamond', 'Playfair Display', serif",
                 margin: 0,
                 whiteSpace: "nowrap",
               }}
             >
-              Địa Chỉ
+              ĐỊA CHỈ
             </h2>
             <span className="h-px w-20 md:w-32" style={{ background: "#C8A882" }} />
           </div>
           <p
             style={{
-              fontSize: "clamp(1.6rem, 3vw, 1.8rem)",
-              fontWeight: 700,
+              fontSize: "clamp(1.4rem, 2.5vw, 1.8rem)",
+              fontWeight: 600,
               lineHeight: 1.3,
               color: "#1C1007",
+              fontFamily: "'Cormorant Garamond', 'Playfair Display', serif",
             }}
           >
             Ghé Intem Cần Thơ Ngay
@@ -99,7 +100,7 @@ export default function StoreLocationSection() {
               <h3
                 className="mb-0"
                 style={{
-                  fontSize: "clamp(1.3rem, 2.5vw, 1.7rem)",
+                  fontSize: "clamp(1.5rem, 3vw, 2.2rem)",
                   fontWeight: 700,
                   lineHeight: 1.25,
                   color: "#9a5b24",

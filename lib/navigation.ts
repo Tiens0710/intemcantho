@@ -36,7 +36,7 @@ export const navigationData: NavItem[] = [
         {
           title: "DỊCH VỤ IN ẤN",
           items: [
-            { label: "In tem nhãn", href: "/danh-muc/nhan-dan" },
+            { label: "In tem nhãn", href: "/dich-vu/nhan-dan" },
             { label: "In standee khổ lớn", href: "/dich-vu/standee" },
             { label: "In brochure / tờ gấp", href: "/danh-muc/to-gap" },
           ],

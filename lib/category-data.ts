@@ -68,7 +68,7 @@ export const CATEGORY_DATA: Record<string, CategoryData> = {
     slug: "nhan-dan",
     icon: Tag,
     categoryLabel: "Tem nhãn",
-    heroBg: "/bgvanphong.png",
+    heroBg: "/nhandan/background1.jpeg",
     hero: {
       title: "In Tem Nhãn",
       subtitle:

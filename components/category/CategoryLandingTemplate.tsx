@@ -2,10 +2,19 @@
 
 import type { CategoryData } from "@/lib/category-data";
 import Navbar from "@/components/Navbar";
+import Image from "next/image";
+import { Check } from "lucide-react";
 import Footer from "@/components/Footer";
 import CategoryHero from "./CategoryHero";
 import StandeeHeroBanner from "./StandeeHeroBanner";
+import NhanDanHeroBanner from "./NhanDanHeroBanner";
+import NhanDanPricingTable from "./NhanDanPricingTable";
+import NhanDanGallery from "./NhanDanGallery";
+import NhanDanFileAndFeedback from "./NhanDanFileAndFeedback";
+import NhanDanFAQ from "./NhanDanFAQ";
+import NhanDanBannerCTA from "./NhanDanBannerCTA";
 import BrochureHeroBanner from "./BrochureHeroBanner";
+import BrandCard from "@/components/ui/BrandCard";
 import CategoryPricing from "./CategoryPricing";
 import CategoryGallery from "./CategoryGallery";
 import CategoryCaseStudy from "./CategoryCaseStudy";
@@ -38,6 +47,8 @@ export default function CategoryLandingTemplate({ data }: Props) {
       {/* 1. Hero Banner */}
       {data.slug === "poster" ? (
         <StandeeHeroBanner />
+      ) : data.slug === "nhan-dan" ? (
+        <NhanDanHeroBanner />
       ) : data.slug === "to-gap" ? (
         <BrochureHeroBanner />
       ) : (
@@ -48,6 +59,85 @@ export default function CategoryLandingTemplate({ data }: Props) {
           floatingImages={data.hero.floatingImages}
           categoryLabel={data.categoryLabel}
         />
+      )}
+
+      {/* Nhan-dan sections */}
+      {data.slug === "nhan-dan" && (
+        <>
+          <NhanDanPricingTable />
+
+          {/* Why choose section: three-column feature with image + CTA (placed after pricing) */}
+          <section className="container mx-auto py-12 md:py-16">
+            <div className="mb-8 text-center">
+              <h2 className="text-2xl md:text-3xl font-semibold text-[#2C1A10]">
+                VÌ SAO NÊN CHỌN <span className="text-[#E6792A]">IN TEM NHÃN</span> TẠI INTEM CẦN THƠ?
+              </h2>
+              <div className="mt-3 flex items-center justify-center gap-2">
+                <span className="h-0.5 w-10 rounded-full bg-amber-200" />
+                <span className="h-0.5 w-16 rounded-full bg-[#E6792A]" />
+                <span className="h-0.5 w-10 rounded-full bg-amber-200" />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+              {/* Left: bullets (card style) */}
+              <BrandCard className="order-2 md:order-1 rounded-2xl p-6 bg-[#FFFBF6]">
+                <ul className="space-y-3 text-sm md:text-[15px] text-[#6F5B4E]">
+                  {[
+                    "Chất liệu đa dạng, phù hợp mọi nhu cầu",
+                    "In sắc nét, màu chuẩn, bền đẹp",
+                    "Dính chắc chắn, không bong tróc",
+                    "Giá cạnh tranh — Ưu đãi hấp dẫn",
+                    "Hỗ trợ thiết kế 100% miễn phí",
+                  ].map((t) => (
+                    <li key={t} className="flex items-start gap-3">
+                      <span className="mt-0.5 flex h-6 w-6 items-center justify-center rounded-full bg-[#E6792A] shadow-[0_0_0_2px_#FCE6D6]">
+                        <Check className="h-3.5 w-3.5 text-white" />
+                      </span>
+                      <span>{t}</span>
+                    </li>
+                  ))}
+                </ul>
+              </BrandCard>
+
+              {/* Center: product image with circular background */}
+              <div className="order-1 md:order-2 flex items-center justify-center">
+                <div className="relative flex items-center justify-center">
+                  <div className="absolute h-[220px] w-[220px] md:h-[280px] md:w-[280px] rounded-full bg-[#FFF1E7]" />
+                  <Image
+                    src="/nhandan/danhmuc1.png"
+                    alt="In tem nhãn"
+                    width={260}
+                    height={180}
+                    className="relative z-10 object-contain drop-shadow-[0_18px_30px_rgba(170,98,38,0.3)]"
+                  />
+                </div>
+              </div>
+
+              {/* Right: CTA box (card) */}
+              <BrandCard className="order-3 rounded-2xl p-6 bg-white">
+                <h4 className="text-[15px] font-semibold text-[#E6792A] uppercase tracking-wide mb-2">Chưa biết chọn loại nào?</h4>
+                <p className="text-sm md:text-[15px] text-[#6F5B4E] mb-4">Gửi nhu cầu, chúng tôi sẽ tư vấn chất liệu phù hợp nhất cho bạn!</p>
+                <a
+                  href="https://zalo.me/0985463403"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-3 px-4 py-2 rounded-lg bg-[#E6792A] text-white font-semibold shadow-md hover:opacity-95"
+                >
+                  <Image src="/Icon_of_Zalo.svg.png" alt="Zalo" width={22} height={22} className="h-5 w-5" />
+                  TƯ VẤN NGAY QUA ZALO
+                </a>
+              </BrandCard>
+            </div>
+          </section>
+
+          <NhanDanGallery />
+          <StandeeOrderProcess label="NHÃN DÁN" />
+          <NhanDanFileAndFeedback />
+          <StoreLocationSection />
+          <NhanDanFAQ />
+          <NhanDanBannerCTA />
+        </>
       )}
 
       {/* Standee sections */}
@@ -77,8 +167,8 @@ export default function CategoryLandingTemplate({ data }: Props) {
         </>
       )}
 
-      {/* Generic sections (không hiển thị cho Standee và Brochure) */}
-      {data.slug !== "poster" && data.slug !== "to-gap" && (
+      {/* Generic sections (không hiển thị cho Standee, Brochure và Tem nhãn) */}
+      {data.slug !== "poster" && data.slug !== "to-gap" && data.slug !== "nhan-dan" && (
         <>
           <CategoryPricing
             title={data.pricing.title}
