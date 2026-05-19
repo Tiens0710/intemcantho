@@ -303,7 +303,7 @@ export default function Contact() {
                   fontFamily:
                     "'Cormorant Garamond', 'Playfair Display', serif",
                   background:
-                    "linear-gradient(135deg, #1C1007 0%, #9A5B24 50%, #E6792A 100%)",
+                    "linear-gradient(135deg, #8B5E3C 0%, #9A5B24 50%, #E6792A 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
@@ -770,7 +770,7 @@ export default function Contact() {
                 fontFamily:
                   "'Cormorant Garamond', 'Playfair Display', serif",
                 background:
-                  "linear-gradient(135deg, #1C1007 0%, #9A5B24 50%, #E6792A 100%)",
+                  "linear-gradient(135deg, #8B5E3C 0%, #9A5B24 50%, #E6792A 100%)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
@@ -892,7 +892,7 @@ export default function Contact() {
                 fontFamily:
                   "'Cormorant Garamond', 'Playfair Display', serif",
                 background:
-                  "linear-gradient(135deg, #1C1007 0%, #9A5B24 50%, #E6792A 100%)",
+                  "linear-gradient(135deg, #8B5E3C 0%, #9A5B24 50%, #E6792A 100%)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",

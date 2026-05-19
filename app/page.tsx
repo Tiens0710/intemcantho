@@ -171,16 +171,14 @@ export default function Home() {
               <span className="h-px w-8 md:w-16" style={{ background: "linear-gradient(270deg, transparent, #E6D2BF)" }} />
             </div>
             <h2
+              className="heading-gradient"
               style={{
                 fontSize: "clamp(2.1rem, 4.2vw, 2.8rem)",
                 fontWeight: 700,
                 lineHeight: 1.2,
                 fontFamily: "'Cormorant Garamond', 'Playfair Display', serif",
-                background: "linear-gradient(135deg, #1C1007 0%, #9A5B24 50%, #E6792A 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
+                "--heading-gradient": "linear-gradient(135deg, #B08060 0%, #C08040 50%, #F0A050 100%)",
+              } as React.CSSProperties}
             >
               Cam kết chất lượng – Dịch vụ tận tâm
             </h2>
@@ -303,17 +301,14 @@ export default function Home() {
               <span className="h-px w-8 md:w-16" style={{ background: "linear-gradient(270deg, transparent, #E6D2BF)" }} />
             </div>
             <h2
-              className="mb-0 whitespace-nowrap"
+              className="heading-gradient mb-0 whitespace-nowrap"
               style={{
                 fontSize: "clamp(2rem, 4vw, 3rem)",
                 fontWeight: 700,
                 lineHeight: 1.2,
                 fontFamily: "'Cormorant Garamond', 'Playfair Display', serif",
-                background: "linear-gradient(135deg, #1C1007 0%, #9A5B24 50%, #E6792A 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
+                "--heading-gradient": "linear-gradient(135deg, #B08060 0%, #C08040 50%, #F0A050 100%)",
+              } as React.CSSProperties}
             >
               TẠI SAO NÊN CHỌN CHÚNG TÔI
             </h2>
@@ -439,16 +434,14 @@ export default function Home() {
               <span className="h-px w-8 md:w-16" style={{ background: "linear-gradient(270deg, transparent, #E6D2BF)" }} />
             </div>
             <h2
+              className="heading-gradient"
               style={{
                 fontSize: "clamp(4rem, 3.2vw, 2.5rem)",
                 fontWeight: 700,
                 lineHeight: 1.25,
                 fontFamily: "'Cormorant Garamond', 'Playfair Display', serif",
-                background: "linear-gradient(135deg, #1C1007 0%, #9A5B24 60%, #E6792A 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
+                "--heading-gradient": "linear-gradient(135deg, #B08060 0%, #C08040 60%, #F0A050 100%)",
+              } as React.CSSProperties}
             >
               Khách hàng nói gì về chúng tôi
             </h2>
@@ -554,17 +547,15 @@ export default function Home() {
     
               </div>
               <h2
+                className="heading-gradient"
                 style={{
                   fontSize: "clamp(4.5rem, 5vw, 3.8rem)",
                   fontWeight: 800,
                   lineHeight: 1.1,
                   fontFamily: "'Cormorant Garamond', 'Playfair Display', serif",
-                  background: "linear-gradient(135deg, #1C1007 0%, #9A5B24 40%, #E6792A 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
+                  "--heading-gradient": "linear-gradient(135deg, #B08060 0%, #C08040 40%, #F0A050 100%)",
                   filter: "drop-shadow(0 2px 6px rgba(154, 91, 36, 0.2))",
-                }}
+                } as React.CSSProperties}
               >
                 Bài viết mới nhất
               </h2>
@@ -717,16 +708,14 @@ export default function Home() {
                 </span>
               </div>
               <h2
+                className="heading-gradient"
                 style={{
                   fontSize: "clamp(1.8rem, 3.2vw, 2.5rem)",
                   fontWeight: 700,
                   lineHeight: 1.25,
                   fontFamily: "'Cormorant Garamond', 'Playfair Display', serif",
-                  background: "linear-gradient(135deg, #1C1007 0%, #9A5B24 60%, #E6792A 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                }}
+                  "--heading-gradient": "linear-gradient(135deg, #B08060 0%, #C08040 60%, #F0A050 100%)",
+                } as React.CSSProperties}
               >
                 Liên Hệ Với Chúng Tôi
               </h2>

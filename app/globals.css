@@ -406,6 +406,21 @@ select:focus {
   background-clip: text;
 }
 
+.heading-gradient {
+  display: inline-block;
+  color: #9a5b24;
+}
+
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .heading-gradient {
+    background: var(--heading-gradient, linear-gradient(135deg, #B08060 0%, #C08040 50%, #F0A050 100%));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+}
+
 .blur-glass {
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
