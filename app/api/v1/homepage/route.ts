@@ -1,5 +1,5 @@
 import { getRecommendations, getFeaturedProducts, getTestimonials, getProcessSteps } from "@/lib/wordpress";
-import { NextResponse } from "next/server";
+import { success, error } from "@/lib/apiResponse";
 
 export async function GET(request: Request) {
   try {
@@ -19,19 +19,13 @@ export async function GET(request: Request) {
       getProcessSteps(),
     ]);
 
-    return NextResponse.json({
-      status: "success",
-      data: {
-        recommendedProducts: recommendations,
-        featuredProducts: featured,
-        testimonials,
-        processSteps,
-      },
+    return success({
+      recommendedProducts: recommendations,
+      featuredProducts: featured,
+      testimonials,
+      processSteps,
     });
-  } catch (error) {
-    return NextResponse.json(
-      { status: "error", message: "Failed to fetch homepage data" },
-      { status: 500 }
-    );
+  } catch (err) {
+    return error("Failed to fetch homepage data", 500);
   }
 }

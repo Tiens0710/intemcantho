@@ -1,5 +1,5 @@
 import { getProducts } from "@/lib/wordpress";
-import { NextResponse } from "next/server";
+import { success, error } from "@/lib/apiResponse";
 
 export async function GET() {
   try {
@@ -18,17 +18,11 @@ export async function GET() {
       count: allProducts.filter((p) => p.category === slug).length,
     }));
 
-    return NextResponse.json({
-      status: "success",
-      data: {
-        categories,
-        total: categories.length,
-      },
+    return success({
+      categories,
+      total: categories.length,
     });
-  } catch (error) {
-    return NextResponse.json(
-      { status: "error", message: "Failed to fetch categories" },
-      { status: 500 }
-    );
+  } catch (err) {
+    return error("Failed to fetch categories", 500);
   }
 }

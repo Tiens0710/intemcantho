@@ -42,7 +42,7 @@ export default function StoreLocationSection() {
                 fontSize: "clamp(1.8rem, 3.5vw, 2.6rem)",
                 fontWeight: 700,
                 lineHeight: 1.2,
-                color: "#9A5B24",
+                color: "#E6792A",
                 fontFamily: "'Cormorant Garamond', 'Playfair Display', serif",
                 margin: 0,
                 whiteSpace: "nowrap",

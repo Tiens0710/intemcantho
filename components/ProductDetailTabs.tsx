@@ -42,12 +42,12 @@ const ORDER_STEPS = [
 
 const FILE_NOTES = [
   { color: "text-gray-700", text: "TGIA khuyến khích anh chị sử dụng hệ màu CMYK để thiết kế." },
-  { color: "text-gray-700", text: "Thành phẩm sẽ có dung sai ±1 mm nên TGIA khuyến khích anh chị thiết kế viền lớn hơn 3mm và khi thành phẩm sẽ có sự chênh lệch giữa các cạnh ±1 mm." },
+  { color: "text-gray-700", text: "Thành phẩm sẽ có dung sai \u00B11 mm nên TGIA khuyến khích anh chị thiết kế viền lớn hơn 3mm và khi thành phẩm sẽ có sự chênh lệch giữa các cạnh \u00B11 mm." },
   { color: "text-gray-700", text: "TGIA chấp nhận file thiết kế xuất từ các phần mềm Adobe Illustrator (Ai), Photoshop (Psd), Indesign (Indd) và Corel (Cdr)." },
   { color: "text-gray-700", text: "Các định dạng file có đuôi: psd, tiff, jpg, png... phải đặt độ phân giải 300dpi đối với hình ảnh và 400dpi đối với text." },
   { color: "text-gray-700", text: "Đối với in offset, nếu file của anh chị có nền in màu đen, hãy chỉnh màu C: 20 M: 20 Y: 0 K: 100." },
   { color: "text-gray-700", text: "Đối với in kỹ thuật số, nếu file của anh chị có nền in màu đen, hãy chỉnh màu C: 20 M: 0 Y: 0 K: 100." },
-  { color: "text-red-600",  text: "Khuyến khích file in của anh chị có độ phân giải như sau: File từ 1m thì độ phân giải: 100→200dpi, File từ 2m thì độ phân giải: 70dpi, File từ 20m thì độ phân giải: 50dpi." },
+  { color: "text-red-600",  text: "Khuyến khích file in của anh chị có độ phân giải như sau: File từ 1m thì độ phân giải: 100\u2192200dpi, File từ 2m thì độ phân giải: 70dpi, File từ 20m thì độ phân giải: 50dpi." },
   { color: "text-red-600",  text: "Khuyến khích anh chị đưa những hình ảnh đạt độ phân giải 300dpi vào file thiết kế để thành phẩm in ấn được sắc nét." },
   { color: "text-red-600",  text: "Kích thước tối đa có thể in ấn 1 chiều của tấm Hiflex là 310cm." },
 ];
@@ -246,7 +246,7 @@ export default function ProductDetailTabs({ productName }: ProductDetailTabsProp
                   className="w-full rounded-xl object-cover"
                   onError={(e) => {
                     (e.currentTarget as HTMLImageElement).src =
-                      "https://placehold.co/1200x400/fde68a/78350f?text=BĂNG+RÔN+BẠT+HIFLEX";
+                      "https://placehold.co/1200x400/fde68a/78350f?text=B%C4%82NG+R%C3%94N+B%E1%BA%A0T+HIFLEX";
                   }}
                 />
               </div>
@@ -280,7 +280,7 @@ export default function ProductDetailTabs({ productName }: ProductDetailTabsProp
 
                 {/* 2. Lưu ý file in */}
                 <div>
-                  <p className="mb-1 text-sm font-semibold text-[#E6792A]">2. Lưu ý về file in &amp; sản phẩm</p>
+                  <p className="mb-1 text-sm font-semibold text-[#E6792A]">2. Lưu ý về file in & sản phẩm</p>
                   <p className="mb-4 text-xs text-gray-600">1. TGIA khuyến khích anh chị sử dụng hệ màu CMYK để thiết kế</p>
 
                   {/* Color diagram */}
@@ -320,7 +320,7 @@ export default function ProductDetailTabs({ productName }: ProductDetailTabsProp
 
                 {/* 3. Thanh toán & in ấn */}
                 <div>
-                  <p className="mb-3 text-sm font-semibold text-[#E6792A]">3. Thanh toán &amp; in ấn</p>
+                  <p className="mb-3 text-sm font-semibold text-[#E6792A]">3. Thanh toán & in ấn</p>
                   <div className="rounded-xl border border-gray-200 bg-gray-50 p-5 text-xs leading-relaxed text-gray-600 space-y-2">
                     <p>· Đặt cọc <strong className="text-gray-800">50%</strong> giá trị đơn hàng khi xác nhận thiết kế.</p>
                     <p>· Thanh toán phần còn lại khi nhận hàng hoặc trước khi giao hàng.</p>
@@ -333,7 +333,7 @@ export default function ProductDetailTabs({ productName }: ProductDetailTabsProp
             {/* ══ TAB 3: BẢNG GIÁ ════════════════════════════════════════ */}
             {activeTab === "price" && (
               <div className="space-y-6">
-                <TabTitle>Tải Bảng Giá &amp; File Chuẩn</TabTitle>
+                <TabTitle>Tải Bảng Giá & File Chuẩn</TabTitle>
                 <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
                   {PRICE_FILES.map((f, i) => (
                     <motion.button
@@ -473,7 +473,7 @@ export default function ProductDetailTabs({ productName }: ProductDetailTabsProp
                               className="text-[11px] text-gray-400 hover:text-[#E6792A] transition-colors"
                               onClick={() => setReplyTexts((prev) => ({ ...prev, [review.id]: prev[review.id] ?? "" }))}
                             >
-                              ↩ Trả lời
+                              Trả lời
                             </button>
                           </div>
 

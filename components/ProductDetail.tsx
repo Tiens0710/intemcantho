@@ -1,9 +1,12 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { ShoppingCart, ChevronDown, HelpCircle, Info, Tag, CheckCircle2, ExternalLink } from "lucide-react";
-import { useState } from "react";
+import { ShoppingCart, ChevronDown, HelpCircle, Tag, CheckCircle2, ExternalLink, ChevronLeft, ChevronRight } from "lucide-react";
+import { useState, useRef, useCallback } from "react";
 import { useAppStore } from "@/lib/store";
+import { useRouter } from "next/navigation";
+import BrandOutlineButton from "@/components/ui/BrandOutlineButton";
+import BrandCard from "@/components/ui/BrandCard";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -32,6 +35,7 @@ interface ProductDetailProps {
     price?: number;
     deliveryDate?: string;
     combos?: ComboItem[];
+    gallery?: string[];
   };
 }
 
@@ -69,8 +73,8 @@ function Tooltip({ text }: { text: string }) {
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex items-center gap-2 mb-3">
-      <span className="h-4 w-1 rounded-full bg-[#9a5b24]" />
-      <span className="text-xs font-bold uppercase tracking-widest text-[#9a5b24]">
+      <span className="h-4 w-1 rounded-full bg-[#E6792A]" />
+      <span className="text-xs font-bold uppercase tracking-widest text-[#E6792A]">
         {children}
       </span>
     </div>
@@ -102,6 +106,12 @@ const DEFAULT_PRODUCT = {
   ],
   price: 450000,
   deliveryDate: "Trong sáng 11/5",
+  gallery: [
+    "/sanpham001.png",
+    "/sanpham002.png",
+    "/2.jpg",
+    "/34.jpg",
+  ],
   combos: [
     {
       id: "combo-1",
@@ -126,6 +136,24 @@ export default function ProductDetail({ product }: ProductDetailProps) {
   const [reviewOption, setReviewOption] = useState<"review" | "skip">("review");
   const [supportOption, setSupportOption] = useState<"new" | "redesign">("new");
   const [addedToCart, setAddedToCart] = useState(false);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [magnifierPos, setMagnifierPos] = useState({ x: 0, y: 0 });
+  const [showMagnifier, setShowMagnifier] = useState(false);
+  const router = useRouter();
+  const imageContainerRef = useRef<HTMLDivElement>(null);
+  const mainImageRef = useRef<HTMLImageElement>(null);
+  const MAGNIFIER_SIZE = 250;
+  const ZOOM = 2.5;
+
+  const gallery = p.gallery && p.gallery.length > 0 ? p.gallery : [p.image];
+
+  const handlePrevImage = () => {
+    setSelectedImageIndex((prev) => (prev === 0 ? gallery.length - 1 : prev - 1));
+  };
+
+  const handleNextImage = () => {
+    setSelectedImageIndex((prev) => (prev === gallery.length - 1 ? 0 : prev + 1));
+  };
 
   const designOptions = [
     { key: "has-file" as const, label: "Tôi đã có file thiết kế" },
@@ -136,8 +164,54 @@ export default function ProductDetail({ product }: ProductDetailProps) {
   const formatPrice = (price: number) =>
     price.toLocaleString("vi-VN") + "đ";
 
-  const handleAddToCart = () => {
-    // Use global store addToCart
+  const handleAddToCart = (e: React.MouseEvent) => {
+    // Fly-to-cart animation
+    const btn = e.currentTarget as HTMLElement;
+    const btnRect = btn.getBoundingClientRect();
+    const cartIcon = document.getElementById("cart-icon");
+
+    if (cartIcon) {
+      const cartRect = cartIcon.getBoundingClientRect();
+      const flyImg = document.createElement("img");
+      flyImg.src = gallery[selectedImageIndex] || p.image;
+      flyImg.alt = p.title;
+      flyImg.onerror = () => {
+        flyImg.src = "https://placehold.co/60x60/f0f0f0/999?text=SP";
+      };
+      Object.assign(flyImg.style, {
+        position: "fixed",
+        width: "60px",
+        height: "60px",
+        borderRadius: "12px",
+        objectFit: "cover",
+        zIndex: "9999",
+        pointerEvents: "none",
+        border: "2px solid #E6792A",
+        boxShadow: "0 8px 25px rgba(230,121,42,0.4)",
+        left: `${btnRect.left + btnRect.width / 2 - 30}px`,
+        top: `${btnRect.top}px`,
+        transition: "none",
+      });
+      document.body.appendChild(flyImg);
+
+      requestAnimationFrame(() => {
+        Object.assign(flyImg.style, {
+          transition: "all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+          left: `${cartRect.left + cartRect.width / 2 - 15}px`,
+          top: `${cartRect.top + cartRect.height / 2 - 15}px`,
+          width: "30px",
+          height: "30px",
+          opacity: "0.6",
+          borderRadius: "50%",
+        });
+      });
+
+      setTimeout(() => {
+        flyImg.remove();
+      }, 750);
+    }
+
+    // Add to cart store
     const qty = parseInt(quantity || "1", 10) || 1;
     const priceNumber = typeof p.price === "number" ? p.price : parseInt(String(p.price).replace(/[^0-9]/g, "")) || 0;
     const sizeLabel = p.sizes.find((s) => s.value === selectedSize)?.label || selectedSize;
@@ -149,7 +223,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
       quantity: qty,
       image: p.image,
       meta: {
-        size: selectedSize === "custom" ? customSize || "Tuy chinh" : sizeLabel,
+        size: selectedSize === "custom" ? customSize || "Tùy chỉnh" : sizeLabel,
         purpose,
         design: designLabel,
       },
@@ -170,21 +244,202 @@ export default function ProductDetail({ product }: ProductDetailProps) {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="relative overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm"
             >
-              <div className="aspect-square w-full overflow-hidden bg-gray-100">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={p.image}
-                  alt={p.title}
-                  className="h-full w-full object-cover transition-transform duration-500 hover:scale-[1.03]"
-                  onError={(e) => {
-                    (e.currentTarget as HTMLImageElement).src =
-                      "https://placehold.co/600x400/e8f5e9/2d7a4a?text=BĂNG+RÔN+HIFLEX";
+              <BrandCard className="relative overflow-hidden bg-white">
+                <div
+                  ref={imageContainerRef}
+                  className="aspect-square w-full overflow-hidden bg-gray-100 relative cursor-crosshair"
+                  onMouseEnter={() => setShowMagnifier(true)}
+                  onMouseLeave={() => setShowMagnifier(false)}
+                  onMouseMove={(e) => {
+                    const rect = e.currentTarget.getBoundingClientRect();
+                    setMagnifierPos({
+                      x: e.clientX - rect.left,
+                      y: e.clientY - rect.top,
+                    });
                   }}
-                />
-              </div>
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    ref={mainImageRef}
+                    src={gallery[selectedImageIndex]}
+                    alt={p.title}
+                    className="h-full w-full object-cover"
+                    onError={(e) => {
+                      (e.currentTarget as HTMLImageElement).src =
+                        "https://placehold.co/600x400/e8f5e9/2d7a4a?text=BĂNG+RÔN+HIFLEX";
+                    }}
+                  />
+
+                  {/* Magnifier lens */}
+                  {showMagnifier && mainImageRef.current && (() => {
+                    const img = mainImageRef.current;
+                    const containerW = imageContainerRef.current?.offsetWidth || 600;
+                    const containerH = imageContainerRef.current?.offsetHeight || 600;
+                    const naturalW = img.naturalWidth;
+                    const naturalH = img.naturalHeight;
+
+                    // Calculate object-cover displayed area
+                    const containerRatio = containerW / containerH;
+                    const imageRatio = naturalW / naturalH;
+                    let displayedW: number, displayedH: number, offsetX: number, offsetY: number;
+
+                    if (imageRatio > containerRatio) {
+                      // Image is wider - height fills, sides cropped
+                      displayedH = containerH;
+                      displayedW = containerH * imageRatio;
+                      offsetX = (containerW - displayedW) / 2;
+                      offsetY = 0;
+                    } else {
+                      // Image is taller - width fills, top/bottom cropped
+                      displayedW = containerW;
+                      displayedH = containerW / imageRatio;
+                      offsetX = 0;
+                      offsetY = (containerH - displayedH) / 2;
+                    }
+
+                    // Position relative to the actual displayed image
+                    const imgX = magnifierPos.x - offsetX;
+                    const imgY = magnifierPos.y - offsetY;
+
+                    // Background size of the magnified image
+                    const bgW = displayedW * ZOOM;
+                    const bgH = displayedH * ZOOM;
+
+                    // Clamp mouse position within the displayed image area
+                    const clampedImgX = Math.max(0, Math.min(imgX, displayedW));
+                    const clampedImgY = Math.max(0, Math.min(imgY, displayedH));
+
+                    // Background position: offset so the zoomed area is centered in the lens
+                    const bgX = -(clampedImgX * ZOOM - MAGNIFIER_SIZE / 2);
+                    const bgY = -(clampedImgY * ZOOM - MAGNIFIER_SIZE / 2);
+
+                    // Clamp lens position within container
+                    const lensX = Math.max(MAGNIFIER_SIZE / 2, Math.min(magnifierPos.x, containerW - MAGNIFIER_SIZE / 2));
+                    const lensY = Math.max(MAGNIFIER_SIZE / 2, Math.min(magnifierPos.y, containerH - MAGNIFIER_SIZE / 2));
+
+                    return (
+                      <>
+                        <div className="absolute inset-0 bg-black/5 pointer-events-none z-10" />
+                        <div
+                          className="absolute pointer-events-none rounded-full z-20"
+                          style={{
+                            width: `${MAGNIFIER_SIZE}px`,
+                            height: `${MAGNIFIER_SIZE}px`,
+                            left: `${lensX - MAGNIFIER_SIZE / 2}px`,
+                            top: `${lensY - MAGNIFIER_SIZE / 2}px`,
+                            backgroundImage: `url(${gallery[selectedImageIndex]})`,
+                            backgroundSize: `${bgW}px ${bgH}px`,
+                            backgroundPosition: `${bgX}px ${bgY}px`,
+                            backgroundRepeat: "no-repeat",
+                            border: "3px solid rgba(230,121,42,0.7)",
+                            boxShadow: "0 0 0 4px rgba(230,121,42,0.15), 0 20px 50px -12px rgba(0,0,0,0.3), inset 0 0 20px rgba(0,0,0,0.05)",
+                          }}
+                        />
+                      </>
+                    );
+                  })()}
+                </div>
+              </BrandCard>
+
+              {/* Thumbnail Gallery */}
+              {gallery.length > 1 && (
+                <div className="mt-3 flex items-center gap-3 px-1 py-2">
+                  <button
+                    type="button"
+                    onClick={handlePrevImage}
+                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-400 shadow-sm transition-all hover:border-[#E6792A] hover:text-[#E6792A] hover:shadow-md active:scale-95"
+                  >
+                    <ChevronLeft className="h-4 w-4" />
+                  </button>
+
+                  <div className="flex flex-1 items-center justify-center gap-3 overflow-visible py-2 scrollbar-none">
+                    {gallery.map((img, index) => (
+                      <button
+                        key={index}
+                        type="button"
+                        onClick={() => setSelectedImageIndex(index)}
+                        className={`relative h-[72px] w-[72px] shrink-0 overflow-hidden rounded-xl transition-all duration-200 ${
+                          selectedImageIndex === index
+                            ? "border-2 border-[#E6792A] shadow-md"
+                            : "border border-gray-200 opacity-60 hover:opacity-100 hover:border-gray-300 hover:shadow-sm"
+                        }`}
+                      >
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={img}
+                          alt={`${p.title} ${index + 1}`}
+                          className="h-full w-full object-cover"
+                          onError={(e) => {
+                            (e.currentTarget as HTMLImageElement).src =
+                              "https://placehold.co/72x72/f0f0f0/999?text=" + (index + 1);
+                          }}
+                        />
+                      </button>
+                    ))}
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={handleNextImage}
+                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-400 shadow-sm transition-all hover:border-[#E6792A] hover:text-[#E6792A] hover:shadow-md active:scale-95"
+                  >
+                    <ChevronRight className="h-4 w-4" />
+                  </button>
+                </div>
+              )}
             </motion.div>
+
+            {/* ── Combo Section ─────────────────────────────────────────── */}
+            {p.combos && p.combos.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+              >
+                <BrandCard className="bg-white p-5">
+                  <SectionLabel>Combo siêu tiết kiệm</SectionLabel>
+                  <div className="space-y-2">
+                    {p.combos.map((combo) => (
+                      <motion.div
+                        key={combo.id}
+                        whileHover={{ x: 4 }}
+                        className="flex cursor-pointer items-center gap-4 rounded-xl border border-gray-200 bg-gray-50 p-3 transition-all hover:border-[#E6792A] hover:bg-[#fffbeb]"
+                      >
+                        <div className="flex h-14 w-20 shrink-0 items-center justify-center rounded-lg bg-[#fde68a]/40 overflow-hidden">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={combo.image}
+                            alt={combo.title}
+                            className="h-full w-full object-cover"
+                            onError={(e) => {
+                              (e.currentTarget as HTMLImageElement).src =
+                                "https://placehold.co/80x56/fde68a/d97706?text=Combo";
+                            }}
+                          />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-xs font-bold text-gray-800 uppercase truncate">{combo.title}</p>
+                          <div className="flex items-center gap-2 mt-0.5">
+                            <span className="text-sm font-bold text-[#E6792A]">
+                              {formatPrice(combo.price)}
+                            </span>
+                            <span className="text-xs text-gray-400 line-through">
+                              {formatPrice(combo.originalPrice)}
+                            </span>
+                          </div>
+                          <p className="text-[11px] text-[#E6792A] mt-0.5 flex items-center gap-1">
+                            <ExternalLink className="h-3 w-3" />
+                            Đặt và xem thêm 2 combo khác
+                          </p>
+                        </div>
+                        <Tag className="h-5 w-5 shrink-0 text-[#E6792A]" />
+                      </motion.div>
+                    ))}
+                  </div>
+                </BrandCard>
+              </motion.div>
+            )}
 
             {/* CTA Card */}
             <motion.div
@@ -214,11 +469,11 @@ export default function ProductDetail({ product }: ProductDetailProps) {
             initial={{ opacity: 0, x: 24 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm"
           >
+          <BrandCard className="bg-white p-6">
             {/* Product Title */}
             <div className="border-b border-gray-100 pb-4 mb-5">
-              <h1 className="!font-sans text-xl font-extrabold uppercase tracking-wide !text-[#9a5b24]">
+              <h1 className="!font-sans text-xl font-extrabold uppercase tracking-wide !text-[#E6792A]">
                 {p.title}
               </h1>
               <p className="mt-1 text-sm !text-gray-500">{p.subtitle}</p>
@@ -276,18 +531,16 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                 </label>
                 <div className="flex flex-wrap gap-2">
                   {p.sizes.map((size) => (
-                    <button
+                    <BrandOutlineButton
                       key={size.value}
                       id={`size-${size.value}`}
                       type="button"
                       onClick={() => setSelectedSize(size.value)}
-                      className={`rounded-lg border px-4 py-2 text-sm font-medium transition-colors duration-200 ${selectedSize === size.value
-                          ? "border-[#9a5b24] bg-white !text-[#9a5b24] shadow-sm ring-2 ring-[#9a5b24]/60"
-                          : "border-gray-300 bg-white text-gray-600 hover:border-[#9a5b24] hover:text-[#9a5b24]"
-                        }`}
+                      active={selectedSize === size.value}
+                      className="!px-4 !py-2 !rounded-lg"
                     >
                       {size.label}
-                    </button>
+                    </BrandOutlineButton>
                   ))}
                 </div>
                 {/* Custom size input */}
@@ -338,25 +591,23 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {designOptions.map((opt) => (
-                    <button
+                    <BrandOutlineButton
                       key={opt.key}
                       id={`design-${opt.key}`}
                       type="button"
                       onClick={() => setDesignOption(opt.key)}
-                      className={`rounded-lg border px-4 py-2 text-sm font-medium transition-colors duration-200 ${designOption === opt.key
-                          ? "border-[#9a5b24] bg-white !text-[#9a5b24] shadow-sm ring-2 ring-[#9a5b24]/60"
-                          : "border-gray-300 bg-white text-gray-600 hover:border-[#9a5b24] hover:text-[#9a5b24]"
-                        }`}
+                      active={designOption === opt.key}
+                      className="!px-4 !py-2 !rounded-lg"
                     >
                       {opt.label}
-                    </button>
+                    </BrandOutlineButton>
                   ))}
                 </div>
               </div>
 
               {/* Review options — Chỉ hiện khi chọn "Tôi đã có file thiết kế" */}
-              {designOption === "has-file" && (
-                <div className="border-2 !border-[#9a5b24] shadow-sm bg-white overflow-hidden rounded-lg">
+              {designOption === "has-file" ? (
+                <div className="border-2 !border-[#E6792A] shadow-sm bg-white overflow-hidden rounded-lg">
                   <label
                     className="grid cursor-pointer grid-cols-[100px_1fr] items-center p-5 hover:bg-gray-50 transition-colors group"
                   >
@@ -371,11 +622,11 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                           className="sr-only"
                         />
                         {/* Custom Radio Outer */}
-                        <div className={`h-5 w-5 rounded-full border-2 flex items-center justify-center transition-all ${reviewOption === "review" ? "border-[#9a5b24]" : "border-gray-300"
+                        <div className={`h-5 w-5 rounded-full border-2 flex items-center justify-center transition-all ${reviewOption === "review" ? "border-[#E6792A]" : "border-gray-300"
                           }`}>
                           {/* Custom Radio Inner Dot */}
                           {reviewOption === "review" && (
-                            <div className="h-2.5 w-2.5 rounded-full bg-[#9a5b24]" />
+                            <div className="h-2.5 w-2.5 rounded-full bg-[#E6792A]" />
                           )}
                         </div>
                       </div>
@@ -404,11 +655,11 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                           className="sr-only"
                         />
                         {/* Custom Radio Outer */}
-                        <div className={`h-5 w-5 rounded-full border-2 flex items-center justify-center transition-all ${reviewOption === "skip" ? "border-[#9a5b24]" : "border-gray-300"
+                        <div className={`h-5 w-5 rounded-full border-2 flex items-center justify-center transition-all ${reviewOption === "skip" ? "border-[#E6792A]" : "border-gray-300"
                           }`}>
                           {/* Custom Radio Inner Dot */}
                           {reviewOption === "skip" && (
-                            <div className="h-2.5 w-2.5 rounded-full bg-[#9a5b24]" />
+                            <div className="h-2.5 w-2.5 rounded-full bg-[#E6792A]" />
                           )}
                         </div>
                       </div>
@@ -418,11 +669,11 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                     </span>
                   </label>
                 </div>
-              )}
+              ) : null}
 
               {/* Online Design Options — Chỉ hiện khi chọn "Tôi sẽ thiết kế trực tuyến" */}
               {designOption === "online" && (
-                <div className="border-2 !border-[#9a5b24] shadow-sm bg-white overflow-hidden rounded-lg p-5">
+                <div className="border-2 !border-[#E6792A] shadow-sm bg-white overflow-hidden rounded-lg p-5">
                   <div className="space-y-3">
                     <p className="text-sm text-gray-700">
                       Bạn sẽ sử dụng công cụ thiết kế trực tuyến miễn phí của chúng tôi để tạo thiết kế của mình.
@@ -431,7 +682,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                       href="https://dukyai.com/tool/free-generation"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-block bg-[#9a5b24] hover:bg-[#7a4819] text-white font-semibold py-2.5 px-4 rounded-lg transition-colors"
+                      className="inline-block bg-[#E6792A] hover:bg-[#cf6721] text-white font-semibold py-2.5 px-4 rounded-lg transition-colors"
                     >
                       Bắt đầu thiết kế ngay →
                     </a>
@@ -441,7 +692,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
 
               {/* Support Design Options — Chỉ hiện khi chọn "Tôi cần hỗ trợ thiết kế" */}
               {designOption === "support" && (
-                <div className="border-2 !border-[#9a5b24] shadow-sm bg-white overflow-hidden rounded-lg">
+                <div className="border-2 !border-[#E6792A] shadow-sm bg-white overflow-hidden rounded-lg">
                   <label
                     className="grid cursor-pointer grid-cols-[100px_1fr] items-center p-5 hover:bg-gray-50 transition-colors group"
                   >
@@ -456,10 +707,10 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                           className="sr-only"
                         />
                         {/* Custom Radio Outer */}
-                        <div className={`h-5 w-5 rounded-full border-2 flex items-center justify-center transition-all ${supportOption === "new" ? "border-[#9a5b24]" : "border-gray-300"}`}>
+                        <div className={`h-5 w-5 rounded-full border-2 flex items-center justify-center transition-all ${supportOption === "new" ? "border-[#E6792A]" : "border-gray-300"}`}>
                           {/* Custom Radio Inner Dot */}
                           {supportOption === "new" && (
-                            <div className="h-2.5 w-2.5 rounded-full bg-[#9a5b24]" />
+                            <div className="h-2.5 w-2.5 rounded-full bg-[#E6792A]" />
                           )}
                         </div>
                       </div>
@@ -488,10 +739,10 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                           className="sr-only"
                         />
                         {/* Custom Radio Outer */}
-                        <div className={`h-5 w-5 rounded-full border-2 flex items-center justify-center transition-all ${supportOption === "redesign" ? "border-[#9a5b24]" : "border-gray-300"}`}>
+                        <div className={`h-5 w-5 rounded-full border-2 flex items-center justify-center transition-all ${supportOption === "redesign" ? "border-[#E6792A]" : "border-gray-300"}`}>
                           {/* Custom Radio Inner Dot */}
                           {supportOption === "redesign" && (
-                            <div className="h-2.5 w-2.5 rounded-full bg-[#9a5b24]" />
+                            <div className="h-2.5 w-2.5 rounded-full bg-[#E6792A]" />
                           )}
                         </div>
                       </div>
@@ -508,7 +759,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
 
               {/* Price & Delivery */}
               <div className="grid grid-cols-2 gap-3">
-                <div className="rounded-xl border border-gray-200 bg-white p-3.5 text-center">
+                <BrandCard className="bg-white p-3.5 text-center">
                   <p className="text-xs text-gray-500 mb-1">
                     Thời gian dự kiến thành phẩm{" "}
                     <span className="text-[#d97706]">(*)</span>
@@ -517,16 +768,16 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                   <p className="mt-1 text-[10px] text-gray-400">
                     (Từ khi xác nhận file thiết kế + Đặt cọc)
                   </p>
-                </div>
-                <div className="rounded-xl border border-gray-200 bg-white p-3.5 text-center">
+                </BrandCard>
+                <BrandCard className="bg-white p-3.5 text-center">
                   <p className="text-xs text-gray-500 mb-1">Thành tiền</p>
-                  <p className="font-extrabold !text-red-600 text-2xl">
+                  <p className="text-4xl font-black leading-tight !text-red-700 drop-shadow-sm">
                     {formatPrice(p.price)}
                   </p>
                   <p className="mt-1 text-[10px] text-gray-400">
                     (Giá trên chưa bao gồm 10% VAT)
                   </p>
-                </div>
+                </BrandCard>
               </div>
 
               {/* CTA Buttons */}
@@ -536,19 +787,38 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                   type="button"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.97 }}
-                  className="rounded-xl bg-green-600 py-3.5 text-sm font-bold uppercase tracking-wide !text-white shadow-md shadow-green-600/30 transition-colors hover:!text-[#9a5b24]"
+                  onClick={() => {
+                    const qty = parseInt(quantity || "1", 10) || 1;
+                    const priceNumber = typeof p.price === "number" ? p.price : parseInt(String(p.price).replace(/[^0-9]/g, "")) || 0;
+                    const sizeLabel = p.sizes.find((s) => s.value === selectedSize)?.label || selectedSize;
+                    const designLabel = designOptions.find((o) => o.key === designOption)?.label || "";
+                    useAppStore.getState().setBuyNowItem({
+                      id: product?.id || p.title,
+                      title: p.title,
+                      price: priceNumber,
+                      quantity: qty,
+                      image: p.image,
+                      meta: {
+                        size: selectedSize === "custom" ? customSize || "Tùy chỉnh" : sizeLabel,
+                        purpose,
+                        design: designLabel,
+                      },
+                    });
+                    router.push("/checkout?mode=buy-now");
+                  }}
+                  className="rounded-xl bg-[#E6792A] py-3.5 text-sm font-bold uppercase tracking-wide !text-white shadow-md shadow-[#E6792A]/30 transition-colors hover:bg-[#cf6721] hover:!text-white"
                 >
                   Đặt In Ngay
                 </motion.button>
 
-                <motion.button
+                <BrandOutlineButton
                   id="btn-add-to-cart"
                   type="button"
+                  active
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.97 }}
                   onClick={handleAddToCart}
-                  className={`flex items-center justify-center gap-2 rounded-xl border-2 border-yellow-400 bg-yellow-400 py-3.5 text-sm font-bold uppercase tracking-wide !text-white shadow-md shadow-yellow-400/30 transition-colors hover:!text-[#9a5b24] ${addedToCart ? "bg-yellow-400 border-yellow-400" : ""
-                    }`}
+                  className="flex w-full items-center justify-center gap-2 rounded-xl py-3.5 text-sm font-bold shadow-md"
                 >
                   <AnimatePresence mode="wait">
                     {addedToCart ? (
@@ -574,7 +844,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                       </motion.span>
                     )}
                   </AnimatePresence>
-                </motion.button>
+                </BrandOutlineButton>
               </div>
 
               <p className="text-[10px] text-gray-400 text-center">
@@ -582,51 +852,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
               </p>
             </div>
 
-            {/* ── Combo Section ─────────────────────────────────────────── */}
-            {p.combos && p.combos.length > 0 && (
-              <div className="mt-6 border-t border-gray-100 pt-5">
-                <SectionLabel>Combo siêu tiết kiệm</SectionLabel>
-                <div className="space-y-2">
-                  {p.combos.map((combo) => (
-                    <motion.div
-                      key={combo.id}
-                      whileHover={{ x: 4 }}
-                      className="flex cursor-pointer items-center gap-4 rounded-xl border border-gray-200 bg-gray-50 p-3 transition-all hover:border-[#9a5b24] hover:bg-[#fffbeb]"
-                    >
-                      {/* Combo image */}
-                      <div className="flex h-14 w-20 shrink-0 items-center justify-center rounded-lg bg-[#fde68a]/40 overflow-hidden">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={combo.image}
-                          alt={combo.title}
-                          className="h-full w-full object-cover"
-                          onError={(e) => {
-                            (e.currentTarget as HTMLImageElement).src =
-                              "https://placehold.co/80x56/fde68a/d97706?text=Combo";
-                          }}
-                        />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-xs font-bold text-gray-800 uppercase truncate">{combo.title}</p>
-                        <div className="flex items-center gap-2 mt-0.5">
-                          <span className="text-sm font-bold text-[#9a5b24]">
-                            {formatPrice(combo.price)}
-                          </span>
-                          <span className="text-xs text-gray-400 line-through">
-                            {formatPrice(combo.originalPrice)}
-                          </span>
-                        </div>
-                        <p className="text-[11px] text-[#9a5b24] mt-0.5 flex items-center gap-1">
-                          <ExternalLink className="h-3 w-3" />
-                          Đặt và xem thêm 2 combo khác
-                        </p>
-                      </div>
-                      <Tag className="h-5 w-5 shrink-0 text-[#9a5b24]" />
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-            )}
+          </BrandCard>
           </motion.div>
         </div>
       </div>

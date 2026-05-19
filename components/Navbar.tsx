@@ -4,6 +4,7 @@ import { navigationData } from "@/lib/navigation";
 import { useAppStore } from "@/lib/store";
 import WarmButton from "@/components/WarmButton";
 import LoginModal from "@/components/LoginModal";
+import ProductSearch from "@/components/ProductSearch";
 import RegisterModal from "@/components/RegisterModal";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown, Menu, Package, Phone, Search, Settings, ShoppingBag, User, X, LogOut, MapPin } from "lucide-react";
@@ -24,11 +25,23 @@ export default function Navbar() {
   const [hasLoggedInBefore, setHasLoggedInBefore] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showRegisterModal, setShowRegisterModal] = useState(false);
+  const [showProductSearch, setShowProductSearch] = useState(false);
   const { persona } = useAppStore();
   const cartItemCount = useAppStore((s) => s.cart.length);
   const cartBadgeLabel = cartItemCount > 99 ? "99+" : String(cartItemCount);
   const router = useRouter();
   const pathname = usePathname();
+  const isNavItemActive = (item: (typeof navigationData)[number]) => {
+    const activePaths = item.activePaths ?? [item.href];
+
+    return activePaths.some((path) => {
+      if (path === "/") {
+        return pathname === "/";
+      }
+
+      return pathname === path || pathname.startsWith(`${path}/`);
+    });
+  };
 
   // Check auth status
   useEffect(() => {
@@ -161,7 +174,7 @@ export default function Navbar() {
                         />
                         <span
                           className={`absolute bottom-0 left-3 right-3 h-0.5 scale-x-0 bg-amber-700 transition-transform duration-300 group-hover:scale-x-100 ${
-                            pathname === item.href ? "scale-x-100" : ""
+                            isNavItemActive(item) ? "scale-x-100" : ""
                           }`}
                         />
                       </Link>
@@ -252,7 +265,7 @@ export default function Navbar() {
                     {item.label}
                     <span
                       className={`absolute bottom-0 left-3 right-3 h-0.5 scale-x-0 bg-amber-700 transition-transform duration-300 group-hover:scale-x-100 ${
-                        pathname === item.href ? "scale-x-100" : ""
+                        isNavItemActive(item) ? "scale-x-100" : ""
                       }`}
                     />
                   </Link>
@@ -267,8 +280,10 @@ export default function Navbar() {
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
+              type="button"
+              onClick={() => setShowProductSearch(true)}
               className="p-2 rounded-full transition-colors text-slate-600 hover:text-amber-800 hover:bg-amber-50"
-              aria-label="Tìm kiếm"
+              aria-label="Tìm kiếm sản phẩm"
             >
               <Search className="w-[18px] h-[18px]" strokeWidth={2} />
             </motion.button>
@@ -459,8 +474,10 @@ export default function Navbar() {
             )}
 
             <button
+              type="button"
+              onClick={() => setShowProductSearch(true)}
               className="p-2 rounded-full transition-colors text-slate-600 hover:bg-amber-50"
-              aria-label="Tìm kiếm"
+              aria-label="Tìm kiếm sản phẩm"
             >
               <Search className="w-5 h-5" strokeWidth={2} />
             </button>
@@ -579,6 +596,10 @@ export default function Navbar() {
         open={showRegisterModal}
         onClose={() => setShowRegisterModal(false)}
         onSwitchToLogin={() => { setShowRegisterModal(false); setShowLoginModal(true); }}
+      />
+      <ProductSearch
+        open={showProductSearch}
+        onClose={() => setShowProductSearch(false)}
       />
     </>
   );

@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { success, error } from "@/lib/apiResponse";
 
 export async function GET() {
   try {
@@ -23,14 +23,8 @@ export async function GET() {
       },
     };
 
-    return NextResponse.json({
-      status: "success",
-      data: settings,
-    });
-  } catch (error) {
-    return NextResponse.json(
-      { status: "error", message: "Failed to fetch settings" },
-      { status: 500 }
-    );
+    return success(settings);
+  } catch (err) {
+    return error("Failed to fetch settings", 500);
   }
 }

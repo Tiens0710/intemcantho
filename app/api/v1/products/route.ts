@@ -1,27 +1,25 @@
 import { getProducts } from "@/lib/wordpress";
-import { NextResponse } from "next/server";
+import { success, error } from "@/lib/apiResponse";
 
 export async function GET(request: Request) {
   try {
     const url = new URL(request.url);
     const category = url.searchParams.get("category");
+    const query = url.searchParams.get("q")?.trim().toLowerCase();
 
     const allProducts = await getProducts();
-    const filtered = category 
-      ? allProducts.filter((p) => p.category === category)
-      : allProducts;
+    const filtered = allProducts.filter((product) => {
+      const matchesCategory = category ? product.category === category : true;
+      const matchesQuery = query ? product.title.toLowerCase().includes(query) : true;
 
-    return NextResponse.json({
-      status: "success",
-      data: {
-        products: filtered,
-        total: filtered.length,
-      },
+      return matchesCategory && matchesQuery;
     });
-  } catch (error) {
-    return NextResponse.json(
-      { status: "error", message: "Failed to fetch products" },
-      { status: 500 }
-    );
+
+    return success({
+      products: filtered,
+      total: filtered.length,
+    });
+  } catch {
+    return error("Failed to fetch products", 500);
   }
 }

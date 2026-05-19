@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, BadgePercent, Eye, EyeOff, MapPin, RefreshCw, X, CheckCircle } from "lucide-react";
+import { apiPost } from "@/lib/apiClient";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -76,21 +77,13 @@ export default function RegisterModal({ open, onClose, onSwitchToLogin }: Regist
     if (!validateForm()) return;
     setIsLoading(true);
     try {
-      const response = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          email: formData.email,
-          password: formData.password,
-          phone: formData.phone,
-        }),
-      });
-      if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.error || "Registration failed");
-      }
+      await apiPost<unknown>("/api/auth/register", {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        password: formData.password,
+        phone: formData.phone,
+      }, { skipAuth: true });
       setSuccess(true);
       setTimeout(() => { router.push("/dang-nhap"); }, 2000);
     } catch (err) {

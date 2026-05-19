@@ -1,6 +1,7 @@
 export interface NavItem {
   label: string;
   href: string;
+  activePaths?: string[];
   megaMenu?: MegaMenuConfig;
 }
 
@@ -25,6 +26,7 @@ export const navigationData: NavItem[] = [
   {
     label: "Dịch vụ",
     href: "/van-phong",
+    activePaths: ["/dich-vu"],
     megaMenu: {
       banner: {
         src: "/danhmuc1.png",
@@ -55,6 +57,7 @@ export const navigationData: NavItem[] = [
   {
     label: "Ấn phẩm văn phòng",
     href: "/van-phong",
+    activePaths: ["/van-phong"],
     megaMenu: {
       banner: {
         src: "/banner_doc.webp",
@@ -96,6 +99,7 @@ export const navigationData: NavItem[] = [
   {
     label: "Ấn phẩm tiếp thị",
     href: "/tiep-thi",
+    activePaths: ["/tiep-thi"],
     megaMenu: {
       banner: {
         src: "https://d2xsxph8kpxj0f.cloudfront.net/90078694/ERMxTyYJFnFBQeNjeF6P4w/service-brochure-luxury-DDmwtYLkufziWByNSE9fSY.webp",
@@ -134,6 +138,7 @@ export const navigationData: NavItem[] = [
   {
     label: "Ấn phẩm bao bì",
     href: "/bao-bi",
+    activePaths: ["/bao-bi"],
     megaMenu: {
       banner: {
         src: "https://d2xsxph8kpxj0f.cloudfront.net/90078694/ERMxTyYJFnFBQeNjeF6P4w/service-packaging-luxury-RYsTx6Y8m5SoyfySkzLoUA.webp",

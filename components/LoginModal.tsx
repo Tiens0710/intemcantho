@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { BadgePercent, Eye, EyeOff, LogIn, MapPin, RefreshCw, X } from "lucide-react";
+import { apiPost } from "@/lib/apiClient";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -81,16 +82,9 @@ export default function LoginModal({ open, onClose, onLoginSuccess, onSwitchToRe
     setError(null);
     setIsLoading(true);
     try {
-      const response = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password, rememberMe }),
-      });
-      if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.error || "Login failed");
-      }
-      const data = await response.json();
+      const data = await apiPost<{ token: string }>("/api/auth/login", {
+        email, password, rememberMe,
+      }, { skipAuth: true });
       const userName = email.split("@")[0] || "Tai khoan";
       localStorage.setItem("authToken", data.token);
       localStorage.setItem("user", JSON.stringify({ name: userName, email }));

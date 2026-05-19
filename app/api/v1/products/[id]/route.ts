@@ -1,5 +1,5 @@
 import { getProduct } from "@/lib/wordpress";
-import { NextResponse } from "next/server";
+import { success, notFound, error } from "@/lib/apiResponse";
 
 export async function GET(
   request: Request,
@@ -10,20 +10,11 @@ export async function GET(
     const product = await getProduct(id);
 
     if (!product) {
-      return NextResponse.json(
-        { status: "error", message: "Product not found" },
-        { status: 404 }
-      );
+      return notFound("Product not found");
     }
 
-    return NextResponse.json({
-      status: "success",
-      data: product,
-    });
-  } catch (error) {
-    return NextResponse.json(
-      { status: "error", message: "Failed to fetch product" },
-      { status: 500 }
-    );
+    return success(product);
+  } catch (err) {
+    return error("Failed to fetch product", 500);
   }
 }

@@ -4,9 +4,10 @@ import Navbar from "@/components/Navbar";
 import ProductDetail from "@/components/ProductDetail";
 import ProductDetailTabs from "@/components/ProductDetailTabs";
 import FeaturedProducts from "@/components/FeaturedProducts";
+import StoreLocationSection from "@/components/StoreLocationSection";
 import Footer from "@/components/Footer";
 import Link from "next/link";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, ChevronRight, Home } from "lucide-react";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -32,14 +33,29 @@ export default async function ProductPage({ params }: Props) {
     <div className="min-h-screen bg-[#f7f7f7]">
       <Navbar />
 
-      {/* Back button */}
-      <div className="mx-auto max-w-6xl px-0 pt-24 pb-0">
+      {/* Breadcrumb + Back button */}
+      <div className="mx-auto max-w-7xl px-4 pt-24 pb-0">
+        {/* Breadcrumb */}
+        <nav className="mb-4 flex items-center gap-2 text-sm text-gray-500">
+          <Link href="/" className="flex items-center gap-1 hover:text-[#E6792A] transition-colors">
+            <Home className="h-3.5 w-3.5" />
+            Trang chủ
+          </Link>
+          <ChevronRight className="h-3.5 w-3.5 text-gray-400" />
+          <Link href="/#best-seller" className="hover:text-[#E6792A] transition-colors">
+            Sản phẩm
+          </Link>
+          <ChevronRight className="h-3.5 w-3.5 text-gray-400" />
+          <span className="font-medium text-[#E6792A] truncate max-w-[200px]">{product.title}</span>
+        </nav>
+
+        {/* Back button */}
         <Link
           href="/#best-seller"
-          className="inline-flex items-center gap-2 text-lg font-semibold text-[#9a5b24] transition-colors hover:text-[#7f4f1f]"
+          className="inline-flex items-center gap-2 text-sm font-semibold text-gray-600 transition-colors hover:text-[#E6792A]"
         >
-          <ChevronLeft className="h-5 w-5" />
-          Quay lại
+          <ChevronLeft className="h-4 w-4" />
+          Quay lại danh sách sản phẩm
         </Link>
       </div>
 
@@ -54,6 +70,7 @@ export default async function ProductPage({ params }: Props) {
       />
       <ProductDetailTabs productName={product.title} />
       <FeaturedProducts />
+      <StoreLocationSection />
       <Footer />
     </div>
   );

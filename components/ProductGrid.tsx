@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Heart } from "lucide-react";
 import { useEffect, useState, useCallback } from "react";
 import { useAppStore } from "@/lib/store";
+import { apiGet } from "@/lib/apiClient";
 import Link from "next/link";
 import BrandCard from "@/components/ui/BrandCard";
 
@@ -18,12 +19,11 @@ type Product = {
   featured: boolean;
 };
 
-type HomepageResponse = {
-  status: "success" | "error";
-  data?: {
-    recommendedProducts?: Product[];
-  };
-  message?: string;
+type HomepageData = {
+  recommendedProducts: Product[];
+  featuredProducts: Product[];
+  testimonials: unknown[];
+  processSteps: unknown[];
 };
 
 export default function ProductGrid() {
@@ -37,15 +37,8 @@ export default function ProductGrid() {
     setError(null);
     try {
       const query = persona ? `?persona=${encodeURIComponent(persona)}` : "";
-      const response = await fetch(`/api/v1/homepage${query}`);
-      if (!response.ok) {
-        throw new Error(`Request failed with status ${response.status}`);
-      }
-      const payload = (await response.json()) as HomepageResponse;
-      if (payload.status !== "success") {
-        throw new Error(payload.message || "API returned an error");
-      }
-      setProducts(payload.data?.recommendedProducts ?? []);
+      const data = await apiGet<HomepageData>(`/api/v1/homepage${query}`, { skipAuth: true });
+      setProducts(data?.recommendedProducts ?? []);
     } catch (err) {
       console.error("Failed to load products:", err);
       setError("Không thể tải sản phẩm. Vui lòng thử lại.");
