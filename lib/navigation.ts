@@ -46,9 +46,9 @@ export const navigationData: NavItem[] = [
         {
           title: "THIẾT KẾ & IN ẤN",
           items: [
-            { label: "In tờ rơi", href: "/danh-muc/to-roi" },
-            { label: "In bao bì", href: "/danh-muc/hop-giay" },
-            { label: "In danh thiếp", href: "/danh-muc/danh-thiep" },
+            { label: "In tờ rơi", href: "/dich-vu/to-roi" },
+            { label: "In bao bì", href: "/dich-vu/in-bao-bi" },
+            { label: "In danh thiếp", href: "/dich-vu/danh-thiep" },
           ],
         },
       ],
@@ -69,10 +69,10 @@ export const navigationData: NavItem[] = [
         {
           title: "DANH THIẾP",
           items: [
-            { label: "Danh thiếp kỹ thuật số", href: "/van-phong" },
-            { label: "Danh thiếp in nhanh", href: "/van-phong" },
-            { label: "Danh thiếp bo góc", href: "/van-phong" },
-            { label: "Danh thiếp vuông", href: "/van-phong" },
+            { label: "Danh thiếp kỹ thuật số", href: "/dich-vu/danh-thiep" },
+            { label: "Danh thiếp in nhanh", href: "/dich-vu/danh-thiep" },
+            { label: "Danh thiếp bo góc", href: "/dich-vu/danh-thiep" },
+            { label: "Danh thiếp vuông", href: "/dich-vu/danh-thiep" },
           ],
         },
         {

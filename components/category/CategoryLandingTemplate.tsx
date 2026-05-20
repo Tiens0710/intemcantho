@@ -32,6 +32,27 @@ import BrochurePricingTable from "./BrochurePricingTable";
 import BrochureOrderProcess from "./BrochureOrderProcess";
 import BrochureFAQ from "./BrochureFAQ";
 import BrochureFileAndFeedback from "./BrochureFileAndFeedback";
+import BaoBiHeroBanner from "./BaoBiHeroBanner";
+import BaoBiPricingTable from "./BaoBiPricingTable";
+import BaoBiGallery from "./BaoBiGallery";
+import BaoBiOrderProcess from "./StandeeOrderProcess";
+import BaoBiFileAndFeedback from "./BaoBiFileAndFeedback";
+import BaoBiFAQ from "./BaoBiFAQ";
+import BaoBiBannerCTA from "./BaoBiBannerCTA";
+import DanhThiepHeroBanner from "./DanhThiepHeroBanner";
+import DanhThiepPricingTable from "./DanhThiepPricingTable";
+import DanhThiepGallery from "./DanhThiepGallery";
+import DanhThiepChooseType from "./DanhThiepChooseType";
+import DanhThiepFileAndFeedback from "./DanhThiepFileAndFeedback";
+import DanhThiepFAQ from "./DanhThiepFAQ";
+import DanhThiepBannerCTA from "./DanhThiepBannerCTA";
+import BaoBiChooseType from "./BaoBiChooseType";
+import ToRoiHeroBanner from "./ToRoiHeroBanner";
+import ToRoiPricingTable from "./ToRoiPricingTable";
+import ToRoiComparison from "./ToRoiComparison";
+import ToRoiGallery from "./ToRoiGallery";
+import ToRoiFileAndFeedback from "./ToRoiFileAndFeedback";
+import ToRoiFAQ from "./ToRoiFAQ";
 import StoreLocationSection from "@/components/StoreLocationSection";
 
 type Props = {
@@ -51,6 +72,12 @@ export default function CategoryLandingTemplate({ data }: Props) {
         <NhanDanHeroBanner />
       ) : data.slug === "to-gap" ? (
         <BrochureHeroBanner />
+      ) : data.slug === "bao-bi" ? (
+        <BaoBiHeroBanner />
+      ) : data.slug === "to-roi" ? (
+        <ToRoiHeroBanner />
+      ) : data.slug === "danh-thiep" ? (
+        <DanhThiepHeroBanner />
       ) : (
         <CategoryHero
           title={data.hero.title}
@@ -154,6 +181,19 @@ export default function CategoryLandingTemplate({ data }: Props) {
         </>
       )}
 
+      {/* To Roi sections */}
+      {data.slug === "to-roi" && (
+        <>
+          <ToRoiPricingTable />
+          <ToRoiComparison />
+          <ToRoiGallery />
+          <StandeeOrderProcess label="TỜ RƠI" />
+          <ToRoiFileAndFeedback />
+          <StoreLocationSection />
+          <ToRoiFAQ />
+        </>
+      )}
+
       {/* Brochure sections */}
       {data.slug === "to-gap" && (
         <>
@@ -167,8 +207,35 @@ export default function CategoryLandingTemplate({ data }: Props) {
         </>
       )}
 
-      {/* Generic sections (không hiển thị cho Standee, Brochure và Tem nhãn) */}
-      {data.slug !== "poster" && data.slug !== "to-gap" && data.slug !== "nhan-dan" && (
+      {/* Bao Bi sections */}
+      {data.slug === "bao-bi" && (
+        <>
+          <BaoBiPricingTable />
+          <BaoBiChooseType />
+          <BaoBiGallery />
+          <BaoBiOrderProcess label="BAO BÌ" />
+          <BaoBiFileAndFeedback />
+          <StoreLocationSection />
+          <BaoBiFAQ />
+        </>
+      )}
+
+      {/* Danh Thiếp sections */}
+      {data.slug === "danh-thiep" && (
+        <>
+          <DanhThiepPricingTable />
+          <DanhThiepChooseType />
+          <DanhThiepGallery />
+          <StandeeOrderProcess label="DANH THIẾP" />
+          <DanhThiepFileAndFeedback />
+          <StoreLocationSection />
+          <DanhThiepFAQ />
+          <DanhThiepBannerCTA />
+        </>
+      )}
+
+      {/* Generic sections (không hiển thị cho các trang đã có section riêng) */}
+      {data.slug !== "poster" && data.slug !== "to-gap" && data.slug !== "nhan-dan" && data.slug !== "bao-bi" && data.slug !== "to-roi" && data.slug !== "danh-thiep" && (
         <>
           <CategoryPricing
             title={data.pricing.title}

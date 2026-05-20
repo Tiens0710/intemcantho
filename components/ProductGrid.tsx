@@ -1,12 +1,12 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Heart } from "lucide-react";
 import { useEffect, useState, useCallback } from "react";
 import { useAppStore } from "@/lib/store";
 import { apiGet } from "@/lib/apiClient";
 import Link from "next/link";
 import BrandCard from "@/components/ui/BrandCard";
+import BrandOutlineButton from "@/components/ui/BrandOutlineButton";
 
 type Product = {
   id: string;
@@ -98,7 +98,7 @@ export default function ProductGrid() {
             Các sản phẩm được khách hàng yêu thích và đặt in nhiều nhất
           </p>
         </motion.div>
-
+    
         {/* Loading State */}
         {isLoading && (
           <div className="flex justify-center items-center py-12">
@@ -131,18 +131,6 @@ export default function ProductGrid() {
                   <Link href={`/san-pham/${product.id}`} className="flex flex-col h-full">
                   {/* Image Area */}
                   <div className="relative overflow-hidden" style={{ background: "linear-gradient(180deg, #FBF8F4 0%, #F5F0E8 100%)" }}>
-                    <button
-                      type="button"
-                      aria-label="Yêu thích sản phẩm"
-                      className="absolute right-3 top-3 z-10 flex items-center justify-center rounded-full w-9 h-9 text-gray-400 transition-all duration-300 hover:text-rose-500 hover:scale-110"
-                      style={{
-                        background: "rgba(255,255,255,0.85)",
-                        backdropFilter: "blur(8px)",
-                        boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
-                      }}
-                    >
-                      <Heart className="h-4 w-4" strokeWidth={1.5} />
-                    </button>
 
                     <div className="flex h-[220px] items-center justify-center px-6 py-5">
                       <img
@@ -186,18 +174,6 @@ export default function ProductGrid() {
                     >
                       {product.title}
                     </h3>
-                    <p
-                      className="mb-4 line-clamp-2"
-                      style={{
-                        fontSize: "12px",
-                        fontWeight: 400,
-                        color: "#7A6A58",
-                        lineHeight: 1.6,
-                      }}
-                    >
-                      {product.description}
-                    </p>
-
                     {/* Amber accent line */}
                     <div
                       className="mb-4 w-8 h-0.5 rounded-full transition-all duration-500 group-hover:w-12"
@@ -208,32 +184,6 @@ export default function ProductGrid() {
                       <span style={{ fontSize: "14px", fontWeight: 800, color: "#5C3D1E" }}>
                         {product.price.includes("$") ? product.price : `${parseInt(product.price).toLocaleString("vi-VN")}đ`}
                       </span>
-                      <span
-                        className="flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:bg-[#E6792A] group-hover:text-white"
-                        style={{
-                          width: "36px",
-                          height: "36px",
-                          borderRadius: "50%",
-                          border: "1.5px solid #E6792A",
-                          color: "#E6792A",
-                          background: "transparent",
-                        }}
-                      >
-                        <svg
-                          width="14"
-                          height="14"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <path d="M5 12h14" />
-                          <path d="m12 5 7 7-7 7" />
-                        </svg>
-                      </span>
-                      {/* removed cart icon as requested */}
                     </div>
                   </div>
                   </Link>
@@ -243,24 +193,13 @@ export default function ProductGrid() {
             </motion.div>
 
             <div className="mt-10 flex justify-center">
-              <Link
-                href="/van-phong"
-                className="inline-flex items-center gap-2 px-8 py-3 border-2 border-amber-800 text-amber-800 font-semibold rounded-full transition-all duration-300 hover:bg-amber-800 hover:text-white"
-              >
-                Xem tất cả sản phẩm
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
+              <Link href="/van-phong">
+                <BrandOutlineButton
+                  active
+                  className="!px-8 !py-3 !text-sm !font-semibold !uppercase !tracking-wider"
                 >
-                  <path d="M5 12h14" />
-                  <path d="m12 5 7 7-7 7" />
-                </svg>
+                  Xem tất cả sản phẩm
+                </BrandOutlineButton>
               </Link>
             </div>
           </>

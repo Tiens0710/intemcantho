@@ -2,274 +2,287 @@
 
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
+import { blogPosts, categoryColors, type BlogPost } from "@/lib/data/blog-posts";
+import BrandCard from "@/components/ui/BrandCard";
+import WarmButton from "@/components/WarmButton";
 import { motion } from "framer-motion";
-import { Calendar, ChevronRight, MessageCircle, User } from "lucide-react";
-import { useState } from "react";
+import { ChevronRight, MessageCircle, Share2, User } from "lucide-react";
+import Link from "next/link";
+import { useState, useEffect, useCallback } from "react";
+
+const categories = [
+  { id: "all", label: "Tất cả" },
+  { id: "tem-nhan", label: "Tem nhãn" },
+  { id: "bao-bi", label: "Bao bì" },
+  { id: "an-pham", label: "Ấn phẩm văn phòng" },
+  { id: "thiet-ke", label: "Thiết kế" },
+  { id: "mua-in", label: "Mua in ấn" },
+];
+
+function parseDate(dateStr: string): { day: string; month: string } {
+  const match = dateStr.match(/(\d+)\s*Tháng\s*(\d+)/i);
+  if (match) {
+    return { day: match[1], month: `TH${match[2]}` };
+  }
+  return { day: "01", month: "TH01" };
+}
 
 export default function Experience() {
+  const [activeCategory, setActiveCategory] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
-  const postsPerPage = 9;
+  const postsPerPage = 4;
 
-  const blogPosts = [
-    {
-      id: 1,
-      title: "In tem nhãn chống nước ở Cần Thơ",
-      date: "29 Th4",
-      author: "intemct",
-      comments: 0,
-      image:
-        "https://d2xsxph8kpxj0f.cloudfront.net/90078694/ERMxTyYJFnFBQeNjeF6P4w/service-brochure-luxury-DDmwtYLkufziWByNSE9fSY.webp",
-      excerpt:
-        "Tem nhãn chống nước đang trở thành lựa chọn gần như bắt buộc đối với nhiều doanh nghiệp, đặc biệt trong ngành thực phẩm, mỹ phẩm và hàng tiêu dùng.",
-      content:
-        "Tem nhãn chống nước đang trở thành lựa chọn gần như bắt buộc đối với nhiều doanh nghiệp, đặc biệt trong ngành thực phẩm, mỹ phẩm và hàng tiêu dùng. Với khả năng chống nước, chống dầu, chống hóa chất, tem nhãn chống nước giúp bảo vệ thông tin sản phẩm và tăng tính chuyên nghiệp.",
-    },
-    {
-      id: 2,
-      title: "Thiết kế in ấn danh thiếp ở cần thơ",
-      date: "26 Th4",
-      author: "intemct",
-      comments: 0,
-      image:
-        "https://d2xsxph8kpxj0f.cloudfront.net/90078694/ERMxTyYJFnFBQeNjeF6P4w/service-labels-luxury-2gNgfReHpRXZq4kdAfZqaT.webp",
-      excerpt:
-        "Thiết kế in ấn danh thiếp vẫn là một trong những \"vũ khí nhỏ nhưng có võ\" trong kinh doanh. Giữa thời đại số, nhiều người nghĩ danh thiếp đã lỗi thời.",
-      content:
-        "Thiết kế in ấn danh thiếp vẫn là một trong những \"vũ khí nhỏ nhưng có võ\" trong kinh doanh. Giữa thời đại số, nhiều người nghĩ danh thiếp đã lỗi thời, nhưng thực tế, một chiếc danh thiếp được thiết kế chuyên nghiệp vẫn tạo ấn tượng mạnh mẽ.",
-    },
-    {
-      id: 3,
-      title: "Dịch vụ in ấn ấn phẩm văn phòng",
-      date: "23 Th4",
-      author: "intemct",
-      comments: 0,
-      image:
-        "https://d2xsxph8kpxj0f.cloudfront.net/90078694/ERMxTyYJFnFBQeNjeF6P4w/service-packaging-luxury-RYsTx6Y8m5SoyfySkzLoUA.webp",
-      excerpt:
-        "In ấn ấn phẩm văn phòng là một phần quan trọng trong cách doanh nghiệp thể hiện sự chuyên nghiệp. Từ namecard, hồ sơ năng lực, tiêu đề...",
-      content:
-        "In ấn ấn phẩm văn phòng là một phần quan trọng trong cách doanh nghiệp thể hiện sự chuyên nghiệp. Từ namecard, hồ sơ năng lực, tiêu đề thư đến các tài liệu khác, tất cả đều cần được in ấn với chất lượng cao.",
-    },
-    {
-      id: 4,
-      title: "In ấn ép nhựa giá rẻ theo yêu cầu",
-      date: "20 Th4",
-      author: "intemct",
-      comments: 0,
-      image:
-        "https://d2xsxph8kpxj0f.cloudfront.net/90078694/ERMxTyYJFnFBQeNjeF6P4w/service-brochure-luxury-DDmwtYLkufziWByNSE9fSY.webp",
-      excerpt:
-        "In ấn ép nhựa giá rẻ theo yêu cầu đang trở thành lựa chọn quen thuộc của nhiều cá nhân và doanh nghiệp tại Cần Thơ. Từ thẻ nhân viên, m...",
-      content:
-        "In ấn ép nhựa giá rẻ theo yêu cầu đang trở thành lựa chọn quen thuộc của nhiều cá nhân và doanh nghiệp tại Cần Thơ. Từ thẻ nhân viên, mẫu vật quảng cáo đến các sản phẩm khác, ép nhựa giúp tăng độ bền và tính thẩm mỹ.",
-    },
-    {
-      id: 5,
-      title: "In ấn standee cho doanh nghiệp",
-      date: "17 Th4",
-      author: "intemct",
-      comments: 0,
-      image:
-        "https://d2xsxph8kpxj0f.cloudfront.net/90078694/ERMxTyYJFnFBQeNjeF6P4w/service-labels-luxury-2gNgfReHpRXZq4kdAfZqaT.webp",
-      excerpt:
-        "In ấn standee cho doanh nghiệp đang trở thành một trong những giải pháp quảng bá nhanh – gọn – hiệu quả mà rất nhiều đơn vị lựa chọn. K...",
-      content:
-        "In ấn standee cho doanh nghiệp đang trở thành một trong những giải pháp quảng bá nhanh – gọn – hiệu quả mà rất nhiều đơn vị lựa chọn. Khác với các hình thức quảng cáo truyền thống, standee dễ dàng di chuyển và lắp đặt.",
-    },
-    {
-      id: 6,
-      title: "Thiết kế in ấn bao bì theo yêu cầu tại Cần Thơ",
-      date: "14 Th4",
-      author: "intemct",
-      comments: 0,
-      image:
-        "https://d2xsxph8kpxj0f.cloudfront.net/90078694/ERMxTyYJFnFBQeNjeF6P4w/service-packaging-luxury-RYsTx6Y8m5SoyfySkzLoUA.webp",
-      excerpt:
-        "Thiết kế in ấn bao bì theo yêu cầu tại Cần Thơ hiện đang là lựa chọn quen thuộc của nhiều shop và doanh nghiệp địa phương khi muốn đầu...",
-      content:
-        "Thiết kế in ấn bao bì theo yêu cầu tại Cần Thơ hiện đang là lựa chọn quen thuộc của nhiều shop và doanh nghiệp địa phương khi muốn đầu tư vào hình ảnh thương hiệu.",
-    },
-    {
-      id: 7,
-      title: "In ấn theo yêu cầu giá rẻ tại Cần Thơ mà bạn nên biết",
-      date: "12 Th4",
-      author: "intemct",
-      comments: 0,
-      image:
-        "https://d2xsxph8kpxj0f.cloudfront.net/90078694/ERMxTyYJFnFBQeNjeF6P4w/service-brochure-luxury-DDmwtYLkufziWByNSE9fSY.webp",
-      excerpt:
-        "In tem Cần Thơ là đơn vị cung cấp dịch vụ in ấn theo yêu cầu giá rẻ với quy trình linh hoạt, đáp ứng đa dạng nhu cầu từ cá nhân đến doa...",
-      content:
-        "In tem Cần Thơ là đơn vị cung cấp dịch vụ in ấn theo yêu cầu giá rẻ với quy trình linh hoạt, đáp ứng đa dạng nhu cầu từ cá nhân đến doanh nghiệp.",
-    },
-    {
-      id: 8,
-      title: "In Tem Cần Thơ – Địa chỉ in ấn thiết kế tại Cần Thơ",
-      date: "10 Th4",
-      author: "intemct",
-      comments: 0,
-      image:
-        "https://d2xsxph8kpxj0f.cloudfront.net/90078694/ERMxTyYJFnFBQeNjeF6P4w/service-labels-luxury-2gNgfReHpRXZq4kdAfZqaT.webp",
-      excerpt:
-        "In tem Cần Thơ là đơn vị cung cấp giải pháp thiết kế và in ấn nhanh, đẹp, tối ưu chi phí tại Cần Thơ. Trong thời đại mà hình ảnh sản ph...",
-      content:
-        "In tem Cần Thơ là đơn vị cung cấp giải pháp thiết kế và in ấn nhanh, đẹp, tối ưu chi phí tại Cần Thơ. Trong thời đại mà hình ảnh sản phẩm là yếu tố quyết định.",
-    },
-    {
-      id: 9,
-      title: "In nhanh lấy liền tại Cần Thơ – Duky Printing",
-      date: "08 Th4",
-      author: "intemct",
-      comments: 0,
-      image:
-        "https://d2xsxph8kpxj0f.cloudfront.net/90078694/ERMxTyYJFnFBQeNjeF6P4w/service-packaging-luxury-RYsTx6Y8m5SoyfySkzLoUA.webp",
-      excerpt:
-        "In tem Cần Thơ là đơn vị chuyên cung cấp dịch vụ in nhanh lấy liền tại Cần Thơ bao gồm in tem nhãn, in ấn theo yêu cầu và thiết kế ấn ph...",
-      content:
-        "In tem Cần Thơ là đơn vị chuyên cung cấp dịch vụ in nhanh lấy liền tại Cần Thơ bao gồm in tem nhãn, in ấn theo yêu cầu và thiết kế ấn phẩm.",
-    },
-    {
-      id: 10,
-      title: "In menu giá rẻ Cần Thơ cho các quán ăn, quán cà phê",
-      date: "07 Th4",
-      author: "intemct",
-      comments: 0,
-      image:
-        "https://d2xsxph8kpxj0f.cloudfront.net/90078694/ERMxTyYJFnFBQeNjeF6P4w/service-brochure-luxury-DDmwtYLkufziWByNSE9fSY.webp",
-      excerpt:
-        "Nhu cầu in menu giá rẻ Cần Thơ ngày càng tăng cao, đặc biệt với các quán ăn, quán cà phê, trà sữa hay nhà hàng mới mở. Nếu đang tìm một...",
-      content:
-        "Nhu cầu in menu giá rẻ Cần Thơ ngày càng tăng cao, đặc biệt với các quán ăn, quán cà phê, trà sữa hay nhà hàng mới mở. Nếu đang tìm một đơn vị in menu uy tín, Duky Printing là lựa chọn tốt.",
-    },
-  ];
+  const filteredPosts =
+    activeCategory === "all"
+      ? blogPosts
+      : blogPosts.filter((post) => post.category === activeCategory);
 
-  const totalPages = Math.ceil(blogPosts.length / postsPerPage);
+  const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
   const startIdx = (currentPage - 1) * postsPerPage;
-  const displayedPosts = blogPosts.slice(startIdx, startIdx + postsPerPage);
+  const displayedPosts = filteredPosts.slice(startIdx, startIdx + postsPerPage);
+
+  const allPostsForCarousel = blogPosts.slice(2);
+  const postsPerSlide = 3;
+  const totalSmallSlides = Math.ceil(allPostsForCarousel.length / postsPerSlide);
+  const [currentSmallSlide, setCurrentSmallSlide] = useState(0);
+
+  const nextSmallSlide = useCallback(() => {
+    setCurrentSmallSlide((prev) => (prev + 1) % totalSmallSlides);
+  }, [totalSmallSlides]);
+
+  useEffect(() => {
+    if (totalSmallSlides <= 1) return;
+    const timer = setInterval(nextSmallSlide, 4000);
+    return () => clearInterval(timer);
+  }, [nextSmallSlide, totalSmallSlides]);
+
+  const getPageNumbers = () => {
+    const pages: (number | string)[] = [];
+    if (totalPages <= 5) {
+      for (let i = 1; i <= totalPages; i++) pages.push(i);
+    } else {
+      pages.push(1);
+      if (currentPage > 3) pages.push("...");
+      for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) {
+        pages.push(i);
+      }
+      if (currentPage < totalPages - 2) pages.push("...");
+      pages.push(totalPages);
+    }
+    return pages;
+  };
 
   return (
     <div className="min-h-screen bg-white text-gray-900">
-      {/* Navigation */}
       <Navbar />
 
-      {/* Page Header */}
-      <section className="bg-gradient-to-r from-amber-50 to-amber-100 py-12 md:py-16">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
+      {/* Banner */}
+      <section
+        className="relative py-12 md:py-16 bg-cover bg-center"
+        style={{ backgroundImage: "url('/kinhnghiem/background.png')" }}
+      >
+        <div className="container mx-auto px-4 relative z-10">
+          <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <div className="flex items-center gap-2 mb-4 text-sm">
-              <a href="/" className="text-amber-800 hover:text-amber-900">Trang chủ</a>
-              <ChevronRight className="w-4 h-4 text-gray-400" />
-              <span className="text-gray-700">Kinh nghiệm</span>
+              <Link href="/" className="text-white hover:text-amber-200">Trang chủ</Link>
+              <ChevronRight className="w-4 h-4 text-white/60" />
+              <span className="text-white/80">Kinh nghiệm</span>
             </div>
-            <h1 className="text-5xl md:text-6xl font-light text-gray-900 mb-4">Kinh nghiệm</h1>
-            <p className="text-lg text-gray-600 font-light">Chia sẻ kinh nghiệm và kiến thức về in ấn tem nhãn</p>
+            <h1 className="text-4xl md:text-5xl font-light text-white mb-3">Kinh nghiệm</h1>
+            <p className="text-base text-white/80 font-light">Chia sẻ kinh nghiệm và kiến thức về in ấn tem nhãn</p>
           </motion.div>
         </div>
       </section>
 
-      {/* Blog Posts */}
-      <section className="py-12 md:py-20">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {displayedPosts.map((post, index) => (
-              <motion.article
-                key={post.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.05 }}
-                className="group rounded-sm overflow-hidden border border-gray-200 hover:border-amber-800 transition-all hover:shadow-lg"
-              >
-                {/* Featured Image */}
-                <div className="overflow-hidden h-64 bg-gray-100">
-                  <img
-                    src={post.image}
-                    alt={post.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                </div>
-
-                {/* Content */}
-                <div className="p-6">
-                  {/* Date */}
-                  <div className="flex items-center gap-2 text-sm text-amber-800 font-light mb-4">
-                    <Calendar className="w-4 h-4" />
-                    <span>{post.date}</span>
-                  </div>
-
-                  {/* Title */}
-                  <h2 className="text-xl font-light text-gray-900 mb-3 group-hover:text-amber-800 transition-colors line-clamp-2">
-                    {post.title}
-                  </h2>
-
-                  {/* Excerpt */}
-                  <p className="text-sm text-gray-600 font-light mb-4 line-clamp-3">
-                    {post.excerpt}
-                  </p>
-
-                  {/* Meta */}
-                  <div className="flex items-center justify-between text-xs text-gray-500 font-light mb-4 pb-4 border-b border-gray-200">
-                    <div className="flex items-center gap-2">
-                      <User className="w-3 h-3" />
-                      <span>{post.author}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <MessageCircle className="w-3 h-3" />
-                      <span>{post.comments}</span>
-                    </div>
-                  </div>
-
-                  {/* Read More Button */}
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="w-full px-4 py-3 bg-amber-800 text-white font-light rounded-sm hover:bg-amber-900 transition-colors"
-                  >
-                    Đọc Tiếp
-                  </motion.button>
-                </div>
-              </motion.article>
-            ))}
-          </div>
-
-          {/* Pagination */}
-          <div className="flex justify-center items-center gap-2 mt-12 pt-8 border-t border-gray-200">
-            <button
-              onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-              disabled={currentPage === 1}
-              className="px-4 py-2 text-amber-800 font-light hover:bg-amber-50 rounded-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              ←
-            </button>
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-              <button
-                key={page}
-                onClick={() => setCurrentPage(page)}
-                className={`px-4 py-2 font-light rounded-sm transition-colors ${
-                  currentPage === page
-                    ? "bg-amber-800 text-white"
-                    : "text-gray-700 hover:bg-gray-100"
-                }`}
-              >
-                {page}
-              </button>
-            ))}
-            <button
-              onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
-              disabled={currentPage === totalPages}
-              className="px-4 py-2 text-amber-800 font-light hover:bg-amber-50 rounded-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              →
-            </button>
+      {/* Category Tabs */}
+      <section className="bg-white border-b border-gray-100">
+        <div className="container mx-auto px-4 py-3">
+          <div className="flex items-center gap-3 overflow-x-auto scrollbar-hide">
+            {categories.map((cat) => {
+              const isActive = activeCategory === cat.id;
+              return (
+                <button
+                  key={cat.id}
+                  onClick={() => { setActiveCategory(cat.id); setCurrentPage(1); }}
+                  className="flex items-center gap-2 cursor-pointer px-5 py-2.5 rounded-full font-medium text-sm whitespace-nowrap transition-all duration-200"
+                  style={isActive
+                    ? { border: "2px solid rgba(230, 121, 42, 0.65)", color: "#E6792A", background: "#fff", boxShadow: "0 0 0 2px rgba(230, 121, 42, 0.18)" }
+                    : { border: "1px solid #d1d5db", color: "#4b5563", background: "#fff" }
+                  }
+                  onMouseEnter={(e) => { if (!isActive) { e.currentTarget.style.borderColor = "#E6792A"; e.currentTarget.style.color = "#E6792A"; } }}
+                  onMouseLeave={(e) => { if (!isActive) { e.currentTarget.style.borderColor = "#d1d5db"; e.currentTarget.style.color = "#4b5563"; } }}
+                >
+                  <span>{cat.label}</span>
+                </button>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* Footer */}
+      {/* Main Content */}
+      <section className="py-8 md:py-12">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col lg:flex-row gap-8">
+            {/* Left */}
+            <div className="flex-1 min-w-0 space-y-6">
+              <div className="mb-2">
+                <h2 className="text-lg font-semibold text-gray-900 mb-4">Bài viết mới nhất</h2>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <Link href={`/kinh-nghiem/${blogPosts[0].slug}`} className="md:col-span-2">
+                    <BrandCard className="overflow-hidden group cursor-pointer h-full">
+                      <div className="overflow-hidden bg-gray-100 aspect-[16/9]">
+                        <img src={blogPosts[0].image} alt={blogPosts[0].title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      </div>
+                      <div className="p-5">
+                        <h3 className="text-base font-semibold text-gray-900 mb-2 group-hover:text-[#E6792A] transition-colors line-clamp-2 leading-snug">{blogPosts[0].title}</h3>
+                        <p className="text-sm text-gray-500 line-clamp-2 leading-relaxed mb-2">{blogPosts[0].excerpt}</p>
+                        <div className="flex items-center gap-2 text-xs text-gray-400">
+                          <span>{blogPosts[0].date}</span>
+                          <span>&bull;</span>
+                          <span>{blogPosts[0].readTime}</span>
+                        </div>
+                      </div>
+                    </BrandCard>
+                  </Link>
+                  <Link href={`/kinh-nghiem/${blogPosts[1].slug}`}>
+                    <BrandCard className="overflow-hidden group cursor-pointer h-full">
+                      <div className="overflow-hidden bg-gray-100 aspect-[16/13]">
+                        <img src={blogPosts[1].image} alt={blogPosts[1].title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      </div>
+                      <div className="p-4">
+                        <h3 className="text-base font-semibold text-gray-900 mb-2 group-hover:text-[#E6792A] transition-colors line-clamp-2 leading-snug">{blogPosts[1].title}</h3>
+                        <div className="flex items-center gap-2 text-xs text-gray-400">
+                          <span>{blogPosts[1].date}</span>
+                          <span>&bull;</span>
+                          <span>{blogPosts[1].readTime}</span>
+                        </div>
+                      </div>
+                    </BrandCard>
+                  </Link>
+                </div>
+
+                {/* Carousel */}
+                <div className="mt-2 overflow-hidden">
+                  <div className="flex transition-transform duration-500 ease-in-out" style={{ transform: `translateX(-${currentSmallSlide * 100}%)` }}>
+                    {Array.from({ length: totalSmallSlides }).map((_, slideIndex) => (
+                      <div key={slideIndex} className="w-full flex-shrink-0">
+                        <div className="grid grid-cols-3 gap-2">
+                          {allPostsForCarousel.slice(slideIndex * postsPerSlide, slideIndex * postsPerSlide + postsPerSlide).map((post) => (
+                            <Link key={post.id} href={`/kinh-nghiem/${post.slug}`}>
+                              <BrandCard className="overflow-hidden group cursor-pointer h-full">
+                                <div className="overflow-hidden bg-gray-100 aspect-[16/7]">
+                                  <img src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                                </div>
+                                <div className="p-2">
+                                  <h3 style={{ fontSize: "13px", lineHeight: "1.4" }} className="font-medium text-gray-700 group-hover:text-[#E6792A] transition-colors whitespace-normal break-words">{post.title}</h3>
+                                </div>
+                              </BrandCard>
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  {totalSmallSlides > 1 && (
+                    <div className="flex justify-center gap-2 mt-3">
+                      {Array.from({ length: totalSmallSlides }).map((_, i) => (
+                        <button
+                          key={i}
+                          onClick={() => setCurrentSmallSlide(i)}
+                          className="w-2 h-2 rounded-full transition-all duration-300 cursor-pointer"
+                          style={{ background: currentSmallSlide === i ? "#E6792A" : "#d1d5db", transform: currentSmallSlide === i ? "scale(1.2)" : "scale(1)" }}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </div>
+                {/* Divider */}
+                <div className="mt-4 border-t-2 border-[#E6792A]/20" />
+              </div>
+
+              {/* Blog List */}
+              {displayedPosts.map((post, index) => {
+                const { day, month } = parseDate(post.date);
+                return (
+                  <motion.div key={post.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.08 }}>
+                    <Link href={`/kinh-nghiem/${post.slug}`}>
+                      <BrandCard className="overflow-hidden flex flex-col sm:flex-row hover:shadow-lg transition-all duration-300 cursor-pointer group">
+                        <div className="relative w-full sm:w-72 md:w-80 flex-shrink-0 overflow-hidden bg-gray-100">
+                          <div className="aspect-[4/3] sm:aspect-auto sm:h-full">
+                            <img src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                          </div>
+                          <div className="absolute top-3 left-3 text-white rounded-lg px-2.5 py-1.5 text-center leading-tight shadow-lg" style={{ background: "#E6792A" }}>
+                            <div className="text-xl font-bold leading-none">{day}</div>
+                            <div className="text-[10px] font-semibold uppercase tracking-wider">{month}</div>
+                          </div>
+                        </div>
+                        <div className="flex-1 p-5 flex flex-col justify-center">
+                          <div className="mb-3">
+                            <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider" style={{ background: `${categoryColors[post.category]}15`, color: categoryColors[post.category] }}>{post.categoryLabel}</span>
+                          </div>
+                          <h2 className="text-lg md:text-xl font-semibold text-gray-900 mb-3 group-hover:text-[#E6792A] transition-colors leading-snug">{post.title}</h2>
+                          <div className="flex items-center gap-3 text-sm text-gray-400 mb-3">
+                            <span className="flex items-center gap-1.5"><User className="w-3.5 h-3.5" /><span>intemct</span></span>
+                            <span className="flex items-center gap-1.5"><Share2 className="w-3.5 h-3.5" /></span>
+                            <span className="flex items-center gap-1.5"><MessageCircle className="w-3.5 h-3.5" /><span>0</span></span>
+                          </div>
+                          <p className="text-sm text-gray-500 leading-relaxed mb-4 line-clamp-3">{post.excerpt}</p>
+                          <span className="inline-flex items-center gap-2 text-sm font-semibold transition-colors" style={{ color: "#E6792A" }}>Đọc bài viết →</span>
+                        </div>
+                      </BrandCard>
+                    </Link>
+                  </motion.div>
+                );
+              })}
+
+              {displayedPosts.length === 0 && (
+                <div className="text-center py-16 text-gray-400">
+                  <p className="text-lg">Không có bài viết nào trong danh mục này.</p>
+                </div>
+              )}
+
+              {totalPages > 1 && (
+                <div className="flex justify-center items-center gap-2 pt-4">
+                  {getPageNumbers().map((page, i) =>
+                    typeof page === "string" ? (
+                      <span key={`ellipsis-${i}`} className="px-2 text-xs text-gray-400">...</span>
+                    ) : (
+                      <button
+                        key={page}
+                        onClick={() => { setCurrentPage(page); window.scrollTo({ top: 0, behavior: "smooth" }); }}
+                        className="px-3.5 py-1.5 rounded-full font-medium text-xs transition-all duration-200 cursor-pointer"
+                        style={currentPage === page
+                          ? { border: "1.5px solid rgba(230, 121, 42, 0.65)", color: "#E6792A", background: "#fff", boxShadow: "0 0 0 1.5px rgba(230, 121, 42, 0.18)" }
+                          : { border: "1px solid #d1d5db", color: "#4b5563", background: "#fff" }
+                        }
+                        onMouseEnter={(e) => { if (currentPage !== page) { e.currentTarget.style.borderColor = "#E6792A"; e.currentTarget.style.color = "#E6792A"; } }}
+                        onMouseLeave={(e) => { if (currentPage !== page) { e.currentTarget.style.borderColor = "#d1d5db"; e.currentTarget.style.color = "#4b5563"; } }}
+                      >
+                        {page}
+                      </button>
+                    )
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Sidebar */}
+            <aside className="w-full lg:w-72 flex-shrink-0 space-y-8">
+              <div className="rounded-2xl overflow-hidden border border-gray-200 shadow-sm">
+                <img src="/banner_doc.webp" alt="In tem nhãn tại Cần Thơ" className="w-full h-auto object-cover" />
+              </div>
+              <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-5">
+                <h3 className="text-sm font-bold uppercase tracking-wider mb-4 pb-3 border-b border-gray-100" style={{ color: "#E6792A" }}>Giới thiệu</h3>
+                <p className="text-sm text-gray-500 leading-relaxed mb-3">In tem Cần Thơ là đơn vị chuyên cung cấp dịch vụ in tem nhãn, in ấn bao bì và ấn phẩm văn phòng hàng đầu tại Cần Thơ.</p>
+                <p className="text-sm text-gray-500 leading-relaxed mb-4">Với hơn 10 năm kinh nghiệm, chúng tôi cam kết mang đến sản phẩm chất lượng với giá cả cạnh tranh nhất.</p>
+                <WarmButton href="/lien-he" fullWidth size="md">Liên hệ tư vấn</WarmButton>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+
       <Footer />
     </div>
   );

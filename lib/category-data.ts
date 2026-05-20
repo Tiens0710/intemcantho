@@ -359,8 +359,8 @@ export const CATEGORY_DATA: Record<string, CategoryData> = {
     ],
   },
 
-  "hop-giay": {
-    slug: "hop-giay",
+  "bao-bi": {
+    slug: "bao-bi",
     icon: Package,
     categoryLabel: "Bao bì",
     heroBg: "/bgvanphong.png",
