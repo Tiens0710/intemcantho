@@ -198,7 +198,7 @@ export default function Experience() {
                   )}
                 </div>
                 {/* Divider */}
-                <div className="mt-4 border-t-2 border-[#E6792A]/20" />
+                <div className="mt-4 border-t-2 border-[#E6792A]/50" />
               </div>
 
               {/* Blog List */}
