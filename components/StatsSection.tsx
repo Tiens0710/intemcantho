@@ -55,7 +55,7 @@ export default function StatsSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1, duration: 0.5 }}
-              className="font-['Cormorant_Garamond',serif] font-light leading-none text-amber-900"
+              className="font-sans font-light leading-none text-amber-900"
               style={{ fontSize: "clamp(3.5rem, 6vw, 5rem)" }}
             >
               <CountUp target={stat.value} suffix={stat.suffix} />

@@ -23,7 +23,7 @@ export default function ScrollToTop() {
   return (
     <button
       onClick={handleClick}
-      className="fixed bottom-24 right-8 z-40 flex items-center justify-center w-14 h-14 rounded-full shadow-lg transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer animate-fade-in"
+      className="fixed bottom-24 right-5 z-40 flex items-center justify-center w-14 h-14 rounded-full shadow-lg transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer animate-fade-in sm:right-6"
       style={{
         background: "#E6792A",
         boxShadow: "0 4px 14px rgba(230,121,42,0.35)",

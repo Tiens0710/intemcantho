@@ -43,7 +43,7 @@ export default function StoreLocationSection() {
                 fontWeight: 700,
                 lineHeight: 1.2,
                 color: "#E6792A",
-                fontFamily: "'Cormorant Garamond', 'Playfair Display', serif",
+                fontFamily: "'Nunito', Arial, Helvetica, sans-serif",
                 margin: 0,
                 whiteSpace: "nowrap",
               }}
@@ -58,7 +58,7 @@ export default function StoreLocationSection() {
               fontWeight: 600,
               lineHeight: 1.3,
               color: "#1C1007",
-              fontFamily: "'Cormorant Garamond', 'Playfair Display', serif",
+              fontFamily: "'Nunito', Arial, Helvetica, sans-serif",
             }}
           >
             Ghé Intem Cần Thơ Ngay
@@ -104,7 +104,7 @@ export default function StoreLocationSection() {
                   fontWeight: 700,
                   lineHeight: 1.25,
                   color: "#9a5b24",
-                  fontFamily: "'Cormorant Garamond', 'Playfair Display', serif",
+                  fontFamily: "'Nunito', Arial, Helvetica, sans-serif",
                 }}
               >
                 Ghé intem Cần Thơ để

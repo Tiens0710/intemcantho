@@ -17,8 +17,7 @@ export default function Page() {
   const clearCart = useAppStore((s) => s.clearCart);
   const cartTotal = useAppStore((s) => s.cartTotal());
 
-  const shippingFee = cartTotal > 0 ? 33000 : 0;
-  const orderTotal = cartTotal + shippingFee;
+  const orderTotal = cartTotal;
 
   const formatPrice = (value: number) => `${value.toLocaleString("vi-VN")}đ`;
 
@@ -99,29 +98,34 @@ export default function Page() {
           <div className="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-[1.4fr_0.6fr]">
             <div className="space-y-5">
               {cart.map((item) => (
-                <BrandCard
+                <div
                   key={item.id}
-                  className="relative flex gap-4 bg-white/80 p-4 backdrop-blur-2xl"
+                  className="group relative flex items-center gap-5 rounded-2xl border border-[#f0e4d6] bg-white p-4 shadow-[0_2px_12px_rgba(92,61,30,0.04)] transition-all duration-300 hover:border-[#e2cdb8] hover:shadow-[0_6px_24px_rgba(92,61,30,0.08)] hover:-translate-y-0.5"
                 >
-                  <div className="h-20 w-20 overflow-hidden rounded-2xl bg-[#f1e5d7]">
+                  {/* Product Image — full bleed */}
+                  <div className="relative h-28 w-28 shrink-0 overflow-hidden rounded-xl bg-[#f8f2ea]">
                     <img
                       src={item.image || "/no-image.svg"}
                       alt={item.title}
-                      className="h-full w-full object-cover"
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                       loading="lazy"
                     />
                   </div>
 
-                  <div className="flex flex-1 flex-col">
+                  {/* Info + Controls */}
+                  <div className="flex flex-1 flex-col justify-between min-h-[96px]">
+                    {/* Top row: title + delete */}
                     <div className="flex items-start justify-between gap-3">
-                      <div>
-                        <h3 className="!font-sans text-base font-semibold text-[#3b2312]">{item.title}</h3>
+                      <div className="min-w-0 flex-1">
+                        <h3 className="!font-sans text-[15px] font-bold leading-snug text-[#2c1a0e] truncate">
+                          {item.title}
+                        </h3>
                         {item.meta && Object.keys(item.meta).length > 0 && (
                           <div className="mt-1.5 flex flex-wrap gap-1.5">
                             {Object.entries(item.meta).map(([key, val]) => (
                               <span
                                 key={key}
-                                className="inline-block rounded-full bg-[#f6ece2] px-2.5 py-0.5 text-[11px] font-medium text-[#8b7b6a]"
+                                className="inline-flex items-center rounded-full bg-[#fef8f2] px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-[#a07a58] ring-1 ring-[#f0e0cc]/60"
                               >
                                 {typeof val === "string" ? val : `${key}: ${val}`}
                               </span>
@@ -133,41 +137,44 @@ export default function Page() {
                         type="button"
                         aria-label="Xóa sản phẩm"
                         onClick={() => removeFromCart(item.id)}
-                        className="flex h-8 w-8 items-center justify-center rounded-full border border-[#f1e3d3] text-[#b37a55] transition hover:bg-[#f8efe4]"
+                        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-[#c4a080] transition-all duration-200 hover:bg-red-50 hover:text-red-500 hover:shadow-sm"
                       >
-                        <Trash2 className="h-4 w-4" />
+                        <Trash2 className="h-4 w-4" strokeWidth={1.8} />
                       </button>
                     </div>
 
-                    <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
-                      <div className="flex items-center gap-2 rounded-full bg-[#f6ece2] px-2 py-1">
+                    {/* Bottom row: quantity + price */}
+                    <div className="flex items-end justify-between mt-2">
+                      <div className="flex items-center gap-0.5 rounded-full bg-[#faf5ef] p-0.5 ring-1 ring-[#f0e0cc]/50">
                         <button
                           type="button"
                           aria-label="Giảm số lượng"
                           onClick={() => updateQuantity(item.id, Math.max(1, item.quantity - 1))}
-                          className="flex h-7 w-7 items-center justify-center rounded-full bg-white text-[#7a4a20] shadow-sm transition hover:bg-[#fff7ed]"
+                          className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-[#8b6542] shadow-sm transition-all duration-200 hover:bg-[#fff7ed] hover:text-[#7a4a20] active:scale-95"
                         >
-                          <Minus className="h-3.5 w-3.5" />
+                          <Minus className="h-3.5 w-3.5" strokeWidth={2} />
                         </button>
-                        <span className="min-w-[28px] text-center text-sm font-semibold text-[#3b2312]">
+                        <span className="min-w-[32px] text-center text-sm font-bold text-[#2c1a0e]">
                           {item.quantity}
                         </span>
                         <button
                           type="button"
                           aria-label="Tăng số lượng"
                           onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                          className="flex h-7 w-7 items-center justify-center rounded-full bg-white text-[#7a4a20] shadow-sm transition hover:bg-[#fff7ed]"
+                          className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-[#8b6542] shadow-sm transition-all duration-200 hover:bg-[#fff7ed] hover:text-[#7a4a20] active:scale-95"
                         >
-                          <Plus className="h-3.5 w-3.5" />
+                          <Plus className="h-3.5 w-3.5" strokeWidth={2} />
                         </button>
                       </div>
-                      <div className="text-right">
-                        <p className="text-[11px] uppercase tracking-[0.2em] text-[#b08a6e]">Giá</p>
-                        <p className="text-sm font-semibold text-[#7a4a20]">{formatPrice(item.price)}</p>
+                      <div className="text-right shrink-0 ml-2">
+                        <p className="text-[10px] font-bold uppercase tracking-[0.18em]" style={{ color: "#b8987a !important" }}>Thành tiền</p>
+                        <p className="text-2xl font-black drop-shadow-md" style={{ color: "#dc2626 !important", textShadow: "0 1px 4px rgba(220,38,38,0.2)" }}>
+                          {formatPrice(item.price)}
+                        </p>
                       </div>
                     </div>
                   </div>
-                </BrandCard>
+                </div>
               ))}
             </div>
 
@@ -184,15 +191,15 @@ export default function Page() {
                   </div>
                   <div className="flex items-center justify-between">
                     <span>Phí vận chuyển</span>
-                    <span className="font-semibold text-[#3b2312]">{formatPrice(shippingFee)}</span>
+                    <span className="text-xs italic text-[#9b7f68] underline decoration-[#9b7f68]/50 underline-offset-2">Tính theo giá đơn vị vận chuyển</span>
                   </div>
                   <div className="mt-3 flex items-center justify-between border-t border-[#efe4d8] pt-3">
-                    <span className="text-sm font-semibold text-[#3b2312]">Tổng cộng</span>
+                    <span className="text-sm font-semibold text-[#3b2312]">Tạm tính</span>
                     <span className="text-lg font-bold text-[#E6792A]">{formatPrice(orderTotal)}</span>
                   </div>
                 </div>
 
-                <div className="mt-4 flex items-center gap-2">
+            <div className="mt-4 flex items-center gap-2">
                   <input
                     type="text"
                     placeholder="Mã giảm giá"
@@ -213,15 +220,15 @@ export default function Page() {
                   Mua hàng
                 </Link>
 
-                <div className="mt-4 flex items-center justify-between text-[11px] text-[#9b7f68]">
+                <div className="mt-4 flex items-center justify-between text-[12px] text-[#7b4a22]">
                   <button
                     type="button"
                     onClick={() => clearCart()}
-                    className="uppercase tracking-[0.2em] transition hover:text-[#E6792A]"
+                    className="font-semibold uppercase tracking-[0.2em] transition hover:text-[#E6792A]"
                   >
                     Xóa tất cả
                   </button>
-                  <Link href="/" className="uppercase tracking-[0.2em] transition hover:text-[#E6792A]">
+                  <Link href="/" className="font-semibold uppercase tracking-[0.2em] transition hover:text-[#E6792A]">
                     Tiếp tục mua
                   </Link>
                 </div>

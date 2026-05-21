@@ -9,6 +9,7 @@ import { motion } from "framer-motion";
 import { ChevronRight, MessageCircle, Share2, User } from "lucide-react";
 import Link from "next/link";
 import { useState, useEffect, useCallback } from "react";
+import FeaturedProducts from "@/components/FeaturedProducts";
 
 const categories = [
   { id: "all", label: "Tất cả" },
@@ -30,7 +31,7 @@ function parseDate(dateStr: string): { day: string; month: string } {
 export default function Experience() {
   const [activeCategory, setActiveCategory] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
-  const postsPerPage = 4;
+  const postsPerPage = 10;
 
   const filteredPosts =
     activeCategory === "all"
@@ -125,11 +126,11 @@ export default function Experience() {
         <div className="container mx-auto px-4">
           <div className="flex flex-col lg:flex-row gap-8">
             {/* Left */}
-            <div className="flex-1 min-w-0 space-y-6">
+            <div className="flex-1 min-w-0 space-y-6 lg:border-r lg:border-gray-200 lg:pr-8">
               <div className="mb-2">
                 <h2 className="text-lg font-semibold text-gray-900 mb-4">Bài viết mới nhất</h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <Link href={`/kinh-nghiem/${blogPosts[0].slug}`} className="md:col-span-2">
+                  <Link href={`/kinh-nghiem/${blogPosts[0].slug}`} className="md:col-span-2 self-start">
                     <BrandCard className="overflow-hidden group cursor-pointer h-full">
                       <div className="overflow-hidden bg-gray-100 aspect-[16/9]">
                         <img src={blogPosts[0].image} alt={blogPosts[0].title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
@@ -145,7 +146,7 @@ export default function Experience() {
                       </div>
                     </BrandCard>
                   </Link>
-                  <Link href={`/kinh-nghiem/${blogPosts[1].slug}`}>
+                  <Link href={`/kinh-nghiem/${blogPosts[1].slug}`} className="mt-12">
                     <BrandCard className="overflow-hidden group cursor-pointer h-full">
                       <div className="overflow-hidden bg-gray-100 aspect-[16/13]">
                         <img src={blogPosts[1].image} alt={blogPosts[1].title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
@@ -204,35 +205,46 @@ export default function Experience() {
               {/* Blog List */}
               {displayedPosts.map((post, index) => {
                 const { day, month } = parseDate(post.date);
+                const globalIndex = startIdx + index;
+                const adAfter = (globalIndex + 1) % 4 === 0 && globalIndex < filteredPosts.length - 1;
                 return (
-                  <motion.div key={post.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.08 }}>
-                    <Link href={`/kinh-nghiem/${post.slug}`}>
-                      <BrandCard className="overflow-hidden flex flex-col sm:flex-row hover:shadow-lg transition-all duration-300 cursor-pointer group">
-                        <div className="relative w-full sm:w-72 md:w-80 flex-shrink-0 overflow-hidden bg-gray-100">
-                          <div className="aspect-[4/3] sm:aspect-auto sm:h-full">
-                            <img src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <div key={post.id}>
+                    <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.08 }}>
+                      <Link href={`/kinh-nghiem/${post.slug}`}>
+                        <BrandCard className="overflow-hidden flex flex-col sm:flex-row hover:shadow-lg transition-all duration-300 cursor-pointer group">
+                          <div className="relative w-full sm:w-72 md:w-80 flex-shrink-0 overflow-hidden bg-gray-100">
+                            <div className="aspect-[4/3] sm:aspect-auto sm:h-full">
+                              <img src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                            </div>
+                            <div className="absolute top-3 left-3 text-white rounded-lg px-2.5 py-1.5 text-center leading-tight shadow-lg" style={{ background: "#E6792A" }}>
+                              <div className="text-xl font-bold leading-none">{day}</div>
+                              <div className="text-[10px] font-semibold uppercase tracking-wider">{month}</div>
+                            </div>
                           </div>
-                          <div className="absolute top-3 left-3 text-white rounded-lg px-2.5 py-1.5 text-center leading-tight shadow-lg" style={{ background: "#E6792A" }}>
-                            <div className="text-xl font-bold leading-none">{day}</div>
-                            <div className="text-[10px] font-semibold uppercase tracking-wider">{month}</div>
+                          <div className="flex-1 p-5 flex flex-col justify-center">
+                            <div className="mb-3">
+                              <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider" style={{ background: `${categoryColors[post.category]}15`, color: categoryColors[post.category] }}>{post.categoryLabel}</span>
+                            </div>
+                            <h2 className="text-lg md:text-xl font-semibold text-gray-900 mb-3 group-hover:text-[#E6792A] transition-colors leading-snug">{post.title}</h2>
+                            <div className="flex items-center gap-3 text-sm text-gray-400 mb-3">
+                              <span className="flex items-center gap-1.5"><User className="w-3.5 h-3.5" /><span>intemct</span></span>
+                              <span className="flex items-center gap-1.5"><Share2 className="w-3.5 h-3.5" /></span>
+                              <span className="flex items-center gap-1.5"><MessageCircle className="w-3.5 h-3.5" /><span>0</span></span>
+                            </div>
+                            <p className="text-sm text-gray-500 leading-relaxed mb-4 line-clamp-3">{post.excerpt}</p>
+                            <span className="inline-flex items-center gap-2 text-sm font-semibold transition-colors" style={{ color: "#E6792A" }}>Đọc bài viết →</span>
                           </div>
-                        </div>
-                        <div className="flex-1 p-5 flex flex-col justify-center">
-                          <div className="mb-3">
-                            <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider" style={{ background: `${categoryColors[post.category]}15`, color: categoryColors[post.category] }}>{post.categoryLabel}</span>
-                          </div>
-                          <h2 className="text-lg md:text-xl font-semibold text-gray-900 mb-3 group-hover:text-[#E6792A] transition-colors leading-snug">{post.title}</h2>
-                          <div className="flex items-center gap-3 text-sm text-gray-400 mb-3">
-                            <span className="flex items-center gap-1.5"><User className="w-3.5 h-3.5" /><span>intemct</span></span>
-                            <span className="flex items-center gap-1.5"><Share2 className="w-3.5 h-3.5" /></span>
-                            <span className="flex items-center gap-1.5"><MessageCircle className="w-3.5 h-3.5" /><span>0</span></span>
-                          </div>
-                          <p className="text-sm text-gray-500 leading-relaxed mb-4 line-clamp-3">{post.excerpt}</p>
-                          <span className="inline-flex items-center gap-2 text-sm font-semibold transition-colors" style={{ color: "#E6792A" }}>Đọc bài viết →</span>
-                        </div>
-                      </BrandCard>
-                    </Link>
-                  </motion.div>
+                        </BrandCard>
+                      </Link>
+                    </motion.div>
+                    {adAfter && (
+                      <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }} className="mt-6 rounded-2xl overflow-hidden">
+                        <Link href="/lien-he">
+                          <img src="/standee/standee_cta.png" alt="Quảng cáo in standee" className="w-full h-auto object-cover hover:opacity-90 transition-opacity duration-300" />
+                        </Link>
+                      </motion.div>
+                    )}
+                  </div>
                 );
               })}
 
@@ -282,6 +294,15 @@ export default function Experience() {
           </div>
         </div>
       </section>
+
+      <FeaturedProducts
+        title="Sản Phẩm Nổi Bật"
+        subtitle="Khám phá thêm các sản phẩm in ấn chất lượng cao phù hợp với nhu cầu của bạn"
+        viewAllHref="/"
+        viewAllText="Xem tất cả sản phẩm"
+        columns={4}
+        showBackground={false}
+      />
 
       <Footer />
     </div>

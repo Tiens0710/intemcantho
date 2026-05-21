@@ -76,7 +76,7 @@ h5,
 h6 {
   font-weight: 600;
   letter-spacing: -0.02em;
-  font-family: 'Cormorant Garamond', 'Playfair Display', serif;
+  font-family: 'Nunito', Arial, Helvetica, sans-serif;
 }
 
 h1 {
@@ -385,6 +385,152 @@ select:focus {
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
+.chatbot-message-input,
+.chatbot-message-input:focus {
+  width: 100%;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.chatbot-avatar-glow {
+  animation: chatbot-avatar-glow 3.2s ease-in-out infinite;
+}
+
+.chatbot-status-dot {
+  animation: chatbot-status-pulse 1.8s ease-in-out infinite;
+}
+
+.chatbot-launcher-pulse {
+  position: relative;
+}
+
+.chatbot-launcher-pulse::before {
+  content: "";
+  position: absolute;
+  inset: -7px;
+  z-index: -1;
+  border-radius: 9999px;
+  border: 1px solid rgba(230, 121, 42, 0.32);
+  background: rgba(230, 121, 42, 0.12);
+  animation: chatbot-launcher-pulse 2.4s ease-out infinite;
+}
+
+.social-floating-link {
+  animation: social-floating-pop 3.2s ease-in-out infinite;
+}
+
+.social-floating-link::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  z-index: -1;
+  border-radius: 1.35rem;
+  border: 2px solid color-mix(in srgb, var(--social-accent) 58%, transparent);
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--social-accent) 24%, transparent);
+  opacity: 0;
+  animation: social-floating-ring 3.2s ease-out infinite;
+  animation-delay: inherit;
+}
+
+.social-floating-link::before {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  z-index: -1;
+  border-radius: 1rem;
+  background: color-mix(in srgb, var(--social-accent) 16%, transparent);
+  filter: blur(10px);
+  opacity: 0.85;
+  transition: opacity 300ms ease, transform 300ms ease;
+}
+
+.social-floating-link:hover::before {
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+@keyframes chatbot-avatar-glow {
+  0%,
+  100% {
+    transform: translateY(0);
+    box-shadow: 0 10px 24px rgba(230, 121, 42, 0.26);
+  }
+  50% {
+    transform: translateY(-1px);
+    box-shadow: 0 12px 30px rgba(230, 121, 42, 0.38);
+  }
+}
+
+@keyframes chatbot-status-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.18);
+    opacity: 0.72;
+  }
+}
+
+@keyframes chatbot-launcher-pulse {
+  0% {
+    transform: scale(0.88);
+    opacity: 0.72;
+  }
+  100% {
+    transform: scale(1.35);
+    opacity: 0;
+  }
+}
+
+@keyframes social-floating-pop {
+  0%,
+  68%,
+  100% {
+    transform: translateX(0) scale(1);
+  }
+  74% {
+    transform: translateX(-1px) scale(1.08);
+  }
+  80% {
+    transform: translateX(1px) scale(1.04);
+  }
+  86% {
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes social-floating-ring {
+  0%,
+  64%,
+  100% {
+    opacity: 0;
+    transform: scale(0.82);
+  }
+  74% {
+    opacity: 0.95;
+    transform: scale(1);
+  }
+  92% {
+    opacity: 0;
+    transform: scale(1.34);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chatbot-avatar-glow,
+  .chatbot-status-dot,
+  .chatbot-launcher-pulse::before,
+  .social-floating-link,
+  .social-floating-link::after {
+    animation: none;
+  }
+}
+
 /* Smooth Transitions */
 .transition-smooth {
   transition: all 300ms ease-out;
@@ -409,6 +555,20 @@ select:focus {
 .heading-gradient {
   display: inline-block;
   color: #9a5b24;
+}
+
+.home-section-title {
+  margin: 0;
+  color: #9a5b24 !important;
+  font-family: 'Nunito', Arial, Helvetica, sans-serif;
+  font-size: clamp(1.75rem, 3vw, 2.45rem);
+  font-weight: 800;
+  line-height: 1.18;
+  letter-spacing: 0;
+}
+
+.home-section-title .home-section-title-accent {
+  color: #E6792A;
 }
 
 @supports ((-webkit-background-clip: text) or (background-clip: text)) {
@@ -704,7 +864,7 @@ select:focus {
   right: 1.5rem;
   opacity: 0.06;
   font-size: 4.5rem;
-  font-family: Georgia, serif;
+  font-family: 'Nunito', Arial, Helvetica, sans-serif;
   line-height: 1;
   color: #8B5E3C;
   pointer-events: none;
@@ -916,7 +1076,7 @@ select:focus {
 }
 
 .hero-slide-title-line:nth-child(1) {
-  font-family: 'Cormorant Garamond', 'Playfair Display', serif;
+  font-family: 'Nunito', Arial, Helvetica, sans-serif;
   font-size: clamp(3.7rem, 7.5vw, 6.6rem);
   font-weight: 400;
   color: #efe7d8;
@@ -927,7 +1087,7 @@ select:focus {
 }
 
 .hero-slide-title-line:nth-child(2) {
-  font-family: 'Cormorant Garamond', 'Playfair Display', serif;
+  font-family: 'Nunito', Arial, Helvetica, sans-serif;
   font-size: clamp(3.2rem, 7.3vw, 6.1rem);
   font-weight: 400;
   text-transform: uppercase;
@@ -1042,7 +1202,7 @@ select:focus {
 }
 
 .counter-current {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Nunito', Arial, Helvetica, sans-serif;
   font-size: 3.8rem;
   color: #e0d6c5;
   font-weight: 400;
@@ -1365,7 +1525,7 @@ select:focus {
    STANDEE HERO — Reuses Homepage Hero Styles
    ============================================= */
 .standee-hero-title-line {
-  font-family: 'Cormorant Garamond', 'Playfair Display', serif;
+  font-family: 'Nunito', Arial, Helvetica, sans-serif;
   font-weight: 400;
   color: #efe7d8;
   text-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);

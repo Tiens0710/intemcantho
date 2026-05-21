@@ -1,11 +1,37 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import "./globals.css";
+import ChatSearch from "@/components/ChatSearch";
 import ScrollToTop from "@/components/ScrollToTop";
+import SocialFloatingLinks from "@/components/SocialFloatingLinks";
+import { SITE_URL, siteConfig } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Duky Printing",
-  description: "In tem nhan decal, bao bi, an pham van phong tai Can Tho.",
+  metadataBase: new URL(SITE_URL),
+  applicationName: siteConfig.name,
+  title: {
+    default: siteConfig.name,
+    template: `%s | ${siteConfig.name}`,
+  },
+  description: siteConfig.description,
+  openGraph: {
+    type: "website",
+    locale: siteConfig.locale,
+    siteName: siteConfig.name,
+    title: siteConfig.name,
+    description: siteConfig.description,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
 };
 
 export default function RootLayout({
@@ -33,7 +59,7 @@ export default function RootLayout({
         */}
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Nunito:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800;900&display=swap"
         />
       </head>
       <body className="min-h-screen bg-white text-gray-900" style={{ fontFamily: "'Nunito', Arial, Helvetica, sans-serif" }} suppressHydrationWarning>
@@ -47,6 +73,8 @@ export default function RootLayout({
           </defs>
         </svg>
         {children}
+        <SocialFloatingLinks />
+        <ChatSearch />
         <ScrollToTop />
       </body>
     </html>

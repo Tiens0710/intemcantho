@@ -170,14 +170,14 @@ export default function QuickQuote() {
               <h2
                 className="mb-5"
                 style={{
-                  fontFamily: "'Cormorant Garamond', 'Playfair Display', serif",
-                  fontSize: "clamp(1.6rem, 3.2vw, 2.4rem)",
+                  fontFamily: "'Nunito', Arial, Helvetica, sans-serif",
+                  fontSize: "clamp(1.6rem, 2.7vw, 2.15rem)",
                   fontWeight: 700,
                   lineHeight: 1.15,
                   color: "#3D2008",
                 }}
               >
-                Báo giá Tem Nhãn<br />
+                Báo giá <span className="whitespace-nowrap">Tem Nhãn</span><br />
                 <span style={{ color: "#E6792A" }}>chỉ trong vài giây</span>
               </h2>
 

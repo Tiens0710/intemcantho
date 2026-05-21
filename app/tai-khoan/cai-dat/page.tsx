@@ -4,8 +4,6 @@ import { motion } from "framer-motion";
 import {
   User,
   Lock,
-  Bell,
-  Shield,
   Camera,
   Save,
   Eye,
@@ -16,7 +14,7 @@ import {
 import { useState } from "react";
 
 export default function SettingsPage() {
-  const [activeSection, setActiveSection] = useState<"profile" | "password" | "notifications" | "privacy">("profile");
+  const [activeSection, setActiveSection] = useState<"profile" | "password">("profile");
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -31,14 +29,6 @@ export default function SettingsPage() {
     gender: "male",
   });
 
-  // Notification state
-  const [notifications, setNotifications] = useState({
-    orderUpdates: true,
-    promotions: false,
-    newsletter: true,
-    sms: false,
-  });
-
   const handleSave = () => {
     setIsSaving(true);
     setTimeout(() => setIsSaving(false), 1500);
@@ -47,8 +37,6 @@ export default function SettingsPage() {
   const sections = [
     { key: "profile" as const, label: "Thông tin cá nhân", icon: User },
     { key: "password" as const, label: "Đổi mật khẩu", icon: Lock },
-    { key: "notifications" as const, label: "Thông báo", icon: Bell },
-    { key: "privacy" as const, label: "Bảo mật", icon: Shield },
   ];
 
   return (
@@ -286,97 +274,6 @@ export default function SettingsPage() {
                 >
                   <Lock className="w-4 h-4" />
                   Cập nhật mật khẩu
-                </button>
-              </div>
-            </motion.div>
-          )}
-
-          {/* Notifications Section */}
-          {activeSection === "notifications" && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6"
-            >
-              <h3 className="text-base font-semibold text-gray-900 mb-6">Cài đặt thông báo</h3>
-              <div className="space-y-4">
-                {[
-                  { key: "orderUpdates" as const, title: "Cập nhật đơn hàng", desc: "Nhận thông báo khi trạng thái đơn hàng thay đổi" },
-                  { key: "promotions" as const, title: "Khuyến mãi", desc: "Nhận thông báo về chương trình khuyến mãi và ưu đãi" },
-                  { key: "newsletter" as const, title: "Bản tin", desc: "Nhận bản tin hàng tuần về sản phẩm mới" },
-                  { key: "sms" as const, title: "Thông báo SMS", desc: "Nhận thông báo qua tin nhắn điện thoại" },
-                ].map((item) => (
-                  <div
-                    key={item.key}
-                    className="flex items-center justify-between p-4 rounded-xl border border-gray-100 hover:border-gray-200 transition-colors"
-                  >
-                    <div>
-                      <p className="text-sm font-medium text-gray-900">{item.title}</p>
-                      <p className="text-xs text-gray-500 mt-0.5">{item.desc}</p>
-                    </div>
-                    <button
-                      onClick={() =>
-                        setNotifications({
-                          ...notifications,
-                          [item.key]: !notifications[item.key],
-                        })
-                      }
-                      className={`relative w-11 h-6 rounded-full transition-colors ${
-                        notifications[item.key] ? "bg-amber-600" : "bg-gray-300"
-                      }`}
-                    >
-                      <div
-                        className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow-sm transition-transform ${
-                          notifications[item.key] ? "translate-x-5.5 left-[1px]" : "left-[2px]"
-                        }`}
-                      />
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          )}
-
-          {/* Privacy Section */}
-          {activeSection === "privacy" && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="space-y-4"
-            >
-              <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-                <h3 className="text-base font-semibold text-gray-900 mb-4">Bảo mật tài khoản</h3>
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between p-4 rounded-xl bg-green-50 border border-green-100">
-                    <div className="flex items-center gap-3">
-                      <Shield className="w-5 h-5 text-green-600" />
-                      <div>
-                        <p className="text-sm font-medium text-green-800">Xác thực 2 yếu tố</p>
-                        <p className="text-xs text-green-600">Đang bật</p>
-                      </div>
-                    </div>
-                    <button className="px-3 py-1.5 text-xs font-medium text-green-700 border border-green-200 rounded-lg hover:bg-green-100 transition-colors">
-                      Quản lý
-                    </button>
-                  </div>
-
-                  <div className="flex items-center justify-between p-4 rounded-xl border border-gray-100">
-                    <div>
-                      <p className="text-sm font-medium text-gray-900">Phiên đăng nhập</p>
-                      <p className="text-xs text-gray-500">Quản lý các thiết bị đã đăng nhập</p>
-                    </div>
-                    <button className="px-3 py-1.5 text-xs font-medium text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
-                      Xem
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-white rounded-2xl border border-red-100 shadow-sm p-6">
-                <h3 className="text-base font-semibold text-red-700 mb-2">Vùng nguy hiểm</h3>
-                <p className="text-xs text-gray-500 mb-4">Các hành động này không thể hoàn tác</p>
-                <button className="px-4 py-2.5 text-sm font-medium text-red-600 border border-red-200 rounded-xl hover:bg-red-50 transition-colors">
-                  Xóa tài khoản
                 </button>
               </div>
             </motion.div>

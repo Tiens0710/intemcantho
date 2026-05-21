@@ -149,7 +149,7 @@ export default function CategoryGrid() {
                 fontWeight: 600,
                 lineHeight: 1.2,
                 color: "#9A5B24",
-                fontFamily: "'Cormorant Garamond', 'Playfair Display', serif",
+                fontFamily: "'Nunito', Arial, Helvetica, sans-serif",
                 whiteSpace: "nowrap",
               }}
             >

@@ -53,10 +53,10 @@ export default function PartnerCarousel() {
         </div>
 
         {/* Heading */}
-        <h2 style={{ fontSize: "clamp(1.6rem, 3.2vw, 2.4rem)", fontWeight: 700, lineHeight: 1.35, fontFamily: "'Cormorant Garamond', 'Playfair Display', serif", color: "#1C1007", margin: 0 }}>
+        <h2 className="home-section-title" style={{ color: "#9a5b24" }}>
           Được tin dùng bởi{" "}
-          <span style={{ color: "#a0845c" }}>500+</span> doanh nghiệp và{" "}
-          <span style={{ color: "#a0845c" }}>2.000+</span> người dùng
+          <span className="home-section-title-accent">500+</span> doanh nghiệp và{" "}
+          <span className="home-section-title-accent">2.000+</span> người dùng
         </h2>
 
         {/* Accent line */}

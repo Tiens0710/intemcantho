@@ -8,6 +8,35 @@ import { motion } from "framer-motion";
 import { ArrowLeft, Clock, ChevronRight, MessageCircle, User } from "lucide-react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
+import WarmButton from "@/components/WarmButton";
+
+const relatedProductsMap: Record<string, { title: string; slug: string; price: string; image: string }[]> = {
+  "tem-nhan": [
+    { title: "Tem Decal Giấy", slug: "nhan-dan", price: "Từ 1.500đ/cái", image: "/danhmuc1.png" },
+    { title: "Tem Decal Nhựa", slug: "nhan-dan", price: "Từ 2.500đ/cái", image: "/danhmuc2.png" },
+    { title: "Standee Khai Trương", slug: "nhan-dan", price: "Từ 180.000đ/bộ", image: "/danhmuc3.png" },
+  ],
+  "thiet-ke": [
+    { title: "Name Card Cao Cấp", slug: "danh-thiep", price: "Từ 120.000đ/hộp", image: "/danhmuc6.png" },
+    { title: "Name Card Đặc Biệt", slug: "danh-thiep", price: "Từ 250.000đ/hộp", image: "/danhmuc1.png" },
+    { title: "Brochure Giới Thiệu", slug: "to-gap", price: "Từ 2.800đ/tờ", image: "/danhmuc3.png" },
+  ],
+  "an-pham": [
+    { title: "Brochure A4 Gấp 3", slug: "to-gap", price: "Từ 3.500đ/tờ", image: "/danhmuc3.png" },
+    { title: "Tờ Rơi A4", slug: "to-roi", price: "Từ 1.200đ/tờ", image: "/danhmuc4.png" },
+    { title: "Name Card Cơ Bản", slug: "danh-thiep", price: "Từ 120.000đ/hộp", image: "/danhmuc6.png" },
+  ],
+  "bao-bi": [
+    { title: "Hộp Giấy Kraft", slug: "bao-bi", price: "Từ 8.000đ/hộp", image: "/danhmuc5.png" },
+    { title: "Hộp Cứng Cao Cấp", slug: "bao-bi", price: "Từ 25.000đ/hộp", image: "/danhmuc6.png" },
+    { title: "Túi Giấy In Offset", slug: "bao-bi", price: "Từ 12.000đ/túi", image: "/danhmuc1.png" },
+  ],
+  "mua-in": [
+    { title: "Tem Decal Nhựa", slug: "nhan-dan", price: "Từ 2.500đ/cái", image: "/danhmuc2.png" },
+    { title: "Brochure Cao Cấp", slug: "to-gap", price: "Từ 5.000đ/tờ", image: "/danhmuc4.png" },
+    { title: "Standee Roll-up", slug: "nhan-dan", price: "Từ 450.000đ/bộ", image: "/danhmuc5.png" },
+  ],
+};
 
 const sidebarProducts = [
   { id: 1, name: "Decal Trong Chống Nước", price: "180.000đ", image: "https://d2xsxph8kpxj0f.cloudfront.net/90078694/ERMxTyYJFnFBQeNjeF6P4w/service-labels-luxury-2gNgfReHpRXZq4kdAfZqaT.webp" },
@@ -56,6 +85,26 @@ export default function BlogDetail() {
   const renderContent = (content: string) => {
     const lines = content.split("\n");
     return lines.map((line, i) => {
+      // Image: ![alt](url)
+      const imgMatch = line.match(/^!\[(.*?)\]\((.*?)\)$/);
+      if (imgMatch) {
+        return (
+          <figure key={i} className="my-6 rounded-2xl overflow-hidden bg-gray-100">
+            <img src={imgMatch[2]} alt={imgMatch[1]} className="w-full h-auto object-cover" loading="lazy" />
+            {imgMatch[1] && <figcaption className="text-center text-sm text-gray-400 mt-2 pb-2">{imgMatch[1]}</figcaption>}
+          </figure>
+        );
+      }
+      // Two images side by side: [imggrid:url1|url2]
+      const gridMatch = line.match(/^\[imggrid:(.*?)\|(.*)\]$/);
+      if (gridMatch) {
+        return (
+          <div key={i} className="my-6 grid grid-cols-2 gap-3">
+            <div className="rounded-xl overflow-hidden bg-gray-100"><img src={gridMatch[1]} alt="" className="w-full h-full object-cover" loading="lazy" /></div>
+            <div className="rounded-xl overflow-hidden bg-gray-100"><img src={gridMatch[2]} alt="" className="w-full h-full object-cover" loading="lazy" /></div>
+          </div>
+        );
+      }
       if (line.startsWith("## ")) return <h2 key={i} className="text-2xl font-semibold text-gray-900 mt-8 mb-4">{line.replace("## ", "")}</h2>;
       if (line.startsWith("### ")) return <h3 key={i} className="text-xl font-semibold text-gray-800 mt-6 mb-3">{line.replace("### ", "")}</h3>;
       if (line.match(/^\d+\.\s/)) return <li key={i} className="text-gray-600 ml-5 mb-2 list-decimal">{line.replace(/^\d+\.\s/, "").replace(/\*\*(.*?)\*\*/g, "$1")}</li>;
@@ -92,7 +141,7 @@ export default function BlogDetail() {
       <section className="py-8 md:py-12">
         <div className="container mx-auto px-4">
           <div className="flex flex-col lg:flex-row gap-8">
-            <div className="flex-1 min-w-0">
+            <div className="flex-1 min-w-0 lg:border-r lg:border-gray-200 lg:pr-8">
               <div className="mb-6">
                 <span
                   className="inline-block px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider mb-4"
@@ -136,6 +185,83 @@ export default function BlogDetail() {
                 </div>
               </BrandCard>
 
+              {/* Sản phẩm liên quan */}
+              {relatedProductsMap[post.category] && (
+                <div className="mt-8">
+                    <div className="flex items-center gap-3 mb-5">
+                      <div className="w-1 h-6 rounded-full" style={{ background: "#E6792A" }} />
+                      <h3 className="text-lg font-bold uppercase tracking-wide text-gray-900">SẢN PHẨM LIÊN QUAN</h3>
+                    </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    {relatedProductsMap[post.category].map((product, i) => (
+                      <Link key={i} href={`/danh-muc/${product.slug}`}>
+                        <BrandCard className="overflow-hidden group cursor-pointer h-full">
+                          <div className="aspect-[4/3] overflow-hidden bg-gray-100">
+                            <img src={product.image} alt={product.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                          </div>
+                          <div className="p-3">
+                            <h4 className="text-sm font-semibold text-gray-900 group-hover:text-[#E6792A] transition-colors line-clamp-2 mb-1">{product.title}</h4>
+                            <p className="text-sm font-medium" style={{ color: "#E6792A" }}>{product.price}</p>
+                          </div>
+                        </BrandCard>
+                      </Link>
+                    ))}
+                  </div>
+                  <div className="mt-4 text-center">
+                    <WarmButton href="/lien-he" size="md">Liên hệ tư vấn ngay</WarmButton>
+                  </div>
+                </div>
+              )}
+
+              {/* Banner quảng cáo */}
+              <div className="mt-8 rounded-2xl overflow-hidden">
+                <Link href="/lien-he">
+                  <img
+                    src="/standee/standee_cta.png"
+                    alt="Dịch vụ in standee chuyên nghiệp tại Cần Thơ"
+                    className="w-full h-auto object-cover hover:opacity-90 transition-opacity duration-300"
+                  />
+                </Link>
+              </div>
+
+              {/* Bài viết liên quan */}
+              {(() => {
+                const otherPosts = blogPosts.filter((p) => p.id !== post.id).slice(0, 6);
+                return otherPosts.length > 0 ? (
+                  <div className="mt-10">
+                    <div className="flex items-center gap-3 mb-5">
+                      <div className="w-1 h-6 rounded-full" style={{ background: "#E6792A" }} />
+                      <h3 className="text-lg font-bold uppercase tracking-wide text-gray-900">BÀI VIẾT LIÊN QUAN</h3>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                      {otherPosts.map((rp) => (
+                        <Link key={rp.id} href={`/kinh-nghiem/${rp.slug}`} className="group">
+                          <div className="overflow-hidden rounded-xl border border-gray-100 hover:shadow-md transition-shadow duration-300 bg-white h-full">
+                            <div className="aspect-[16/10] overflow-hidden bg-gray-100">
+                              <img src={rp.image} alt={rp.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                            </div>
+                            <div className="p-3">
+                              <h4 className="text-sm font-semibold text-gray-900 group-hover:text-[#E6792A] transition-colors line-clamp-2 leading-snug mb-1.5">
+                                {rp.title}
+                              </h4>
+                              <div className="flex items-center gap-1.5">
+                                <span
+                                  className="inline-block px-1.5 py-0.5 rounded text-[9px] font-semibold uppercase"
+                                  style={{ background: `${categoryColors[rp.category]}15`, color: categoryColors[rp.category] }}
+                                >
+                                  {rp.categoryLabel}
+                                </span>
+                                <span className="text-[11px] text-gray-400">• {rp.readTime}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                ) : null;
+              })()}
+
               <div className="mt-8">
                 <Link href="/kinh-nghiem">
                   <span className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full border border-[#E6792A] text-[#E6792A] font-medium text-sm hover:bg-[#E6792A] hover:text-white transition-colors cursor-pointer">
@@ -147,7 +273,7 @@ export default function BlogDetail() {
               {/* Hỏi & Đáp */}
               <div className="mt-10">
                 <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                  <span style={{ color: "#E6792A" }}>❓</span> HỎI & ĐÁP
+                  <span style={{ color: "#E6792A" }}></span> HỎI & ĐÁP
                 </h3>
                 <div className="space-y-4">
                   {[

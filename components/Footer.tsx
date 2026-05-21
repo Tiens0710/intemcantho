@@ -6,23 +6,36 @@ import { BannerPage } from "./BannerPage";
   
 /* ─── Inline SVG social icons ─── */
 const FacebookIcon = () => (
-  <svg className="h-[18px] w-[18px]" fill="currentColor" viewBox="0 0 24 24">
-    <path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 1.09.08 1.38.17v3.325c-.267-.028-.716-.04-1.275-.04-1.81 0-2.528.685-2.528 2.623v1.856h3.82l-.66 3.667h-3.16v8.232C18.838 23.07 20 21.2 20 19.134v-4.443A9.286 9.286 0 0020 12.543a9.44 9.44 0 00-.899-4.036A9.23 9.23 0 009.101 23.691z" />
+  <svg className="h-[18px] w-[18px]" viewBox="0 0 24 24" aria-hidden="true">
+    <path
+      fill="currentColor"
+      d="M14.2 8.2h2V4.9c-.35-.05-1.55-.15-2.95-.15-2.9 0-4.9 1.8-4.9 5.1v2.85H5.1v3.7h3.25V24h3.95v-7.6h3.05l.48-3.7H12.3v-2.5c0-1.05.28-2 1.9-2Z"
+    />
   </svg>
 );
 const InstagramIcon = () => (
-  <svg className="h-[18px] w-[18px]" fill="currentColor" viewBox="0 0 24 24">
-    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.17.054 1.97.24 2.43.403a4.088 4.088 0 011.47.957c.453.453.738.87.957 1.47.163.46.35 1.26.403 2.43.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.054 1.17-.24 1.97-.403 2.43a4.088 4.088 0 01-.957 1.47 4.088 4.088 0 01-1.47.957c-.46.163-1.26.35-2.43.403-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.17-.054-1.97-.24-2.43-.403a4.088 4.088 0 01-1.47-.957 4.088 4.088 0 01-.957-1.47c-.163-.46-.35-1.26-.403-2.43C2.175 15.584 2.163 15.204 2.163 12s.012-3.584.07-4.85c.054-1.17.24-1.97.403-2.43A4.088 4.088 0 013.593 3.25a4.088 4.088 0 011.47-.957c.46-.163 1.26-.35 2.43-.403C8.759 1.832 9.14 1.82 12 1.82v.343zm0 1.802c-3.15 0-3.504.013-4.744.07-1.147.052-1.77.244-2.183.405-.547.214-.936.47-1.342.876-.406.406-.662.795-.876 1.342-.161.413-.353 1.036-.405 2.183-.057 1.24-.07 1.594-.07 4.744s.013 3.504.07 4.744c.052 1.147.244 1.77.405 2.183.214.547.47.936.876 1.342.406.406.795.662 1.342.876.413.161 1.036.353 2.183.405 1.24.057 1.594.07 4.744.07s3.504-.013 4.744-.07c1.147-.052 1.77-.244 2.183-.405.547-.214.936-.47 1.342-.876.406-.406.662-.795.876-1.342.161-.413.353-1.036.405-2.183.057-1.24.07-1.594.07-4.744s-.013-3.504-.07-4.744c-.052-1.147-.244-1.77-.405-2.183-.214-.547-.47-.936-.876-1.342a3.627 3.627 0 00-1.342-.876c-.413-.161-1.036-.353-2.183-.405-1.24-.057-1.594-.07-4.744-.07zm0 3.07a4.965 4.965 0 110 9.93 4.965 4.965 0 010-9.93zm0 1.247a3.718 3.718 0 100 7.436 3.718 3.718 0 000-7.436zm5.186-2.078a1.16 1.16 0 11-2.32 0 1.16 1.16 0 012.32 0z" />
+  <svg className="h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <rect x="4" y="4" width="16" height="16" rx="5" stroke="currentColor" strokeWidth="2.2" />
+    <circle cx="12" cy="12" r="3.7" stroke="currentColor" strokeWidth="2.2" />
+    <circle cx="17.15" cy="6.85" r="1.25" fill="currentColor" />
   </svg>
 );
 const YoutubeIcon = () => (
-  <svg className="h-[18px] w-[18px]" fill="currentColor" viewBox="0 0 24 24">
-    <path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+  <svg className="h-[19px] w-[19px]" viewBox="0 0 24 24" aria-hidden="true">
+    <path
+      fill="currentColor"
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M21.15 7.05c-.22-.82-.86-1.46-1.67-1.68C18 5 12 5 12 5s-6 0-7.48.37c-.81.22-1.45.86-1.67 1.68C2.45 8.55 2.45 12 2.45 12s0 3.45.4 4.95c.22.82.86 1.46 1.67 1.68C6 19 12 19 12 19s6 0 7.48-.37c.81-.22 1.45-.86 1.67-1.68.4-1.5.4-4.95.4-4.95s0-3.45-.4-4.95ZM10 15.05 15.2 12 10 8.95v6.1Z"
+    />
   </svg>
 );
 const PinterestIcon = () => (
-  <svg className="h-[18px] w-[18px]" fill="currentColor" viewBox="0 0 24 24">
-    <path d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 01.083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z" />
+  <svg className="h-[18px] w-[18px]" viewBox="0 0 24 24" aria-hidden="true">
+    <path
+      fill="currentColor"
+      d="M12.15 2.5c-5.2 0-7.85 3.62-7.85 6.65 0 1.84.7 3.48 2.2 4.1.25.1.47 0 .54-.27.05-.18.17-.66.22-.86.07-.27.04-.36-.16-.6-.43-.52-.7-1.2-.7-2.16 0-2.7 2.02-5.12 5.27-5.12 2.88 0 4.46 1.76 4.46 4.1 0 3.08-1.36 5.68-3.38 5.68-1.12 0-1.95-.92-1.68-2.05.32-1.35.95-2.8.95-3.78 0-.87-.47-1.6-1.44-1.6-1.14 0-2.06 1.18-2.06 2.76 0 1 .34 1.68.34 1.68s-1.17 4.95-1.38 5.82c-.4 1.73-.06 3.85-.03 4.06.02.12.18.15.25.06.1-.13 1.38-1.72 1.82-3.3.13-.45.72-2.8.72-2.8.36.68 1.4 1.27 2.5 1.27 3.3 0 5.55-3.02 5.55-7.05 0-3.05-2.58-5.89-6.14-5.89Z"
+    />
   </svg>
 );
 const ShopIcon = () => (
@@ -164,16 +177,16 @@ export default function Footer() {
               </button>
 
               <div className="flex items-center justify-start gap-3">
-                <a href="#" aria-label="Facebook" className="flex h-11 w-11 items-center justify-center rounded-full border border-white/30 text-white transition-all hover:border-white hover:bg-white/10 hover:text-white">
+                <a href="https://www.facebook.com/intemcantho.duky" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="flex h-11 w-11 items-center justify-center rounded-full border border-white/30 text-white transition-all hover:border-white hover:bg-white/10 hover:text-white">
                   <FacebookIcon />
                 </a>
-                <a href="#" aria-label="Instagram" className="flex h-11 w-11 items-center justify-center rounded-full border border-white/30 text-white transition-all hover:border-white hover:bg-white/10 hover:text-white">
+                <a href="https://www.instagram.com/intemcantho/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="flex h-11 w-11 items-center justify-center rounded-full border border-white/30 text-white transition-all hover:border-white hover:bg-white/10 hover:text-white">
                   <InstagramIcon />
                 </a>
-                <a href="#" aria-label="YouTube" className="flex h-11 w-11 items-center justify-center rounded-full border border-white/30 text-white transition-all hover:border-white hover:bg-white/10 hover:text-white">
+                <a href="https://www.youtube.com/@intemduky" target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="flex h-11 w-11 items-center justify-center rounded-full border border-white/30 text-white transition-all hover:border-white hover:bg-white/10 hover:text-white">
                   <YoutubeIcon />
                 </a>
-                <a href="#" aria-label="Pinterest" className="flex h-11 w-11 items-center justify-center rounded-full border border-white/30 text-white transition-all hover:border-white hover:bg-white/10 hover:text-white">
+                <a href="https://www.pinterest.com/intemduky/" target="_blank" rel="noopener noreferrer" aria-label="Pinterest" className="flex h-11 w-11 items-center justify-center rounded-full border border-white/30 text-white transition-all hover:border-white hover:bg-white/10 hover:text-white">
                   <PinterestIcon />
                 </a>
               </div>

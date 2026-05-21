@@ -1,6 +1,5 @@
 ﻿"use client";
 
-import ChatSearch from "@/components/ChatSearch";
 import CategoryGrid from "@/components/CategoryGrid";
 import QuickQuote from "@/components/QuickQuote";
 import OrderProcess from "@/components/OrderProcess";
@@ -107,30 +106,28 @@ export default function Home() {
             transition={{ duration: 0.8 }}
             className="text-center mb-16"
           >
-            <div className="flex items-center justify-center gap-3 mb-5">
-              <span className="h-px w-8 md:w-16" style={{ background: "linear-gradient(90deg, transparent, #E6D2BF)" }} />
-              <span
-                className="inline-flex items-center gap-2 rounded-full border border-[#E6792A]/25 bg-white/90 px-5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.35em] text-[#8B5E3C]"
-                style={{ boxShadow: "0 8px 18px -16px rgba(198,106,39,0.6)" }}
+            <div className="flex items-center justify-center gap-4 mb-4">
+              <span className="hidden md:block h-px w-20 lg:w-32" style={{ background: "linear-gradient(to right, transparent, #C8A882)" }} />
+              <h2
+                className="mb-0 whitespace-nowrap uppercase"
+                style={{
+                  fontSize: "clamp(1.8rem, 3.5vw, 2.6rem)",
+                  fontWeight: 600,
+                  lineHeight: 1.2,
+                  fontFamily: "'Nunito', Arial, Helvetica, sans-serif",
+                  color: "#9A5B24",
+                  letterSpacing: "0",
+                }}
               >
-                <span className="h-2 w-2 rounded-full bg-[#E6792A]" />
-                Điểm khác biệt
-              </span>
-              <span className="h-px w-8 md:w-16" style={{ background: "linear-gradient(270deg, transparent, #E6D2BF)" }} />
+                TẠI SAO NÊN CHỌN <span style={{ color: "#E6792A" }}>CHÚNG TÔI</span>
+              </h2>
+              <span className="hidden md:block h-px w-20 lg:w-32" style={{ background: "linear-gradient(to left, transparent, #C8A882)" }} />
             </div>
-            <h2
-              className="heading-gradient mb-0 whitespace-nowrap"
-              style={{
-                fontSize: "clamp(2rem, 4vw, 3rem)",
-                fontWeight: 700,
-                lineHeight: 1.2,
-                fontFamily: "'Cormorant Garamond', 'Playfair Display', serif",
-                "--heading-gradient": "linear-gradient(135deg, #B08060 0%, #C08040 50%, #F0A050 100%)",
-              } as React.CSSProperties}
-            >
-              TẠI SAO NÊN CHỌN CHÚNG TÔI
-            </h2>
-            <div className="mt-4 mx-auto w-20 h-1 rounded-full" style={{ background: "linear-gradient(90deg, #E6792A, #C66A27, #E6D2BF)" }} />
+            <div className="flex items-center justify-center gap-2">
+              <span className="h-0.5 w-12 rounded-full" style={{ background: "#E8DED4" }} />
+              <span className="h-0.5 w-20 rounded-full" style={{ background: "#E6792A" }} />
+              <span className="h-0.5 w-12 rounded-full" style={{ background: "#E8DED4" }} />
+            </div>
           </motion.div>
 
           {/* Main Description */}
@@ -284,12 +281,8 @@ export default function Home() {
               <span className="h-px w-8 md:w-16" style={{ background: "linear-gradient(270deg, transparent, #E6D2BF)" }} />
             </div>
             <h2
-              className="heading-gradient"
+              className="home-section-title"
               style={{
-                fontSize: "clamp(2.1rem, 4.2vw, 2.8rem)",
-                fontWeight: 700,
-                lineHeight: 1.2,
-                fontFamily: "'Cormorant Garamond', 'Playfair Display', serif",
                 "--heading-gradient": "linear-gradient(135deg, #B08060 0%, #C08040 50%, #F0A050 100%)",
               } as React.CSSProperties}
             >
@@ -439,7 +432,7 @@ style={{ width: "28px", height: "28px", color: "#FFFFFF" }}
                 fontSize: "clamp(4rem, 3.2vw, 2.5rem)",
                 fontWeight: 700,
                 lineHeight: 1.25,
-                fontFamily: "'Cormorant Garamond', 'Playfair Display', serif",
+                fontFamily: "'Nunito', Arial, Helvetica, sans-serif",
                 "--heading-gradient": "linear-gradient(135deg, #B08060 0%, #C08040 60%, #F0A050 100%)",
               } as React.CSSProperties}
             >
@@ -552,7 +545,7 @@ style={{ width: "28px", height: "28px", color: "#FFFFFF" }}
                   fontSize: "clamp(4.5rem, 5vw, 3.8rem)",
                   fontWeight: 800,
                   lineHeight: 1.1,
-                  fontFamily: "'Cormorant Garamond', 'Playfair Display', serif",
+                  fontFamily: "'Nunito', Arial, Helvetica, sans-serif",
                   "--heading-gradient": "linear-gradient(135deg, #B08060 0%, #C08040 40%, #F0A050 100%)",
                   filter: "drop-shadow(0 2px 6px rgba(154, 91, 36, 0.2))",
                 } as React.CSSProperties}
@@ -713,7 +706,7 @@ style={{ width: "28px", height: "28px", color: "#FFFFFF" }}
                   fontSize: "clamp(1.8rem, 3.2vw, 2.5rem)",
                   fontWeight: 700,
                   lineHeight: 1.25,
-                  fontFamily: "'Cormorant Garamond', 'Playfair Display', serif",
+                  fontFamily: "'Nunito', Arial, Helvetica, sans-serif",
                   "--heading-gradient": "linear-gradient(135deg, #B08060 0%, #C08040 60%, #F0A050 100%)",
                 } as React.CSSProperties}
               >
@@ -816,8 +809,6 @@ style={{ width: "28px", height: "28px", color: "#FFFFFF" }}
       {/* Onboarding Modal */}
       <OnboardingModal />
 
-      {/* Chat Search */}
-      <ChatSearch />
     </motion.div>
   );
 }

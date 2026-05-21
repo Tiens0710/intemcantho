@@ -113,13 +113,17 @@ export default function AddressPage() {
 
   return (
     <div className="space-y-5">
-      <BrandCard className="bg-white/92 p-5 backdrop-blur-xl">
+      {/* Header */}
+      <BrandCard className="bg-white p-6">
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div>
             <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#E6792A]">
               Địa chỉ
             </p>
-            <h2 className="mt-1 !font-sans !text-lg !font-black !text-[#1f2937]">
+            <h2
+              className="mt-1 font-black text-gray-900"
+              style={{ fontSize: "15px", lineHeight: 1.3 }}
+            >
               Địa chỉ giao hàng của tôi
             </h2>
           </div>
@@ -130,7 +134,7 @@ export default function AddressPage() {
               setFormData({ name: "", phone: "", address: "", ward: "", district: "", city: "", type: "home" });
               setShowForm(true);
             }}
-            className="inline-flex w-fit items-center gap-2 rounded-full bg-[#E6792A] px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-white shadow-md shadow-[#E6792A]/25 transition hover:bg-[#C66A27]"
+            className="inline-flex w-fit items-center gap-2 rounded-xl bg-[#E6792A] px-4 py-2.5 text-xs font-bold uppercase tracking-[0.14em] text-white shadow-lg shadow-[#E6792A]/30 transition hover:bg-[#C66A27]"
           >
             <Plus className="h-3.5 w-3.5" />
             Thêm địa chỉ
@@ -138,14 +142,18 @@ export default function AddressPage() {
         </div>
       </BrandCard>
 
+      {/* Add/Edit Form */}
       {showForm && (
-        <BrandCard className="bg-white/92 p-5 backdrop-blur-xl">
-          <h3 className="!font-sans !text-sm !font-black !text-[#1f2937]">
+        <BrandCard className="bg-white p-6">
+          <h3
+            className="font-black text-gray-900"
+            style={{ fontSize: "15px", lineHeight: 1.3 }}
+          >
             {editingId ? "Chỉnh sửa địa chỉ" : "Thêm địa chỉ mới"}
           </h3>
-          <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
+          <div className="mt-5 grid grid-cols-1 gap-4 md:grid-cols-2">
             <div>
-              <label className="mb-1.5 block text-xs font-bold uppercase tracking-[0.12em] text-[#E6792A]">
+              <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-gray-400">
                 Họ và tên
               </label>
               <input
@@ -153,11 +161,11 @@ export default function AddressPage() {
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 placeholder="Nguyễn Văn A"
-                className="h-11 w-full rounded-lg border border-[#dfe5ee] bg-white/90 px-3 text-sm font-semibold text-[#1f2937] placeholder:text-[#64748b] outline-none transition focus:border-[#E6792A] focus:ring-2 focus:ring-[#E6792A]/10"
+                className="h-11 w-full rounded-xl border border-gray-200 bg-gray-50 px-4 text-sm font-medium text-gray-800 placeholder:text-gray-400 outline-none transition focus:border-[#E6792A] focus:bg-white focus:ring-2 focus:ring-[#E6792A]/10"
               />
             </div>
             <div>
-              <label className="mb-1.5 block text-xs font-bold uppercase tracking-[0.12em] text-[#E6792A]">
+              <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-gray-400">
                 Số điện thoại
               </label>
               <input
@@ -165,11 +173,11 @@ export default function AddressPage() {
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                 placeholder="0985 463 403"
-                className="h-11 w-full rounded-lg border border-[#dfe5ee] bg-white/90 px-3 text-sm font-semibold text-[#1f2937] placeholder:text-[#64748b] outline-none transition focus:border-[#E6792A] focus:ring-2 focus:ring-[#E6792A]/10"
+                className="h-11 w-full rounded-xl border border-gray-200 bg-gray-50 px-4 text-sm font-medium text-gray-800 placeholder:text-gray-400 outline-none transition focus:border-[#E6792A] focus:bg-white focus:ring-2 focus:ring-[#E6792A]/10"
               />
             </div>
             <div className="md:col-span-2">
-              <label className="mb-1.5 block text-xs font-bold uppercase tracking-[0.12em] text-[#E6792A]">
+              <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-gray-400">
                 Địa chỉ
               </label>
               <input
@@ -177,11 +185,11 @@ export default function AddressPage() {
                 value={formData.address}
                 onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                 placeholder="Số nhà, tên đường"
-                className="h-11 w-full rounded-lg border border-[#dfe5ee] bg-white/90 px-3 text-sm font-semibold text-[#1f2937] placeholder:text-[#64748b] outline-none transition focus:border-[#E6792A] focus:ring-2 focus:ring-[#E6792A]/10"
+                className="h-11 w-full rounded-xl border border-gray-200 bg-gray-50 px-4 text-sm font-medium text-gray-800 placeholder:text-gray-400 outline-none transition focus:border-[#E6792A] focus:bg-white focus:ring-2 focus:ring-[#E6792A]/10"
               />
             </div>
             <div>
-              <label className="mb-1.5 block text-xs font-bold uppercase tracking-[0.12em] text-[#E6792A]">
+              <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-gray-400">
                 Phường/Xã
               </label>
               <input
@@ -189,11 +197,11 @@ export default function AddressPage() {
                 value={formData.ward}
                 onChange={(e) => setFormData({ ...formData, ward: e.target.value })}
                 placeholder="Phường An Phú"
-                className="h-11 w-full rounded-lg border border-[#dfe5ee] bg-white/90 px-3 text-sm font-semibold text-[#1f2937] placeholder:text-[#64748b] outline-none transition focus:border-[#E6792A] focus:ring-2 focus:ring-[#E6792A]/10"
+                className="h-11 w-full rounded-xl border border-gray-200 bg-gray-50 px-4 text-sm font-medium text-gray-800 placeholder:text-gray-400 outline-none transition focus:border-[#E6792A] focus:bg-white focus:ring-2 focus:ring-[#E6792A]/10"
               />
             </div>
             <div>
-              <label className="mb-1.5 block text-xs font-bold uppercase tracking-[0.12em] text-[#E6792A]">
+              <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-gray-400">
                 Quận/Huyện
               </label>
               <input
@@ -201,11 +209,11 @@ export default function AddressPage() {
                 value={formData.district}
                 onChange={(e) => setFormData({ ...formData, district: e.target.value })}
                 placeholder="Quận Ninh Kiều"
-                className="h-11 w-full rounded-lg border border-[#dfe5ee] bg-white/90 px-3 text-sm font-semibold text-[#1f2937] placeholder:text-[#64748b] outline-none transition focus:border-[#E6792A] focus:ring-2 focus:ring-[#E6792A]/10"
+                className="h-11 w-full rounded-xl border border-gray-200 bg-gray-50 px-4 text-sm font-medium text-gray-800 placeholder:text-gray-400 outline-none transition focus:border-[#E6792A] focus:bg-white focus:ring-2 focus:ring-[#E6792A]/10"
               />
             </div>
             <div>
-              <label className="mb-1.5 block text-xs font-bold uppercase tracking-[0.12em] text-[#E6792A]">
+              <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-gray-400">
                 Tỉnh/Thành phố
               </label>
               <input
@@ -213,11 +221,11 @@ export default function AddressPage() {
                 value={formData.city}
                 onChange={(e) => setFormData({ ...formData, city: e.target.value })}
                 placeholder="TP. Cần Thơ"
-                className="h-11 w-full rounded-lg border border-[#dfe5ee] bg-white/90 px-3 text-sm font-semibold text-[#1f2937] placeholder:text-[#64748b] outline-none transition focus:border-[#E6792A] focus:ring-2 focus:ring-[#E6792A]/10"
+                className="h-11 w-full rounded-xl border border-gray-200 bg-gray-50 px-4 text-sm font-medium text-gray-800 placeholder:text-gray-400 outline-none transition focus:border-[#E6792A] focus:bg-white focus:ring-2 focus:ring-[#E6792A]/10"
               />
             </div>
             <div>
-              <label className="mb-1.5 block text-xs font-bold uppercase tracking-[0.12em] text-[#E6792A]">
+              <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-gray-400">
                 Loại địa chỉ
               </label>
               <div className="flex gap-2">
@@ -233,8 +241,8 @@ export default function AddressPage() {
                       onClick={() => setFormData({ ...formData, type: t.key })}
                       className={`flex items-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-bold transition ${
                         formData.type === t.key
-                          ? "border-[#E6792A] bg-[#E6792A]/10 text-[#E6792A]"
-                          : "border-[#dfe5ee] text-[#1f2937] hover:border-[#E6792A] hover:text-[#E6792A]"
+                          ? "border-[#E6792A] bg-[#FFF4EC] text-[#E6792A]"
+                          : "border-gray-200 bg-gray-50 text-gray-600 hover:border-[#E6792A] hover:text-[#E6792A]"
                       }`}
                     >
                       <TIcon className="h-4 w-4" />
@@ -245,11 +253,11 @@ export default function AddressPage() {
               </div>
             </div>
           </div>
-          <div className="mt-6 flex items-center gap-3 border-t border-[#E6792A]/15 pt-5">
+          <div className="mt-6 flex items-center gap-3 border-t border-gray-100 pt-5">
             <button
               type="button"
               onClick={handleSave}
-              className="inline-flex items-center gap-2 rounded-full bg-[#E6792A] px-5 py-2.5 text-xs font-bold uppercase tracking-[0.14em] text-white shadow-md shadow-[#E6792A]/25 transition hover:bg-[#C66A27]"
+              className="inline-flex items-center gap-2 rounded-xl bg-[#E6792A] px-5 py-2.5 text-xs font-bold uppercase tracking-[0.14em] text-white shadow-md shadow-[#E6792A]/25 transition hover:bg-[#C66A27]"
             >
               {editingId ? "Cập nhật" : "Lưu địa chỉ"}
               <ArrowRight className="h-3.5 w-3.5" />
@@ -260,7 +268,7 @@ export default function AddressPage() {
                 setShowForm(false);
                 setEditingId(null);
               }}
-              className="rounded-full border border-[#E6792A]/25 px-5 py-2.5 text-xs font-bold text-[#1f2937] transition hover:border-[#E6792A] hover:text-[#E6792A]"
+              className="rounded-xl border border-gray-200 px-5 py-2.5 text-xs font-bold text-gray-600 transition hover:border-[#E6792A] hover:text-[#E6792A]"
             >
               Hủy
             </button>
@@ -268,23 +276,25 @@ export default function AddressPage() {
         </BrandCard>
       )}
 
+      {/* Address Cards */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         {addresses.map((addr) => (
           <BrandCard
             key={addr.id}
-            className={`flex min-h-[224px] flex-col overflow-hidden bg-white/92 backdrop-blur-xl transition-all hover:shadow-md ${
-              addr.isDefault ? "ring-2 ring-[#E6792A]/30" : ""
+            className={`overflow-hidden bg-white transition-all hover:shadow-md ${
+              addr.isDefault ? "ring-2 ring-[#E6792A]/20" : ""
             }`}
           >
-            <div className="flex-1 p-4">
-              <div className="flex items-start justify-between">
+            {/* Card Header */}
+            <div className="border-b border-gray-100 bg-gray-50/50 px-5 py-3.5">
+              <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div
-                    className={`flex h-10 w-10 items-center justify-center rounded-xl ${
-                      addr.type === "home"
-                        ? "bg-[#E6792A]/10 text-[#E6792A]"
-                        : "bg-sky-50 text-sky-600"
-                    }`}
+                    className="flex h-10 w-10 items-center justify-center rounded-xl"
+                    style={{
+                      backgroundColor: addr.type === "home" ? "#FFF4EC" : "#F0F9FF",
+                      color: addr.type === "home" ? "#E6792A" : "#0284c7",
+                    }}
                   >
                     {addr.type === "home" ? (
                       <Home className="h-5 w-5" />
@@ -293,69 +303,82 @@ export default function AddressPage() {
                     )}
                   </div>
                   <div>
-                    <p className="text-sm font-black text-[#1f2937]">{addr.name}</p>
-                    <p className="mt-0.5 text-xs font-semibold text-[#1f2937]">
-                      {addr.phone}
-                    </p>
+                    <p className="text-sm font-bold text-gray-900">{addr.name}</p>
+                    <p className="text-xs text-gray-500">{addr.phone}</p>
                   </div>
                 </div>
                 {addr.isDefault && (
-                  <span className="inline-flex items-center gap-1 rounded-full bg-[#E6792A]/10 px-2.5 py-1 text-[10px] font-bold text-[#E6792A]">
+                  <span
+                    className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-bold"
+                    style={{ backgroundColor: "#FFF4EC", color: "#E6792A" }}
+                  >
                     <Star className="h-2.5 w-2.5 fill-[#E6792A] text-[#E6792A]" />
                     Mặc định
                   </span>
                 )}
               </div>
+            </div>
 
-              <div className="mt-3 flex items-start gap-2">
-                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#64748b]" />
-                <p className="text-xs font-semibold leading-relaxed text-[#1f2937]">
+            {/* Address Content */}
+            <div className="px-5 py-4">
+              <div className="flex items-start gap-2.5">
+                <MapPin
+                  className="mt-0.5 h-4 w-4 shrink-0"
+                  style={{ color: "#94a3b8" }}
+                />
+                <p className="text-sm leading-relaxed text-gray-600">
                   {addr.address}, {addr.ward}, {addr.district}, {addr.city}
                 </p>
               </div>
             </div>
 
-            <div className="mt-auto flex min-h-[64px] items-center gap-2 border-t border-[#E6792A]/12 bg-[#fffaf6] px-4 py-3">
-              <button
-                type="button"
-                onClick={() => handleEdit(addr)}
-                className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold text-[#1f2937] transition hover:bg-[#E6792A]/10 hover:text-[#E6792A]"
-              >
-                <Edit3 className="h-3.5 w-3.5" />
-                Sửa
-              </button>
-              {!addr.isDefault && (
+            {/* Actions */}
+            <div className="border-t border-gray-100 bg-gray-50/30 px-5 py-3">
+              <div className="flex items-center gap-2">
                 <button
                   type="button"
-                  onClick={() => handleSetDefault(addr.id)}
-                  className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold text-[#1f2937] transition hover:bg-[#E6792A]/10 hover:text-[#E6792A]"
+                  onClick={() => handleEdit(addr)}
+                  className="inline-flex items-center gap-1.5 rounded-lg bg-white border border-gray-200 px-3 py-2 text-xs font-bold text-gray-700 transition hover:border-[#E6792A] hover:text-[#E6792A]"
                 >
-                  <Check className="h-3.5 w-3.5" />
-                  Đặt mặc định
+                  <Edit3 className="h-3.5 w-3.5" />
+                  Sửa
                 </button>
-              )}
-              {!addr.isDefault && (
-                <button
-                  type="button"
-                  onClick={() => handleDelete(addr.id)}
-                  className="ml-auto inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold text-red-500 transition hover:bg-red-50 hover:text-red-700"
-                >
-                  <Trash2 className="h-3.5 w-3.5" />
-                  Xóa
-                </button>
-              )}
+                {!addr.isDefault && (
+                  <button
+                    type="button"
+                    onClick={() => handleSetDefault(addr.id)}
+                    className="inline-flex items-center gap-1.5 rounded-lg bg-white border border-gray-200 px-3 py-2 text-xs font-bold text-gray-700 transition hover:border-[#E6792A] hover:text-[#E6792A]"
+                  >
+                    <Check className="h-3.5 w-3.5" />
+                    Đặt mặc định
+                  </button>
+                )}
+                {!addr.isDefault && (
+                  <button
+                    type="button"
+                    onClick={() => handleDelete(addr.id)}
+                    className="ml-auto inline-flex items-center gap-1.5 rounded-lg bg-white border border-gray-200 px-3 py-2 text-xs font-bold text-red-500 transition hover:border-red-300 hover:bg-red-50 hover:text-red-700"
+                  >
+                    <Trash2 className="h-3.5 w-3.5" />
+                    Xóa
+                  </button>
+                )}
+              </div>
             </div>
           </BrandCard>
         ))}
       </div>
 
+      {/* Empty State */}
       {addresses.length === 0 && (
-        <BrandCard className="bg-white/92 p-12 text-center backdrop-blur-xl">
-          <MapPin className="mx-auto h-10 w-10 text-[#E6792A]" />
-          <p className="mt-3 text-sm font-black text-[#1f2937]">
+        <BrandCard className="bg-white p-12 text-center">
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gray-100">
+            <MapPin className="h-8 w-8 text-gray-400" />
+          </div>
+          <p className="mt-4 text-base font-bold text-gray-800">
             Chưa có địa chỉ nào
           </p>
-          <p className="mt-1 text-xs font-semibold text-[#1f2937]">
+          <p className="mt-1 text-sm text-gray-500">
             Thêm địa chỉ giao hàng để đặt hàng nhanh hơn
           </p>
         </BrandCard>

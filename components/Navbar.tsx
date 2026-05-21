@@ -422,7 +422,7 @@ export default function Navbar() {
 
             {/* Quick Quote */}
             <WarmButton href="/lien-he" size="sm" variant="filled">
-              Báo Giá Nhanh
+              Liên Hệ Ngay
             </WarmButton>
           </div>
         </div>

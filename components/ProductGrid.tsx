@@ -89,7 +89,7 @@ export default function ProductGrid() {
         >
           <div className="flex items-center justify-center gap-4 mb-3">
             <span className="h-px w-20 md:w-32 bg-amber-800/70" />
-            <h2 className="text-3xl md:text-4xl font-bold mb-0 whitespace-nowrap !text-amber-800">
+            <h2 className="home-section-title whitespace-nowrap uppercase">
               SẢN PHẨM NỔI BẬT
             </h2>
             <span className="h-px w-20 md:w-32 bg-amber-800/70" />

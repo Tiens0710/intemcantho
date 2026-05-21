@@ -61,10 +61,8 @@ export default function OrderProcess() {
             <span className="h-px w-16 md:w-20" style={{ background: "#C8A882" }} />
           </div>
           <p
+            className="home-section-title"
             style={{
-              fontSize: "clamp(1.6rem, 3vw, 2rem)",
-              fontWeight: 700,
-              lineHeight: 1.3,
               color: "#1C1007",
             }}
           >

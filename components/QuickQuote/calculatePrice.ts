@@ -1,4 +1,4 @@
-import { PriceTier, STANDARD_WIDTH, STANDARD_HEIGHT } from "./PricingData";
+import { PriceTier, SALE_PRICE_MULTIPLIER, STANDARD_WIDTH, STANDARD_HEIGHT } from "./PricingData";
 
 export interface PriceResult {
   baseUnitPrice: number;
@@ -25,7 +25,7 @@ function findBasePrice(tiers: PriceTier[], quantity: number): { noLamination: nu
 }
 
 /**
- * Tính hệ số diện tích dựa trên kích thước nhập so với chuẩn 50x50mm
+ * Tính hệ số diện tích dựa trên kích thước nhập so với kích thước chuẩn.
  */
 function calculateSizeFactor(width: number, height: number): number {
   const standardArea = STANDARD_WIDTH * STANDARD_HEIGHT;
@@ -34,7 +34,7 @@ function calculateSizeFactor(width: number, height: number): number {
 }
 
 /**
- * Tính giá đầy đủ: base → nhân hệ số diện tích → chọn loại cán màng
+ * Tính giá đầy đủ: giá gốc → nhân hệ số diện tích → nhân hệ số bán.
  * - "khong" → dùng giá noLamination
  * - "bong" → dùng giá glossyLamination
  */
@@ -52,7 +52,7 @@ export function calculatePrice(
   const baseUnitPrice = (laminationType === "bong" || laminationType === "mo") ? basePrices.glossyLamination : basePrices.noLamination;
   const unitPriceWithSize = Math.round(baseUnitPrice * sizeFactor);
 
-  const unitPrice = unitPriceWithSize;
+  const unitPrice = Math.round(unitPriceWithSize * SALE_PRICE_MULTIPLIER);
   const totalPrice = unitPrice * quantity;
 
   return {

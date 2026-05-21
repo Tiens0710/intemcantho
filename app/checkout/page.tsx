@@ -315,11 +315,11 @@ export default function CheckoutPage() {
   const [selectedProvinceCode, setSelectedProvinceCode] = useState("");
   const [selectedDistrictCode, setSelectedDistrictCode] = useState("");
   const [selectedWardCode, setSelectedWardCode] = useState("");
-  const shippingFee = cart.length > 0 ? shippingOptions[shippingMethod].price : 0;
+  const shippingFee = 0;
   const clearBuyNow = () => {
     setBuyNowItem(null);
   };
-  const orderTotal = cartTotal + shippingFee;
+  const orderTotal = cartTotal;
 
   useEffect(() => {
     let cancelled = false;
@@ -592,11 +592,16 @@ export default function CheckoutPage() {
                             icon={option.icon}
                             label={option.label}
                             description={option.description}
-                            price={option.price}
                             onClick={() => setShippingMethod(key)}
                           />
                         ),
                       )}
+                    </div>
+                    <div className="mt-3 flex items-start gap-2.5 rounded-lg border border-[#E6792A]/20 bg-[#fff8f0] px-3 py-2.5">
+                      <span className="mt-0.5 text-sm shrink-0">📦</span>
+                      <p className="text-[12px] font-bold" style={{ color: "#7a4a20" }}>
+                        Phí vận chuyển sẽ được tính theo đơn vị vận chuyển khi xác nhận đơn hàng
+                      </p>
                     </div>
                   </CheckoutSection>
 
@@ -656,13 +661,15 @@ export default function CheckoutPage() {
                       <span>Tạm tính ({itemCount} sản phẩm)</span>
                       <span className="font-bold text-[#1f2937]">{formatPrice(cartTotal)}</span>
                     </div>
-                    <div className="flex items-center justify-between">
-                      <span>Phí vận chuyển</span>
-                      <span className="font-bold text-[#1f2937]">{formatPrice(shippingFee)}</span>
+                    <div className="rounded-lg border border-[#E6792A]/20 bg-[#fff8f0] px-3 py-2.5">
+                      <div className="flex items-center justify-between">
+                        <span>Phí vận chuyển</span>
+                        <span className="text-[12px] font-bold underline decoration-[#7a4a20]/50 underline-offset-2" style={{ color: "#7a4a20" }}>Tính theo đơn vị vận chuyển</span>
+                      </div>
                     </div>
                     <div className="border-t border-[#e7edf4] pt-3">
                       <div className="flex items-center justify-between">
-                        <span className="font-bold text-[#1f2937]">Tổng cộng</span>
+                        <span className="font-bold text-[#1f2937]">Tạm tính</span>
                         <span className="text-xl font-black text-[#E6792A]">
                           {formatPrice(orderTotal)}
                         </span>
@@ -731,7 +738,7 @@ export default function CheckoutPage() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
               transition={{ type: "spring", duration: 0.5 }}
-              className="relative w-full max-w-lg rounded-2xl border border-[#E6792A]/30 bg-white p-8 text-center shadow-[0_20px_60px_rgba(230,121,42,0.2)] md:p-10"
+              className="relative w-full max-w-md rounded-2xl border border-green-200 bg-white p-6 text-center shadow-[0_20px_60px_rgba(34,197,94,0.12)] md:p-8"
             >
               {/* Close button */}
               <button
@@ -743,51 +750,27 @@ export default function CheckoutPage() {
               </button>
 
               {/* Success Icon */}
-              <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-[#E6792A] to-[#C66A27] shadow-[0_8px_24px_rgba(230,121,42,0.35)]">
-                <CheckCircle className="h-7 w-7 text-white" strokeWidth={2.5} />
+              <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-green-500 to-green-600 shadow-[0_8px_24px_rgba(34,197,94,0.35)]">
+                <CheckCircle className="h-6 w-6 text-white" strokeWidth={2.5} />
               </div>
 
               <h1
-                className="text-lg font-bold uppercase leading-tight text-[#E6792A] md:text-xl"
-                style={{ fontFamily: "'Cormorant Garamond', 'Playfair Display', serif" }}
+                className="font-bold uppercase leading-tight text-green-600"
+                style={{ fontSize: "28px" }}
               >
                 Đặt hàng thành công!
               </h1>
 
-              <p className="mt-3 text-sm font-semibold text-[#64748b]">
-                Cảm ơn bạn đã đặt hàng. Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất.
+              <p className="mt-2 text-xs font-semibold text-[#64748b]">
+                Cảm ơn bạn. Chúng tôi sẽ liên hệ xác nhận trong vòng <span className="font-bold text-green-600">30 phút</span>.
               </p>
 
               {/* Order Info */}
-              <div className="mt-5 rounded-xl border border-dashed border-[#E6792A]/30 bg-[#fff8f3] p-4">
-                <div className="flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-[0.15em] text-[#E6792A]">
-                  <Package className="h-4 w-4" />
-                  Mã đơn hàng
-                </div>
-                <p className="mt-2 font-mono text-lg font-black tracking-wider text-[#1f2937]">
+              <div className="mt-3 rounded-xl border border-dashed border-green-200 bg-green-50/50 p-3">
+                <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-green-600">Mã đơn hàng</p>
+                <p className="mt-1 font-mono text-base font-black tracking-wider text-[#1f2937]">
                   {orderNumber}
                 </p>
-              </div>
-
-              {/* Next Steps */}
-              <div className="mt-5 space-y-2 text-left">
-                <p className="text-xs font-bold uppercase tracking-[0.15em] text-[#E6792A]">
-                  Bước tiếp theo:
-                </p>
-                {[
-                  { step: "1", text: "Chúng tôi sẽ gọi điện xác nhận đơn hàng trong vòng 30 phút." },
-                  { step: "2", text: "Xác nhận file thiết kế và tiến hành in ấn." },
-                  { step: "3", text: "Giao hàng theo phương thức vận chuyển bạn đã chọn." },
-                ].map((item) => (
-                  <div key={item.step} className="flex items-start gap-3">
-                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#E6792A] text-[10px] font-bold text-white">
-                      {item.step}
-                    </span>
-                    <p className="text-xs font-semibold leading-relaxed text-[#1f2937]">
-                      {item.text}
-                    </p>
-                  </div>
-                ))}
               </div>
 
               {/* Actions */}

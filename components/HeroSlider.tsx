@@ -358,7 +358,7 @@ export default function HeroSlider({ slides: slidesProp, sectionId }: HeroSlider
                   <div style={{ margin: '0 0 1.5rem 0' }}>
                     {activeSlide.title.split('\n').map((line, li) => (
                       <div key={li} style={{
-                        fontFamily: "'Cormorant Garamond', 'Playfair Display', serif",
+                        fontFamily: "'Nunito', Arial, Helvetica, sans-serif",
                         fontSize: li === 0 ? 'clamp(3.7rem, 7.5vw, 6.6rem)' : 'clamp(3.2rem, 7.3vw, 6.1rem)',
                         fontWeight: li === 0 ? 700 : 400, color: li === 0 ? '#fff' : '#efe7d8',
                         lineHeight: li === 0 ? 0.95 : 1, textTransform: li === 1 ? 'uppercase' : 'none',
@@ -510,7 +510,7 @@ export default function HeroSlider({ slides: slidesProp, sectionId }: HeroSlider
           alignItems: 'baseline',
         }} className="hero-counter-responsive">
           <span style={{
-            fontFamily: "'Playfair Display', serif",
+            fontFamily: "'Nunito', Arial, Helvetica, sans-serif",
             fontSize: '3.8rem',
             color: '#e0d6c5',
             fontWeight: 400,
