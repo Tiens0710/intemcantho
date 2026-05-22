@@ -5,7 +5,7 @@ export const SITE_URL = (
 ).replace(/\/+$/, "");
 
 export const siteConfig = {
-  name: "Duky Printing",
+  name: "In tem Can Tho",
   description: "In tem nhan decal, bao bi, an pham van phong tai Can Tho.",
   locale: "vi_VN",
 };

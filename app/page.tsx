@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import CategoryGrid from "@/components/CategoryGrid";
 import QuickQuote from "@/components/QuickQuote";
@@ -23,7 +23,7 @@ export default function Home() {
       id: "thu",
       avatar: "/mau-2-150x150.png",
       content:
-        "“In tem nhãn ở nhiều chỗ rồi, nhưng DuKy là nơi đầu tiên làm đúng màu và không làm mình chờ quá lâu. Rất ổn!”",
+        "“In tem nhãn ở nhiều chỗ rồi, nhưng In tem Cần Thơ là nơi đầu tiên làm đúng màu và không làm mình chờ quá lâu. Rất ổn!”",
       author: "Chị Thu",
       role: "Chủ thương hiệu mỹ phẩm handmade",
     },
@@ -31,7 +31,7 @@ export default function Home() {
       id: "trang",
       avatar: "/mau-3png-150x150.png",
       content:
-        "“Đã gửi nhiều file in cho khách, DuKy hỗ trợ kiểm tra trước khi in cực kỳ kỹ. Khỏi lo bị lỗi linh tinh. Đúng gu dân thiết kế!”",
+        "“Đã gửi nhiều file in cho khách, In tem Cần Thơ hỗ trợ kiểm tra trước khi in cực kỳ kỹ. Khỏi lo bị lỗi linh tinh. Đúng gu dân thiết kế!”",
       author: "Trang",
       role: "Freelancer thiết kế",
     },
@@ -47,7 +47,7 @@ export default function Home() {
       id: "minh",
       avatar: "/mau-150x150.png",
       content:
-        "“Mình cần in gấp cho sự kiện, DuKy phản hồi nhanh và giao đúng hẹn. Thành phẩm sạch, màu lên rất ổn.”",
+        "“Mình cần in gấp cho sự kiện, In tem Cần Thơ phản hồi nhanh và giao đúng hẹn. Thành phẩm sạch, màu lên rất ổn.”",
       author: "Minh",
       role: "Chủ shop quà tặng",
     },
@@ -443,7 +443,7 @@ style={{ width: "28px", height: "28px", color: "#FFFFFF" }}
               className="mt-4 mx-auto max-w-lg"
               style={{ fontSize: "14px", fontWeight: 400, color: "#7A6A58", lineHeight: 1.75 }}
             >
-              Hơn 2.000 khách hàng đã tin tưởng và hài lòng với dịch vụ in ấn của DuKy Printing
+              Hơn 2.000 khách hàng đã tin tưởng và hài lòng với dịch vụ in ấn của In tem Cần Thơ
             </p>
           </motion.div>
 
@@ -784,7 +784,7 @@ style={{ width: "28px", height: "28px", color: "#FFFFFF" }}
               {/* Character image */}
               <img
                 src="/cau-hoi-700x827.png"
-                alt="Nhân viên tư vấn DuKy"
+                alt="Nhân viên tư vấn In tem Cần Thơ"
                 className="relative z-10 h-[620px] w-auto object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.2)]"
               />
               {/* Overlay FAQ image placed above the existing character image */}

@@ -25,6 +25,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const coreRoutes: SitemapEntry[] = [
     entry("/", "weekly", 1, now),
+    entry("/gioi-thieu", "weekly", 0.8, now),
     entry("/van-phong", "weekly", 0.85, now),
     entry("/tiep-thi", "weekly", 0.85, now),
     entry("/bao-bi", "weekly", 0.9, now),

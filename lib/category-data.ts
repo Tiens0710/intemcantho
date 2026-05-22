@@ -5,6 +5,10 @@ import {
   FileText,
   Package,
   IdCard,
+  UtensilsCrossed,
+  BookMarked,
+  Ticket,
+  Hash,
   type LucideIcon,
 } from "lucide-react";
 
@@ -424,6 +428,256 @@ export const CATEGORY_DATA: Record<string, CategoryData> = {
         role: "Chủ shop quà tặng",
         content:
           "Mình cần in hộp giấy gấp cho sự kiện, Intem phản hồi nhanh và giao đúng hẹn. Thành phẩm sạch, màu lên rất ổn.",
+        avatar: "/mau-150x150.png",
+        rating: 5,
+      },
+    ],
+  },
+
+  "catalogue": {
+    slug: "catalogue",
+    icon: BookMarked,
+    categoryLabel: "Catalogue",
+    heroBg: "/bgvanphong.png",
+    hero: {
+      title: "In Catalogue Sản Phẩm",
+      subtitle:
+        "Catalogue giới thiệu sản phẩm, giới thiệu công ty – thiết kế chuyên nghiệp, in ấn sắc nét, đa dạng số trang.",
+      bgImage: "/bannercatalog/anphamtiepthi.jpeg",
+      floatingImages: ["/bannercatalog/anphamtiepthi.jpeg", "/danhmuc3.png"],
+    },
+    pricing: {
+      title: "Báo Giá In Catalogue",
+      subtitle: "Catalogue đa dạng số trang, chất liệu và kiểu dáng. Hỗ trợ thiết kế miễn phí.",
+      packages: [
+        { name: "Catalogue 4 trang", quantity: "100 – 500 cuốn", price: "8.000đ/cuốn", note: "Giấy C300 cán mờ" },
+        { name: "Catalogue 8 trang", quantity: "100 – 500 cuốn", price: "15.000đ/cuốn", note: "Giấy C250 cán mờ", popular: true },
+        { name: "Catalogue 12 trang", quantity: "100+ cuốn", price: "22.000đ/cuốn", note: "Giấy C250 cán mờ" },
+      ],
+    },
+    gallery: {
+      title: "Thư Viện Mẫu Catalogue",
+      subtitle: "Catalogue sản phẩm, catalogue công ty đa dạng phong cách.",
+      images: [
+        { src: "/bannercatalog/anphamtiepthi.jpeg", alt: "Catalogue sản phẩm" },
+        { src: "/danhmuc3.png", alt: "Catalogue giới thiệu" },
+        { src: "/danhmuc5.png", alt: "Catalogue công ty" },
+        { src: "/danhmuc6.png", alt: "Catalogue cao cấp" },
+      ],
+    },
+    caseStudy: {
+      client: "Công ty nội thất",
+      industry: "Nội thất – Kiến trúc",
+      challenge:
+        "Cần catalogue 24 trang giới thiệu toàn bộ sản phẩm nội thất cao cấp, phải sang trọng và bắt mắt.",
+      solution:
+        "Thiết kế layout chuyên nghiệp, giấy C250 cán mờ, bìa cứng. Bố cục phân loại sản phẩm rõ ràng.",
+      result:
+        "Catalogue giúp doanh nghiệp chốt deal với nhiều đối tác lớn. Doanh số tăng 40% sau 2 tháng phát hành.",
+      image: "/bannercatalog/anphamtiepthi.jpeg",
+    },
+    testimonials: [
+      {
+        id: "tt-cat-1",
+        author: "Anh Long",
+        role: "Giám đốc kinh doanh",
+        content: "Catalogue in rất đẹp, giấy dày, màu sắc chuẩn. Đối tác khen nức nở!",
+        avatar: "/mau-150x150.png",
+        rating: 5,
+      },
+      {
+        id: "tt-cat-2",
+        author: "Chị Hoa",
+        role: "Chủ showroom nội thất",
+        content: "Giá hợp lý, hỗ trợ thiết kế nhiệt tình. Catalogue hoàn thành đúng hẹn.",
+        avatar: "/mau-4-150x150.png",
+        rating: 5,
+      },
+    ],
+  },
+
+  "menu": {
+    slug: "menu",
+    icon: UtensilsCrossed,
+    categoryLabel: "Menu",
+    heroBg: "/bgvanphong.png",
+    hero: {
+      title: "In Menu Nhà Hàng",
+      subtitle:
+        "Menu cao cấp cho nhà hàng, quán cà phê, quán ăn – thiết kế sang trọng, in ấn sắc nét, đa dạng chất liệu từ nhựa đến giấy mỹ thuật.",
+      bgImage: "/danhmuc3.png",
+      floatingImages: ["/danhmuc3.png", "/danhmuc5.png"],
+    },
+    pricing: {
+      title: "Báo Giá In Menu",
+      subtitle: "Menu đa dạng kích thước, chất liệu và kiểu dáng. Hỗ trợ thiết kế miễn phí.",
+      packages: [
+        {
+          name: "Menu A4 Cuốn",
+          quantity: "50 – 200 cuốn",
+          price: "35.000đ/cuốn",
+          note: "Giấy Couche 200gsm, bìa cứng",
+        },
+        {
+          name: "Menu Plastic Chống Nước",
+          quantity: "50 – 200 cái",
+          price: "28.000đ/cái",
+          note: "Nhựa PVC, chống nước",
+          popular: true,
+        },
+        {
+          name: "Menu Gỗ / Da Cao Cấp",
+          quantity: "20 – 100 bộ",
+          price: "85.000đ/bộ",
+          note: "Bìa gỗ/da, ruột giấy mỹ thuật",
+        },
+      ],
+    },
+    gallery: {
+      title: "Thư Viện Mẫu Menu",
+      subtitle: "Menu nhà hàng, quán cà phê, quán ăn đa dạng phong cách.",
+      images: [
+        { src: "/danhmuc3.png", alt: "Menu nhà hàng" },
+        { src: "/danhmuc5.png", alt: "Menu quán cà phê" },
+        { src: "/danhmuc1.png", alt: "Menu quán ăn" },
+        { src: "/danhmuc6.png", alt: "Menu cao cấp" },
+      ],
+    },
+    caseStudy: {
+      client: "Quán cà phê specialty",
+      industry: "F&B – Cà phê",
+      challenge:
+        "Cần menu thể hiện sự sang trọng, đồng bộ với không gian quán. Chất liệu phải chống nước vì hay bị đổ đồ uống.",
+      solution:
+        "Sử dụng nhựa PVC trong suốt, in UV 2 mặt. Thiết kế minimal với tông nâu – trắng, phối hợp hình ảnh đồ uống thực tế.",
+      result:
+        "Menu mới được khách hàng khen đẹp trên mạng xã hội. Nhiều người chụp ảnh check-in kèm menu, giúp quán viral hơn.",
+      image: "/danhmuc3.png",
+    },
+    testimonials: [
+      {
+        id: "tt-menu-1",
+        author: "Anh Tuấn",
+        role: "Chủ quán cà phê",
+        content:
+          "Menu in rất đẹp, chống nước tốt. Khách hàng chụp ảnh menu up Instagram khen liên tục!",
+        avatar: "/mau-150x150.png",
+        rating: 5,
+      },
+      {
+        id: "tt-menu-2",
+        author: "Chị Mai",
+        role: "Chủ nhà hàng",
+        content:
+          "Intem hỗ trợ thiết kế menu rất chuyên nghiệp. Chất liệu da cao cấp, khách hàng nào cũng khen sang.",
+        avatar: "/mau-4-150x150.png",
+        rating: 5,
+      },
+    ],
+  },
+
+  "voucher": {
+    slug: "voucher",
+    icon: Ticket,
+    categoryLabel: "Voucher",
+    heroBg: "/bgvanphong.png",
+    hero: {
+      title: "In Voucher",
+      subtitle:
+        "Voucher khuyến mãi, phiếu quà tặng và thẻ tích điểm cho cửa hàng, spa, nhà hàng, quán cà phê – in sắc nét, gia công đẹp, dễ thu hút khách hàng.",
+      bgImage: "/anphamtiepthi/voucher/anh1.png",
+      floatingImages: ["/anphamtiepthi/voucher/anh1.png", "/anphamtiepthi/voucher/anh2.png"],
+    },
+    pricing: {
+      title: "Báo Giá In Voucher",
+      subtitle: "Voucher đa dạng kích thước, chất liệu và kiểu gia công. Hỗ trợ thiết kế theo nhận diện thương hiệu.",
+      packages: [
+        { name: "Voucher 1 mặt", quantity: "100 – 500 phiếu", price: "85.000đ/100 phiếu", note: "Giấy C300" },
+        { name: "Voucher 2 mặt", quantity: "100 – 500 phiếu", price: "120.000đ/100 phiếu", note: "Giấy C300" },
+        { name: "Voucher cán màng", quantity: "100+ phiếu", price: "150.000đ/100 phiếu", note: "Cán mờ hoặc cán bóng", popular: true },
+      ],
+    },
+    gallery: {
+      title: "Thư Viện Mẫu Voucher",
+      subtitle: "Voucher giảm giá, gift voucher, thẻ tích điểm đa dạng phong cách.",
+      images: [
+        { src: "/anphamtiepthi/voucher/anh1.png", alt: "Voucher khuyến mãi" },
+        { src: "/anphamtiepthi/voucher/anh2.png", alt: "Gift voucher" },
+        { src: "/anphamtiepthi/voucher/anh3.png", alt: "Thẻ tích điểm" },
+        { src: "/anphamtiepthi/voucher/background.jpeg", alt: "Voucher cao cấp" },
+      ],
+    },
+    caseStudy: {
+      client: "Spa chăm sóc da",
+      industry: "Làm đẹp",
+      challenge:
+        "Cần voucher quà tặng nhìn sang trọng, dễ trao tặng và đồng bộ với màu nhận diện của thương hiệu.",
+      solution:
+        "Thiết kế voucher 2 mặt trên giấy C300, cán mờ, phối màu thương hiệu và bố cục thông tin rõ ràng.",
+      result:
+        "Voucher được dùng hiệu quả trong chiến dịch tặng quà, giúp tăng lượt khách quay lại và mua gói dịch vụ.",
+      image: "/anphamtiepthi/voucher/anh1.png",
+    },
+    testimonials: [
+      {
+        id: "tt-voucher-1",
+        author: "Chị Linh",
+        role: "Chủ spa",
+        content: "Voucher in đẹp, màu sang và giấy cầm chắc tay. Khách nhận quà nhìn rất thích.",
+        avatar: "/mau-150x150.png",
+        rating: 5,
+      },
+    ],
+  },
+
+  "hashtag-cam-tay": {
+    slug: "hashtag-cam-tay",
+    icon: Hash,
+    categoryLabel: "Hashtag cầm tay",
+    heroBg: "/bgvanphong.png",
+    hero: {
+      title: "In Hashtag Cầm Tay",
+      subtitle:
+        "Hashtag cầm tay cho sự kiện, khai trương, booth check-in, sinh nhật và chiến dịch quảng bá - in sắc nét, bế form đẹp, cầm chắc tay và lên hình nổi bật.",
+      bgImage: "/danhmuc2.png",
+      floatingImages: ["/danhmuc2.png", "/standee/section1_1.png"],
+    },
+    pricing: {
+      title: "Báo Giá In Hashtag Cầm Tay",
+      subtitle: "Hashtag đa dạng kích thước, chất liệu và kiểu bế form. Hỗ trợ thiết kế theo nhận diện thương hiệu.",
+      packages: [
+        { name: "Hashtag form đơn", quantity: "10 - 50 cái", price: "25.000đ/cái", note: "PP bồi formex 3mm" },
+        { name: "Hashtag form lớn", quantity: "10 - 50 cái", price: "45.000đ/cái", note: "PP bồi formex 5mm", popular: true },
+        { name: "Hashtag theo bộ", quantity: "5 mẫu trở lên", price: "150.000đ/bộ", note: "Bế theo yêu cầu" },
+      ],
+    },
+    gallery: {
+      title: "Thư Viện Mẫu Hashtag Cầm Tay",
+      subtitle: "Hashtag check-in, hashtag khai trương, hashtag sự kiện và mẫu cầm tay theo nhận diện thương hiệu.",
+      images: [
+        { src: "/danhmuc2.png", alt: "Hashtag check-in" },
+        { src: "/standee/section1_1.png", alt: "Hashtag sự kiện" },
+        { src: "/standee/section1_2.png", alt: "Hashtag thương hiệu" },
+        { src: "/danhmuc4.png", alt: "Hashtag khai trương" },
+      ],
+    },
+    caseStudy: {
+      client: "Cửa hàng mỹ phẩm",
+      industry: "Sự kiện khai trương",
+      challenge:
+        "Cần bộ hashtag cầm tay đồng bộ với màu thương hiệu để khách chụp ảnh check-in trong ngày khai trương.",
+      solution:
+        "Thiết kế hashtag theo slogan, in PP bồi formex, cán mờ và bế theo từng dáng chữ để khách dễ cầm khi chụp ảnh.",
+      result:
+        "Hình ảnh check-in nổi bật hơn, giúp cửa hàng có nhiều nội dung đăng mạng xã hội ngay trong ngày khai trương.",
+      image: "/danhmuc2.png",
+    },
+    testimonials: [
+      {
+        id: "tt-hashtag-1",
+        author: "Chị Ngọc",
+        role: "Tổ chức sự kiện",
+        content: "Hashtag cầm tay lên màu đẹp, form chắc và khách chụp ảnh check-in rất thích.",
         avatar: "/mau-150x150.png",
         rating: 5,
       },

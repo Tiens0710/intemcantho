@@ -54,6 +54,7 @@ export default function MarketingProducts() {
       breadcrumbLabel="Ấn phẩm tiếp thị"
       titleMain="Ấn phẩm"
       titleAccent="tiếp thị"
+      heroBackgroundImage="/kinhnghiem/background.png"
       description="Các sản phẩm in ấn chuyên nghiệp cho tiếp thị và quảng cáo. Từ backdrop đến catalogue, mỗi sản phẩm đều được thiết kế để tạo ấn tượng mạnh mẽ."
       features={[
         { icon: <Award className="w-3 h-3" />, title: "Chất lượng", desc: "Sắc nét" },

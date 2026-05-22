@@ -3,6 +3,7 @@ export interface NavItem {
   href: string;
   activePaths?: string[];
   megaMenu?: MegaMenuConfig;
+  dropdownItems?: { label: string; href: string }[];
 }
 
 export interface MegaMenuConfig {
@@ -14,6 +15,7 @@ export interface MegaMenuConfig {
   };
   columns: {
     title: string;
+    href?: string;
     items: {
       label: string;
       href: string;
@@ -22,33 +24,86 @@ export interface MegaMenuConfig {
 }
 
 export const navigationData: NavItem[] = [
-  { label: "Trang chủ", href: "/" },
   {
-    label: "Dịch vụ",
-    href: "/van-phong",
-    activePaths: ["/dich-vu"],
+    label: "Giới thiệu",
+    href: "/gioi-thieu",
+    activePaths: ["/gioi-thieu"],
+  },
+  {
+    label: "Tem nhãn Decal",
+    href: "/dich-vu/nhan-dan",
+    activePaths: ["/dich-vu/nhan-dan", "/bao-bi"],
     megaMenu: {
       banner: {
         src: "/danhmuc1.png",
-        alt: "Dịch vụ in ấn Intem Cần Thơ",
-        title: "Giải pháp in ấn",
-        subtitle: "Trọn gói & chuyên nghiệp",
+        alt: "Tem nhãn Decal",
+        title: "Tem Nhãn & Decal",
+        subtitle: "Nâng tầm thương hiệu",
       },
       columns: [
         {
-          title: "DỊCH VỤ IN ẤN",
+          title: "DECAL GIẤY",
+          href: "/dich-vu/nhan-dan",
           items: [
-            { label: "In tem nhãn", href: "/dich-vu/nhan-dan" },
-            { label: "In standee khổ lớn", href: "/dich-vu/standee" },
-            { label: "In brochure / tờ gấp", href: "/danh-muc/to-gap" },
+            { label: "Decal giấy", href: "/dich-vu/nhan-dan" },
+            { label: "Decal giấy kraft", href: "/dich-vu/nhan-dan" },
           ],
         },
         {
-          title: "THIẾT KẾ & IN ẤN",
+          title: "DECAL NHỰA & XI",
+          href: "/dich-vu/nhan-dan",
           items: [
-            { label: "In tờ rơi", href: "/dich-vu/to-roi" },
-            { label: "In bao bì", href: "/dich-vu/in-bao-bi" },
-            { label: "In danh thiếp", href: "/dich-vu/danh-thiep" },
+            { label: "Decal nhựa / trong", href: "/dich-vu/nhan-dan" },
+            { label: "Decal xi bạc / xi vàng", href: "/dich-vu/nhan-dan" },
+            { label: "Decal UV DTF", href: "/dich-vu/nhan-dan" },
+          ],
+        },
+        {
+          title: "TEM & DECAL KHỔ LỚN",
+          href: "/dich-vu/nhan-dan",
+          items: [
+            { label: "Tem bể bảo hành", href: "/dich-vu/nhan-dan" },
+            { label: "Decal khổ lớn", href: "/dich-vu/nhan-dan" },
+          ],
+        },
+      ],
+    },
+  },
+  {
+    label: "Ấn phẩm tiếp thị",
+    href: "/tiep-thi",
+    activePaths: ["/tiep-thi", "/tiep-thi/menu", "/tiep-thi/catalogue", "/tiep-thi/voucher", "/tiep-thi/hashtag-cam-tay"],
+    megaMenu: {
+      banner: {
+        src: "/danhmuc4.png",
+        alt: "Ấn phẩm tiếp thị",
+        title: "Ấn Phẩm Tiếp Thị",
+        subtitle: "Giải pháp tiếp thị",
+      },
+      columns: [
+        {
+          title: "TỜ RƠI & TỜ GẤP",
+          href: "/tiep-thi",
+          items: [
+            { label: "Tờ rơi / tờ gấp", href: "/dich-vu/to-roi" },
+            { label: "Standee PP", href: "/dich-vu/standee" },
+            { label: "Bạt hiflex", href: "/tiep-thi" },
+          ],
+        },
+        {
+          title: "MENU & VOUCHER",
+          href: "/tiep-thi",
+          items: [
+            { label: "Menu", href: "/tiep-thi/menu" },
+            { label: "Voucher / thẻ tích điểm", href: "/tiep-thi/voucher" },
+          ],
+        },
+        {
+          title: "CATALOGUE & KHÁC",
+          href: "/tiep-thi",
+          items: [
+            { label: "Catalogue sản phẩm", href: "/tiep-thi/catalogue" },
+            { label: "Hashtag cầm tay", href: "/tiep-thi/hashtag-cam-tay" },
           ],
         },
       ],
@@ -62,118 +117,78 @@ export const navigationData: NavItem[] = [
       banner: {
         src: "/banner_doc.webp",
         alt: "Ấn phẩm văn phòng",
-        title: "In Ấn Bao Thư Nhỏ",
-        subtitle: "Bao thư",
+        title: "Ấn Phẩm Văn Phòng",
+        subtitle: "Chuyên nghiệp & Đẳng cấp",
       },
       columns: [
         {
           title: "DANH THIẾP",
+          href: "/dich-vu/danh-thiep",
           items: [
-            { label: "Danh thiếp kỹ thuật số", href: "/dich-vu/danh-thiep" },
-            { label: "Danh thiếp in nhanh", href: "/dich-vu/danh-thiep" },
-            { label: "Danh thiếp bo góc", href: "/dich-vu/danh-thiep" },
-            { label: "Danh thiếp vuông", href: "/dich-vu/danh-thiep" },
+            { label: "Danh thiếp - Namecard", href: "/dich-vu/danh-thiep" },
           ],
         },
         {
-          title: "FOLDER THƯƠNG HIỆU",
-          items: [{ label: "Folder đựng tài liệu", href: "/van-phong" }],
-        },
-        {
-          title: "BAO THƯ",
+          title: "BAO THƯ & FOLDER",
+          href: "/van-phong",
           items: [
-            { label: "Bao thư nhỏ", href: "/van-phong" },
-            { label: "Bao thư A4", href: "/van-phong" },
+            { label: "Bao thư", href: "/van-phong" },
+            { label: "Bìa đựng hồ sơ - Folder", href: "/van-phong" },
+            { label: "Hồ sơ năng lực", href: "/van-phong" },
           ],
         },
         {
-          title: "ĐỒNG PHỤC",
+          title: "ĐỒNG PHỤC & KHÁC",
+          href: "/van-phong",
           items: [
-            { label: "Đồng phục cổ trụ", href: "/van-phong" },
-            { label: "Đồng phục cổ tròn", href: "/van-phong" },
+            { label: "Áo thun đồng phục", href: "/van-phong" },
+            { label: "Bảng khen", href: "/van-phong" },
           ],
         },
       ],
     },
   },
   {
-    label: "Ấn phẩm tiếp thị",
-    href: "/tiep-thi",
-    activePaths: ["/tiep-thi"],
+    label: "In ảnh",
+    href: "/in-anh",
+    activePaths: ["/in-anh"],
     megaMenu: {
       banner: {
-        src: "https://d2xsxph8kpxj0f.cloudfront.net/90078694/ERMxTyYJFnFBQeNjeF6P4w/service-brochure-luxury-DDmwtYLkufziWByNSE9fSY.webp",
-        alt: "Ấn phẩm tiếp thị",
-        title: "Brochure & Catalogue",
-        subtitle: "Giải pháp tiếp thị",
+        src: "/danhmuc3.png",
+        alt: "In ảnh",
+        title: "Dịch Vụ In Ảnh",
+        subtitle: "Lưu giữ khoảnh khắc",
       },
       columns: [
         {
-          title: "SỰ KIỆN",
+          title: "ẢNH ÉP",
+          href: "/in-anh",
           items: [
-            { label: "Backdrop Sự Kiện", href: "/tiep-thi" },
-            { label: "Băng Rôn Hiflex", href: "/tiep-thi" },
-            { label: "Standee Quảng Cáo", href: "/dich-vu/standee" },
+            { label: "Ảnh ép nhựa", href: "/in-anh" },
+            { label: "Ảnh ép gỗ", href: "/in-anh" },
           ],
         },
         {
-          title: "QUẢNG CÁO",
+          title: "ẢNH CHÂN DUNG",
+          href: "/in-anh",
           items: [
-            { label: "Catalogue Sản Phẩm", href: "/tiep-thi" },
-            { label: "Brochure Gấp 3/4", href: "/tiep-thi" },
-            { label: "Tờ Rơi - Leaflet", href: "/tiep-thi" },
-          ],
-        },
-        {
-          title: "NHÀ HÀNG & CAFE",
-          items: [
-            { label: "Menu Cao Cấp", href: "/tiep-thi" },
-            { label: "Thẻ Nhựa / Member Card", href: "/tiep-thi" },
-            { label: "Lót Ly / Coaster", href: "/tiep-thi" },
+            { label: "Ảnh cưới", href: "/in-anh" },
+            { label: "Ảnh trending", href: "/in-anh" },
+            { label: "Photobook", href: "/in-anh" },
+            { label: "Bảng gôn cổ vũ", href: "/in-anh" },
           ],
         },
       ],
     },
   },
   {
-    label: "Ấn phẩm bao bì",
-    href: "/bao-bi",
-    activePaths: ["/bao-bi"],
-    megaMenu: {
-      banner: {
-        src: "https://d2xsxph8kpxj0f.cloudfront.net/90078694/ERMxTyYJFnFBQeNjeF6P4w/service-packaging-luxury-RYsTx6Y8m5SoyfySkzLoUA.webp",
-        alt: "Ấn phẩm bao bì",
-        title: "Tem Nhãn & Decal",
-        subtitle: "Nâng tầm thương hiệu",
-      },
-      columns: [
-        {
-          title: "DECAL TEM NHÃN",
-          items: [
-            { label: "Decal giấy", href: "/bao-bi" },
-            { label: "Decal nhựa chống nước", href: "/bao-bi" },
-            { label: "Decal UV DTF nổi", href: "/bao-bi" },
-            { label: "Decal xi bạc / xi vàng", href: "/bao-bi" },
-          ],
-        },
-        {
-          title: "TEM BẢO HÀNH",
-          items: [
-            { label: "Tem bể bảo hành", href: "/bao-bi" },
-            { label: "Tem hologram chống giả", href: "/bao-bi" },
-          ],
-        },
-        {
-          title: "BAO BÌ SẢN PHẨM",
-          items: [
-            { label: "In ấn túi giấy", href: "/bao-bi" },
-            { label: "Hộp giấy carton", href: "/bao-bi" },
-            { label: "Màng co sản phẩm", href: "/bao-bi" },
-          ],
-        },
-      ],
-    },
+    label: "Kinh nghiệm",
+    href: "/kinh-nghiem",
+    activePaths: ["/kinh-nghiem", "/kinh-nghiem/kien-thuc", "/kinh-nghiem/tin-tuc"],
+    dropdownItems: [
+      { label: "Kiến Thức In Ấn", href: "/kinh-nghiem/kien-thuc" },
+      { label: "Tin Tức", href: "/kinh-nghiem/tin-tuc" },
+    ],
   },
-  { label: "Kinh nghiệm", href: "/kinh-nghiem" },
   { label: "Liên hệ", href: "/lien-he" },
 ];

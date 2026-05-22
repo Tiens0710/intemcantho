@@ -88,7 +88,7 @@ export default function OnboardingModal() {
                 className="text-center mb-8"
               >
                 <h2 className="text-3xl md:text-4xl font-bold mb-3 text-foreground">
-                  Chào mừng đến với Duky Printing
+                  Chào mừng đến với In tem Cần Thơ
                 </h2>
                 <p className="text-lg text-muted-foreground">
                   Hãy cho chúng tôi biết bạn là ai để chúng tôi có thể gợi ý những sản phẩm phù hợp nhất
@@ -161,7 +161,7 @@ export default function OnboardingModal() {
             </div>
           </motion.div>
         </>
-      )}y
+      )}
     </AnimatePresence>
   );
 }

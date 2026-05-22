@@ -56,7 +56,7 @@ export const BannerPage = ({ className }: BannerPageProps) => {
                 href="https://www.facebook.com/intemcantho.duky"
                 style={{ color: "#1a1a1a" }}
               >
-                In Tem Cần Thơ - Duky Printing
+                In Tem Cần Thơ
               </Link>
             </h5>
             <p className="text-[12px] mt-0.5" style={{ color: "#6b7280" }}>

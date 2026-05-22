@@ -321,7 +321,7 @@ Bao bì không chỉ có chức năng bảo vệ sản phẩm mà còn là "ngư
   {
     id: 8,
     slug: "in-nhanh-lay-lien-tai-can-tho",
-    title: "In nhanh lấy liền tại Cần Thơ – Duky Printing",
+    title: "In nhanh lấy liền tại Cần Thơ – In tem Cần Thơ",
     date: "10 Tháng 4, 2024",
     readTime: "6 phút đọc",
     category: "mua-in",
@@ -347,7 +347,7 @@ Bao bì không chỉ có chức năng bảo vệ sản phẩm mà còn là "ngư
 
 [imggrid:/VIET-ARGO-1.jpg|/TNF.jpg]
 
-### Ưu điểm in nhanh tại Duky Printing:
+### Ưu điểm in nhanh tại In tem Cần Thơ:
 
 - **Thời gian nhanh**: In lấy liền trong ngày
 - **Chất lượng đảm bảo**: Máy in offset hiện đại
@@ -368,7 +368,7 @@ Bao bì không chỉ có chức năng bảo vệ sản phẩm mà còn là "ngư
       "https://d2xsxph8kpxj0f.cloudfront.net/90078694/ERMxTyYJFnFBQeNjeF6P4w/service-packaging-luxury-RYsTx6Y8m5SoyfySkzLoUA.webp",
     excerpt:
       "Nhu cầu in menu giá rẻ Cần Thơ ngày càng tăng cao, đặc biệt với các quán ăn, quán cà phê, trà sữa hay nhà hàng mới mở.",
-    content: `Nhu cầu in menu giá rẻ Cần Thơ ngày càng tăng cao, đặc biệt với các quán ăn, quán cà phê, trà sữa hay nhà hàng mới mở. Nếu đang tìm một đơn vị in menu uy tín, Duky Printing là lựa chọn tốt.
+    content: `Nhu cầu in menu giá rẻ Cần Thơ ngày càng tăng cao, đặc biệt với các quán ăn, quán cà phê, trà sữa hay nhà hàng mới mở. Nếu đang tìm một đơn vị in menu uy tín, In tem Cần Thơ là lựa chọn tốt.
 
 ![In menu giá rẻ Cần Thơ](https://d2xsxph8kpxj0f.cloudfront.net/90078694/ERMxTyYJFnFBQeNjeF6P4w/service-packaging-luxury-RYsTx6Y8m5SoyfySkzLoUA.webp)
 
@@ -408,6 +408,350 @@ Bao bì không chỉ có chức năng bảo vệ sản phẩm mà còn là "ngư
 - Cập nhật thường xuyên
 
 ![Thiết kế menu đồng bộ](/110-1.jpg)`,
+  },
+  {
+    id: 10,
+    slug: "in-decal-dong-ranh-gia-re-can-tho",
+    title: "In decal dán rạn giá rẻ tại Cần Thơ",
+    date: "06 Tháng 4, 2024",
+    readTime: "4 phút đọc",
+    category: "mua-in",
+    categoryLabel: "Mua in ấn",
+    image:
+      "https://d2xsxph8kpxj0f.cloudfront.net/90078694/ERMxTyYJFnFBQeNjeF6P4w/service-labels-luxury-2gNgfReHpRXZq4kdAfZqaT.webp",
+    excerpt:
+      "Dịch vụ in decal dán rạn giá rẻ tại Cần Thơ giúp doanh nghiệp bảo vệ sản phẩm khỏi va đập trong quá trình vận chuyển.",
+    content: `Dịch vụ in decal dán rạn giá rẻ tại Cần Thơ đang được nhiều doanh nghiệp sản xuất quan tâm, đặc biệt trong ngành thực phẩm và đồ uống.
+
+## Decal dán rạn là gì?
+
+Decal dán rạn là loại tem nhãn được dán trực tiếp lên sản phẩm玻璃 hoặc chai nhựa để cảnh báo người dùng về cách vận chuyển an toàn.
+
+![Decal dán rạn sản phẩm](/214-1.jpg)
+
+### Ưu điểm decal dán rạn:
+
+1. **Bảo vệ sản phẩm**: Ngăn ngừa va đập trong quá trình vận chuyển
+2. **Tiết kiệm chi phí**: So với việc sử dụng bao bì bảo vệ cứng
+3. **Dễ dàng sử dụng**: Dán trực tiếp lên bề mặt sản phẩm
+4. **Tùy chỉnh**: Có thể in logo và thông tin thương hiệu
+
+[imggrid:/215-1.jpg|/217.jpg]
+
+## Quy cách in decal
+
+- Kích thước: Theo yêu cầu
+- Chất liệu: Decal trong, decal giấy
+- Màu sắc: In offset 4 màu hoặc in Flexo
+
+![Decal in offset](/219.jpg)
+
+Liên hệ In tem Cần Thơ để được tư vấn và báo giá tốt nhất!`,
+  },
+  {
+    id: 11,
+    slug: "in-tem-bao-hanh-chinh-hang-can-tho",
+    title: "In tem bảo hành chính hãng tại Cần Thơ",
+    date: "04 Tháng 4, 2024",
+    readTime: "5 phút đọc",
+    category: "mua-in",
+    categoryLabel: "Mua in ấn",
+    image:
+      "https://d2xsxph8kpxj0f.cloudfront.net/90078694/ERMxTyYJFnFBQeNjeF6P4w/service-packaging-luxury-RYsTx6Y8m5SoyfySkzLoUA.webp",
+    excerpt:
+      "In tem bảo hành chính hãng giúp doanh nghiệp khẳng định chất lượng sản phẩm và tạo niềm tin với khách hàng.",
+    content: `In tem bảo hành chính hãng tại Cần Thơ là nhu cầu thiết yếu của nhiều doanh nghiệp sản xuất và phân phối sản phẩm.
+
+## Tại sao cần tem bảo hành?
+
+Tem bảo hành không chỉ giúp khách hàng yên tâm sử dụng sản phẩm mà còn là cách doanh nghiệp thể hiện trách nhiệm và cam kết chất lượng.
+
+![Tem bảo hành chính hãng](/AQUAVINA.jpg)
+
+### Các loại tem bảo hành phổ biến:
+
+- **Tem日期**: In ngày sản xuất, hạn sử dụng
+- **Tem số serial**: Đánh số thứ tự theo lô hàng
+- **Tem hologram**: Chống giả, bảo mật cao
+- **Tem bảy màu**: Chống giả hiệu quả
+
+[imggrid:/FPT.jpg|/DXMT.jpg]
+
+## Quy trình đặt hàng tem bảo hành
+
+1. Liên hệ tư vấn loại tem phù hợp
+2. Thiết kế mẫu tem
+3. Duyệt mẫu và in thử
+4. In ấn số lượng lớn
+5. Kiểm tra chất lượng
+6. Giao hàng
+
+![Tem bảo hành hologram](/MTC-e1761967872338.jpg)`,
+  },
+  {
+    id: 12,
+    slug: "in-catalogue-san-pham-gia-re-can-tho",
+    title: "In catalogue sản phẩm giá rẻ Cần Thơ",
+    date: "01 Tháng 4, 2024",
+    readTime: "5 phút đọc",
+    category: "mua-in",
+    categoryLabel: "Mua in ấn",
+    image:
+      "https://d2xsxph8kpxj0f.cloudfront.net/90078694/ERMxTyYJFnFBQeNjeF6P4w/service-brochure-luxury-DDmwtYLkufziWByNSE9fSY.webp",
+    excerpt:
+      "In catalogue sản phẩm giá rẻ giúp doanh nghiệp tiếp cận khách hàng hiệu quả thông qua ấn phẩm giới thiệu sản phẩm.",
+    content: `In catalogue sản phẩm giá rẻ tại Cần Thơ là giải pháp marketing truyền thống nhưng vẫn mang lại hiệu quả cao cho doanh nghiệp.
+
+## Catalogue là gì?
+
+Catalogue là ấn phẩm in ấn giới thiệu đầy đủ thông tin về sản phẩm, dịch vụ của doanh nghiệp, giúp khách hàng tiềm năng hiểu rõ hơn về offerings.
+
+![Catalogue sản phẩm chuyên nghiệp](/2.jpg)
+
+### Các loại catalogue phổ biến:
+
+1. **Catalogue A4**: Kích thước chuẩn, phổ biến nhất
+2. **Catalogue A5**: Nhỏ gọn, tiết kiệm chi phí
+3. **Catalogue gấp đôi**: Tiết kiệm không gian
+4. **Catalogue booklet**: Nhiều trang, đầy đủ thông tin
+
+[imggrid:/34.jpg|/225.jpg]
+
+## Lưu ý khi in catalogue
+
+- Chọn chất liệu giấy phù hợp
+- Thiết kế bố cục rõ ràng, dễ đọc
+- Hình ảnh chất lượng cao
+- Thông tin chính xác, cập nhật
+
+![Catalogue in offset](/110-1.jpg)`,
+  },
+  {
+    id: 13,
+    slug: "in-phong-bi-vo-buu-pham-can-tho",
+    title: "In phong bì,velop bưu phẩm tại Cần Thơ",
+    date: "29 Tháng 3, 2024",
+    readTime: "4 phút đọc",
+    category: "mua-in",
+    categoryLabel: "Mua in ấn",
+    image:
+      "https://d2xsxph8kpxj0f.cloudfront.net/90078694/ERMxTyYJFnFBQeNjeF6P4w/service-packaging-luxury-RYsTx6Y8m5SoyfySkzLoUA.webp",
+    excerpt:
+      "In phong bìvelop bưu phẩm giúp doanh nghiệp chuyên nghiệp hóa việc gửi thư từ và tài liệu cho đối tác, khách hàng.",
+    content: `In phong bìvelop bưu phẩm tại Cần Thơ giúp doanh nghiệp tạo ấn tượng chuyên nghiệp ngay từ lần gửi thư đầu tiên.
+
+## Tầm quan trọng của phong bì chuyên nghiệp
+
+Một chiếc phong bì được thiết kế tốt không chỉ bảo vệ tài liệu bên trong mà còn thể hiện sự chuyên nghiệp và chú trọng đến chi tiết của doanh nghiệp.
+
+![Phong bì in logo](/NHAT-TAM-e1761967849296.jpg)
+
+### Các kích thước phong bì phổ biến:
+
+- **Phong bì A4**: Kích thước phổ biến nhất
+- **Phong bì A5**: Cho tài liệu gấp đôi
+- **Phong bì C5**: Phù hợp thư từ hành chính
+- **Phong bì C4**: Cho tài liệu không gấp
+
+[imggrid:/VIET-ARGO-1.jpg|/TNF.jpg]
+
+## Quy cách in phong bì
+
+- Giấy: Couché 120gsm, Kraft
+- In offset 1-2 màu
+- Có thể cán màng hoặc không
+
+![Phong bì in offset](/37-1500x1500.jpg)`,
+  },
+  {
+    id: 14,
+    slug: "in-nhan-sticker-decor-quan-ca-phe",
+    title: "In nhãn sticker decor quán cà phê",
+    date: "27 Tháng 3, 2024",
+    readTime: "3 phút đọc",
+    category: "mua-in",
+    categoryLabel: "Mua in ấn",
+    image:
+      "https://d2xsxph8kpxj0f.cloudfront.net/90078694/ERMxTyYJFnFBQeNjeF6P4w/service-labels-luxury-2gNgfReHpRXZq4kdAfZqaT.webp",
+    excerpt:
+      "In nhãn sticker decor giúp quán cà phê tạo phong cách riêng, thu hút khách hàng thông qua bao bì sản phẩm bắt mắt.",
+    content: `In nhãn sticker decor quán cà phê tại Cần Thơ đang trở thành xu hướng phổ biến, giúp các quán tạo dấu ấn riêng trong lòng khách hàng.
+
+## Sticker decor quán cà phê
+
+Sticker decor không chỉ đơn thuần là tem nhãn mà còn là công cụ marketing hiệu quả, giúp quán xây dựng thương hiệu một cách tự nhiên.
+
+![Sticker decor quán cà phê](/2.jpg)
+
+### Các loại sticker phổ biến:
+
+1. **Sticker decal trong**: Sang trọng, phù hợp ly nhựa
+2. **Sticker giấy**: Ấm cúng, phù hợp ly giấy
+3. **Sticker hologram**: Độc đáo, cao cấp
+4. **Sticker custom shape**: Theo hình dáng logo
+
+[imggrid:/34.jpg|/180-1.jpg]
+
+## Mẹo thiết kế sticker hiệu quả
+
+- Đơn giản, dễ nhận diện
+- Sử dụng màu sắc thương hiệu
+- Kích thước phù hợp bao bì
+- Chất liệu phù hợp loại thức uống
+
+![Sticker decal trong](/225.jpg)`,
+  },
+  {
+    id: 15,
+    slug: "in-the-nhan-vien-pvc-gia-re-can-tho",
+    title: "In thẻ nhân viên PVC giá rẻ Cần Thơ",
+    date: "25 Tháng 3, 2024",
+    readTime: "4 phút đọc",
+    category: "mua-in",
+    categoryLabel: "Mua in ấn",
+    image:
+      "https://d2xsxph8kpxj0f.cloudfront.net/90078694/ERMxTyYJFnFBQeNjeF6P4w/service-brochure-luxury-DDmwtYLkufziWByNSE9fSY.webp",
+    excerpt:
+      "In thẻ nhân viên PVC giá rẻ giúp doanh nghiệp chuyên nghiệp hóa quản lý nhân sự và tạo sự đồng bộ trong nội bộ.",
+    content: `In thẻ nhân viên PVC giá rẻ tại Cần Thơ là giải pháp phổ biến giúp doanh nghiệp quản lý nhân sự hiệu quả và chuyên nghiệp.
+
+## Lợi ích của thẻ nhân viên PVC
+
+Thẻ nhân viên PVC không chỉ giúp nhận diện nhân viên mà còn tích hợp nhiều tính năng như chấm công, mở khóa, thanh toán nội bộ.
+
+![Thẻ nhân viên PVC](/VIET-ARGO-1.jpg)
+
+### Các tính năng tích hợp:
+
+- **In ảnh màu**: Chân dung nhân viên sắc nét
+- **Dải từ**: Chấm công tự động
+- **QR code**: Quản lý truy cập
+- **Logo doanh nghiệp**: Nhận diện thương hiệu
+
+[imggrid:/NHAT-TAM-e1761967849296.jpg|/TNF.jpg]
+
+## Quy cách in thẻ
+
+- Kích thước: 86 x 54mm (chuẩn ATM)
+- Chất liệu: PVC 0.76mm
+- In offset hoặc in kỹ thuật số
+- Đóng rãnh, cắt góc
+
+![Thẻ nhân viên chuyên nghiệp](/2.jpg)`,
+  },
+  {
+    id: 16,
+    slug: "in-bia-ho-so-nang-luc-gia-re",
+    title: "In bìa hồ sơ năng lực giá rẻ Cần Thơ",
+    date: "23 Tháng 3, 2024",
+    readTime: "5 phút đọc",
+    category: "mua-in",
+    categoryLabel: "Mua in ấn",
+    image:
+      "https://d2xsxph8kpxj0f.cloudfront.net/90078694/ERMxTyYJFnFBQeNjeF6P4w/service-packaging-luxury-RYsTx6Y8m5SoyfySkzLoUA.webp",
+    excerpt:
+      "In bìa hồ sơ năng lực giúp doanh nghiệp trình bày chuyên nghiệp các dự án và khả năng thi công khi tham gia đấu thầu.",
+    content: `In bìa hồ sơ năng lực giá rẻ tại Cần Thơ giúp doanh nghiệp tạo ấn tượng chuyên nghiệp khi tham gia đấu thầu và chào thầu dự án.
+
+## Hồ sơ năng lực là gì?
+
+Hồ sơ năng lực (Capability Statement) là tài liệu giới thiệu năng lực, kinh nghiệm và thành tích của doanh nghiệp, thường được sử dụng trong các gói thầu.
+
+![Bìa hồ sơ năng lực](/AQUAVINA.jpg)
+
+### Các yếu tố quan trọng:
+
+1. **Thiết kế chuyên nghiệp**: Tạo niềm tin ban đầu
+2. **Thông tin đầy đủ**: Giấy phép, kinh nghiệm, nhân sự
+3. **Hình ảnh minh họa**: Dự án đã thực hiện
+4. **Bố cục khoa học**: Dễ tìm kiếm thông tin
+
+[imggrid:/FPT.jpg|/DXMT.jpg]
+
+## Quy cách in bìa hồ sơ
+
+- Kích thước: A4 hoặc theo yêu cầu
+- Chất liệu: Couché 300gsm, giấy mỹ thuật
+- Gia công: Cán màng, ép nhũ, bế nổi
+- Số lượng: Theo yêu cầu
+
+![Hồ sơ năng lực chuyên nghiệp](/MTC-e1761967872338.jpg)`,
+  },
+  {
+    id: 17,
+    slug: "in-giay-note-sticky-note-theo-yeu-cau",
+    title: "In giấy note, sticky note theo yêu cầu",
+    date: "21 Tháng 3, 2024",
+    readTime: "3 phút đọc",
+    category: "mua-in",
+    categoryLabel: "Mua in ấn",
+    image:
+      "https://d2xsxph8kpxj0f.cloudfront.net/90078694/ERMxTyYJFnFBQeNjeF6P4w/service-labels-luxury-2gNgfReHpRXZq4kdAfZqaT.webp",
+    excerpt:
+      "In giấy note, sticky note theo yêu cầu giúp doanh nghiệp tạo ấn phẩm văn phòng độc đáo, phục vụ marketing và quà tặng.",
+    content: `In giấy note, sticky note theo yêu cầu tại Cần Thơ giúp doanh nghiệp có thêm một công cụ marketing sáng tạo và hữu ích.
+
+## Giấy note là gì?
+
+Giấy note (sticky note) là loại giấy có lớp keo dán tạm thời, có thể gỡ ra và dán lại nhiều lần mà không để lại vết keo.
+
+![Giấy note in logo](/110-1.jpg)
+
+### Các loại giấy note:
+
+1. **Note hình chữ nhật**: Phổ biến nhất
+2. **Note hình tròn**: Độc đáo, dễ thương
+3. **Note hình đặc biệt**: Theo logo hoặc sản phẩm
+4. **Note block**: Nhiều tờ xếp chồng
+
+[imggrid:/2.jpg|/34.jpg]
+
+## Ứng dụng của giấy note
+
+- **Quà tặng khách hàng**: In logo, thông tin liên hệ
+- **Văn phòng**: Ghi chú, đánh dấu tài liệu
+- **Marketing**: Phân phát tại sự kiện, hội chợ
+- **Quán cà phê**: Ghi yêu cầu khách hàng
+
+![Giấy note tùy chỉnh](/180-1.jpg)`,
+  },
+  {
+    id: 18,
+    slug: "in-hoc-bong-qua-tang-doanh-nghiep",
+    title: "In hũ, hộp quà tặng doanh nghiệp giá rẻ",
+    date: "19 Tháng 3, 2024",
+    readTime: "4 phút đọc",
+    category: "mua-in",
+    categoryLabel: "Mua in ấn",
+    image:
+      "https://d2xsxph8kpxj0f.cloudfront.net/90078694/ERMxTyYJFnFBQeNjeF6P4w/service-packaging-luxury-RYsTx6Y8m5SoyfySkzLoUA.webp",
+    excerpt:
+      "In hũ, hộp quà tặng doanh nghiệp giá rẻ giúp tạo ấn tượng mạnh mẽ với đối tác và khách hàng trong các dịp đặc biệt.",
+    content: `In hũ, hộp quà tặng doanh nghiệp giá rẻ tại Cần Thơ là giải pháp packaging cao cấp giúp sản phẩm quà tặng trở nên sang trọng hơn.
+
+## Hộp quà tặng doanh nghiệp
+
+Hộp quà tặng không chỉ bảo vệ sản phẩm bên trong mà còn tạo trải nghiệm mở quà đáng nhớ cho người nhận.
+
+![Hộp quà tặng doanh nghiệp](/2.jpg)
+
+### Các loại hộp quà tặng:
+
+1. **Hộp carton cứng**: Bền, chắc chắn
+2. **Hộp giấy Kraft**: Thân thiện môi trường
+3. **Hộp giấy Couche**: Sang trọng, bắt mắt
+4. **Hộp gỗ**: Cao cấp, đẳng cấp
+
+[imggrid:/34.jpg|/225.jpg]
+
+## Lưu ý khi in hộp quà
+
+- Chọn kích thước phù hợp sản phẩm
+- Thiết kế phù hợp thương hiệu
+- Chọn chất liệu bền, đẹp
+- Gia công tỉ mỉ
+
+![Hộp quà tặng chuyên nghiệp](/110-1.jpg)`,
   },
 ];
 

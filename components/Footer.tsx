@@ -77,7 +77,7 @@ export default function Footer() {
                 className="mb-4 h-auto w-[150px] object-contain brightness-0 invert md:w-[180px]"
               />
               <p className="mb-6 max-w-[380px] text-[13px] leading-[1.7] text-white">
-                Intemcantho.vn (Duky Printing) chuyên in tem nhãn decal,
+                Intemcantho.vn (In tem Cần Thơ) chuyên in tem nhãn decal,
                 tem bảo hành, tem chống giả tại Cần Thơ. Với công nghệ
                 in hiện đại và dịch vụ tận tâm, chúng tôi giúp sản phẩm
                 của bạn nổi bật và chuyên nghiệp hơn.
@@ -135,6 +135,12 @@ export default function Footer() {
               <h4 className="mb-6 text-[15px] font-bold uppercase tracking-[0.06em] text-white">TRUY CẬP</h4>
               <ul className="space-y-3 text-[13px] text-white">
                 <li>
+                  <Link href="/dich-vu/nhan-dan" className="flex items-center gap-2.5 transition-colors hover:text-white group">
+                    <span className="text-[11px] text-white/60 group-hover:text-white">›</span>
+                    Tem nhãn Decal
+                  </Link>
+                </li>
+                <li>
                   <Link href="/van-phong" className="flex items-center gap-2.5 transition-colors hover:text-white group">
                     <span className="text-[11px] text-white/60 group-hover:text-white">›</span>
                     Ấn phẩm văn phòng
@@ -147,9 +153,9 @@ export default function Footer() {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/bao-bi" className="flex items-center gap-2.5 transition-colors hover:text-white group">
+                  <Link href="/in-anh" className="flex items-center gap-2.5 transition-colors hover:text-white group">
                     <span className="text-[11px] text-white/60 group-hover:text-white">›</span>
-                    Ấn Phẩm bao bì
+                    In ảnh
                   </Link>
                 </li>
                 <li>

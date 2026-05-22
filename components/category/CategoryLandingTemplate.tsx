@@ -38,7 +38,6 @@ import BaoBiGallery from "./BaoBiGallery";
 import BaoBiOrderProcess from "./StandeeOrderProcess";
 import BaoBiFileAndFeedback from "./BaoBiFileAndFeedback";
 import BaoBiFAQ from "./BaoBiFAQ";
-import BaoBiBannerCTA from "./BaoBiBannerCTA";
 import DanhThiepHeroBanner from "./DanhThiepHeroBanner";
 import DanhThiepPricingTable from "./DanhThiepPricingTable";
 import DanhThiepGallery from "./DanhThiepGallery";
@@ -53,6 +52,33 @@ import ToRoiComparison from "./ToRoiComparison";
 import ToRoiGallery from "./ToRoiGallery";
 import ToRoiFileAndFeedback from "./ToRoiFileAndFeedback";
 import ToRoiFAQ from "./ToRoiFAQ";
+import MenuHeroBanner from "./MenuHeroBanner";
+import MenuPricingTable from "./MenuPricingTable";
+import MenuGallery from "./MenuGallery";
+import MenuFAQ from "./MenuFAQ";
+import MenuFileAndFeedback from "./MenuFileAndFeedback";
+import MenuComparison from "./MenuComparison";
+import MenuBannerCTA from "./MenuBannerCTA";
+import VoucherHeroBanner from "./VoucherHeroBanner";
+import VoucherPricingTable from "./VoucherPricingTable";
+import VoucherComparison from "./VoucherComparison";
+import VoucherGallery from "./VoucherGallery";
+import VoucherFileAndFeedback from "./VoucherFileAndFeedback";
+import VoucherFAQ from "./VoucherFAQ";
+import VoucherBannerCTA from "./VoucherBannerCTA";
+import HashtagHeroBanner from "./HashtagHeroBanner";
+import HashtagPricingTable from "./HashtagPricingTable";
+import HashtagComparison from "./HashtagComparison";
+import HashtagGallery from "./HashtagGallery";
+import HashtagFileAndFeedback from "./HashtagFileAndFeedback";
+import HashtagFAQ from "./HashtagFAQ";
+import HashtagBannerCTA from "./HashtagBannerCTA";
+import CatalogueHeroBanner from "./CatalogueHeroBanner";
+import CataloguePricingTable from "./CataloguePricingTable";
+import CatalogueComparison from "./CatalogueComparison";
+import CatalogueFileAndFeedback from "./CatalogueFileAndFeedback";
+import CatalogueFAQ from "./CatalogueFAQ";
+import CatalogueBannerCTA from "./CatalogueBannerCTA";
 import StoreLocationSection from "@/components/StoreLocationSection";
 
 type Props = {
@@ -78,6 +104,14 @@ export default function CategoryLandingTemplate({ data }: Props) {
         <ToRoiHeroBanner />
       ) : data.slug === "danh-thiep" ? (
         <DanhThiepHeroBanner />
+      ) : data.slug === "catalogue" ? (
+        <CatalogueHeroBanner />
+      ) : data.slug === "menu" ? (
+        <MenuHeroBanner />
+      ) : data.slug === "voucher" ? (
+        <VoucherHeroBanner />
+      ) : data.slug === "hashtag-cam-tay" ? (
+        <HashtagHeroBanner />
       ) : (
         <CategoryHero
           title={data.hero.title}
@@ -234,8 +268,64 @@ export default function CategoryLandingTemplate({ data }: Props) {
         </>
       )}
 
+      {/* Menu sections */}
+      {data.slug === "menu" && (
+        <>
+          <MenuPricingTable />
+          <MenuComparison />
+          <MenuGallery />
+          <StandeeOrderProcess label="MENU" />
+          <MenuFileAndFeedback />
+          <StoreLocationSection />
+          <MenuFAQ />
+          <MenuBannerCTA />
+        </>
+      )}
+
+      {/* Voucher sections */}
+      {data.slug === "voucher" && (
+        <>
+          <VoucherPricingTable />
+          <VoucherComparison />
+          <VoucherGallery />
+          <StandeeOrderProcess label="VOUCHER" />
+          <VoucherFileAndFeedback />
+          <StoreLocationSection />
+          <VoucherFAQ />
+          <VoucherBannerCTA />
+        </>
+      )}
+
+      {/* Hashtag cam tay sections */}
+      {data.slug === "hashtag-cam-tay" && (
+        <>
+          <HashtagPricingTable />
+          <HashtagComparison />
+          <HashtagGallery />
+          <StandeeOrderProcess label="HASHTAG CẦM TAY" />
+          <HashtagFileAndFeedback />
+          <StoreLocationSection />
+          <HashtagFAQ />
+          <HashtagBannerCTA />
+        </>
+      )}
+
+      {/* Catalogue sections */}
+      {data.slug === "catalogue" && (
+        <>
+          <CataloguePricingTable />
+          <CatalogueComparison />
+          <StandeeGallery />
+          <StandeeOrderProcess label="CATALOGUE" />
+          <CatalogueFileAndFeedback />
+          <StoreLocationSection />
+          <CatalogueFAQ />
+          <CatalogueBannerCTA />
+        </>
+      )}
+
       {/* Generic sections (không hiển thị cho các trang đã có section riêng) */}
-      {data.slug !== "poster" && data.slug !== "to-gap" && data.slug !== "nhan-dan" && data.slug !== "bao-bi" && data.slug !== "to-roi" && data.slug !== "danh-thiep" && (
+      {data.slug !== "poster" && data.slug !== "to-gap" && data.slug !== "nhan-dan" && data.slug !== "bao-bi" && data.slug !== "to-roi" && data.slug !== "danh-thiep" && data.slug !== "menu" && data.slug !== "voucher" && data.slug !== "hashtag-cam-tay" && data.slug !== "catalogue" && (
         <>
           <CategoryPricing
             title={data.pricing.title}

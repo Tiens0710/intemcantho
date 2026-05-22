@@ -131,11 +131,11 @@ export default function Navbar() {
             <Link
               href="/"
               className="inline-flex items-center transition-opacity hover:opacity-80"
-              aria-label="Duky Printing"
+              aria-label="In tem Cần Thơ"
             >
               <Image
                 src="/logo.png"
-                alt="Duky Printing"
+                alt="In tem Cần Thơ"
                 width={180}
                 height={56}
                 priority
@@ -230,9 +230,17 @@ export default function Navbar() {
                               <div className="col-span-8 grid grid-cols-3 gap-6">
                                 {item.megaMenu.columns.map((group) => (
                                   <div key={group.title} className="space-y-4">
-                                    <h4 className="px-2 text-[0.85rem] font-extrabold uppercase tracking-[0.15em] text-amber-800/80 border-l-2 border-amber-700/30">
-                                      {group.title}
-                                    </h4>
+                                    {group.href ? (
+                                      <Link href={group.href}>
+                                        <h4 className="px-2 text-[0.85rem] font-extrabold uppercase tracking-[0.15em] text-amber-800 hover:text-amber-600 border-l-2 border-amber-700/30 transition-colors">
+                                          {group.title}
+                                        </h4>
+                                      </Link>
+                                    ) : (
+                                      <h4 className="px-2 text-[0.85rem] font-extrabold uppercase tracking-[0.15em] text-amber-800/80 border-l-2 border-amber-700/30">
+                                        {group.title}
+                                      </h4>
+                                    )}
                                     <ul className="space-y-1">
                                       {group.items.map((entry) => (
                                         <li key={entry.label}>
@@ -253,6 +261,68 @@ export default function Navbar() {
                               </div>
                             </div>
                           </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </>
+                ) : item.dropdownItems ? (
+                  <>
+                    {/* Floating Dropdown for standard submenu */}
+                    <div
+                      onMouseEnter={() => openMegaMenu(item.label)}
+                      onMouseLeave={closeMegaMenu}
+                      className="py-6"
+                    >
+                      <Link
+                        href={item.href}
+                        className="group relative inline-flex items-center gap-1 px-3 py-2 text-[13px] font-semibold tracking-wide transition-colors text-slate-700 hover:text-amber-800"
+                      >
+                        {item.label}
+                        <ChevronDown
+                          className={`h-3.5 w-3.5 transition-transform duration-300 ${
+                            activeMegaMenu === item.label ? "rotate-180" : ""
+                          }`}
+                        />
+                        <span
+                          className={`absolute bottom-0 left-3 right-3 h-0.5 scale-x-0 bg-amber-700 transition-transform duration-300 group-hover:scale-x-100 ${
+                            isNavItemActive(item) ? "scale-x-100" : ""
+                          }`}
+                        />
+                      </Link>
+                    </div>
+
+                    <AnimatePresence>
+                      {activeMegaMenu === item.label && (
+                        <motion.div
+                          key={item.label}
+                          initial={{ opacity: 0, y: 15, scale: 0.95 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: 10, scale: 0.95, pointerEvents: "none" as any }}
+                          transition={{
+                            duration: 0.25,
+                            ease: [0.16, 1, 0.3, 1],
+                          }}
+                          className="absolute left-1/2 -translate-x-1/2 top-full -mt-2 w-56 overflow-hidden rounded-2xl bg-white border border-gray-100 p-1.5 shadow-xl"
+                          style={{ zIndex: 60 }}
+                          onMouseEnter={cancelCloseTimer}
+                          onMouseLeave={closeMegaMenu}
+                        >
+                          <ul className="space-y-0.5">
+                            {item.dropdownItems.map((entry) => (
+                              <li key={entry.label}>
+                                <Link
+                                  href={entry.href}
+                                  className="group flex items-center rounded-xl px-3 py-2.5 transition-all hover:bg-amber-500/10"
+                                  onClick={closeMegaMenu}
+                                >
+                                  <span className="mr-3 h-1.5 w-1.5 rounded-full bg-amber-700/20 transition-all group-hover:w-3 group-hover:bg-amber-700" />
+                                  <span className="text-[14px] font-semibold text-slate-600 transition-colors group-hover:text-amber-900">
+                                    {entry.label}
+                                  </span>
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
                         </motion.div>
                       )}
                     </AnimatePresence>
@@ -437,11 +507,11 @@ export default function Navbar() {
           <Link
             href="/"
             className="inline-flex items-center transition-opacity hover:opacity-80"
-            aria-label="Duky Printing"
+            aria-label="In tem Cần Thơ"
           >
             <Image
               src="/logo.png"
-              alt="Duky Printing"
+              alt="In tem Cần Thơ"
               width={120}
               height={36}
               priority
@@ -508,11 +578,11 @@ export default function Navbar() {
                       <Link
                         href={item.href}
                         className="flex-1 px-4 py-3 text-sm font-bold rounded-2xl transition-all text-slate-800 hover:bg-amber-50"
-                        onClick={() => !item.megaMenu && setIsOpen(false)}
+                        onClick={() => !(item.megaMenu || item.dropdownItems) && setIsOpen(false)}
                       >
                         {item.label}
                       </Link>
-                      {item.megaMenu && (
+                      {(item.megaMenu || item.dropdownItems) && (
                         <button
                           onClick={() =>
                             setExpandedMobileItem(
@@ -538,11 +608,21 @@ export default function Navbar() {
                       >
                         {item.megaMenu.columns.map((column) => (
                           <div key={column.title} className="space-y-2">
-                            <p
-                              className="px-2 text-[10px] font-black uppercase tracking-widest text-amber-700/70"
-                            >
-                              {column.title}
-                            </p>
+                            {column.href ? (
+                              <Link
+                                href={column.href}
+                                className="inline-block px-2 text-[10px] font-black uppercase tracking-widest text-amber-700 hover:text-amber-900 transition-colors"
+                                onClick={() => setIsOpen(false)}
+                              >
+                                {column.title}
+                              </Link>
+                            ) : (
+                              <p
+                                className="px-2 text-[10px] font-black uppercase tracking-widest text-amber-700/70"
+                              >
+                                {column.title}
+                              </p>
+                            )}
                             <div className="grid grid-cols-1 gap-1">
                               {column.items.map((subItem) => (
                                 <Link
@@ -557,6 +637,27 @@ export default function Navbar() {
                             </div>
                           </div>
                         ))}
+                      </motion.div>
+                    )}
+
+                    {item.dropdownItems && expandedMobileItem === item.label && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        className="pl-6 pr-4 py-1 space-y-1"
+                      >
+                        <div className="grid grid-cols-1 gap-1">
+                          {item.dropdownItems.map((subItem) => (
+                            <Link
+                              key={subItem.label}
+                              href={subItem.href}
+                              className="px-3 py-2 text-sm font-medium rounded-xl transition-all text-slate-600 hover:bg-amber-50/50 hover:text-amber-900 hover:translate-x-1 transform duration-200"
+                              onClick={() => setIsOpen(false)}
+                            >
+                              {subItem.label}
+                            </Link>
+                          ))}
+                        </div>
                       </motion.div>
                     )}
                   </div>
