@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React from "react";
+import CategoryFAQ from "./CategoryFAQ";
 
-const faqItems = [
+const faqs = [
   {
     question: "Giá in tờ rơi đã bao gồm thiết kế chưa?",
     answer:
@@ -12,104 +12,46 @@ const faqItems = [
   {
     question: "Tôi chưa có file thiết kế có in được không?",
     answer:
-      "Có. Bạn có thể sử dụng công cụ thiết kế trực tuyến miễn phí của chúng tôi, hoặc đặt dịch vụ thiết kế chuyên nghiệp. Đội ngũ sẽ tư vấn và tạo file thiết kế phù hợp cho tờ rơi của bạn.",
+      "Có. Bạn chỉ cần gửi nội dung, logo, hình ảnh. Đội ngũ thiết kế sẽ layout tờ rơi chuyên nghiệp và gửi bản duyệt trước khi in để bạn yên tâm.",
   },
   {
     question: "In tờ rơi mất bao lâu?",
     answer:
-      "Thời gian in tờ rơi thông thường từ 2-4 ngày làm việc (tính từ ngày duyệt file + đặt cọc). Nếu cần gấp, chúng tôi có thể hỗ trợ in nhanh trong 24 giờ với phụ phí.",
+      "Thời gian in thông thường từ 2–4 ngày làm việc (tính từ ngày duyệt file + đặt cọc). Nếu cần gấp, chúng tôi có thể hỗ trợ in nhanh trong 24 giờ với phụ phí.",
+  },
+  {
+    question: "Tờ rơi có những kích thước nào?",
+    answer:
+      "Kích thước phổ biến: A5 (14.8×21 cm), A4 (21×29.7 cm), A6 (10.5×14.8 cm) hoặc theo yêu cầu. File in nên có độ phân giải 300 dpi, định dạng PDF hoặc AI.",
   },
   {
     question: "Có giao hàng tại Cần Thơ không?",
     answer:
-      "Có. Chúng tôi giao hàng miễn phí trong nội thành Cần Thơ. Đối với các tỉnh thành khác, chúng tôi hỗ trợ gửi chuyển phát nhanh với chi phí hợp lý.",
+      "Có giao hàng nội ô Cần Thơ miễn phí cho đơn từ 500K. Đơn nhỏ hơn phí giao chỉ 20K–30K. Nhận hàng trong ngày nếu đặt trước 2 giờ chiều.",
+  },
+  {
+    question: "Có nhận in tờ rơi số lượng nhiều cho sự kiện không?",
+    answer:
+      "Có nhận in số lượng lớn cho hội nghị, khai trương, triển lãm, sự kiện doanh nghiệp. Số lượng càng nhiều, giá càng tốt — liên hệ để nhận báo giá ưu đãi nhé.",
+  },
+  {
+    question: "Có xuất hóa đơn không?",
+    answer:
+      "Có xuất hóa đơn VAT cho doanh nghiệp và tổ chức. Bạn vui lòng cung cấp thông tin công ty khi đặt hàng.",
+  },
+  {
+    question: "Tôi gửi file qua Zalo được không?",
+    answer:
+      "Hoàn toàn được! Bạn có thể gửi file thiết kế qua Zalo 0985 463 403 để được xử lý nhanh nhất. Shop sẽ phản hồi trong vòng 30 phút.",
   },
 ];
 
 export default function ToRoiFAQ() {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-
-  const toggleFAQ = (index: number) => {
-    setOpenIndex(openIndex === index ? null : index);
-  };
-
   return (
-    <section className="py-16 bg-white">
-      <div className="container mx-auto px-4 max-w-[900px]">
-        {/* Title */}
-        <div className="text-center mb-10">
-          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 uppercase tracking-tight">
-            CÂU HỎI <span className="text-[#E6792A]">THƯỜNG GẶP</span>
-          </h2>
-          <p className="mt-3 text-sm text-gray-500">
-            Những thắc mắc phổ biến về in tờ rơi
-          </p>
-        </div>
-
-        {/* FAQ Items */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {faqItems.map((item, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.08 }}
-              className={`rounded-xl border transition-all duration-300 ${
-                openIndex === index
-                  ? "border-[#E6792A] shadow-lg shadow-[#E6792A]/10"
-                  : "border-gray-200 hover:border-[#E6792A]/50"
-              }`}
-            >
-              <button
-                onClick={() => toggleFAQ(index)}
-                className="w-full flex items-center justify-between p-5 text-left cursor-pointer"
-              >
-                <span className="text-sm font-bold text-gray-800 pr-4">
-                  {item.question}
-                </span>
-                <span
-                  className={`flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center transition-all duration-300 ${
-                    openIndex === index
-                      ? "bg-[#E6792A] text-white rotate-90"
-                      : "bg-gray-100 text-gray-500"
-                  }`}
-                >
-                  <svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="m9 18 6-6-6-6" />
-                  </svg>
-                </span>
-              </button>
-
-              <AnimatePresence>
-                {openIndex === index && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
-                    className="overflow-hidden"
-                  >
-                    <div className="px-5 pb-5 text-sm text-gray-600 leading-relaxed border-t border-gray-100 pt-4">
-                      {item.answer}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
-          ))}
-        </div>
-
-      </div>
-    </section>
+    <CategoryFAQ
+      title="CÂU HỎI"
+      highlight="THƯỜNG GẶP"
+      faqs={faqs}
+    />
   );
 }

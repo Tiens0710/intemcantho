@@ -15,7 +15,7 @@ const voucherHighlights = [
 export default function VoucherHeroBanner() {
   return (
     <CategoryMarketingHeroBanner
-      backgroundSrc="/anphamtiepthi/voucher/background.jpeg"
+      backgroundSrc="/anphamtiepthi/voucher/background6.jpeg"
       backgroundAlt="Voucher khuyến mãi In Tem Cần Thơ"
       ariaLabel="In voucher Cần Thơ - Sang trọng, sắc nét, thu hút"
       breadcrumbs={[
@@ -37,6 +37,11 @@ export default function VoucherHeroBanner() {
         label: "Giá từ chỉ",
         amount: "85.000",
         currency: "VND",
+      }}
+      productImage={{
+        src: "/anphamtiepthi/voucher/sanpham1.png",
+        alt: "Voucher khuyến mãi In Tem Cần Thơ - Sản phẩm",
+        style: { width: "clamp(260px, 28vw, 400px)" },
       }}
       highlights={voucherHighlights}
       actions={[

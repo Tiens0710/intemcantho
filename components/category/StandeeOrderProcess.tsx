@@ -104,7 +104,49 @@ export default function StandeeOrderProcess({ label = "STANDEE" }: StandeeOrderP
               </div>
             </div>
 
+            {/* Commitment box */}
+            <div
+              className="mx-8 mb-8 rounded-xl px-6 py-5 flex items-start gap-4"
+              style={{
+                background: "#FFF7ED",
+                border: "1.5px solid #E6792A",
+              }}
+            >
+              {/* Shield icon */}
+              <div className="shrink-0 mt-0.5">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M12 2L3 7V12C3 17.25 6.75 21.5 12 22.75C17.25 21.5 21 17.25 21 12V7L12 2Z"
+                    fill="#E6792A"
+                    fillOpacity="0.9"
+                  />
+                  <path
+                    d="M9 12L11 14L15 10"
+                    stroke="white"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </div>
+              <div>
+                <p
+                  className="text-[#4a2c0f] font-bold text-[14px] leading-snug"
+                  style={{ fontFamily: "'Nunito', sans-serif" }}
+                >
+                  Cam kết in đúng file — hỗ trợ xử lý nếu lỗi do in ấn
+                </p>
+                <p
+                  className="text-[#6b3a1a] text-[13px] leading-relaxed mt-1.5"
+                  style={{ fontFamily: "'Nunito', sans-serif" }}
+                >
+                  Nếu sản phẩm không đúng file hoặc phát sinh lỗi do in ấn, shop sẽ hỗ trợ in lại theo chính sách đổi trả.
+                </p>
+              </div>
+            </div>
+
           </div>
+
         </div>
 
       </div>

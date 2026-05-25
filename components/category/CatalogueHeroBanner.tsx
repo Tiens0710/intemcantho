@@ -41,6 +41,7 @@ export default function CatalogueHeroBanner() {
       productImage={{
         src: "/anphamtiepthi/catalogue/sanpham1.png",
         alt: "Catalogue Sản Phẩm In Tem Cần Thơ - Sản phẩm",
+        style: { width: "clamp(380px, 48vw, 680px)", right: "95px" },
       }}
       highlights={catalogueHighlights}
       featureMarginTop="clamp(1.25rem, 3vh, 2.75rem)"

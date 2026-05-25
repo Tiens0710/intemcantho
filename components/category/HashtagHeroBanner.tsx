@@ -15,7 +15,7 @@ const hashtagHighlights = [
 export default function HashtagHeroBanner() {
   return (
     <CategoryMarketingHeroBanner
-      backgroundSrc="/anphamtiepthi/hashtag/bg.jpeg"
+      backgroundSrc="/anphamtiepthi/hashtag/background6.jpeg"
       backgroundAlt="Hashtag cầm tay In Tem Cần Thơ"
       ariaLabel="In hashtag cầm tay Cần Thơ - Nổi bật, sắc nét, bền đẹp"
       breadcrumbs={[
@@ -41,6 +41,11 @@ export default function HashtagHeroBanner() {
         label: "Giá từ chỉ",
         amount: "25.000",
         currency: "VND",
+      }}
+      productImage={{
+        src: "/anphamtiepthi/hashtag/sanpham1.png",
+        alt: "Hashtag cầm tay In Tem Cần Thơ - Sản phẩm",
+        style: { width: "clamp(380px, 48vw, 680px)", right: "60px" },
       }}
       highlights={hashtagHighlights}
       actions={[
