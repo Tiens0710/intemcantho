@@ -15,7 +15,7 @@ const menuHighlights = [
 export default function MenuHeroBanner() {
   return (
     <CategoryMarketingHeroBanner
-      backgroundSrc="/anphamtiepthi/menu/background1.jpeg"
+      backgroundSrc="/anphamtiepthi/menu/background6.jpeg"
       backgroundAlt="Menu Nhà Hàng In Tem Cần Thơ"
       ariaLabel="In menu Cần Thơ - Sang trọng, sắc nét, bền đẹp"
       breadcrumbs={[
@@ -36,6 +36,10 @@ export default function MenuHeroBanner() {
         label: "Giá từ chỉ",
         amount: "250.000",
         currency: "VND",
+      }}
+      productImage={{
+        src: "/anphamtiepthi/menu/sanpham1.png",
+        alt: "Menu Nhà Hàng In Tem Cần Thơ - Sản phẩm",
       }}
       highlights={menuHighlights}
       actions={[

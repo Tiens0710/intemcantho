@@ -72,7 +72,7 @@ export const navigationData: NavItem[] = [
   {
     label: "Ấn phẩm tiếp thị",
     href: "/tiep-thi",
-    activePaths: ["/tiep-thi", "/tiep-thi/menu", "/tiep-thi/catalogue", "/tiep-thi/voucher", "/tiep-thi/hashtag-cam-tay"],
+    activePaths: ["/tiep-thi", "/tiep-thi/menu", "/tiep-thi/catalogue", "/tiep-thi/voucher", "/tiep-thi/hashtag-cam-tay", "/tiep-thi/hiflex"],
     megaMenu: {
       banner: {
         src: "/danhmuc4.png",
@@ -87,7 +87,7 @@ export const navigationData: NavItem[] = [
           items: [
             { label: "Tờ rơi / tờ gấp", href: "/dich-vu/to-roi" },
             { label: "Standee PP", href: "/dich-vu/standee" },
-            { label: "Bạt hiflex", href: "/tiep-thi" },
+            { label: "Bạt hiflex", href: "/tiep-thi/hiflex" },
           ],
         },
         {

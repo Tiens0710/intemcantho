@@ -80,15 +80,15 @@ export default function CategoryProductPriceGrid({
 
               <div className="mt-4 text-center">
                 <h3
-                  className="mt-1 font-semibold text-[#253245]"
-                  style={{ fontSize: "25px", lineHeight: "31px" }}
+                  className="mt-1 font-semibold text-[#253245] truncate !text-[18px] !leading-[24px] sm:!text-[20px] sm:!leading-[26px]"
+                  title={product.name}
                 >
                   {product.name}
                 </h3>
                 <p className="mt-1 text-sm leading-snug text-gray-500">{product.detail}</p>
                 <div className="mt-4 flex justify-center">
                   <p
-                    className="inline-flex items-center rounded-full border border-emerald-100 bg-emerald-50 px-3 py-1.5 font-bold text-[#007f5f] shadow-[0_6px_16px_rgba(0,127,95,0.10)] transition-colors group-hover:bg-emerald-100"
+                    className="inline-flex items-center rounded-full border border-[#f3d5bf] bg-[#fff4ec] px-3 py-1.5 font-bold text-[#e87c22] shadow-[0_6px_16px_rgba(232,124,34,0.12)] transition-colors group-hover:bg-[#ffe7d5]"
                     style={{ fontSize: "17px", lineHeight: "22px" }}
                   >
                     {product.price}

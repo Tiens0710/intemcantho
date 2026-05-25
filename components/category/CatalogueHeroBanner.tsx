@@ -15,7 +15,7 @@ const catalogueHighlights = [
 export default function CatalogueHeroBanner() {
   return (
     <CategoryMarketingHeroBanner
-      backgroundSrc="/anphamtiepthi/catalogue/background.jpeg"
+      backgroundSrc="/anphamtiepthi/catalogue/background6.jpeg"
       backgroundAlt="Catalogue Sản Phẩm In Tem Cần Thơ"
       ariaLabel="In catalogue Cần Thơ - Chuyên nghiệp, sắc nét, ấn tượng"
       breadcrumbs={[
@@ -37,6 +37,10 @@ export default function CatalogueHeroBanner() {
         label: "Giá từ chỉ",
         amount: "8.000",
         currency: "VND",
+      }}
+      productImage={{
+        src: "/anphamtiepthi/catalogue/sanpham1.png",
+        alt: "Catalogue Sản Phẩm In Tem Cần Thơ - Sản phẩm",
       }}
       highlights={catalogueHighlights}
       featureMarginTop="clamp(1.25rem, 3vh, 2.75rem)"

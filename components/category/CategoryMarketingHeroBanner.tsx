@@ -24,6 +24,14 @@ type PriceCard = {
   currency: string;
 };
 
+type ProductImage = {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+  style?: React.CSSProperties;
+};
+
 type CategoryMarketingHeroBannerProps = {
   backgroundSrc: string;
   backgroundAlt: string;
@@ -40,6 +48,7 @@ type CategoryMarketingHeroBannerProps = {
   contentLeft?: string;
   contentWidth?: string;
   featureMarginTop?: string;
+  productImage?: ProductImage;
 };
 
 export default function CategoryMarketingHeroBanner({
@@ -58,6 +67,7 @@ export default function CategoryMarketingHeroBanner({
   contentLeft = "clamp(0.5rem, 3vw, 3rem)",
   contentWidth = "min(45rem, calc(100vw - 3rem))",
   featureMarginTop = "clamp(2.25rem, 5vh, 4.25rem)",
+  productImage,
 }: CategoryMarketingHeroBannerProps) {
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
@@ -397,6 +407,35 @@ export default function CategoryMarketingHeroBanner({
           })}
         </ol>
       </nav>
+
+      {productImage && (
+        <div
+          style={{
+            position: "absolute",
+            right: 200,
+            top: "45%",
+            transform: "translateY(-50%)",
+            zIndex: 30,
+            width: "clamp(320px, 40vw, 560px)",
+            height: "auto",
+            pointerEvents: "auto",
+            ...productImage.style,
+          }}
+        >
+          <Image
+            src={productImage.src}
+            alt={productImage.alt}
+            width={560}
+            height={0}
+            sizes="(max-width: 768px) 320px, 560px"
+            style={{
+              width: "100%",
+              height: "auto",
+              display: "block",
+            }}
+          />
+        </div>
+      )}
     </section>
   );
 }

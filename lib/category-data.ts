@@ -9,6 +9,7 @@ import {
   BookMarked,
   Ticket,
   Hash,
+  Layers,
   type LucideIcon,
 } from "lucide-react";
 
@@ -749,6 +750,86 @@ export const CATEGORY_DATA: Record<string, CategoryData> = {
         role: "Freelancer thiết kế",
         content:
           "Đã gửi nhiều file name card cho khách, Intem hỗ trợ kiểm tra trước khi in cực kỳ kỹ. Đúng gu dân thiết kế!",
+        avatar: "/mau-3png-150x150.png",
+        rating: 5,
+      },
+    ],
+  },
+
+  "hiflex": {
+    slug: "hiflex",
+    icon: Layers,
+    categoryLabel: "Bạt Hiflex",
+    heroBg: "/bgvanphong.png",
+    hero: {
+      title: "In Bạt Hiflex",
+      subtitle:
+        "Băng rôn, banner, backdrop hiflex – in sắc nét, chống nước, bền màu, phù hợp quảng cáo ngoài trời và sự kiện.",
+      bgImage: "/danhmuc2.png",
+      floatingImages: ["/danhmuc2.png", "/danhmuc4.png"],
+    },
+    pricing: {
+      title: "Báo Giá In Bạt Hiflex",
+      subtitle: "Bạt hiflex đa dạng kích thước, có đèn và không đèn. Hỗ trợ thiết kế miễn phí.",
+      packages: [
+        {
+          name: "Hiflex không đèn",
+          quantity: "1 – 10m²",
+          price: "90.000đ/m²",
+          note: "Phù hợp banner trong nhà",
+        },
+        {
+          name: "Hiflex có đèn",
+          quantity: "1 – 10m²",
+          price: "180.000đ/m²",
+          note: "Thu hút cả ban đêm",
+          popular: true,
+        },
+        {
+          name: "Hiflex bồi formex",
+          quantity: "1 – 5m²",
+          price: "250.000đ/m²",
+          note: "Cứng cáp, dùng lâu dài",
+        },
+      ],
+    },
+    gallery: {
+      title: "Thư Viện Mẫu Bạt Hiflex",
+      subtitle: "Băng rôn, banner, backdrop hiflex đa dạng kích thước và mục đích sử dụng.",
+      images: [
+        { src: "/danhmuc2.png", alt: "Băng rôn hiflex" },
+        { src: "/danhmuc4.png", alt: "Banner sự kiện" },
+        { src: "/danhmuc5.png", alt: "Backdrop hội nghị" },
+        { src: "/danhmuc3.png", alt: "Billboard quảng cáo" },
+      ],
+    },
+    caseStudy: {
+      client: "Chuỗi cửa hàng pizza",
+      industry: "F&B – Nhà hàng",
+      challenge:
+        "Cần băng rôn hiflex cho 3 chi nhánh, phải chống chịu thời tiết ngoài trời và giữ màu sắc đẹp trong nhiều tháng.",
+      solution:
+        "Sử dụng hiflex 3M chống nước, in UV 2 mặt. Kích thước 300x100cm, có đèn LED viền cho cả 3 chi nhánh.",
+      result:
+        "Băng rôn giữ màu sắc đẹp sau 8 tháng ngoài trời. Doanh số cửa hàng tăng 25% nhờ biển hiệu nổi bật.",
+      image: "/danhmuc2.png",
+    },
+    testimonials: [
+      {
+        id: "tt-hiflex-1",
+        author: "Anh Phong",
+        role: "Chủ cửa hàng pizza",
+        content:
+          "Bạt hiflex in rất nét, chống nước tốt. Treo ngoài trời 6 tháng vẫn giữ màu, không bị phai.",
+        avatar: "/mau-150x150.png",
+        rating: 5,
+      },
+      {
+        id: "tt-hiflex-2",
+        author: "Chị Bích",
+        role: "Quản lý sự kiện",
+        content:
+          "Backdrop hiflex cho sự kiện rất ấn tượng, in nhanh và đúng hẹn. Cảm ơn Intem!",
         avatar: "/mau-3png-150x150.png",
         rating: 5,
       },

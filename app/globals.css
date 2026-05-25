@@ -99,6 +99,12 @@ article .blog-card-title {
   color: #ffffff !important;
 }
 
+/* OrderProcess section on orange background — force white text */
+.order-process-orange h2,
+.order-process-orange h3 {
+  color: #ffffff !important;
+}
+
 h1 {
   font-size: 2.25rem;
   font-weight: 700;

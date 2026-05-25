@@ -53,56 +53,55 @@ export default function StandeeOrderProcess({ label = "STANDEE" }: StandeeOrderP
           {/* Inner content card */}
           <div className="standee-process-inner" style={{ border: "1.5px solid #E6792A", borderRadius: "14px" }}>
 
-            {/* Row 1: Circles + Arrows */}
-            <div className="flex flex-row items-center justify-between px-8 pt-12 pb-4">
-              {steps.map((step, index) => (
-                <div key={step.number} className="flex flex-1 items-center">
-                  {/* Circle */}
-                  <div className="flex flex-col items-center flex-1">
-                    <div
-                      className="w-[60px] h-[60px] rounded-full flex items-center justify-center bg-white"
-                      style={{ border: "2px solid #E6792A" }}
-                    >
-                      <span
-                        className="text-xl font-black leading-none"
-                        style={{ color: "#E6792A", fontFamily: "'Nunito', sans-serif" }}
+            {/* Steps grid with arrows */}
+            <div className="relative px-8 pt-12 pb-8">
+              <div className="flex items-start justify-between">
+                {steps.map((step, index) => (
+                  <div key={step.number} className="flex items-start" style={{ flex: 1 }}>
+                    {/* Step content */}
+                    <div className="flex flex-col items-center text-center w-full">
+                      {/* Circle */}
+                      <div
+                        className="w-[60px] h-[60px] rounded-full flex items-center justify-center bg-white shrink-0"
+                        style={{ border: "2px solid #E6792A" }}
                       >
-                        {step.number}
-                      </span>
+                        <span
+                          className="text-xl font-black leading-none"
+                          style={{ color: "#E6792A", fontFamily: "'Nunito', sans-serif" }}
+                        >
+                          {step.number}
+                        </span>
+                      </div>
+
+                      {/* Title */}
+                      <h3
+                        className="font-semibold text-gray-900 text-[13px] mt-4 mb-1 leading-tight whitespace-nowrap"
+                        style={{ fontFamily: "'Nunito', sans-serif" }}
+                      >
+                        {step.title}
+                      </h3>
+
+                      {/* Description */}
+                      <p
+                        className="text-gray-500 text-[12px] leading-relaxed mt-1 px-1 max-w-[140px]"
+                        style={{ fontFamily: "'Nunito', sans-serif" }}
+                      >
+                        {step.description}
+                      </p>
                     </div>
+
+                    {/* Arrow between steps */}
+                    {index < steps.length - 1 && (
+                      <div className="hidden lg:flex items-center justify-center shrink-0" style={{ marginTop: "20px", paddingRight: "4px", paddingLeft: "4px" }}>
+                        <svg width="36" height="16" viewBox="0 0 36 16" fill="none">
+                          <line x1="0" y1="8" x2="28" y2="8" stroke="#E6792A" strokeWidth="1.5" strokeLinecap="round" />
+                          <polyline points="22,2 30,8 22,14" fill="none" stroke="#E6792A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      </div>
+                    )}
                   </div>
-
-                  {/* Arrow */}
-                  {index < steps.length - 1 && (
-                    <div className="hidden lg:block flex-shrink-0 px-1">
-                      <svg width="36" height="16" viewBox="0 0 36 16" fill="none">
-                        <line x1="0" y1="8" x2="28" y2="8" stroke="#E6792A" strokeWidth="1.5" strokeLinecap="round" />
-                        <polyline points="22,2 30,8 22,14" fill="none" stroke="#E6792A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-
-            {/* Row 2: Titles + Descriptions */}
-            <div className="flex flex-row items-stretch justify-between px-8 pb-8">
-              {steps.map((step) => (
-                <div key={step.number} className="flex-1 flex flex-col items-center text-center px-2">
-                  <h3
-                    className="font-semibold text-gray-900 text-[9px] mb-1 leading-tight min-h-[24px] flex items-center justify-center whitespace-nowrap"
-                    style={{ fontFamily: "'Nunito', sans-serif" }}
-                  >
-                    {step.title}
-                  </h3>
-                  <p
-                    className="text-gray-500 text-[11px] leading-relaxed min-h-[40px] flex items-start justify-center"
-                    style={{ fontFamily: "'Nunito', sans-serif" }}
-                  >
-                    {step.description}
-                  </p>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
 
           </div>

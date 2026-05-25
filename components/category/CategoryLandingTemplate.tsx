@@ -79,6 +79,14 @@ import CatalogueComparison from "./CatalogueComparison";
 import CatalogueFileAndFeedback from "./CatalogueFileAndFeedback";
 import CatalogueFAQ from "./CatalogueFAQ";
 import CatalogueBannerCTA from "./CatalogueBannerCTA";
+import HiflexHeroBanner from "./HiflexHeroBanner";
+import HiflexPricingTable from "./HiflexPricingTable";
+import HiflexComparison from "./HiflexComparison";
+import HiflexGallery from "./HiflexGallery";
+import HiflexFileAndFeedback from "./HiflexFileAndFeedback";
+import HiflexFAQ from "./HiflexFAQ";
+import HiflexBannerCTA from "./HiflexBannerCTA";
+import QualityCommitment from "@/components/QualityCommitment";
 import StoreLocationSection from "@/components/StoreLocationSection";
 
 type Props = {
@@ -112,6 +120,8 @@ export default function CategoryLandingTemplate({ data }: Props) {
         <VoucherHeroBanner />
       ) : data.slug === "hashtag-cam-tay" ? (
         <HashtagHeroBanner />
+      ) : data.slug === "hiflex" ? (
+        <HiflexHeroBanner />
       ) : (
         <CategoryHero
           title={data.hero.title}
@@ -207,6 +217,7 @@ export default function CategoryLandingTemplate({ data }: Props) {
           <StandeePricingTable />
           <StandeeComparison />
           <StandeeGallery />
+          <QualityCommitment />
           <StandeeOrderProcess />
           <StandeeFileAndFeedback />
           <StoreLocationSection />
@@ -221,6 +232,7 @@ export default function CategoryLandingTemplate({ data }: Props) {
           <ToRoiPricingTable />
           <ToRoiComparison />
           <ToRoiGallery />
+          <QualityCommitment />
           <StandeeOrderProcess label="TỜ RƠI" />
           <ToRoiFileAndFeedback />
           <StoreLocationSection />
@@ -274,6 +286,7 @@ export default function CategoryLandingTemplate({ data }: Props) {
           <MenuPricingTable />
           <MenuComparison />
           <MenuGallery />
+          <QualityCommitment />
           <StandeeOrderProcess label="MENU" />
           <MenuFileAndFeedback />
           <StoreLocationSection />
@@ -288,6 +301,7 @@ export default function CategoryLandingTemplate({ data }: Props) {
           <VoucherPricingTable />
           <VoucherComparison />
           <VoucherGallery />
+          <QualityCommitment />
           <StandeeOrderProcess label="VOUCHER" />
           <VoucherFileAndFeedback />
           <StoreLocationSection />
@@ -302,11 +316,27 @@ export default function CategoryLandingTemplate({ data }: Props) {
           <HashtagPricingTable />
           <HashtagComparison />
           <HashtagGallery />
+          <QualityCommitment />
           <StandeeOrderProcess label="HASHTAG CẦM TAY" />
           <HashtagFileAndFeedback />
           <StoreLocationSection />
           <HashtagFAQ />
           <HashtagBannerCTA />
+        </>
+      )}
+
+      {/* Hiflex sections */}
+      {data.slug === "hiflex" && (
+        <>
+          <HiflexPricingTable />
+          <HiflexComparison />
+          <HiflexGallery />
+          <QualityCommitment />
+          <StandeeOrderProcess label="BẠT HIFLEX" />
+          <HiflexFileAndFeedback />
+          <StoreLocationSection />
+          <HiflexFAQ />
+          <HiflexBannerCTA />
         </>
       )}
 
@@ -316,6 +346,7 @@ export default function CategoryLandingTemplate({ data }: Props) {
           <CataloguePricingTable />
           <CatalogueComparison />
           <StandeeGallery />
+          <QualityCommitment />
           <StandeeOrderProcess label="CATALOGUE" />
           <CatalogueFileAndFeedback />
           <StoreLocationSection />
@@ -325,7 +356,7 @@ export default function CategoryLandingTemplate({ data }: Props) {
       )}
 
       {/* Generic sections (không hiển thị cho các trang đã có section riêng) */}
-      {data.slug !== "poster" && data.slug !== "to-gap" && data.slug !== "nhan-dan" && data.slug !== "bao-bi" && data.slug !== "to-roi" && data.slug !== "danh-thiep" && data.slug !== "menu" && data.slug !== "voucher" && data.slug !== "hashtag-cam-tay" && data.slug !== "catalogue" && (
+      {data.slug !== "poster" && data.slug !== "to-gap" && data.slug !== "nhan-dan" && data.slug !== "bao-bi" && data.slug !== "to-roi" && data.slug !== "danh-thiep" && data.slug !== "menu" && data.slug !== "voucher" && data.slug !== "hashtag-cam-tay" && data.slug !== "catalogue" && data.slug !== "hiflex" && (
         <>
           <CategoryPricing
             title={data.pricing.title}

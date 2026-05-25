@@ -3,6 +3,7 @@
 import FeaturedProducts from "@/components/FeaturedProducts";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
+import QualityCommitment from "@/components/QualityCommitment";
 import StoreLocationSection from "@/components/StoreLocationSection";
 import BrandCard from "@/components/ui/BrandCard";
 import PriceRangeFilter from "@/components/ui/PriceRangeFilter";
@@ -686,6 +687,7 @@ export default function ProductListingPage({
         </div>
       </section>
 
+      <QualityCommitment />
       <FeaturedProducts title={featuredProductsTitle} showBackground={false} />
       <StoreLocationSection />
       <Footer />
