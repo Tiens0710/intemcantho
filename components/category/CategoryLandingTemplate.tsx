@@ -46,6 +46,17 @@ import DanhThiepFileAndFeedback from "./DanhThiepFileAndFeedback";
 import DanhThiepFAQ from "./DanhThiepFAQ";
 import DanhThiepBannerCTA from "./DanhThiepBannerCTA";
 import BaoBiChooseType from "./BaoBiChooseType";
+import BaoThuHeroBanner from "./BaoThuHeroBanner";
+import BaoThuBannerCTA from "./BaoThuBannerCTA";
+import BaoThuPricingTable from "./BaoThuPricingTable";
+import DanhThiepComparison from "./DanhThiepComparison";
+import BaoThuComparison from "./BaoThuComparison";
+import AnhEpNhuaComparison from "./AnhEpNhuaComparison";
+import AnhCuoiComparison from "./AnhCuoiComparison";
+import PhotobookComparison from "./PhotobookComparison";
+import BaoThuGallery from "./BaoThuGallery";
+import BaoThuFileAndFeedback from "./BaoThuFileAndFeedback";
+import BaoThuFAQ from "./BaoThuFAQ";
 import ToRoiHeroBanner from "./ToRoiHeroBanner";
 import ToRoiPricingTable from "./ToRoiPricingTable";
 import ToRoiComparison from "./ToRoiComparison";
@@ -86,6 +97,23 @@ import HiflexGallery from "./HiflexGallery";
 import HiflexFileAndFeedback from "./HiflexFileAndFeedback";
 import HiflexFAQ from "./HiflexFAQ";
 import HiflexBannerCTA from "./HiflexBannerCTA";
+import AnhEpNhuaHeroBanner from "./AnhEpNhuaHeroBanner";
+import AnhEpNhuaPricingTable from "./AnhEpNhuaPricingTable";
+import AnhEpNhuaFAQ from "./AnhEpNhuaFAQ";
+import AnhEpNhuaFileAndFeedback from "./AnhEpNhuaFileAndFeedback";
+import AnhCuoiHeroBanner from "./AnhCuoiHeroBanner";
+import AnhCuoiPricingTable from "./AnhCuoiPricingTable";
+import AnhCuoiFAQ from "./AnhCuoiFAQ";
+import AnhCuoiFileAndFeedback from "./AnhCuoiFileAndFeedback";
+import PhotobookHeroBanner from "./PhotobookHeroBanner";
+import PhotobookPricingTable from "./PhotobookPricingTable";
+import PhotobookFAQ from "./PhotobookFAQ";
+import PhotobookFileAndFeedback from "./PhotobookFileAndFeedback";
+import BangGonHeroBanner from "./BangGonHeroBanner";
+import BangGonPricingTable from "./BangGonPricingTable";
+import BangGonComparison from "./BangGonComparison";
+import BangGonFileAndFeedback from "./BangGonFileAndFeedback";
+import BangGonFAQ from "./BangGonFAQ";
 import QualityCommitment from "@/components/QualityCommitment";
 import StoreLocationSection from "@/components/StoreLocationSection";
 
@@ -122,6 +150,16 @@ export default function CategoryLandingTemplate({ data }: Props) {
         <HashtagHeroBanner />
       ) : data.slug === "hiflex" ? (
         <HiflexHeroBanner />
+      ) : data.slug === "anh-ep-nhua" ? (
+        <AnhEpNhuaHeroBanner />
+      ) : data.slug === "anh-cuoi" ? (
+        <AnhCuoiHeroBanner />
+      ) : data.slug === "photobook" ? (
+        <PhotobookHeroBanner />
+      ) : data.slug === "bang-gon" ? (
+        <BangGonHeroBanner />
+      ) : data.slug === "bao-thu" ? (
+        <BaoThuHeroBanner />
       ) : (
         <CategoryHero
           title={data.hero.title}
@@ -270,6 +308,7 @@ export default function CategoryLandingTemplate({ data }: Props) {
       {data.slug === "danh-thiep" && (
         <>
           <DanhThiepPricingTable />
+          <DanhThiepComparison />
           <DanhThiepChooseType />
           <DanhThiepGallery />
           <StandeeOrderProcess label="DANH THIẾP" />
@@ -355,8 +394,78 @@ export default function CategoryLandingTemplate({ data }: Props) {
         </>
       )}
 
+      {/* Bao Thu sections */}
+      {data.slug === "bao-thu" && (
+        <>
+          <BaoThuPricingTable />
+          <BaoThuComparison />
+          <BaoThuGallery />
+          <StandeeOrderProcess label="BAO THƯ" />
+          <BaoThuFileAndFeedback />
+          <StoreLocationSection />
+          <BaoThuFAQ />
+          <BaoThuBannerCTA />
+        </>
+      )}
+
+      {/* Anh Ep Nhua sections */}
+      {data.slug === "anh-ep-nhua" && (
+        <>
+          <AnhEpNhuaPricingTable />
+          <AnhEpNhuaComparison />
+          <QualityCommitment />
+          <StandeeOrderProcess label="ẢNH ÉP NHỰA" />
+          <AnhEpNhuaFileAndFeedback />
+          <StoreLocationSection />
+          <AnhEpNhuaFAQ />
+          <StandeeBannerCTA />
+        </>
+      )}
+
+      {/* Anh Cuoi sections */}
+      {data.slug === "anh-cuoi" && (
+        <>
+          <AnhCuoiPricingTable />
+          <AnhCuoiComparison />
+          <QualityCommitment />
+          <StandeeOrderProcess label="ẢNH CƯỚI" />
+          <AnhCuoiFileAndFeedback />
+          <StoreLocationSection />
+          <AnhCuoiFAQ />
+          <StandeeBannerCTA />
+        </>
+      )}
+
+      {/* Photobook sections */}
+      {data.slug === "photobook" && (
+        <>
+          <PhotobookPricingTable />
+          <PhotobookComparison />
+          <QualityCommitment />
+          <StandeeOrderProcess label="PHOTOBOOK" />
+          <PhotobookFileAndFeedback />
+          <StoreLocationSection />
+          <PhotobookFAQ />
+          <StandeeBannerCTA />
+        </>
+      )}
+
+      {/* Bang Gon sections */}
+      {data.slug === "bang-gon" && (
+        <>
+          <BangGonPricingTable />
+          <BangGonComparison />
+          <QualityCommitment />
+          <StandeeOrderProcess label="BĂNG GÔN" />
+          <BangGonFileAndFeedback />
+          <StoreLocationSection />
+          <BangGonFAQ />
+          <StandeeBannerCTA />
+        </>
+      )}
+
       {/* Generic sections (không hiển thị cho các trang đã có section riêng) */}
-      {data.slug !== "poster" && data.slug !== "to-gap" && data.slug !== "nhan-dan" && data.slug !== "bao-bi" && data.slug !== "to-roi" && data.slug !== "danh-thiep" && data.slug !== "menu" && data.slug !== "voucher" && data.slug !== "hashtag-cam-tay" && data.slug !== "catalogue" && data.slug !== "hiflex" && (
+      {data.slug !== "poster" && data.slug !== "to-gap" && data.slug !== "nhan-dan" && data.slug !== "bao-bi" && data.slug !== "to-roi" && data.slug !== "danh-thiep" && data.slug !== "menu" && data.slug !== "voucher" && data.slug !== "hashtag-cam-tay" && data.slug !== "catalogue" && data.slug !== "hiflex" && data.slug !== "anh-ep-nhua" && data.slug !== "anh-cuoi" && data.slug !== "bao-thu" && data.slug !== "photobook" && data.slug !== "bang-gon" && (
         <>
           <CategoryPricing
             title={data.pricing.title}

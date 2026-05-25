@@ -1,23 +1,24 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { Hash, Upload } from "lucide-react";
 import CategoryMarketingHeroBanner from "./CategoryMarketingHeroBanner";
+import { getBannerConfig, DEFAULT_BANNERS } from "@/lib/bannerService";
 
 const SITE_URL = "https://intemcantho.vn";
 
-const hashtagHighlights = [
-  "In sắc nét - Màu nổi bật",
-  "Form bế theo yêu cầu",
-  "Cán màng bền đẹp",
-  "Giá tốt tại Cần Thơ",
-];
-
 export default function HashtagHeroBanner() {
+  const [config, setConfig] = useState(DEFAULT_BANNERS["hashtag-cam-tay"]);
+
+  useEffect(() => {
+    setConfig(getBannerConfig("hashtag-cam-tay"));
+  }, []);
+
   return (
     <CategoryMarketingHeroBanner
-      backgroundSrc="/anphamtiepthi/hashtag/background6.jpeg"
-      backgroundAlt="Hashtag cầm tay In Tem Cần Thơ"
-      ariaLabel="In hashtag cầm tay Cần Thơ - Nổi bật, sắc nét, bền đẹp"
+      backgroundSrc={config.backgroundSrc}
+      backgroundAlt={config.backgroundAlt}
+      ariaLabel={config.ariaLabel}
       breadcrumbs={[
         { label: "Trang chủ", href: "/", schemaItem: SITE_URL },
         { label: "Ấn phẩm tiếp thị", href: "/tiep-thi", schemaItem: `${SITE_URL}/tiep-thi` },
@@ -27,27 +28,13 @@ export default function HashtagHeroBanner() {
           schemaItem: `${SITE_URL}/tiep-thi/hashtag-cam-tay`,
         },
       ]}
-      title="IN HASHTAG"
-      accentTitle="CẦM TAY"
-      tagline="Nổi bật - Sắc nét - Dễ check-in"
-      description={
-        <>
-          Nhận in <strong style={{ fontWeight: 800 }}>hashtag cầm tay</strong> cho sự kiện,
-          khai trương, sinh nhật, hội nghị, booth chụp ảnh và chiến dịch quảng bá với form bế đẹp,
-          màu sắc nổi bật, gia công chắc tay.
-        </>
-      }
-      price={{
-        label: "Giá từ chỉ",
-        amount: "25.000",
-        currency: "VND",
-      }}
-      productImage={{
-        src: "/anphamtiepthi/hashtag/sanpham1.png",
-        alt: "Hashtag cầm tay In Tem Cần Thơ - Sản phẩm",
-        style: { width: "clamp(380px, 48vw, 680px)", right: "60px" },
-      }}
-      highlights={hashtagHighlights}
+      title={config.title}
+      accentTitle={config.accentTitle}
+      tagline={config.tagline}
+      description={config.description}
+      price={config.price}
+      productImage={config.productImage}
+      highlights={config.highlights}
       actions={[
         {
           href: "/lien-he",

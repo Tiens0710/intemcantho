@@ -45,25 +45,25 @@ export const navigationData: NavItem[] = [
           title: "DECAL GIẤY",
           href: "/dich-vu/nhan-dan",
           items: [
-            { label: "Decal giấy", href: "/dich-vu/nhan-dan" },
-            { label: "Decal giấy kraft", href: "/dich-vu/nhan-dan" },
+            { label: "Decal giấy", href: "/san-pham/decal-giay" },
+            { label: "Decal giấy kraft", href: "/san-pham/decal-giay-kraft" },
           ],
         },
         {
           title: "DECAL NHỰA & XI",
           href: "/dich-vu/nhan-dan",
           items: [
-            { label: "Decal nhựa / trong", href: "/dich-vu/nhan-dan" },
-            { label: "Decal xi bạc / xi vàng", href: "/dich-vu/nhan-dan" },
-            { label: "Decal UV DTF", href: "/dich-vu/nhan-dan" },
+            { label: "Decal nhựa / trong", href: "/san-pham/decal-nhua-trong" },
+            { label: "Decal xi bạc / xi vàng", href: "/san-pham/decal-xi-bac-vang" },
+            { label: "Decal UV DTF", href: "/san-pham/decal-uv-dtf" },
           ],
         },
         {
           title: "TEM & DECAL KHỔ LỚN",
           href: "/dich-vu/nhan-dan",
           items: [
-            { label: "Tem bể bảo hành", href: "/dich-vu/nhan-dan" },
-            { label: "Decal khổ lớn", href: "/dich-vu/nhan-dan" },
+            { label: "Tem bể bảo hành", href: "/san-pham/tem-be-bao-hanh" },
+            { label: "Decal khổ lớn", href: "/san-pham/decal-kho-lon" },
           ],
         },
       ],
@@ -112,7 +112,7 @@ export const navigationData: NavItem[] = [
   {
     label: "Ấn phẩm văn phòng",
     href: "/van-phong",
-    activePaths: ["/van-phong"],
+    activePaths: ["/van-phong", "/van-phong/bao-thu", "/tiep-thi/folder", "/tiep-thi/ho-so-nang-luc", "/tiep-thi/ao-thun-dong-phuc", "/tiep-thi/bang-khen"],
     megaMenu: {
       banner: {
         src: "/banner_doc.webp",
@@ -132,17 +132,17 @@ export const navigationData: NavItem[] = [
           title: "BAO THƯ & FOLDER",
           href: "/van-phong",
           items: [
-            { label: "Bao thư", href: "/van-phong" },
-            { label: "Bìa đựng hồ sơ - Folder", href: "/van-phong" },
-            { label: "Hồ sơ năng lực", href: "/van-phong" },
+            { label: "Bao thư", href: "/van-phong/bao-thu" },
+            { label: "Bìa đựng hồ sơ - Folder", href: "/tiep-thi/folder" },
+            { label: "Hồ sơ năng lực", href: "/tiep-thi/ho-so-nang-luc" },
           ],
         },
         {
           title: "ĐỒNG PHỤC & KHÁC",
           href: "/van-phong",
           items: [
-            { label: "Áo thun đồng phục", href: "/van-phong" },
-            { label: "Bảng khen", href: "/van-phong" },
+            { label: "Áo thun đồng phục", href: "/tiep-thi/ao-thun-dong-phuc" },
+            { label: "Bảng khen", href: "/tiep-thi/bang-khen" },
           ],
         },
       ],
@@ -151,7 +151,7 @@ export const navigationData: NavItem[] = [
   {
     label: "In ảnh",
     href: "/in-anh",
-    activePaths: ["/in-anh"],
+    activePaths: ["/in-anh", "/in-anh/anh-ep-nhua", "/in-anh/anh-cuoi", "/in-anh/photobook", "/in-anh/bang-gon", "/in-anh/anh-ep-go", "/in-anh/anh-trending"],
     megaMenu: {
       banner: {
         src: "/danhmuc3.png",
@@ -164,18 +164,18 @@ export const navigationData: NavItem[] = [
           title: "ẢNH ÉP",
           href: "/in-anh",
           items: [
-            { label: "Ảnh ép nhựa", href: "/in-anh" },
-            { label: "Ảnh ép gỗ", href: "/in-anh" },
+          { label: "Ảnh ép nhựa", href: "/in-anh/anh-ep-nhua" },
+          { label: "Ảnh ép gỗ", href: "/in-anh/anh-ep-go" },
           ],
         },
         {
           title: "ẢNH CHÂN DUNG",
           href: "/in-anh",
           items: [
-            { label: "Ảnh cưới", href: "/in-anh" },
-            { label: "Ảnh trending", href: "/in-anh" },
-            { label: "Photobook", href: "/in-anh" },
-            { label: "Bảng gôn cổ vũ", href: "/in-anh" },
+            { label: "Ảnh cưới", href: "/in-anh/anh-cuoi" },
+            { label: "Ảnh trending", href: "/in-anh/anh-trending" },
+            { label: "Photobook", href: "/in-anh/photobook" },
+            { label: "Băng gôn cổ vũ", href: "/in-anh/bang-gon" },
           ],
         },
       ],

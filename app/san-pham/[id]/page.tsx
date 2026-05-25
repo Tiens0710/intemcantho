@@ -66,6 +66,12 @@ export default async function ProductPage({ params }: Props) {
           title: product.title,
           subtitle: product.description,
           image: product.image,
+          specs: product.specs,
+          sizes: product.sizes,
+          purposes: product.purposes,
+          price: product.price ? (typeof product.price === 'number' ? product.price : (product.price.includes('$') ? 0 : parseInt(product.price.replace(/\D/g, '')) || 0)) : undefined,
+          deliveryDate: product.deliveryDate,
+          gallery: product.gallery,
         }}
       />
       <ProductDetailTabs productName={product.title} />

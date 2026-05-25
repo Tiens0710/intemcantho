@@ -10,6 +10,9 @@ import {
   Ticket,
   Hash,
   Layers,
+  Mail,
+  Camera,
+  BookImage,
   type LucideIcon,
 } from "lucide-react";
 
@@ -830,6 +833,373 @@ export const CATEGORY_DATA: Record<string, CategoryData> = {
         role: "Quản lý sự kiện",
         content:
           "Backdrop hiflex cho sự kiện rất ấn tượng, in nhanh và đúng hẹn. Cảm ơn Intem!",
+        avatar: "/mau-3png-150x150.png",
+        rating: 5,
+      },
+    ],
+  },
+  
+  "anh-ep-nhua": {
+    slug: "anh-ep-nhua",
+    icon: Camera,
+    categoryLabel: "Ảnh ép nhựa",
+    heroBg: "/bgvanphong.png",
+    hero: {
+      title: "In Ảnh Ép Nhựa",
+      subtitle:
+        "Ảnh ép nhựa PVC, ảnh chân dung, ảnh cưới, ảnh gia đình và ảnh decor – sắc nét, chống nước, bền màu, lưu giữ khoảnh khắc trọn đời.",
+      bgImage: "/inanh/epnhua/sanpham1.webp",
+      floatingImages: ["/inanh/epnhua/sanpham1.webp", "/inanh/epnhua/sanpham2.png"],
+    },
+    pricing: {
+      title: "Báo Giá In Ảnh Ép Nhựa",
+      subtitle: "Ảnh ép nhựa đa dạng kích thước, chống nước, bền đẹp. Hỗ trợ thiết kế khung và chỉnh sửa ảnh.",
+      packages: [
+        {
+          name: "Ảnh ép nhựa PVC",
+          quantity: "1 – 20 ảnh",
+          price: "15.000đ/ảnh",
+          note: "Kích thước 10x15cm",
+        },
+        {
+          name: "Ảnh ép nhựa cứng",
+          quantity: "1 – 20 ảnh",
+          price: "25.000đ/ảnh",
+          note: "Kích thước 13x18cm, dày 0.5mm",
+          popular: true,
+        },
+        {
+          name: "Ảnh ép nhựa cao cấp",
+          quantity: "1 – 10 ảnh",
+          price: "45.000đ/ảnh",
+          note: "Kích thước 20x30cm, chống trầy",
+        },
+      ],
+    },
+    gallery: {
+      title: "Thư Viện Mẫu Ảnh Ép Nhựa",
+      subtitle: "Ảnh chân dung, ảnh cưới, ảnh gia đình và ảnh decor đa dạng kích thước.",
+      images: [
+        { src: "/inanh/epnhua/sanpham1.webp", alt: "Ảnh chân dung ép nhựa" },
+        { src: "/inanh/epnhua/sanpham2.png", alt: "Ảnh cưới ép nhựa" },
+        { src: "/inanh/epnhua/background.jpeg", alt: "Ảnh gia đình ép nhựa" },
+        { src: "/inanh/epnhua/sanpham1.webp", alt: "Ảnh decor ép nhựa" },
+      ],
+    },
+    caseStudy: {
+      client: "Studio ảnh cưới",
+      industry: "Chụp ảnh – Studio",
+      challenge:
+        "Cần in ảnh chân dung và ảnh cưới cho khách hàng với chất lượng cao, màu sắc trung thực, ảnh phải chống nước và bền lâu.",
+      solution:
+        "Sử dụng ảnh ép nhựa PVC cao cấp, in laser sắc nét, cán màng chống trầy. Ảnh có độ bền trên 10 năm.",
+      result:
+        "Khách hàng rất hài lòng với chất lượng ảnh, nhiều người quay lại đặt thêm ảnh cho gia đình và bạn bè.",
+      image: "/inanh/epnhua/sanpham1.webp",
+    },
+    testimonials: [
+      {
+        id: "tt-anh-ep-nhua-1",
+        author: "Chị Lan",
+        role: "Chủ studio ảnh cưới",
+        content:
+          "Ảnh ép nhựa ở Intem rất sắc nét, màu chuẩn và chống nước tốt. Khách hàng khen ảnh đẹp và bền!",
+        avatar: "/mau-150x150.png",
+        rating: 5,
+      },
+      {
+        id: "tt-anh-ep-nhua-2",
+        author: "Anh Hùng",
+        role: "Khách hàng in ảnh gia đình",
+        content:
+          "In ảnh gia đình ép nhựa, ảnh rất đẹp, cầm chắc tay. Sẽ giới thiệu cho bạn bè.",
+        avatar: "/mau-4-150x150.png",
+        rating: 5,
+      },
+    ],
+  },
+
+  "bao-thu": {
+    slug: "bao-thu",
+    icon: Mail,
+    categoryLabel: "Bao thư",
+    heroBg: "/anphamvanphong/baothu/background.jpeg",
+    hero: {
+      title: "In Bao Thư",
+      subtitle: "Bao thư A4, A5, A6 sắc nét, gia công dán keo nắp sẵn tiện lợi, nâng tầm hình ảnh chuyên nghiệp cho doanh nghiệp.",
+      bgImage: "/anphamvanphong/baothu/background.jpeg",
+      floatingImages: ["/anphamvanphong/baothu/sanpham1.png"]
+    },
+    pricing: {
+      title: "Báo Giá In Bao Thư",
+      subtitle: "Bao thư đa dạng kích thước, in ấn sắc nét, hỗ trợ thiết kế.",
+      packages: [
+        { name: "Bao thư A6 (12x22cm)", quantity: "500 - 1.000 cái", price: "1.200đ/cái", note: "Giấy Ford 100gsm" },
+        { name: "Bao thư A5 (16x23cm)", quantity: "500 - 1.000 cái", price: "1.800đ/cái", note: "Giấy Ford 120gsm", popular: true },
+        { name: "Bao thư A4 (25x35cm)", quantity: "500 - 1.000 cái", price: "2.800đ/cái", note: "Giấy Ford 120gsm" }
+      ]
+    },
+    gallery: {
+      title: "Thư Viện Mẫu Bao Thư",
+      subtitle: "Các mẫu bao thư văn phòng, bao thư lớn/nhỏ của các doanh nghiệp.",
+      images: [
+        { src: "/anphamvanphong/baothu/sanpham1.png", alt: "Mẫu bao thư văn phòng" },
+        { src: "/anphamvanphong/baothu/sanpham.webp", alt: "Bao thư bế dán nắp keo" }
+      ]
+    },
+    caseStudy: {
+      client: "Công ty Logistics Cần Thơ",
+      industry: "Vận tải - Giao nhận",
+      challenge: "Cần bao thư lớn A4 gửi hợp đồng và hóa đơn, chất lượng giấy tốt, mực không lem khi gặp ẩm.",
+      solution: "Sử dụng giấy Ford 120gsm, in offset chống nhòe mực, dán băng keo nắp sẵn giúp đóng gói nhanh.",
+      result: "Hơn 2000 bao thư được sử dụng, tăng tốc độ đóng gói chứng từ lên 50%, đối tác phản hồi tốt về độ chuyên nghiệp.",
+      image: "/anphamvanphong/baothu/sanpham1.png"
+    },
+    testimonials: [
+      {
+        id: "tt-baothu-1",
+        author: "Anh Đức",
+        role: "Giám đốc vận hành Logistics",
+        content: "Bao thư dán sẵn nắp keo rất tiện, bế dán đều đặn, in logo chuẩn màu thương hiệu.",
+        avatar: "/mau-150x150.png",
+        rating: 5
+      }
+    ]
+  },
+
+  "anh-cuoi": {
+    slug: "anh-cuoi",
+    icon: Camera,
+    categoryLabel: "Ảnh cưới",
+    heroBg: "/bgvanphong.png",
+    hero: {
+      title: "In Ảnh Cưới",
+      subtitle:
+        "Ảnh cưới in trên giấy ảnh cao cấp, ép nhựa cứng, photobook và album cưới – sắc nét, chống nước, lưu giữ khoảnh khắc trọn đời.",
+      bgImage: "/inanh/anhcuoi/background.jpeg",
+      floatingImages: ["/inanh/anhcuoi/background.jpeg"],
+    },
+    pricing: {
+      title: "Báo Giá In Ảnh Cưới",
+      subtitle: "Ảnh cưới đa dạng kích thước và chất liệu. Hỗ trợ chỉnh sửa ảnh và thiết kế khung.",
+      packages: [
+        {
+          name: "Ảnh cưới giấy ảnh",
+          quantity: "1 – 20 ảnh",
+          price: "25.000đ/ảnh",
+          note: "Kích thước 10x15cm",
+        },
+        {
+          name: "Ảnh cưới ép nhựa",
+          quantity: "1 – 20 ảnh",
+          price: "45.000đ/ảnh",
+          note: "Kích thước 15x21cm, chống nước",
+          popular: true,
+        },
+        {
+          name: "Ảnh cưới cao cấp",
+          quantity: "1 – 10 ảnh",
+          price: "95.000đ/ảnh",
+          note: "Kích thước 30x40cm, in laser",
+        },
+      ],
+    },
+    gallery: {
+      title: "Thư Viện Mẫu Ảnh Cưới",
+      subtitle: "Ảnh cưới, ảnh kỷ niệm và album cưới đa dạng kích thước.",
+      images: [
+        { src: "/inanh/anhcuoi/background.jpeg", alt: "Ảnh cưới in trên giấy ảnh" },
+        { src: "/inanh/anhcuoi/background.jpeg", alt: "Ảnh cưới ép nhựa" },
+        { src: "/inanh/anhcuoi/background.jpeg", alt: "Ảnh cưới treo tường" },
+        { src: "/inanh/anhcuoi/background.jpeg", alt: "Ảnh cưới cao cấp" },
+      ],
+    },
+    caseStudy: {
+      client: "Cô dâu chú rể Cần Thơ",
+      industry: "Ảnh cưới – Studio",
+      challenge:
+        "Cần in ảnh cưới chất lượng cao, màu sắc trung thực, ảnh phải chống nước và bền lâu để làm kỷ niệm và treo tường.",
+      solution:
+        "Sử dụng giấy ảnh cao cấp và nhựa cứng 0.5mm, in laser sắc nét, cán màng chống trầy. Ảnh có độ bền trên 10 năm.",
+      result:
+        "Cô dâu chú rể rất hài lòng với chất lượng ảnh, nhiều người quay lại đặt thêm ảnh cho gia đình và bạn bè.",
+      image: "/inanh/anhcuoi/background.jpeg",
+    },
+    testimonials: [
+      {
+        id: "tt-anh-cuoi-1",
+        author: "Chị Phương",
+        role: "Cô dâu",
+        content:
+          "Ảnh cưới in ở Intem rất đẹp, màu chuẩn và bền. Treo trong phòng ngủ mỗi ngày nhìn thấy đều vui!",
+        avatar: "/mau-150x150.png",
+        rating: 5,
+      },
+      {
+        id: "tt-anh-cuoi-2",
+        author: "Anh Kiên",
+        role: "Chú rể",
+        content:
+          "In ảnh cưới ép nhựa cứng, ảnh rất đẹp và chắc tay. Giới thiệu cho bạn bè ai cũng khen!",
+        avatar: "/mau-4-150x150.png",
+        rating: 5,
+      },
+    ],
+  },
+
+  photobook: {
+    slug: "photobook",
+    icon: BookImage,
+    categoryLabel: "Photobook",
+    heroBg: "/bgvanphong.png",
+    hero: {
+      title: "In Photobook",
+      subtitle:
+        "Photobook kỷ niệm, album cưới, photo book gia đình và lưu giữ kỷ niệm – in laser sắc nét, bìa cứng cao cấp, lưu giữ kỷ niệm trọn đời.",
+      bgImage: "/inanh/photobook/background.jpeg",
+      floatingImages: ["/inanh/photobook/sanpham1.png"],
+    },
+    pricing: {
+      title: "Báo Giá In Photobook",
+      subtitle: "Photobook đa dạng kích thước và số trang. Hỗ trợ thiết kế và chỉnh sửa ảnh.",
+      packages: [
+        {
+          name: "Photobook 20x25cm",
+          quantity: "1 – 5 cuốn",
+          price: "350.000đ/cuốn",
+          note: "20 trang, giấy ảnh cao cấp",
+        },
+        {
+          name: "Photobook 25x30cm",
+          quantity: "1 – 5 cuốn",
+          price: "550.000đ/cuốn",
+          note: "24 trang, bìa cứng",
+          popular: true,
+        },
+        {
+          name: "Photobook 30x30cm",
+          quantity: "1 – 5 cuốn",
+          price: "750.000đ/cuốn",
+          note: "30 trang, bìa da cao cấp",
+        },
+      ],
+    },
+    gallery: {
+      title: "Thư Viện Mẫu Photobook",
+      subtitle: "Photobook kỷ niệm, album cưới, photo book gia đình đa dạng phong cách.",
+      images: [
+        { src: "/inanh/photobook/background.jpeg", alt: "Photobook kỷ niệm" },
+        { src: "/inanh/photobook/sanpham1.png", alt: "Photobook gia đình" },
+        { src: "/inanh/anhcuoi/background.jpeg", alt: "Photobook cưới" },
+        { src: "/inanh/photobook/background.jpeg", alt: "Photobook cao cấp" },
+      ],
+    },
+    caseStudy: {
+      client: "Cô dâu chú rể Cần Thơ",
+      industry: "Ảnh cưới – Studio",
+      challenge:
+        "Cần in photobook cưới chất lượng cao, hình ảnh sắc nét, bìa cứng chắc tay và giữ màu lâu dài.",
+      solution:
+        "Sử dụng giấy ảnh cao cấp, in laser 6 màu, bìa bồi da hoặc vải. Đóng gáy chắc chắn, thiết kế layout chuyên nghiệp.",
+      result:
+        "Photobook được cô dâu chú rể ưng ý, nhiều khách hàng quay lại đặt thêm photo book gia đình và kỷ niệm.",
+      image: "/inanh/photobook/background.jpeg",
+    },
+    testimonials: [
+      {
+        id: "tt-photobook-1",
+        author: "Chị Yến",
+        role: "Cô dâu",
+        content:
+          "Photobook cưới ở Intem rất đẹp, ảnh rõ nét và bìa cứng cáp. Mỗi lần mở ra lại nhớ ngày cưới!",
+        avatar: "/mau-150x150.png",
+        rating: 5,
+      },
+      {
+        id: "tt-photobook-2",
+        author: "Anh Nam",
+        role: "Khách hàng in photo book gia đình",
+        content:
+          "In photobook gia đình, chất lượng ảnh tuyệt vời. Bìa đẹp, đóng gáy chắc, rất hài lòng!",
+        avatar: "/mau-4-150x150.png",
+        rating: 5,
+      },
+    ],
+  },
+
+  "bang-gon": {
+    slug: "bang-gon",
+    icon: Flag,
+    categoryLabel: "Băng gôn cổ vũ",
+    heroBg: "/bgvanphong.png",
+    hero: {
+      title: "In Băng Gôn Cổ Vũ",
+      subtitle:
+        "Băng gôn cổ vũ thể thao, ca nhạc, sự kiện team building và chương trình giải trí – in sắc nét, màu sắc nổi bật, bền bỉ và chất lượng hàng đầu.",
+      bgImage: "/inanh/bangoncovu/background.jpeg",
+      floatingImages: ["/inanh/bangoncovu/background.jpeg", "/inanh/bangoncovu/sanpham4.png"],
+    },
+    pricing: {
+      title: "Báo Giá Băng Gôn Cổ Vũ",
+      subtitle: "Băng gôn đa dạng kích thước, chất liệu vải hoặc bạt hiflex cao cấp, in theo yêu cầu.",
+      packages: [
+        {
+          name: "Băng gôn vải đeo đầu",
+          quantity: "50 – 100 cái",
+          price: "5.000đ/cái",
+          note: "Kích thước 5x90cm, vải satin cao cấp",
+        },
+        {
+          name: "Băng gôn cầm tay",
+          quantity: "20 – 50 cái",
+          price: "15.000đ/cái",
+          note: "Kích thước 20x80cm, in chuyển nhiệt",
+          popular: true,
+        },
+        {
+          name: "Băng gôn treo sự kiện",
+          quantity: "1 – 5 cái",
+          price: "90.000đ/cái",
+          note: "Kích thước 50x200cm, vải silk hoặc bạt hiflex",
+        },
+      ],
+    },
+    gallery: {
+      title: "Thư Viện Mẫu Băng Gôn Cổ Vũ",
+      subtitle: "Khám phá các mẫu băng gôn cổ vũ bóng đá, sự kiện, chương trình âm nhạc cực chất.",
+      images: [
+        { src: "/inanh/bangoncovu/sanpham4.png", alt: "Băng gôn đeo đầu cổ vũ" },
+        { src: "/inanh/bangoncovu/sanpham2.png", alt: "Băng gôn cầm tay cổ vũ" },
+        { src: "/inanh/bangoncovu/sanpham3.png", alt: "Băng gôn treo sự kiện" },
+      ],
+    },
+    caseStudy: {
+      client: "Hội Cổ Động Viên Cần Thơ",
+      industry: "Thể thao – Sự kiện",
+      challenge:
+        "Cần gấp 1000 băng gôn đeo đầu và 50 băng gôn cầm tay trong 24 giờ phục vụ giải đấu bóng đá phong trào.",
+      solution:
+        "Sử dụng công nghệ in chuyển nhiệt tốc độ cao trên vải satin đỏ chữ vàng. Gia công bế biên nhiệt không tưa vải.",
+      result:
+        "Bàn giao đúng hẹn 100% sản phẩm. Màu in cực sắc nét, nổi bật trên khán đài, kích thích tinh thần cổ vũ.",
+      image: "/inanh/bangoncovu/sanpham4.png",
+    },
+    testimonials: [
+      {
+        id: "tt-bang-gon-1",
+        author: "Anh Tuấn",
+        role: "Trưởng hội cổ động viên",
+        content:
+          "Băng gôn in màu đỏ rực rất đẹp, chữ vàng nổi bật, vải satin sờ mịn tay. Giao hàng cực kỳ đúng hẹn cho giải đấu!",
+        avatar: "/mau-150x150.png",
+        rating: 5,
+      },
+      {
+        id: "tt-bang-gon-2",
+        author: "Chị Vân",
+        role: "Ban tổ chức giải chạy",
+        content:
+          "Đặt băng gôn cầm tay số lượng lớn cho giải chạy của công ty, mọi người đeo lên chụp ảnh check-in rất đẹp.",
         avatar: "/mau-3png-150x150.png",
         rating: 5,
       },

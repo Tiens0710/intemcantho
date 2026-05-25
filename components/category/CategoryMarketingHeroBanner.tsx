@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { ChevronRight, CircleCheck, type LucideIcon } from "lucide-react";
 
 type BreadcrumbItem = {
@@ -169,14 +170,22 @@ export default function CategoryMarketingHeroBanner({
             boxSizing: "border-box",
             maxWidth: "min(40rem, calc(100vw - 3rem))",
             color: "#1f1a16",
-            fontSize: "clamp(1rem, 1.45vw, 1.35rem)",
-            lineHeight: 1.32,
+            fontSize: "clamp(0.85rem, 1.2vw, 1.1rem)",
+            lineHeight: 1.4,
             fontWeight: 400,
             letterSpacing: "0",
             textShadow: "0 1px 5px rgba(255,255,255,0.72)",
+            display: "-webkit-box",
+            WebkitLineClamp: 3,
+            WebkitBoxOrient: "vertical",
+            overflow: "hidden",
           }}
         >
-          {description}
+          {typeof description === "string" ? (
+            <span dangerouslySetInnerHTML={{ __html: description }} />
+          ) : (
+            description
+          )}
         </p>
 
         <div
@@ -422,18 +431,27 @@ export default function CategoryMarketingHeroBanner({
             ...productImage.style,
           }}
         >
-          <Image
-            src={productImage.src}
-            alt={productImage.alt}
-            width={560}
-            height={0}
-            sizes="(max-width: 768px) 320px, 560px"
-            style={{
-              width: "100%",
-              height: "auto",
-              display: "block",
+          <motion.div
+            animate={{ y: [-10, 10, -10] }}
+            transition={{
+              duration: 5,
+              repeat: Infinity,
+              ease: "easeInOut",
             }}
-          />
+          >
+            <Image
+              src={productImage.src}
+              alt={productImage.alt}
+              width={productImage.width || 560}
+              height={productImage.height || 560}
+              sizes="(max-width: 768px) 320px, 560px"
+              style={{
+                width: "100%",
+                height: "auto",
+                display: "block",
+              }}
+            />
+          </motion.div>
         </div>
       )}
     </section>

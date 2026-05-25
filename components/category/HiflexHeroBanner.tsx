@@ -1,47 +1,36 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { Layers, Upload } from "lucide-react";
 import CategoryMarketingHeroBanner from "./CategoryMarketingHeroBanner";
+import { getBannerConfig, DEFAULT_BANNERS } from "@/lib/bannerService";
 
 const SITE_URL = "https://intemcantho.vn";
 
-const hiflexHighlights = [
-  "In sắc nét - Màu chuẩn",
-  "Chống nước, bền màu",
-  "Đa dạng kích thước",
-  "Giá tốt tại Cần Thơ",
-];
-
 export default function HiflexHeroBanner() {
+  const [config, setConfig] = useState(DEFAULT_BANNERS["hiflex"]);
+
+  useEffect(() => {
+    setConfig(getBannerConfig("hiflex"));
+  }, []);
+
   return (
     <CategoryMarketingHeroBanner
-      backgroundSrc="/anphamtiepthi/hiflex/background6.jpeg"
-      backgroundAlt="Bạt Hiflex In Tem Cần Thơ"
-      ariaLabel="In bạt hiflex Cần Thơ - Sắc nét, chống nước, bền màu"
+      backgroundSrc={config.backgroundSrc}
+      backgroundAlt={config.backgroundAlt}
+      ariaLabel={config.ariaLabel}
       breadcrumbs={[
         { label: "Trang chủ", href: "/", schemaItem: SITE_URL },
         { label: "Ấn phẩm tiếp thị", href: "/tiep-thi", schemaItem: `${SITE_URL}/tiep-thi` },
         { label: "Bạt Hiflex", href: "/tiep-thi/hiflex", schemaItem: `${SITE_URL}/tiep-thi/hiflex` },
       ]}
-      title="IN BẠT"
-      accentTitle="HIFLEX"
-      tagline="Sắc nét - Chống nước - Bền màu"
-      description={
-        <>
-          Nhận in <strong style={{ fontWeight: 800 }}>bạt hiflex</strong> cho băng rôn, banner, backdrop,
-          billboard với đa dạng kích thước, chống nước tốt, giá cạnh tranh tại Cần Thơ.
-        </>
-      }
-      price={{
-        label: "Giá từ chỉ",
-        amount: "90.000",
-        currency: "VND",
-      }}
-      highlights={hiflexHighlights}
-      productImage={{
-        src: "/anphamtiepthi/hiflex/sanpham1.png",
-        alt: "Bạt Hiflex In Tem Cần Thơ - Sản phẩm",
-      }}
+      title={config.title}
+      accentTitle={config.accentTitle}
+      tagline={config.tagline}
+      description={config.description}
+      price={config.price}
+      productImage={config.productImage}
+      highlights={config.highlights}
       actions={[
         {
           href: "/lien-he",

@@ -33,13 +33,18 @@ export default function Navbar() {
   const pathname = usePathname();
   const isNavItemActive = (item: (typeof navigationData)[number]) => {
     const activePaths = item.activePaths ?? [item.href];
-
     return activePaths.some((path) => {
-      if (path === "/") {
-        return pathname === "/";
+      if (path === "/") return pathname === "/";
+      // Exact match, or prefix match only if the sub-segment is NOT claimed by another nav item
+      if (pathname === path) return true;
+      if (pathname.startsWith(`${path}/`)) {
+        // Check if any other nav item has this deeper path in its activePaths
+        const claimed = navigationData.some(
+          (other) => other.label !== item.label && other.activePaths?.some((ap) => pathname === ap || pathname.startsWith(`${ap}/`)),
+        );
+        return !claimed;
       }
-
-      return pathname === path || pathname.startsWith(`${path}/`);
+      return false;
     });
   };
 
@@ -168,14 +173,12 @@ export default function Navbar() {
                       >
                         {item.label}
                         <ChevronDown
-                          className={`h-3.5 w-3.5 transition-transform duration-300 ${
-                            activeMegaMenu === item.label ? "rotate-180" : ""
-                          }`}
+                          className={`h-3.5 w-3.5 transition-transform duration-300 ${activeMegaMenu === item.label ? "rotate-180" : ""
+                            }`}
                         />
                         <span
-                          className={`absolute bottom-0 left-3 right-3 h-0.5 scale-x-0 bg-amber-700 transition-transform duration-300 group-hover:scale-x-100 ${
-                            isNavItemActive(item) ? "scale-x-100" : ""
-                          }`}
+                          className={`absolute bottom-0 left-3 right-3 h-0.5 scale-x-0 bg-amber-700 transition-transform duration-300 group-hover:scale-x-100 ${isNavItemActive(item) ? "scale-x-100" : ""
+                            }`}
                         />
                       </Link>
                     </div>
@@ -279,14 +282,12 @@ export default function Navbar() {
                       >
                         {item.label}
                         <ChevronDown
-                          className={`h-3.5 w-3.5 transition-transform duration-300 ${
-                            activeMegaMenu === item.label ? "rotate-180" : ""
-                          }`}
+                          className={`h-3.5 w-3.5 transition-transform duration-300 ${activeMegaMenu === item.label ? "rotate-180" : ""
+                            }`}
                         />
                         <span
-                          className={`absolute bottom-0 left-3 right-3 h-0.5 scale-x-0 bg-amber-700 transition-transform duration-300 group-hover:scale-x-100 ${
-                            isNavItemActive(item) ? "scale-x-100" : ""
-                          }`}
+                          className={`absolute bottom-0 left-3 right-3 h-0.5 scale-x-0 bg-amber-700 transition-transform duration-300 group-hover:scale-x-100 ${isNavItemActive(item) ? "scale-x-100" : ""
+                            }`}
                         />
                       </Link>
                     </div>
@@ -334,9 +335,8 @@ export default function Navbar() {
                   >
                     {item.label}
                     <span
-                      className={`absolute bottom-0 left-3 right-3 h-0.5 scale-x-0 bg-amber-700 transition-transform duration-300 group-hover:scale-x-100 ${
-                        isNavItemActive(item) ? "scale-x-100" : ""
-                      }`}
+                      className={`absolute bottom-0 left-3 right-3 h-0.5 scale-x-0 bg-amber-700 transition-transform duration-300 group-hover:scale-x-100 ${isNavItemActive(item) ? "scale-x-100" : ""
+                        }`}
                     />
                   </Link>
                 )}
@@ -362,7 +362,7 @@ export default function Navbar() {
               <button
                 type="button"
                 onClick={() => setShowLoginModal(true)}
-                  className="border-amber-200 bg-white/80 text-amber-800 hover:bg-amber-50 ml-1 rounded-full border px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.25em] transition-colors"
+                className="border-amber-200 bg-white/80 text-amber-800 hover:bg-amber-50 ml-1 rounded-full border px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.25em] transition-colors"
               >
                 Đăng nhập
               </button>
@@ -455,7 +455,7 @@ export default function Navbar() {
                     </AnimatePresence>
                   </div>
                 ) : (
-                    <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+                  <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
                     <button
                       type="button"
                       onClick={() => setShowLoginModal(true)}
@@ -525,7 +525,7 @@ export default function Navbar() {
               <button
                 type="button"
                 onClick={() => setShowLoginModal(true)}
-                  className="rounded-full border px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] transition-colors border-amber-200 bg-white/80 text-amber-800"
+                className="rounded-full border px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] transition-colors border-amber-200 bg-white/80 text-amber-800"
               >
                 Đăng nhập
               </button>
@@ -592,9 +592,8 @@ export default function Navbar() {
                           className="text-amber-800 hover:bg-amber-50 p-3 rounded-2xl transition-all"
                         >
                           <ChevronDown
-                            className={`w-4 h-4 transition-transform duration-300 ${
-                              expandedMobileItem === item.label ? "rotate-180" : ""
-                            }`}
+                            className={`w-4 h-4 transition-transform duration-300 ${expandedMobileItem === item.label ? "rotate-180" : ""
+                              }`}
                           />
                         </button>
                       )}
