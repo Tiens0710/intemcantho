@@ -112,7 +112,7 @@ export default function CategoryFAQ({
         {/* View All Button */}
         <div className="flex justify-center">
           <Link href={viewAllHref}>
-            <BrandOutlineButton className="flex items-center gap-2">
+            <BrandOutlineButton active className="flex items-center gap-2">
               {viewAllText}
               <svg 
                 width="18" 

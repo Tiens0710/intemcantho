@@ -72,7 +72,7 @@ export const navigationData: NavItem[] = [
   {
     label: "Ấn phẩm tiếp thị",
     href: "/tiep-thi",
-    activePaths: ["/tiep-thi", "/tiep-thi/menu", "/tiep-thi/catalogue", "/tiep-thi/voucher", "/tiep-thi/hashtag-cam-tay", "/tiep-thi/hiflex"],
+    activePaths: ["/tiep-thi", "/tiep-thi/menu", "/tiep-thi/catalogue", "/tiep-thi/voucher", "/tiep-thi/hashtag-cam-tay", "/tiep-thi/hiflex", "/dich-vu/to-roi", "/dich-vu/standee"],
     megaMenu: {
       banner: {
         src: "/danhmuc4.png",

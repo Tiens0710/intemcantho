@@ -321,6 +321,11 @@ export default function CheckoutPage() {
   };
   const orderTotal = cartTotal;
 
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   useEffect(() => {
     let cancelled = false;
 
@@ -354,6 +359,20 @@ export default function CheckoutPage() {
   const wards = selectedDistrict?.wards ?? [];
   const selectedSavedAddress = savedAddresses.find((address) => address.id === selectedAddressId);
   const isUsingNewAddress = selectedAddressId === "new";
+
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-white">
+        <Navbar />
+        <main className="relative py-24 container mx-auto px-4 text-center z-10">
+          <div className="flex flex-col items-center justify-center min-h-[300px]">
+            <p className="text-gray-500 font-semibold">Đang tải thông tin thanh toán...</p>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white">

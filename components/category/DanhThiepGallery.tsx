@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import BrandOutlineButton from "@/components/ui/BrandOutlineButton";
 
 const categories = [
@@ -127,10 +128,12 @@ export default function DanhThiepGallery() {
               {/* Card inner */}
               <div className="relative z-10 rounded-2xl overflow-hidden shadow-lg shadow-black/15 ring-1 ring-black/5 group-hover:ring-[#e87c22]/40 transition-all duration-500">
                 {/* Image Container */}
-                <div className="aspect-[2/3] overflow-hidden">
-                  <img
+                <div className="aspect-[2/3] overflow-hidden relative">
+                  <Image
                     src={item.image}
                     alt={item.title}
+                    fill
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 12vw"
                     className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                   />
                 </div>
@@ -159,7 +162,7 @@ export default function DanhThiepGallery() {
 
         {/* View More */}
         <div className="flex justify-center mt-10">
-          <BrandOutlineButton>Xem thêm mẫu Danh Thiếp →</BrandOutlineButton>
+          <BrandOutlineButton active>Xem thêm mẫu Danh Thiếp →</BrandOutlineButton>
         </div>
       </div>
     </section>

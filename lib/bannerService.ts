@@ -312,6 +312,148 @@ export const DEFAULT_BANNERS: Record<string, BannerConfig> = {
       "Bế biên nhiệt chống tưa vải",
       "Hỗ trợ thiết kế theo yêu cầu"
     ]
+  },
+  "poster": {
+    categorySlug: "poster",
+    backgroundSrc: "/standee/background6.jpeg",
+    backgroundAlt: "In Standee Cần Thơ",
+    ariaLabel: "In standee Cần Thơ - Chuyên nghiệp, sắc nét, bền đẹp",
+    title: "IN STANDEE",
+    accentTitle: "CẦN THƠ",
+    tagline: "Chuyên nghiệp - Nổi bật - Giá tốt",
+    description: "Nhận in <strong>standee quảng cáo</strong>, standee chữ X, standee cuốn nhôm, standee mô hình tại Cần Thơ với chất liệu bạt hiflex, pp cán mờ/bóng, chân dựng chắc chắn.",
+    price: {
+      label: "Giá từ chỉ",
+      amount: "80.000",
+      currency: "VND"
+    },
+    productImage: {
+      src: "/standee/herobanner1.png",
+      alt: "Standee In Tem Cần Thơ - Sản phẩm",
+      style: {
+        width: "clamp(150px, 16vw, 220px)",
+        right: "300px",
+        top: "50%"
+      }
+    },
+    highlights: [
+      "In sắc nét - Màu chuẩn",
+      "Chân cuốn nhôm/chữ X bền bỉ",
+      "Gia công đục khoen, xỏ cây",
+      "Giá tốt nhất tại Cần Thơ"
+    ]
+  },
+  "to-roi": {
+    categorySlug: "to-roi",
+    backgroundSrc: "/toroi/background6.jpeg",
+    backgroundAlt: "In Tờ Rơi Cần Thơ",
+    ariaLabel: "In tờ rơi Cần Thơ - Chuyên nghiệp, sắc nét, giao nhanh",
+    title: "IN TỜ RƠI",
+    accentTitle: "CẦN THƠ",
+    tagline: "Thiết kế nổi bật - In ấn sắc nét - Giao hàng nhanh",
+    description: "Nhận in <strong>tờ rơi</strong>, tờ gấp quảng cáo, tờ bướm giới thiệu sản phẩm tại Cần Thơ với đa dạng kích thước A4, A5, A6 trên giấy Couches cao cấp.",
+    price: {
+      label: "Giá từ chỉ",
+      amount: "350",
+      currency: "đ/tờ"
+    },
+    productImage: {
+      src: "/toroi/sanpham1.webp",
+      alt: "Tờ Rơi In Tem Cần Thơ - Sản phẩm",
+      style: {
+        width: "clamp(150px, 16vw, 220px)",
+        right: "300px",
+        top: "50%"
+      }
+    },
+    highlights: [
+      "In offset chất lượng cao",
+      "Giấy Couches bóng mịn 150-300gsm",
+      "Hỗ trợ thiết kế theo yêu cầu",
+      "In nhanh - Giao hàng đúng hẹn"
+    ]
+  },
+  "nhan-dan": {
+    categorySlug: "nhan-dan",
+    backgroundSrc: "/nhandan/background6.jpeg",
+    backgroundAlt: "In Tem Nhãn Cần Thơ",
+    ariaLabel: "In tem nhãn Cần Thơ - Chuyên nghiệp, sắc nét, bám dính tốt",
+    title: "IN TEM NHÃN",
+    accentTitle: "DECAL",
+    tagline: "Chất lượng cao - Độ bám dính tốt - Thiết kế miễn phí",
+    description: "Nhận in <strong>tem nhãn decal</strong>, decal giấy, decal nhựa đục/trong, tem bảo hành, nhãn dán logo tại Cần Thơ với máy móc in hiện đại, bế demi sẵn dễ lột.",
+    price: {
+      label: "Giá từ chỉ",
+      amount: "150",
+      currency: "đ/tem"
+    },
+    productImage: {
+      src: "/nhandan/section1_1.png",
+      alt: "Tem Nhãn Decal In Tem Cần Thơ - Sản phẩm",
+      style: {
+        width: "clamp(300px, 32vw, 460px)",
+        right: "200px",
+        top: "50%"
+      }
+    },
+    highlights: [
+      "In decal nhựa, decal giấy chất lượng",
+      "Cắt bế demi sẵn, dễ bóc dán",
+      "Keo bám dính siêu chắc, không bong",
+      "Hỗ trợ thiết kế mẫu tem miễn phí"
+    ]
+  },
+  "brochure": {
+    categorySlug: "brochure",
+    backgroundSrc: "/brochure/background6.jpeg",
+    backgroundAlt: "Brochure In Tem Cần Thơ",
+    ariaLabel: "In brochure Cần Thơ - Chuyên nghiệp, sắc nét, ấn tượng",
+    title: "IN BROCHURE",
+    accentTitle: "CẦN THƠ",
+    tagline: "Chuyên nghiệp - Sắc nét - Ấn tượng",
+    description: "Nhận in <strong>brochure</strong>, tờ gấp giới thiệu công ty, sản phẩm, menu và profile bán hàng tại Cần Thơ với đa dạng kiểu gấp, chất liệu giấy cao cấp, gia công chỉn chu.",
+    price: {
+      label: "Giá từ chỉ",
+      amount: "3.000",
+      currency: "đ/tờ"
+    },
+    productImage: {
+      src: "/brochure/sanpham1.png",
+      alt: "Brochure In Tem Cần Thơ - Sản phẩm",
+      style: { width: "clamp(240px, 28vw, 420px)" }
+    },
+    highlights: [
+      "In sắc nét - Màu chuẩn",
+      "Đa dạng kiểu gấp 2, gấp 3",
+      "Giấy Couches cao cấp",
+      "Giá tốt tại Cần Thơ"
+    ]
+  },
+  "bao-bi": {
+    categorySlug: "bao-bi",
+    backgroundSrc: "/baobi/background6.jpeg",
+    backgroundAlt: "In Bao Bì Cần Thơ",
+    ariaLabel: "In bao bì Cần Thơ - Chuyên nghiệp, sắc nét, bền đẹp",
+    title: "IN BAO BÌ",
+    accentTitle: "CẦN THƠ",
+    tagline: "Chuyên nghiệp - Sắc nét - Bền đẹp",
+    description: "Nhận in <strong>bao bì</strong>, hộp giấy, túi giấy, nhãn hộp và bao bì sản phẩm cho thương hiệu tại Cần Thơ với đa dạng chất liệu, gia công tỉ mỉ, giá tốt.",
+    price: {
+      label: "Giá từ chỉ",
+      amount: "5.000",
+      currency: "đ/cái"
+    },
+    productImage: {
+      src: "/baobi/sanpham1.png",
+      alt: "Bao Bì In Tem Cần Thơ - Sản phẩm",
+      style: { width: "clamp(240px, 28vw, 420px)", right: "230px" }
+    },
+    highlights: [
+      "In sắc nét - Màu chuẩn",
+      "Đa dạng chất liệu giấy",
+      "Gia công bế, dán, cán màng",
+      "Giá tốt tại Cần Thơ"
+    ]
   }
 };
 

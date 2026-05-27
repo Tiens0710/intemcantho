@@ -38,6 +38,7 @@ export default function StoreLocationSection() {
           <div className="flex items-center justify-center gap-4 mb-3">
             <span className="h-px w-20 md:w-32" style={{ background: "#C8A882" }} />
             <h2
+              className="whitespace-normal md:whitespace-nowrap"
               style={{
                 fontSize: "clamp(1.8rem, 3.5vw, 2.6rem)",
                 fontWeight: 700,
@@ -45,7 +46,6 @@ export default function StoreLocationSection() {
                 color: "#E6792A",
                 fontFamily: "'Nunito', Arial, Helvetica, sans-serif",
                 margin: 0,
-                whiteSpace: "nowrap",
               }}
             >
               ĐỊA CHỈ

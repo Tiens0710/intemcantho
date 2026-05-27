@@ -148,11 +148,10 @@ export default function QuickQuote() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="relative"
+            className="relative p-5 md:p-10"
             style={{
               background: "#FFFFFF",
               borderRadius: "16px",
-              padding: "40px",
               boxShadow:
                 "0 0 20px rgba(255,200,100,0.5), 0 0 50px rgba(230,121,42,0.3), 0 4px 20px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.8)",
             }}
@@ -332,8 +331,8 @@ export default function QuickQuote() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
-            className="max-w-6xl mx-auto mt-5"
-            style={{ background: "#FFFFFF", borderRadius: "10px", boxShadow: "0 4px 24px rgba(92, 61, 30, 0.06), 0 1px 3px rgba(92, 61, 30, 0.04)", padding: "24px 40px" }}
+            className="max-w-6xl mx-auto mt-5 p-5 md:py-6 md:px-10"
+            style={{ background: "#FFFFFF", borderRadius: "10px", boxShadow: "0 4px 24px rgba(92, 61, 30, 0.06), 0 1px 3px rgba(92, 61, 30, 0.04)" }}
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-0">
               {/* Đơn giá */}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import BrandOutlineButton from "@/components/ui/BrandOutlineButton";
 
 const categories = [
@@ -134,10 +135,12 @@ export default function BaoBiGallery() {
             >
               <div className="absolute -inset-1 bg-gradient-to-tr from-[#e87c22] via-[#f5a623] to-[#e87c22] rounded-2xl opacity-0 group-hover:opacity-60 blur-md transition-opacity duration-500 z-0" />
               <div className="relative z-10 rounded-2xl overflow-hidden shadow-lg shadow-black/15 ring-1 ring-black/5 group-hover:ring-[#e87c22]/40 transition-all duration-500">
-                <div className="aspect-square overflow-hidden">
-                  <img
+                <div className="aspect-square overflow-hidden relative">
+                  <Image
                     src={item.image}
                     alt={item.title}
+                    fill
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 12vw"
                     className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                   />
                 </div>
@@ -164,7 +167,7 @@ export default function BaoBiGallery() {
 
         {/* View More */}
         <div className="flex justify-center mt-10">
-          <BrandOutlineButton>Xem thêm mẫu Bao Bì →</BrandOutlineButton>
+          <BrandOutlineButton active>Xem thêm mẫu Bao Bì →</BrandOutlineButton>
         </div>
       </div>
     </section>

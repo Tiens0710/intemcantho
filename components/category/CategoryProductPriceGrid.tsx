@@ -37,12 +37,10 @@ export default function CategoryProductPriceGrid({
             style={{ background: "linear-gradient(to right, transparent, #C8A882)" }}
           />
           <h2
-            className="text-center font-bold uppercase tracking-tight text-gray-900"
+            className="text-center font-bold uppercase tracking-tight text-gray-900 text-2xl sm:text-3xl lg:text-[40px] lg:leading-[48px]"
             style={{
               fontFamily: "'Cormorant Garamond', 'Playfair Display', serif",
               color: "#9a5b24",
-              fontSize: "40px",
-              lineHeight: "48px",
             }}
           >
             {title} <span className="text-[#e8792a]">{accentTitle}</span>
@@ -80,16 +78,21 @@ export default function CategoryProductPriceGrid({
 
               <div className="mt-4 text-center">
                 <h3
-                  className="mt-1 font-semibold text-[#253245] truncate !text-[18px] !leading-[24px] sm:!text-[20px] sm:!leading-[26px]"
+                  className="mt-1 font-bold text-[#141d2a] truncate !text-[18px] !leading-[24px] sm:!text-[20px] sm:!leading-[26px]"
                   title={product.name}
                 >
                   {product.name}
                 </h3>
-                <p className="mt-1 text-sm leading-snug text-gray-500">{product.detail}</p>
+                <p className="mt-1 text-sm font-semibold leading-snug text-gray-700">{product.detail}</p>
                 <div className="mt-4 flex justify-center">
                   <p
-                    className="inline-flex items-center rounded-full border border-[#f3d5bf] bg-[#fff4ec] px-3 py-1.5 font-bold text-[#e87c22] shadow-[0_6px_16px_rgba(232,124,34,0.12)] transition-colors group-hover:bg-[#ffe7d5]"
-                    style={{ fontSize: "17px", lineHeight: "22px" }}
+                    className="inline-flex items-center rounded-full border-2 bg-white px-4 py-2 font-black shadow-[0_8px_20px_rgba(232,124,34,0.15)] transition-all duration-300 group-hover:bg-gradient-to-r group-hover:from-[#e87c22] group-hover:to-[#f09343] group-hover:border-transparent group-hover:scale-105 group-hover:shadow-[0_8px_20px_rgba(232,124,34,0.28)] group-hover:[--price-text-color:#ffffff] group-hover:[--price-border-color:transparent]"
+                    style={{ 
+                      fontSize: "18px", 
+                      lineHeight: "24px",
+                      color: "var(--price-text-color, #e87c22)",
+                      borderColor: "var(--price-border-color, #e87c22)"
+                    }}
                   >
                     {product.price}
                   </p>

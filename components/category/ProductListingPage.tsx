@@ -216,67 +216,6 @@ export default function ProductListingPage({
 
       <Navbar />
 
-      <section className="hidden">
-        <Image
-          src="/brochure/background1.jpeg"
-          alt={`${titleMain} ${titleAccent}`}
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-center"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-white/5 via-white/0 to-white/10" />
-
-        <nav
-          aria-label="Đường dẫn trang"
-          className="absolute left-5 top-28 z-20 md:left-16 lg:left-[4.5rem]"
-        >
-          <ol className="flex items-center gap-2 text-sm font-semibold text-[#E6792A]">
-            <li>
-              <Link href="/" className="transition-colors hover:text-[#c4651f]">
-                Trang chủ
-              </Link>
-            </li>
-            <li aria-hidden="true">
-              <ChevronRight className="h-3.5 w-3.5 opacity-70" />
-            </li>
-            <li>
-              <span aria-current="page" className="font-black">
-                {breadcrumbLabel}
-              </span>
-            </li>
-          </ol>
-        </nav>
-
-        <div className="absolute bottom-20 left-5 z-20 flex flex-wrap items-center gap-4 md:left-16 lg:left-[4.5rem]">
-          <Link
-            href="/lien-he"
-            className="inline-flex min-h-12 items-center justify-center rounded-[10px] border-2 border-white/55 bg-[#E6792A] px-7 py-3 text-sm font-black uppercase tracking-[0.04em] text-white shadow-[0_6px_20px_rgba(0,0,0,0.25),0_2px_6px_rgba(0,0,0,0.15)] transition-all hover:-translate-y-0.5 hover:bg-[#d26d23] hover:shadow-[0_8px_28px_rgba(0,0,0,0.3)]"
-          >
-            <FileText className="mr-2 h-4 w-4" strokeWidth={2.5} />
-            Nhận báo giá nhanh
-          </Link>
-          <Link
-            href="/lien-he"
-            className="inline-flex min-h-12 items-center justify-center rounded-[10px] border-2 border-[#E6792A] bg-white/5 px-7 py-3 text-sm font-black uppercase tracking-[0.04em] text-[#E6792A] transition-all hover:-translate-y-0.5 hover:bg-[#E6792A] hover:text-white hover:shadow-[0_8px_28px_rgba(0,0,0,0.2)]"
-          >
-            <Upload className="mr-2 h-4 w-4" strokeWidth={2.5} />
-            Gửi file thiết kế
-          </Link>
-        </div>
-
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-30 translate-y-1/2">
-          <Image
-            src="/brochure/cta_banner.png"
-            alt=""
-            aria-hidden="true"
-            width={960}
-            height={100}
-            className="mx-auto block h-[72px] w-[88%] max-w-5xl object-contain md:h-[95px] md:w-[80%]"
-          />
-        </div>
-      </section>
-
       <section
         className="relative min-h-[420px] overflow-hidden bg-cover bg-center pb-16 pt-24 md:min-h-[460px] md:pb-20 md:pt-28"
         style={{ backgroundImage: `url("${heroBackgroundImage}")` }}

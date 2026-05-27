@@ -1,5 +1,7 @@
 "use client";
 
+import { motion } from "framer-motion";
+
 /**
  * PartnerCarousel — Infinite logo ticker on a clean white background.
  * All critical layout via inline styles; animation via embedded <style> tag
@@ -43,24 +45,52 @@ export default function PartnerCarousel() {
 
       {/* ── Header ── */}
       <div style={{ textAlign: "center", marginBottom: "2.5rem", padding: "0 1rem" }}>
-        {/* Label with lines */}
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "16px", marginBottom: "24px" }}>
-          <span style={{ flex: 1, maxWidth: "80px", height: "1px", background: "linear-gradient(90deg, transparent, #a0845c)" }} />
-          <span style={{ fontSize: "12px", fontWeight: 700, letterSpacing: "0.25em", color: "#a0845c", fontFamily: "'Nunito', sans-serif" }}>
-            • ĐỐI TÁC •
-          </span>
-          <span style={{ flex: 1, maxWidth: "80px", height: "1px", background: "linear-gradient(270deg, transparent, #a0845c)" }} />
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "16px", marginBottom: "16px" }}>
+          <span className="hidden md:block h-px w-20 lg:w-32" style={{ background: "linear-gradient(to right, transparent, #C8A882)" }} />
+          <h2
+            className="home-section-title"
+            style={{
+              fontSize: "clamp(1.8rem, 3.5vw, 2.6rem)",
+              fontWeight: 600,
+              lineHeight: 1.2,
+              color: "#9A5B24",
+              fontFamily: "'Nunito', Arial, Helvetica, sans-serif",
+              letterSpacing: "0",
+              textTransform: "uppercase",
+              margin: 0,
+            }}
+          >
+            ĐƯỢC TIN DÙNG BỞI <span style={{ color: "#E6792A" }}>500+ DOANH NGHIỆP</span>
+          </h2>
+          <span className="hidden md:block h-px w-20 lg:w-32" style={{ background: "linear-gradient(to left, transparent, #C8A882)" }} />
         </div>
 
-        {/* Heading */}
-        <h2 className="home-section-title" style={{ color: "#9a5b24" }}>
-          Được tin dùng bởi{" "}
-          <span className="home-section-title-accent">500+</span> doanh nghiệp và{" "}
-          <span className="home-section-title-accent">2.000+</span> người dùng
-        </h2>
-
-        {/* Accent line */}
-        <div style={{ width: "48px", height: "3px", borderRadius: "2px", background: "#a0845c", margin: "20px auto 0" }} />
+        <div className="flex items-center justify-center gap-2 mb-5">
+          <motion.div
+            className="h-0.5 rounded-full"
+            style={{ background: "rgba(139,94,60,0.15)" }}
+            initial={{ width: 0 }}
+            whileInView={{ width: 40 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          />
+          <motion.div
+            className="h-0.5 rounded-full"
+            style={{ background: "#E6792A" }}
+            initial={{ width: 0 }}
+            whileInView={{ width: 64 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          />
+          <motion.div
+            className="h-0.5 rounded-full"
+            style={{ background: "rgba(139,94,60,0.15)" }}
+            initial={{ width: 0 }}
+            whileInView={{ width: 40 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+          />
+        </div>
       </div>
 
       {/* ── Logo Ticker ── */}

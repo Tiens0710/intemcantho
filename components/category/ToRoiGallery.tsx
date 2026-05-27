@@ -103,8 +103,7 @@ export default function ToRoiGallery() {
           className="text-3xl lg:text-4xl font-bold text-center mb-8 text-gray-900 uppercase tracking-tight"
           style={{ fontFamily: "'Cormorant Garamond', 'Playfair Display', serif" }}
         >
-          THƯ VIỆN MẪU{" "}
-          <span className="text-[#e87c22]">TỜ RƠI</span>
+          THƯ VIỆN MẪU <span className="text-[#e87c22]">TỜ RƠI</span>
         </h2>
 
         {/* Filter Tabs */}
@@ -140,7 +139,7 @@ export default function ToRoiGallery() {
               {/* Card inner */}
               <div className="relative z-10 rounded-2xl overflow-hidden shadow-lg shadow-black/15 ring-1 ring-black/5 group-hover:ring-[#e87c22]/40 transition-all duration-500">
                 {/* Image Container */}
-                <div className="aspect-[2/3] overflow-hidden">
+                <div className="aspect-[2/3] overflow-hidden relative">
                   <img
                     src={item.image}
                     alt={item.title}
@@ -173,7 +172,7 @@ export default function ToRoiGallery() {
 
         {/* View More */}
         <div className="flex justify-center mt-10">
-          <BrandOutlineButton>Xem thêm mẫu Tờ rơi →</BrandOutlineButton>
+          <BrandOutlineButton active>Xem thêm mẫu Tờ rơi →</BrandOutlineButton>
         </div>
       </div>
     </section>

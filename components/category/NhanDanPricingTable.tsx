@@ -1,160 +1,49 @@
-import React from "react";
-import BrandCard from "@/components/ui/BrandCard";
+"use client";
+
+import CategoryProductPriceGrid, { type PriceGridProduct } from "./CategoryProductPriceGrid";
+
+const nhanDanProducts: PriceGridProduct[] = [
+  {
+    category: "Decal Giấy",
+    name: "Tem Decal Giấy thường",
+    detail: "Tùy chọn kích thước - Giấy thường bế demi sẵn",
+    price: "Chỉ từ 1.500 VNĐ/cái",
+    image: "/nhandan/section1_1.png",
+    href: "/lien-he",
+  },
+  {
+    category: "Decal Giấy",
+    name: "Tem Decal Giấy cao cấp",
+    detail: "Decal giấy Couche - Cán mờ/bóng bế demi",
+    price: "Chỉ từ 2.000 VNĐ/cái",
+    image: "/nhandan/section1_1.png",
+    href: "/lien-he",
+  },
+  {
+    category: "Decal Nhựa",
+    name: "Tem Decal Nhựa trắng",
+    detail: "Decal nhựa PVC - Chống nước, chống trầy",
+    price: "Chỉ từ 2.500 VNĐ/cái",
+    image: "/nhandan/section1_2.png",
+    href: "/lien-he",
+  },
+  {
+    category: "Decal Nhựa",
+    name: "Tem Decal Nhựa trong",
+    detail: "Decal nhựa trong suốt - Chống nước, in UV",
+    price: "Chỉ từ 3.000 VNĐ/cái",
+    image: "/nhandan/section1_2.png",
+    href: "/lien-he",
+  },
+];
 
 export default function NhanDanPricingTable() {
-  const decalGiayData = [
-    {
-      name: "Tem Decal Giấy thường",
-      image: "/nhandan/section1_1.png",
-      size: "Tùy chọn",
-      material: "Decal giấy",
-      finishing: "Cắt bế theo yêu cầu",
-      price: "1.500 VNĐ/cái",
-    },
-    {
-      name: "Tem Decal Giấy cao cấp",
-      image: "/nhandan/section1_1.png",
-      size: "Tùy chọn",
-      material: "Decal giấy Couche",
-      finishing: "Cắt bế + cán mờ/bóng",
-      price: "2.000 VNĐ/cái",
-    },
-  ];
-
-  const decalNhuaData = [
-    {
-      name: "Tem Decal Nhựa trắng",
-      image: "/nhandan/section1_2.png",
-      size: "Tùy chọn",
-      material: "Decal nhựa PVC",
-      finishing: "Chống nước, chống trầy",
-      price: "2.500 VNĐ/cái",
-    },
-    {
-      name: "Tem Decal Nhựa trong",
-      image: "/nhandan/section1_2.png",
-      size: "Tùy chọn",
-      material: "Decal nhựa trong suốt",
-      finishing: "Chống nước, in UV",
-      price: "3.000 VNĐ/cái",
-    },
-  ];
-
   return (
-    <section className="py-16 bg-[#FAFAFA]">
-      <div className="container mx-auto px-4 max-w-[1400px]">
-        <h2 className="text-3xl lg:text-4xl font-bold text-center mb-10 text-gray-900 uppercase tracking-tight">
-          BẢNG GIÁ <span className="text-[#e87c22]">IN TEM NHÃN</span>
-        </h2>
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 justify-items-center items-start">
-          
-          {/* Bảng Tem Decal Giấy */}
-          <div className="w-full flex flex-col">
-            {/* Tiêu đề bảng */}
-            <div className="flex justify-center -mb-px relative z-10">
-              <div className="bg-gradient-to-r from-[#e87c22] to-[#f09343] text-white font-bold text-base py-2 px-8 rounded-t-xl shadow-sm uppercase tracking-wider">
-                TEM DECAL GIẤY
-              </div>
-            </div>
-            
-            {/* Table */}
-            <BrandCard className="overflow-hidden bg-white">
-              <div className="overflow-x-hidden">
-                <table className="w-full text-center text-[13px] table-fixed">
-                  <thead className="bg-[#FFFDF9] border-b border-[#f3e4d5] text-[#9a5b24]">
-                    <tr>
-                      <th className="py-4 px-3 border-r border-[#f3e4d5] uppercase text-[11px] lg:text-[12px] tracking-wider font-bold w-[30%]">LOẠI TEM</th>
-                      <th className="py-4 px-2 border-r border-[#f3e4d5] uppercase text-[11px] lg:text-[12px] tracking-wider font-bold w-[15%]">KÍCH THƯỚC</th>
-                      <th className="py-4 px-2 border-r border-[#f3e4d5] uppercase text-[11px] lg:text-[12px] tracking-wider font-bold w-[13%]">CHẤT LIỆU</th>
-                      <th className="py-4 px-2 border-r border-[#f3e4d5] uppercase text-[11px] lg:text-[12px] tracking-wider font-bold w-[22%]">GIA CÔNG</th>
-                      <th className="py-4 px-2 uppercase text-[11px] lg:text-[12px] tracking-wider font-bold w-[20%]">GIÁ</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {decalGiayData.map((item, index) => (
-                      <tr key={index} className={`hover:bg-[#faf6f0] transition-colors ${index !== decalGiayData.length - 1 ? "border-b border-[#f3e4d5]" : ""}`}>
-                        <td className="py-4 px-3 border-r border-[#f3e4d5]">
-                          <div className="flex flex-col sm:flex-row items-center gap-2 lg:gap-3 text-center sm:text-left">
-                            <img src={item.image} alt={item.name} className="h-14 lg:h-16 object-contain w-10 lg:w-12 flex-shrink-0 drop-shadow-sm" />
-                            <span className="font-bold text-gray-800 text-[12px] lg:text-[13px] leading-snug">{item.name}</span>
-                          </div>
-                        </td>
-                        <td className="py-4 px-2 border-r border-[#f3e4d5] text-gray-700 font-medium text-[12px]">{item.size}</td>
-                        <td className="py-4 px-2 border-r border-[#f3e4d5] text-gray-700 font-medium text-[12px]">{item.material}</td>
-                        <td className="py-4 px-2 border-r border-[#f3e4d5] text-gray-700 font-medium text-[11px] lg:text-[12px] leading-relaxed">{item.finishing}</td>
-                        <td className="py-4 px-2">
-                          <div className="flex flex-col items-center justify-center gap-2">
-                            <span className="text-[#e87c22] font-black text-[14px] lg:text-[16px] whitespace-nowrap">{item.price}</span>
-                            <button className="bg-gradient-to-r from-[#e87c22] to-[#d66e1b] hover:from-[#d66e1b] hover:to-[#c25e11] text-white text-[10px] font-bold py-1.5 px-2 rounded-lg transition-all shadow-md hover:shadow-lg uppercase tracking-wider w-full max-w-[110px]">
-                              ĐẶT HÀNG
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </BrandCard>
-          </div>
-
-          {/* Bảng Tem Decal Nhựa */}
-          <div className="w-full flex flex-col">
-            {/* Tiêu đề bảng */}
-            <div className="flex justify-center -mb-px relative z-10">
-              <div className="bg-white border-t border-l border-r border-[#e5d5c5] text-[#9a5b24] font-bold text-base py-2 px-8 rounded-t-xl shadow-[0_-4px_10px_rgba(0,0,0,0.02)] uppercase tracking-wider">
-                TEM DECAL NHỰA
-              </div>
-            </div>
-            
-            {/* Table */}
-            <BrandCard className="overflow-hidden bg-white">
-              <div className="overflow-x-hidden">
-                <table className="w-full text-center text-[13px] table-fixed">
-                  <thead className="bg-[#FFFDF9] border-b border-[#e5d5c5] text-[#9a5b24]">
-                    <tr>
-                      <th className="py-4 px-3 border-r border-[#e5d5c5] uppercase text-[11px] lg:text-[12px] tracking-wider font-bold w-[30%]">LOẠI TEM</th>
-                      <th className="py-4 px-2 border-r border-[#e5d5c5] uppercase text-[11px] lg:text-[12px] tracking-wider font-bold w-[15%]">KÍCH THƯỚC</th>
-                      <th className="py-4 px-2 border-r border-[#e5d5c5] uppercase text-[11px] lg:text-[12px] tracking-wider font-bold w-[13%]">CHẤT LIỆU</th>
-                      <th className="py-4 px-2 border-r border-[#e5d5c5] uppercase text-[11px] lg:text-[12px] tracking-wider font-bold w-[22%]">GIA CÔNG</th>
-                      <th className="py-4 px-2 uppercase text-[11px] lg:text-[12px] tracking-wider font-bold w-[20%]">GIÁ</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {decalNhuaData.map((item, index) => (
-                      <tr key={index} className={`hover:bg-[#faf6f0] transition-colors ${index !== decalNhuaData.length - 1 ? "border-b border-[#e5d5c5]" : ""}`}>
-                        <td className="py-4 px-3 border-r border-[#e5d5c5]">
-                          <div className="flex flex-col sm:flex-row items-center gap-2 lg:gap-3 text-center sm:text-left">
-                            <img src={item.image} alt={item.name} className="h-14 lg:h-16 object-contain w-10 lg:w-12 flex-shrink-0 drop-shadow-sm" />
-                            <span className="font-bold text-gray-800 text-[12px] lg:text-[13px] leading-snug">{item.name}</span>
-                          </div>
-                        </td>
-                        <td className="py-4 px-2 border-r border-[#e5d5c5] text-gray-700 font-medium text-[12px]">{item.size}</td>
-                        <td className="py-4 px-2 border-r border-[#e5d5c5] text-gray-700 font-medium text-[12px]">{item.material}</td>
-                        <td className="py-4 px-2 border-r border-[#e5d5c5] text-gray-700 font-medium text-[11px] lg:text-[12px] leading-relaxed">{item.finishing}</td>
-                        <td className="py-4 px-2">
-                          <div className="flex flex-col items-center justify-center gap-2">
-                            <span className="text-[#e87c22] font-black text-[14px] lg:text-[16px] whitespace-nowrap">{item.price}</span>
-                            <button className="bg-gradient-to-r from-[#e87c22] to-[#d66e1b] hover:from-[#d66e1b] hover:to-[#c25e11] text-white text-[10px] font-bold py-1.5 px-2 rounded-lg transition-all shadow-md hover:shadow-lg uppercase tracking-wider w-full max-w-[110px]">
-                              ĐẶT HÀNG
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </BrandCard>
-          </div>
-
-        </div>
-
-        {/* Note */}
-        <p className="mt-10 text-center text-[13px] text-gray-500 leading-relaxed">
-          <span className="text-[#e87c22] font-bold">Lưu ý:</span> Giá in chưa bao gồm phí thiết kế. Thành phẩm sẽ có sau 3 - 5 ngày (tính từ ngày khách hàng duyệt file). Màu sắc thành phẩm có thể chênh lệch 8/10 so với màu duyệt (do màn hình mỗi máy khác nhau). In số lượng ít vẫn nhận.
-        </p>
-      </div>
-    </section>
+    <CategoryProductPriceGrid
+      title="BẢNG GIÁ"
+      accentTitle="IN TEM NHÃN"
+      products={nhanDanProducts}
+      note="* Giá chưa bao gồm thiết kế. Màu sắc thành phẩm có thể chênh lệch 8/10 so với màu trên màn hình. Nhận in cả số lượng ít."
+    />
   );
 }

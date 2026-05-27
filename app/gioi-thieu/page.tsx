@@ -3,7 +3,9 @@
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import OrderProcess from "@/components/OrderProcess";
-import PartnerCarousel from "@/components/PartnerCarousel";
+import dynamic from "next/dynamic";
+
+const PartnerCarousel = dynamic(() => import("@/components/PartnerCarousel"), { ssr: false });
 import StatsSection from "@/components/StatsSection";
 import WarmButton from "@/components/WarmButton";
 import BrandOutlineButton from "@/components/ui/BrandOutlineButton";
@@ -388,21 +390,49 @@ export default function AboutUs() {
                       }
                     ].map((step, idx) => (
                       <div key={idx} className="relative group">
+                        {/* Timeline Orange Connecting Line */}
+                        {idx < 2 && (
+                          <motion.div
+                            initial={{ scaleY: 0 }}
+                            whileInView={{ scaleY: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 1.0, ease: "easeInOut", delay: idx * 1.3 + 0.3 }}
+                            style={{ originY: 0 }}
+                            className="absolute left-[-33px] top-5 bottom-[-52px] w-[2px] bg-[#E6792A] -z-10"
+                          />
+                        )}
                         {/* Timeline Glassmorphic Bubble */}
-                        <div className="absolute -left-[53px] top-0 flex h-10 w-10 items-center justify-center rounded-full border border-white/80 bg-white/70 shadow-md backdrop-blur-xl transition-all duration-300 group-hover:scale-110 group-hover:border-orange-300 group-hover:bg-white group-hover:shadow-[0_8px_20px_rgba(230,121,42,0.15)]">
+                        <motion.div
+                          initial={{ scale: 0, opacity: 0, rotate: -45 }}
+                          whileInView={{ 
+                            scale: [0, 1.25, 0.92, 1.04, 1], 
+                            opacity: [0, 1, 1, 1, 1],
+                            rotate: [-45, 15, -8, 3, 0]
+                          }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 0.9, ease: "easeOut", delay: idx * 1.3 }}
+                          whileHover={{ scale: 1.12, rotate: 5 }}
+                          className="absolute -left-[53px] top-0 flex h-10 w-10 items-center justify-center rounded-full border border-white/80 bg-white/70 shadow-md backdrop-blur-xl transition-all duration-300 group-hover:border-orange-300 group-hover:bg-white group-hover:shadow-[0_8px_20px_rgba(230,121,42,0.15)]"
+                        >
                           <span className="text-xs font-extrabold text-[#E6792A] transition-transform duration-300 group-hover:scale-105">
                             {`0${idx + 1}`}
                           </span>
-                        </div>
+                        </motion.div>
                         {/* Content */}
-                        <div className="transition-all duration-300 group-hover:translate-x-1.5">
+                        <motion.div
+                          initial={{ opacity: 0, x: -10 }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 0.6, ease: "easeOut", delay: idx * 1.3 + 0.2 }}
+                          className="transition-all duration-300 group-hover:translate-x-1.5"
+                        >
                           <h4 className="text-[15px] font-bold text-gray-800 mb-1.5 group-hover:text-[#E6792A] transition-colors duration-300">
                             {step.title}
                           </h4>
                           <p className="text-[13.5px] text-gray-600 font-light leading-relaxed">
                             {step.desc}
                           </p>
-                        </div>
+                        </motion.div>
                       </div>
                     ))}
                   </div>

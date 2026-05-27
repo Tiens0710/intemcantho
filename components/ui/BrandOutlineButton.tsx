@@ -20,7 +20,7 @@ export default function BrandOutlineButton({
 
   return (
     <motion.button
-      className={`cursor-pointer px-8 py-3 rounded-full font-medium text-sm uppercase tracking-wider transition-all duration-200 ${className}`}
+      className={`cursor-pointer px-8 py-3 rounded-[10px] font-medium text-sm uppercase tracking-wider transition-all duration-200 ${className}`}
       style={
         active
           ? {

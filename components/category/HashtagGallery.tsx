@@ -69,7 +69,7 @@ export default function HashtagGallery() {
         </div>
 
         <div className="mt-10 flex justify-center">
-          <BrandOutlineButton>Xem thêm mẫu hashtag</BrandOutlineButton>
+          <BrandOutlineButton active>Xem thêm mẫu hashtag</BrandOutlineButton>
         </div>
       </div>
     </section>

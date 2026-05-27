@@ -69,7 +69,7 @@ export default function VoucherGallery() {
         </div>
 
         <div className="mt-10 flex justify-center">
-          <BrandOutlineButton>Xem thêm mẫu voucher</BrandOutlineButton>
+          <BrandOutlineButton active>Xem thêm mẫu voucher</BrandOutlineButton>
         </div>
       </div>
     </section>

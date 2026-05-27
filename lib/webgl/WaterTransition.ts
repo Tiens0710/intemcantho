@@ -263,25 +263,61 @@ export class WaterTransition {
 
   async loadImages(urls: string[]): Promise<void> {
     const gl = this.gl;
-    const promises = urls.map(src =>
+
+    // Lazy-load: load first slide immediately, rest after a delay
+    const loadImage = (src: string) =>
       new Promise<HTMLImageElement>((resolve, reject) => {
         const img = new Image();
         img.crossOrigin = 'anonymous';
         img.onload = () => resolve(img);
         img.onerror = reject;
         img.src = src;
-      }),
-    );
-    const imgs = await Promise.all(promises);
-    this.images = imgs.map(img => ({
-      src: img.src,
-      width: img.naturalWidth,
-      height: img.naturalHeight,
-      texture: uploadImageTexture(gl, img),
+      });
+
+    // Pre-allocate slots
+    this.images = urls.map(src => ({
+      src,
+      width: 0,
+      height: 0,
+      texture: null as unknown as WebGLTexture,
     }));
-    if (this.images.length > 0) {
+
+    // Load slide 0 immediately
+    if (urls.length > 0) {
+      const firstImg = await loadImage(urls[0]);
+      this.images[0] = {
+        src: urls[0],
+        width: firstImg.naturalWidth,
+        height: firstImg.naturalHeight,
+        texture: uploadImageTexture(gl, firstImg),
+      };
       this.currentIndex = 0;
       this.renderFrame(0, 0, 0);
+    }
+
+    // Load remaining slides lazily (after first paint)
+    const loadRemaining = async () => {
+      for (let i = 1; i < urls.length; i++) {
+        if (this.images[i]?.texture) continue; // already loaded
+        try {
+          const img = await loadImage(urls[i]);
+          this.images[i] = {
+            src: urls[i],
+            width: img.naturalWidth,
+            height: img.naturalHeight,
+            texture: uploadImageTexture(gl, img),
+          };
+        } catch {
+          console.warn(`Failed to load slide ${i}: ${urls[i]}`);
+        }
+      }
+    };
+
+    // Defer loading remaining images after first render
+    if (typeof requestIdleCallback !== 'undefined') {
+      requestIdleCallback(() => loadRemaining());
+    } else {
+      setTimeout(loadRemaining, 200);
     }
   }
 

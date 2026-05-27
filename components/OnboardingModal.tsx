@@ -36,7 +36,7 @@ export default function OnboardingModal() {
   useEffect(() => {
     if (!hasCompletedOnboarding && !persona) {
       // Small delay for better UX
-      const timer = setTimeout(() => setIsOpen(true), 500);
+      const timer = setTimeout(() => setIsOpen(true), 2000);
       return () => clearTimeout(timer);
     }
   }, [hasCompletedOnboarding, persona]);

@@ -144,13 +144,13 @@ export default function CategoryGrid() {
           <div className="flex items-center justify-center gap-4 mb-4">
             <span className="hidden md:block h-px w-20 lg:w-32" style={{ background: "linear-gradient(to right, transparent, #C8A882)" }} />
             <h2
+              className="whitespace-normal md:whitespace-nowrap"
               style={{
                 fontSize: "clamp(1.8rem, 3.5vw, 2.6rem)",
                 fontWeight: 600,
                 lineHeight: 1.2,
                 color: "#9A5B24",
                 fontFamily: "'Nunito', Arial, Helvetica, sans-serif",
-                whiteSpace: "nowrap",
               }}
             >
               DỊCH VỤ IN ẤN CỦA <span style={{ color: "#E6792A" }}>INTEM CẦN THƠ</span>
@@ -205,17 +205,6 @@ export default function CategoryGrid() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.4 }}
           >
-            <Link
-              href="/van-phong"
-              className="group/link inline-flex items-center gap-2 rounded-full bg-white px-5 py-2 text-[13px] font-semibold text-[#E6792A] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#FFF4EC]"
-              style={{
-                border: "1.5px solid rgba(230, 121, 42, 0.28)",
-                boxShadow: "0 0 0 1px rgba(230,121,42,0.18), 0 0 16px rgba(230,121,42,0.1)",
-              }}
-            >
-              Xem tất cả dịch vụ
-              <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover/link:translate-x-1" />
-            </Link>
           </motion.div>
         </motion.div>
 
@@ -227,7 +216,7 @@ export default function CategoryGrid() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: index * 0.05 }}
-              className="group relative overflow-visible rounded-xl p-4"
+              className="group relative overflow-visible rounded-xl p-4 flex flex-col justify-between h-full"
               style={{
                 background: "rgba(255, 255, 255, 0.86)",
                 border: "1.5px solid rgba(230, 121, 42, 0.28)",
@@ -237,17 +226,26 @@ export default function CategoryGrid() {
                 WebkitBackdropFilter: "blur(10px)",
               }}
             >
-              <div className="absolute inset-2 rounded-xl overflow-hidden pointer-events-none">
-                <div className="absolute right-2 top-8 h-32 w-32 rounded-full bg-[#FDF2EA]" />
+              <Link
+                href={service.href}
+                aria-label={service.title}
+                className="absolute inset-0 z-30 rounded-xl"
+              >
+                <span className="sr-only">{service.title}</span>
+              </Link>
+              <div className="absolute inset-0 rounded-xl overflow-hidden pointer-events-none">
+                <div className="absolute -right-3 top-1/2 h-32 w-32 -translate-y-1/2 translate-x-6 sm:-right-4 sm:h-60 sm:w-60 sm:translate-x-8 rounded-full bg-[#FDF2EA]" />
               </div>
-              <div className="relative z-10 pr-28 sm:pr-32">
+              <div className="relative z-10 pr-28 sm:pr-32 flex-1 flex flex-col justify-between">
                 <div>
                   <div className="mb-3 inline-flex h-9 w-9 items-center justify-center rounded-lg bg-[#FFF3EA] text-[#E6792A] shadow-[inset_0_0_0_1px_rgba(230,121,42,0.18)]">
                     <service.icon className="h-4 w-4" />
                   </div>
-                  <h3 className="text-lg font-semibold text-[#2C1A10]">{service.title}</h3>
-                  <p className="mt-2 text-sm text-[#6F5B4E]">{service.description}</p>
-                  <div className="mt-4 flex flex-wrap gap-2">
+                  <div className="min-h-[3.25rem] flex items-center">
+                    <h3 className="text-lg font-semibold text-[#2C1A10] leading-snug">{service.title}</h3>
+                  </div>
+                  <p className="mt-2 text-sm text-[#6F5B4E] line-clamp-2 min-h-[2.5rem]">{service.description}</p>
+                  <div className="mt-4 flex flex-wrap gap-2 min-h-[3.25rem] content-start">
                     {service.highlights.map((highlight) => (
                       <span
                         key={highlight.label}
@@ -258,13 +256,14 @@ export default function CategoryGrid() {
                       </span>
                     ))}
                   </div>
-                  <Link
-                    href={service.href}
-                    className="mt-4 inline-flex items-center gap-2 rounded-full bg-[#E6792A] px-3.5 py-1.5 text-xs font-semibold text-white shadow-[0_10px_20px_-14px_rgba(230,121,42,0.75)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#D26D23]"
+                </div>
+                <div>
+                  <span
+                    className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#E6792A] px-3.5 py-1.5 text-xs font-semibold text-white shadow-[0_10px_20px_-14px_rgba(230,121,42,0.75)] transition-all duration-300 group-hover:-translate-y-0.5 group-hover:bg-[#D26D23]"
                   >
                     {service.cta}
                     <ArrowRight className="h-4 w-4" />
-                  </Link>
+                  </span>
                 </div>
               </div>
               <div className="absolute -right-3 top-1/2 z-20 h-32 w-32 -translate-y-1/2 translate-x-6 sm:-right-4 sm:h-60 sm:w-60 sm:translate-x-8">

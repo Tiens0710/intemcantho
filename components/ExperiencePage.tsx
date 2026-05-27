@@ -67,9 +67,10 @@ export default function ExperiencePage({
       ? pagePosts
       : pagePosts.filter((post) => post.category === activeCategory);
 
-  const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
+  const listPosts = activeCategory === "all" ? filteredPosts.slice(2) : filteredPosts;
+  const totalPages = Math.ceil(listPosts.length / postsPerPage);
   const startIdx = (currentPage - 1) * postsPerPage;
-  const displayedPosts = filteredPosts.slice(startIdx, startIdx + postsPerPage);
+  const displayedPosts = listPosts.slice(startIdx, startIdx + postsPerPage);
 
   const featuredPost1 = pagePosts[0];
   const featuredPost2 = pagePosts[1];
@@ -195,7 +196,7 @@ export default function ExperiencePage({
           <div className="flex flex-col lg:flex-row gap-8">
             {/* Left */}
             <div className="flex-1 min-w-0 space-y-6 lg:border-r lg:border-gray-200 lg:pr-8">
-              {pagePosts.length > 0 && activeCategory === "all" && (
+              {pagePosts.length > 0 && activeCategory === "all" && currentPage === 1 && (
                 <div className="mb-2">
                   <h2 className="text-lg font-semibold text-gray-900 mb-4">Bài viết mới nhất</h2>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -262,7 +263,7 @@ export default function ExperiencePage({
                       >
                         {Array.from({ length: totalSmallSlides }).map((_, slideIndex) => (
                           <div key={slideIndex} className="w-full flex-shrink-0">
-                            <div className="grid grid-cols-3 gap-2">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                               {allPostsForCarousel
                                 .slice(slideIndex * postsPerSlide, slideIndex * postsPerSlide + postsPerSlide)
                                 .map((post) => (
@@ -328,7 +329,7 @@ export default function ExperiencePage({
                     >
                       <Link href={`/kinh-nghiem/${post.slug}`}>
                         <BrandCard className="overflow-hidden flex flex-col sm:flex-row hover:shadow-lg transition-all duration-300 cursor-pointer group">
-                          <div className="relative w-full sm:w-72 md:w-80 flex-shrink-0 overflow-hidden bg-gray-100">
+                          <div className="relative w-full sm:w-48 md:w-56 flex-shrink-0 overflow-hidden bg-gray-100">
                             <div className="aspect-[4/3] sm:aspect-auto sm:h-full">
                               <img
                                 src={post.image}
@@ -344,8 +345,8 @@ export default function ExperiencePage({
                               <div className="text-[10px] font-semibold uppercase tracking-wider">{month}</div>
                             </div>
                           </div>
-                          <div className="flex-1 p-5 flex flex-col justify-center">
-                            <div className="mb-3">
+                          <div className="flex-1 p-4 flex flex-col justify-center">
+                            <div className="mb-2">
                               <span
                                 className="inline-block px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider"
                                 style={{
@@ -356,10 +357,10 @@ export default function ExperiencePage({
                                 {post.categoryLabel}
                               </span>
                             </div>
-                            <h2 className="text-lg md:text-xl font-semibold text-gray-900 mb-3 group-hover:text-[#E6792A] transition-colors leading-snug">
+                            <h2 className="text-base md:text-lg font-semibold text-gray-900 mb-1.5 group-hover:text-[#E6792A] transition-colors leading-snug">
                               {post.title}
                             </h2>
-                            <div className="flex items-center gap-3 text-sm text-gray-400 mb-3">
+                            <div className="flex items-center gap-3 text-xs text-gray-400 mb-2">
                               <span className="flex items-center gap-1.5">
                                 <User className="w-3.5 h-3.5" />
                                 <span>intemct</span>
@@ -372,11 +373,11 @@ export default function ExperiencePage({
                                 <span>0</span>
                               </span>
                             </div>
-                            <p className="text-sm text-gray-500 leading-relaxed mb-4 line-clamp-3">
+                            <p className="text-xs text-gray-500 leading-relaxed mb-3 line-clamp-2">
                               {post.excerpt}
                             </p>
                             <span
-                              className="inline-flex items-center gap-2 text-sm font-semibold transition-colors"
+                              className="inline-flex items-center gap-2 text-xs font-semibold transition-colors"
                               style={{ color: "#E6792A" }}
                             >
                               Đọc bài viết →

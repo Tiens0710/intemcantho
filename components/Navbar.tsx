@@ -15,6 +15,7 @@ import { useEffect, useRef, useState } from "react";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const [activeMegaMenu, setActiveMegaMenu] = useState<string | null>(null);
   const [expandedMobileItem, setExpandedMobileItem] = useState<string | null>(null);
   const closeMenuTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -70,6 +71,7 @@ export default function Navbar() {
     }
 
     setHasLoggedInBefore(hasLoggedBefore || !!token);
+    setMounted(true);
   }, []);
 
   const openUserMenu = () => {
@@ -475,7 +477,7 @@ export default function Navbar() {
                     className="relative p-2 rounded-full transition-colors text-[#E6792A] hover:text-[#C66A27] hover:bg-amber-50"
                   >
                     <ShoppingBag className="w-[18px] h-[18px]" strokeWidth={2} />
-                    {cartItemCount > 0 && (
+                    {mounted && cartItemCount > 0 && (
                       <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#E6792A] px-1 text-[10px] font-bold leading-none text-white shadow-sm ring-2 ring-white">
                         {cartBadgeLabel}
                       </span>
@@ -491,7 +493,7 @@ export default function Navbar() {
             />
 
             {/* Quick Quote */}
-            <WarmButton href="/lien-he" size="sm" variant="filled">
+            <WarmButton href="https://www.facebook.com/intemcantho.duky" target="_blank" rel="noopener noreferrer" size="sm" variant="filled">
               Liên Hệ Ngay
             </WarmButton>
           </div>
@@ -535,7 +537,7 @@ export default function Navbar() {
                 className="relative p-2 rounded-full transition-colors text-slate-600 hover:bg-amber-50"
               >
                 <ShoppingBag className="w-5 h-5" strokeWidth={2} />
-                {cartItemCount > 0 && (
+                {mounted && cartItemCount > 0 && (
                   <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#E6792A] px-1 text-[10px] font-bold leading-none text-white shadow-sm ring-2 ring-white">
                     {cartBadgeLabel}
                   </span>

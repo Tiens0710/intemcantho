@@ -280,9 +280,7 @@ export default function HeroSlider({ slides: slidesProp, sectionId }: HeroSlider
             width: '100%',
             maxWidth: '1400px',
             margin: '0 auto',
-            padding: '0 6rem',
             height: '100%',
-            gap: '3rem',
           }}
           className="hero-grid-responsive"
         >
@@ -293,7 +291,6 @@ export default function HeroSlider({ slides: slidesProp, sectionId }: HeroSlider
               flexDirection: 'column',
               justifyContent: 'center',
               gap: '0',
-              paddingLeft: '2rem',
               overflow: 'visible',
             }}
             className="hero-text-responsive"
@@ -305,32 +302,36 @@ export default function HeroSlider({ slides: slidesProp, sectionId }: HeroSlider
                     <img
                       src={activeSlide.custom.logo}
                       alt="Intem logo"
-                      style={{ width: '160px', height: 'auto', position: 'absolute', top: '-120px', left: '-80px', zIndex: 2 }}
-                      draggable={false} loading="eager" decoding="async"
+                      className="hero-custom-logo"
+                      style={{ zIndex: 2 }}
+                      draggable={false} loading="lazy" decoding="async"
                     />
                   )}
                   {activeSlide.custom.header && (
                     <img
                       src={activeSlide.custom.header}
                       alt="In tem Can Tho"
-                      style={{ width: '110%', maxWidth: '1500px', height: 'auto', display: 'block', marginTop: '50px', marginLeft: '-100px' }}
-                      draggable={false} loading="eager" decoding="async"
+                      className="hero-custom-header"
+                      style={{ display: 'block' }}
+                      draggable={false} loading="lazy" decoding="async"
                     />
                   )}
                   {activeSlide.custom.badges && (
                     <img
                       src={activeSlide.custom.badges}
                       alt="" aria-hidden="true"
-                      style={{ width: '100%', maxWidth: '680px', height: 'auto', display: 'block', marginTop: '0.8rem', animation: 'heroFloatBadges 5s ease-in-out infinite' }}
-                      draggable={false} loading="eager" decoding="async"
+                      className="hero-custom-badges"
+                      style={{ display: 'block', animation: 'heroFloatBadges 5s ease-in-out infinite' }}
+                      draggable={false} loading="lazy" decoding="async"
                     />
                   )}
                   {activeSlide.custom.stats && (
                     <img
                       src={activeSlide.custom.stats}
                       alt="" aria-hidden="true"
-                      style={{ width: '100%', maxWidth: '580px', height: 'auto', display: 'block', marginTop: '1.2rem' }}
-                      draggable={false} loading="eager" decoding="async"
+                      className="hero-custom-stats"
+                      style={{ display: 'block' }}
+                      draggable={false} loading="lazy" decoding="async"
                     />
                   )}
                 </div>
@@ -359,7 +360,7 @@ export default function HeroSlider({ slides: slidesProp, sectionId }: HeroSlider
                     {activeSlide.title.split('\n').map((line, li) => (
                       <div key={li} style={{
                         fontFamily: "'Nunito', Arial, Helvetica, sans-serif",
-                        fontSize: li === 0 ? 'clamp(3.7rem, 7.5vw, 6.6rem)' : 'clamp(3.2rem, 7.3vw, 6.1rem)',
+                        fontSize: li === 0 ? 'clamp(2rem, 7.5vw, 6.6rem)' : 'clamp(1.7rem, 7.3vw, 6.1rem)',
                         fontWeight: li === 0 ? 700 : 400, color: li === 0 ? '#fff' : '#efe7d8',
                         lineHeight: li === 0 ? 0.95 : 1, textTransform: li === 1 ? 'uppercase' : 'none',
                         letterSpacing: li === 1 ? '0.06em' : 'normal', textShadow: '0 4px 30px rgba(0,0,0,.4)',
@@ -414,24 +415,27 @@ export default function HeroSlider({ slides: slidesProp, sectionId }: HeroSlider
             justifyContent: 'flex-end',
             position: 'relative',
             height: '100%',
-            paddingRight: activeSlide.custom?.type === 'imageHero' ? '0' : '40px',
             overflow: 'visible',
           }} className="hero-product-responsive">
             {activeSlide.custom?.type === 'imageHero' ? (
               <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', ...getProductImgStyle(productAnim.mode) }}>
                 {/* Background circle */}
-                <div style={{
-                  position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
-                  width: 'clamp(320px, 46vw, 640px)', aspectRatio: '1 / 1', borderRadius: '999px',
-                  backgroundImage: activeSlide.custom.circle ? `url(${activeSlide.custom.circle})` : 'radial-gradient(circle at 50% 45%, #f9d2a8 0%, #f1b877 60%, #e79d58 100%)',
-                  backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundSize: 'contain', zIndex: 0,
-                }} />
+                <div 
+                  className="hero-bg-circle"
+                  style={{
+                    position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
+                    aspectRatio: '1 / 1', borderRadius: '999px',
+                    backgroundImage: activeSlide.custom.circle ? `url(${activeSlide.custom.circle})` : 'radial-gradient(circle at 50% 45%, #f9d2a8 0%, #f1b877 60%, #e79d58 100%)',
+                    backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundSize: 'contain', zIndex: 0,
+                  }} 
+                />
                 {/* Left floating image — vị trí lấy từ slide data */}
                 {slides[productAnim.slideIdx].custom?.leftFloat && (
                   <img
                     src={slides[productAnim.slideIdx].custom?.leftFloat}
                     alt=""
                     aria-hidden="true"
+                    className="hero-float-img-left"
                     style={{
                       position: 'absolute', transform: 'translateY(-50%)',
                       width: 'clamp(120px, 18vw, 240px)', height: 'auto', objectFit: 'contain',
@@ -439,7 +443,7 @@ export default function HeroSlider({ slides: slidesProp, sectionId }: HeroSlider
                       animation: 'heroFloatY 4s ease-in-out infinite',
                       ...slides[productAnim.slideIdx].custom?.floatStyle?.leftPos,
                     }}
-                    draggable={false} loading="eager" decoding="async"
+                    draggable={false} loading="lazy" decoding="async"
                   />
                 )}
                 {/* Right floating image — vị trí lấy từ slide data */}
@@ -448,6 +452,7 @@ export default function HeroSlider({ slides: slidesProp, sectionId }: HeroSlider
                     src={slides[productAnim.slideIdx].custom?.rightFloat}
                     alt=""
                     aria-hidden="true"
+                    className="hero-float-img-right"
                     style={{
                       position: 'absolute', transform: 'translateY(-50%)',
                       width: 'clamp(120px, 18vw, 240px)', height: 'auto', objectFit: 'contain',
@@ -455,7 +460,7 @@ export default function HeroSlider({ slides: slidesProp, sectionId }: HeroSlider
                       animation: 'heroFloatY 4s ease-in-out infinite 0.5s',
                       ...slides[productAnim.slideIdx].custom?.floatStyle?.rightPos,
                     }}
-                    draggable={false} loading="eager" decoding="async"
+                    draggable={false} loading="lazy" decoding="async"
                   />
                 )}
                 {/* Product/Character image */}
@@ -463,13 +468,13 @@ export default function HeroSlider({ slides: slidesProp, sectionId }: HeroSlider
                   key={productAnim.slideIdx}
                   src={slides[productAnim.slideIdx].product}
                   alt={activeSlide.title.replace('\n', ' ')}
+                  className={`hero-main-product-img ${isProductVariant ? 'is-product-variant' : ''}`}
                   style={{
                     position: 'relative', zIndex: 2, width: 'auto',
-                    height: isProductVariant ? 'clamp(700px, 98vh, 1200px)' : 'clamp(580px, 92vh, 980px)',
                     objectFit: 'contain', filter: 'drop-shadow(0 18px 36px rgba(0,0,0,0.18))',
                     transform: isProductVariant ? 'scale(1.1)' : undefined,
                   }}
-                  draggable={false} loading="eager" decoding="async"
+                  draggable={false} loading="lazy" decoding="async"
                 />
               </div>
             ) : (
@@ -486,14 +491,14 @@ export default function HeroSlider({ slides: slidesProp, sectionId }: HeroSlider
                   key={productAnim.slideIdx}
                   src={slides[productAnim.slideIdx].product}
                   alt={activeSlide.title.replace('\n', ' ')}
+                  className="hero-main-product-img"
                   style={{
                     position: 'relative', zIndex: 2,
                     width: 'auto', maxWidth: 'clamp(320px, 42vw, 580px)',
-                    height: 'auto', maxHeight: 'clamp(400px, 70vh, 800px)',
                     objectFit: 'contain',
                     filter: 'drop-shadow(0 20px 50px rgba(0,0,0,0.35))',
                   }}
-                  draggable={false} loading="eager" decoding="async"
+                  draggable={false} loading="lazy" decoding="async"
                 />
               </div>
             )}
@@ -503,8 +508,6 @@ export default function HeroSlider({ slides: slidesProp, sectionId }: HeroSlider
         {/* Slide Counter */}
         <div style={{
           position: 'absolute',
-          bottom: '3rem',
-          left: '5.5rem',
           zIndex: 10,
           display: 'flex',
           alignItems: 'baseline',

@@ -132,11 +132,10 @@ export default function OrderProcess() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="relative"
+            className="relative p-5 md:p-10"
             style={{
               background: "#FFFFFF",
               borderRadius: "16px",
-              padding: "40px",
               boxShadow:
                 "0 0 20px rgba(255,200,100,0.5), 0 0 50px rgba(230,121,42,0.3), 0 4px 20px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.8)",
             }}
@@ -149,31 +148,49 @@ export default function OrderProcess() {
               transition={{ duration: 0.6 }}
               className="text-center mb-12"
             >
-              <div className="flex items-center justify-center gap-4 mb-3">
-                <span className="h-px w-16 md:w-20" style={{ background: "#C8A882" }} />
+              <div className="flex items-center justify-center gap-4 mb-4">
+                <span className="hidden md:block h-px w-20 lg:w-32" style={{ background: "linear-gradient(to right, transparent, #C8A882)" }} />
                 <h2
+                  className="home-section-title whitespace-normal md:whitespace-nowrap uppercase"
                   style={{
-                    fontSize: "14px",
+                    fontSize: "clamp(1.8rem, 3.5vw, 2.6rem)",
                     fontWeight: 600,
-                    textTransform: "uppercase",
-                    letterSpacing: "0.25em",
-                    color: "#8B5E3C",
-                    margin: 0,
-                    whiteSpace: "nowrap",
+                    lineHeight: 1.2,
+                    color: "#9A5B24",
+                    fontFamily: "'Nunito', Arial, Helvetica, sans-serif",
+                    letterSpacing: "0",
                   }}
                 >
-                  Quy trình
+                  QUY TRÌNH <span style={{ color: "#E6792A" }}>4 BƯỚC ĐƠN GIẢN</span>
                 </h2>
-                <span className="h-px w-16 md:w-20" style={{ background: "#C8A882" }} />
+                <span className="hidden md:block h-px w-20 lg:w-32" style={{ background: "linear-gradient(to left, transparent, #C8A882)" }} />
               </div>
-              <p
-                className="home-section-title"
-                style={{
-                  color: "#1C1007",
-                }}
-              >
-                Đặt hàng dễ dàng chỉ 4 bước đơn giản
-              </p>
+              <div className="flex items-center justify-center gap-2 mb-5">
+                <motion.div
+                  className="h-0.5 rounded-full"
+                  style={{ background: "rgba(139,94,60,0.15)" }}
+                  initial={{ width: 0 }}
+                  whileInView={{ width: 40 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                />
+                <motion.div
+                  className="h-0.5 rounded-full"
+                  style={{ background: "#E6792A" }}
+                  initial={{ width: 0 }}
+                  whileInView={{ width: 64 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 0.3 }}
+                />
+                <motion.div
+                  className="h-0.5 rounded-full"
+                  style={{ background: "rgba(139,94,60,0.15)" }}
+                  initial={{ width: 0 }}
+                  whileInView={{ width: 40 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.4 }}
+                />
+              </div>
             </motion.div>
 
             {/* Desktop: Steps + CTA in a row */}

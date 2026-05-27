@@ -67,7 +67,15 @@ export default function CategoryPricing({ title, subtitle, packages }: Props) {
 
               {/* Price */}
               <div className="text-center mb-6">
-                <span className="text-3xl font-black text-amber-900">
+                <span 
+                  className="inline-flex items-center rounded-full border-2 bg-white px-6 py-2.5 font-black shadow-[0_8px_20px_rgba(232,124,34,0.15)] transition-all duration-300 group-hover:bg-gradient-to-r group-hover:from-[#e87c22] group-hover:to-[#f09343] group-hover:border-transparent group-hover:scale-105 group-hover:shadow-[0_8px_20px_rgba(232,124,34,0.28)] group-hover:[--price-text-color:#ffffff] group-hover:[--price-border-color:transparent]"
+                  style={{ 
+                    fontSize: "24px", 
+                    lineHeight: "30px",
+                    color: "var(--price-text-color, #e87c22)",
+                    borderColor: "var(--price-border-color, #e87c22)"
+                  }}
+                >
                   {pkg.price}
                 </span>
               </div>
@@ -76,7 +84,7 @@ export default function CategoryPricing({ title, subtitle, packages }: Props) {
               {pkg.note && (
                 <div className="flex items-start gap-2 mb-8">
                   <Check className="h-4 w-4 mt-0.5 shrink-0 text-amber-800" strokeWidth={2.5} />
-                  <span className="text-xs text-amber-900/50 font-medium">{pkg.note}</span>
+                  <span className="text-xs text-amber-950/75 font-semibold">{pkg.note}</span>
                 </div>
               )}
 

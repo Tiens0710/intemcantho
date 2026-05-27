@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { ShoppingCart, ArrowRight, Eye, Star, CheckCircle2, Heart, X } from "lucide-react";
 import { useAppStore, type CartItem } from "@/lib/store";
@@ -41,6 +42,11 @@ export default function ProductCard({
   const [addedToCart, setAddedToCart] = useState(false);
   const [isWished, setIsWished] = useState(false);
   const [showLightbox, setShowLightbox] = useState(false);
+  const [imgSrc, setImgSrc] = useState(image || "https://placehold.co/400x300/f5f0eb/9a5b24?text=SP");
+
+  useEffect(() => {
+    setImgSrc(image || "https://placehold.co/400x300/f5f0eb/9a5b24?text=SP");
+  }, [image]);
 
   // Lock body scroll when lightbox is open
   useEffect(() => {
@@ -171,16 +177,14 @@ export default function ProductCard({
       {/* Image Container */}
       <div className="relative aspect-[4/3] overflow-hidden bg-gray-100">
         {image ? (
-          /* eslint-disable-next-line @next/next/no-img-element */
-          <img
-            src={image}
+          <Image
+            src={imgSrc}
             alt={title}
+            width={400}
+            height={300}
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-            loading="lazy"
-            onError={(e) => {
-              (e.currentTarget as HTMLImageElement).src =
-                "https://placehold.co/400x300/f5f0eb/9a5b24?text=SP";
-            }}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            onError={() => setImgSrc("https://placehold.co/400x300/f5f0eb/9a5b24?text=SP")}
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">

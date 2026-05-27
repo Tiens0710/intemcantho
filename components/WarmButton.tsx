@@ -20,6 +20,8 @@ interface WarmButtonProps {
   size?: "sm" | "md" | "lg";
   fullWidth?: boolean;
   variant?: "filled" | "outline" | "white";
+  target?: string;
+  rel?: string;
 }
 
 const SIZES = {
@@ -48,6 +50,8 @@ export default function WarmButton({
   size = "md",
   fullWidth = false,
   variant = "filled",
+  target,
+  rel,
 }: WarmButtonProps) {
   const sizeStyle = SIZES[size];
 
@@ -108,7 +112,7 @@ export default function WarmButton({
 
   if (href && !disabled) {
     return (
-      <Link href={href} className={className}>
+      <Link href={href} className={className} target={target} rel={rel}>
         <motion.span
           whileHover={{ scale: 1.03, y: -1 }}
           whileTap={{ scale: 0.97 }}

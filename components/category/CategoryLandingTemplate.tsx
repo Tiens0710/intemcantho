@@ -123,7 +123,7 @@ type Props = {
 
 export default function CategoryLandingTemplate({ data }: Props) {
   return (
-    <div className="min-h-screen bg-white text-gray-900 selection:bg-amber-200 selection:text-amber-900">
+    <div className="min-h-screen bg-white text-gray-900 selection:bg-amber-200 selection:text-amber-900 overflow-x-hidden w-full relative">
       {/* Navigation */}
       <Navbar />
 

@@ -130,7 +130,7 @@ export default function ProductDetailTabs({ productName }: ProductDetailTabsProp
   const avgRating = (SAMPLE_REVIEWS.reduce((s, r) => s + r.rating, 0) / SAMPLE_REVIEWS.length).toFixed(1);
 
   return (
-    <section className="w-[87%] mx-auto px-4 pb-16">
+    <section className="w-full lg:w-[87%] mx-auto px-4 pb-16">
       {/* Divider above tabs */}
       <div className="flex justify-center mb-4">
         <span className="h-0.5 w-80 bg-[#E6792A] rounded-md" />
@@ -138,7 +138,7 @@ export default function ProductDetailTabs({ productName }: ProductDetailTabsProp
 
       {/* ── Tab Navigation ─────────────────────────────────────────────── */}
       <div className="border border-gray-200 bg-white">
-        <div className="grid grid-cols-4" role="tablist" aria-label="Product detail tabs">
+        <div className="flex overflow-x-auto md:grid md:grid-cols-4 scrollbar-none" role="tablist" aria-label="Product detail tabs">
           {TABS.map((tab) => (
             <button
               key={tab.key}
@@ -148,7 +148,7 @@ export default function ProductDetailTabs({ productName }: ProductDetailTabsProp
               aria-current={activeTab === tab.key ? "true" : undefined}
               type="button"
               onClick={() => setActiveTab(tab.key)}
-              className={`relative py-5 text-sm md:text-base uppercase tracking-wide font-semibold transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E6792A]/40 ${
+              className={`relative py-5 text-sm md:text-base uppercase tracking-wide font-semibold transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E6792A]/40 shrink-0 px-6 md:px-0 whitespace-nowrap flex-none text-center ${
                 activeTab === tab.key
                   ? "text-[#E6792A] font-bold"
                   : "text-gray-500 hover:text-[#E6792A]"
@@ -159,7 +159,7 @@ export default function ProductDetailTabs({ productName }: ProductDetailTabsProp
               {/* animated underline indicator */}
               <span
                 aria-hidden="true"
-                className={`absolute -bottom-1 left-1/2 transform -translate-x-1/2 h-0.5 rounded-md bg-[#E6792A] w-52 transition-all duration-200 origin-center ${
+                className={`absolute -bottom-1 left-1/2 transform -translate-x-1/2 h-0.5 rounded-md bg-[#E6792A] w-[80%] transition-all duration-200 origin-center ${
                   activeTab === tab.key ? "scale-x-100 opacity-100" : "scale-x-0 opacity-0"
                 }`}
               />
@@ -169,7 +169,7 @@ export default function ProductDetailTabs({ productName }: ProductDetailTabsProp
       </div>
 
       {/* ── Tab Content ─────────────────────────────────────────────────── */}
-      <div className="border border-t-0 border-gray-200 bg-white p-8">
+      <div className="border border-t-0 border-gray-200 bg-white p-4 md:p-8">
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab}
@@ -260,7 +260,7 @@ export default function ProductDetailTabs({ productName }: ProductDetailTabsProp
                 <div>
                   <p className="mb-4 text-sm font-semibold text-[#E6792A]">1. Quy trình đặt hàng</p>
                   <div className="overflow-hidden rounded-xl border border-gray-200 bg-gray-50 p-6">
-                    <div className="flex flex-wrap items-center justify-center gap-2">
+                    <div className="flex flex-wrap items-center justify-center gap-y-6 gap-x-4 md:gap-2">
                       {ORDER_STEPS.map((step, i) => (
                         <div key={i} className="flex items-center gap-2">
                           <div className="flex flex-col items-center gap-2">
@@ -270,7 +270,7 @@ export default function ProductDetailTabs({ productName }: ProductDetailTabsProp
                             <span className="text-center text-[11px] font-medium text-gray-600 max-w-[70px]">{step.label}</span>
                           </div>
                           {i < ORDER_STEPS.length - 1 && (
-                            <ChevronRight className="mb-5 h-5 w-5 shrink-0 text-gray-400" />
+                            <ChevronRight className="mb-5 h-5 w-5 shrink-0 text-gray-400 hidden md:block" />
                           )}
                         </div>
                       ))}
@@ -285,7 +285,7 @@ export default function ProductDetailTabs({ productName }: ProductDetailTabsProp
 
                   {/* Color diagram */}
                   <div className="mb-6 overflow-hidden rounded-xl border border-gray-200">
-                    <div className="grid grid-cols-2 divide-x divide-gray-200">
+                    <div className="grid grid-cols-1 divide-y divide-gray-200 md:grid-cols-2 md:divide-x md:divide-y-0">
                       {[
                         { title: "HỆ MÀU RGB", sub: "R: Red  G: Green  B: Blue", src: "/images/rgb-diagram.png", placeholder: "E53E3E/ffffff?text=RGB" },
                         { title: "HỆ MÀU CMYK", sub: "C: Cyan  M: Magenta  Y: Yellow  K: Black", src: "/images/cmyk-diagram.png", placeholder: "2B6CB0/ffffff?text=CMYK" },
@@ -334,7 +334,7 @@ export default function ProductDetailTabs({ productName }: ProductDetailTabsProp
             {activeTab === "price" && (
               <div className="space-y-6">
                 <TabTitle>Tải Bảng Giá & File Chuẩn</TabTitle>
-                <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+                <div className="grid grid-cols-1 min-[370px]:grid-cols-2 sm:grid-cols-4 gap-3">
                   {PRICE_FILES.map((f, i) => (
                     <motion.button
                       key={i}
@@ -342,7 +342,7 @@ export default function ProductDetailTabs({ productName }: ProductDetailTabsProp
                       type="button"
                       whileHover={{ scale: 1.04 }}
                       whileTap={{ scale: 0.97 }}
-                      className={`flex items-center gap-3 rounded-xl ${f.bg} px-5 py-4 shadow-md transition-colors hover:opacity-90 text-gray-800`}
+                      className={`flex items-center gap-3 rounded-xl ${f.bg} p-3.5 sm:px-5 sm:py-4 shadow-md transition-colors hover:opacity-90 text-gray-800`}
                     >
                       <Download className="h-5 w-5 shrink-0 text-[#E6792A]" />
                       <div className="text-left">

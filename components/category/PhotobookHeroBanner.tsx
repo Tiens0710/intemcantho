@@ -1,13 +1,18 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { BookImage, Upload } from "lucide-react";
 import CategoryMarketingHeroBanner from "./CategoryMarketingHeroBanner";
-import { getBannerConfig } from "@/lib/bannerService";
+import { getBannerConfig, DEFAULT_BANNERS } from "@/lib/bannerService";
 
 const SITE_URL = "https://intemcantho.vn";
 
 export default function PhotobookHeroBanner() {
-  const config = getBannerConfig("photobook");
+  const [config, setConfig] = useState(DEFAULT_BANNERS["photobook"]);
+
+  useEffect(() => {
+    setConfig(getBannerConfig("photobook"));
+  }, []);
 
   return (
     <CategoryMarketingHeroBanner

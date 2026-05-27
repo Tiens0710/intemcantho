@@ -1,25 +1,48 @@
 import type { Metadata } from "next";
-import Script from "next/script";
+import { Nunito } from "next/font/google";
 import "./globals.css";
-import ChatSearch from "@/components/ChatSearch";
-import ScrollToTop from "@/components/ScrollToTop";
-import SocialFloatingLinks from "@/components/SocialFloatingLinks";
+import ClientOnlyWidgets from "@/components/ClientOnlyWidgets";
+import { OrganizationSchema, WebSiteSchema } from "@/components/JsonLd";
 import { SITE_URL, siteConfig } from "@/lib/seo";
+
+const nunito = Nunito({
+  subsets: ["vietnamese", "latin"],
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   applicationName: siteConfig.name,
   title: {
-    default: siteConfig.name,
+    default: "In tem Cần Thơ - Duky Printing",
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
+  alternates: {
+    canonical: SITE_URL,
+  },
   openGraph: {
     type: "website",
-    locale: siteConfig.locale,
+    locale: siteConfig.locale.replace("-", "_"),
     siteName: siteConfig.name,
-    title: siteConfig.name,
+    title: "In tem Cần Thơ - Duky Printing",
     description: siteConfig.description,
+    url: SITE_URL,
+    images: [
+      {
+        url: `${SITE_URL}/logo.png`,
+        width: 1200,
+        height: 630,
+        alt: siteConfig.name,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "In tem Cần Thơ - Duky Printing",
+    description: siteConfig.description,
+    images: [`${SITE_URL}/logo.png`],
   },
   robots: {
     index: true,
@@ -41,28 +64,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="vi" data-scroll-behavior="smooth" suppressHydrationWarning>
-      <head>
-        {process.env.NODE_ENV === "development" && (
-          <Script
-            src="//unpkg.com/react-grab/dist/index.global.js"
-            crossOrigin="anonymous"
-            strategy="beforeInteractive"
-          />
-        )}
-        {/* Preconnect to Google Fonts for faster DNS resolution */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        {/*
-          Load Google Fonts via <link> instead of CSS @import.
-          Using <link> allows the browser to fetch fonts in parallel
-          instead of blocking CSS parsing, reducing layout shift (FOUT).
-        */}
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800;900&display=swap"
-        />
-      </head>
-      <body className="min-h-screen bg-white text-gray-900" style={{ fontFamily: "'Nunito', Arial, Helvetica, sans-serif" }} suppressHydrationWarning>
+      <head />
+      <body className={`${nunito.className} min-h-screen bg-white text-gray-900 overflow-x-hidden w-full relative`} suppressHydrationWarning>
         {/* SVG Noise Filter for Frosted Glass effect */}
         <svg className="fixed w-0 h-0" aria-hidden="true">
           <defs>
@@ -72,10 +75,10 @@ export default function RootLayout({
             </filter>
           </defs>
         </svg>
+        <OrganizationSchema />
+        <WebSiteSchema />
         {children}
-        <SocialFloatingLinks />
-        <ChatSearch />
-        <ScrollToTop />
+        <ClientOnlyWidgets />
       </body>
     </html>
   );

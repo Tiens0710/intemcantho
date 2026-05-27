@@ -1,7 +1,6 @@
-import CategoryPageClient from "@/components/category/CategoryPageClient";
-import { getProducts } from "@/lib/wordpress";
+import { redirect } from "next/navigation";
 
-export default async function StandeePage() {
-  const products = await getProducts();
-  return <CategoryPageClient slug="poster" products={products} />;
+// SEO: /standee → /dich-vu/standee (canonical URL)
+export default function StandeePage() {
+  redirect("/dich-vu/standee");
 }

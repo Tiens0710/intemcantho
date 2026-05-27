@@ -15,6 +15,7 @@ export interface Product {
   price: string;
   personas: PersonaType[];
   featured: boolean;
+  updatedAt?: string; // ISO date string for sitemap lastModified
   specs?: { label: string; value: string; hasTooltip?: boolean }[];
   sizes?: { label: string; value: string }[];
   purposes?: string[];
@@ -1341,6 +1342,35 @@ const PROCESS_STEPS: ProcessStep[] = [
     icon: "truck",
   },
 ];
+
+/**
+ * Map product category to the correct category page URL (Silo structure)
+ */
+export function getCategoryUrl(category: string): { url: string; label: string } {
+  const categoryMap: Record<string, { url: string; label: string }> = {
+    "nhan-dan":       { url: "/dich-vu/nhan-dan",       label: "Tem nhãn Decal" },
+    "bao-thu":        { url: "/van-phong/bao-thu",       label: "Bao thư" },
+    "office-products":{ url: "/van-phong",               label: "Ấn phẩm văn phòng" },
+    "catalogue":      { url: "/tiep-thi/catalogue",      label: "Catalogue" },
+    "menu":           { url: "/tiep-thi/menu",            label: "Menu" },
+    "voucher":        { url: "/tiep-thi/voucher",         label: "Voucher" },
+    "hashtag-cam-tay":{ url: "/tiep-thi/hashtag-cam-tay", label: "Hashtag cầm tay" },
+    "hiflex":         { url: "/tiep-thi/hiflex",          label: "Bạt Hiflex" },
+    "anh-ep-nhua":    { url: "/in-anh/anh-ep-nhua",       label: "Ảnh ép nhựa" },
+    "anh-cuoi":       { url: "/in-anh/anh-cuoi",          label: "Ảnh cưới" },
+    "photobook":      { url: "/in-anh/photobook",          label: "Photobook" },
+    "bang-gon":       { url: "/in-anh/bang-gon",           label: "Băng gôn cổ vũ" },
+    "anh-ep-go":      { url: "/in-anh/anh-ep-go",          label: "Ảnh ép gỗ" },
+    "anh-trending":   { url: "/in-anh/anh-trending",       label: "Ảnh trending" },
+    "bao-bi":         { url: "/bao-bi",                    label: "Bao bì" },
+    "labels":         { url: "/dich-vu/nhan-dan",          label: "Tem nhãn Decal" },
+    "packaging":      { url: "/bao-bi",                    label: "Bao bì" },
+    "marketing":      { url: "/tiep-thi",                  label: "Ấn phẩm tiếp thị" },
+    "display":        { url: "/dich-vu/standee",            label: "Standee" },
+  };
+
+  return categoryMap[category] || { url: "/van-phong", label: "Sản phẩm" };
+}
 
 /**
  * Fetch all products (with optional persona filtering)

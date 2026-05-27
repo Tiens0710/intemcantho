@@ -8,6 +8,7 @@
 import { motion } from "framer-motion";
 import { Quote, Star } from "lucide-react";
 import type { TestimonialData } from "@/lib/category-data";
+import Image from "next/image";
 
 type Props = {
   testimonials: TestimonialData[];
@@ -155,11 +156,12 @@ function TestimonialCard({ testimonial: t }: { testimonial: TestimonialData }) {
           {/* Author */}
           <div className="flex items-center gap-3">
             <div className="relative">
-              <img
+              <Image
                 src={t.avatar}
                 alt={t.author}
+                width={40}
+                height={40}
                 className="w-10 h-10 rounded-full object-cover border-2 border-amber-900/10 group-hover:border-amber-800/30 transition-colors duration-300"
-                loading="lazy"
               />
               <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-400 rounded-full border-2 border-white" />
             </div>

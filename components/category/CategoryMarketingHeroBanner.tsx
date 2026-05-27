@@ -50,6 +50,7 @@ type CategoryMarketingHeroBannerProps = {
   contentWidth?: string;
   featureMarginTop?: string;
   productImage?: ProductImage;
+  ctaBannerSrc?: string;
 };
 
 export default function CategoryMarketingHeroBanner({
@@ -64,11 +65,12 @@ export default function CategoryMarketingHeroBanner({
   highlights,
   actions,
   ariaLabel,
-  contentTop = "clamp(8rem, 16vh, 11rem)",
+  contentTop = "clamp(11rem, 20vh, 13rem)",
   contentLeft = "clamp(0.5rem, 3vw, 3rem)",
   contentWidth = "min(45rem, calc(100vw - 3rem))",
   featureMarginTop = "clamp(2.25rem, 5vh, 4.25rem)",
   productImage,
+  ctaBannerSrc = "/standee/cta_banner.png",
 }: CategoryMarketingHeroBannerProps) {
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
@@ -83,14 +85,19 @@ export default function CategoryMarketingHeroBanner({
 
   return (
     <section
-      style={{
-        position: "relative",
-        width: "100%",
-        height: "100vh",
-        minHeight: "600px",
-        overflow: "visible",
-      }}
+      className="relative w-full min-h-[460px] lg:h-screen lg:min-h-[600px] overflow-hidden lg:overflow-visible flex flex-col justify-center lg:block"
     >
+      <style dangerouslySetInnerHTML={{ __html: `
+        @media (min-width: 1024px) {
+          .desktop-absolute-hero {
+            position: absolute !important;
+            top: var(--desktop-top) !important;
+            left: var(--desktop-left) !important;
+            width: var(--desktop-width) !important;
+          }
+        }
+      `}} />
+
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -101,22 +108,23 @@ export default function CategoryMarketingHeroBanner({
         src={backgroundSrc}
         alt={backgroundAlt}
         fill
-        preload
+        priority
         sizes="100vw"
         style={{ objectFit: "cover", objectPosition: "center" }}
       />
+      {/* Light overlay on mobile for better text readability */}
+      <div className="absolute inset-0 bg-white/70 lg:bg-white/10 z-[1] pointer-events-none" />
 
       <div
         aria-label={ariaLabel}
+        className="relative z-20 w-full max-w-full overflow-hidden px-4 sm:px-6 md:px-8 pt-28 pb-16 lg:p-0 flex flex-col items-start desktop-absolute-hero"
         style={{
-          position: "absolute",
-          top: contentTop,
-          left: contentLeft,
-          zIndex: 20,
-          width: contentWidth,
           color: "#9a5b24",
           pointerEvents: "none",
           textShadow: "0 2px 8px rgba(255,255,255,0.75)",
+          ["--desktop-top" as any]: contentTop,
+          ["--desktop-left" as any]: contentLeft,
+          ["--desktop-width" as any]: contentWidth,
         }}
       >
         <h1
@@ -125,7 +133,7 @@ export default function CategoryMarketingHeroBanner({
             paddingInline: "clamp(0.25rem, 1.2vw, 1rem)",
             boxSizing: "border-box",
             fontFamily: "'Cormorant Garamond', 'Playfair Display', serif",
-            fontSize: "clamp(2.35rem, 4.8vw, 5.1rem)",
+            fontSize: "clamp(1.75rem, 4.5vw, 4.5rem)",
             lineHeight: 1,
             fontWeight: 700,
             display: "flex",
@@ -133,13 +141,14 @@ export default function CategoryMarketingHeroBanner({
             columnGap: "0.18em",
             letterSpacing: "0",
             textTransform: "uppercase",
+            width: "100%",
           }}
         >
-          <span style={{ whiteSpace: "nowrap" }}>{title}</span>
+          <span className="whitespace-normal lg:whitespace-nowrap">{title}</span>
           <span
+            className="whitespace-normal lg:whitespace-nowrap"
             style={{
               color: "#d06d08",
-              whiteSpace: "nowrap",
               textShadow: "0 2px 8px rgba(255,255,255,0.65)",
             }}
           >
@@ -149,11 +158,11 @@ export default function CategoryMarketingHeroBanner({
 
         <p
           style={{
-            margin: "1.35rem 0 0",
+            margin: "1rem 0 0",
             paddingInline: "clamp(0.25rem, 1.2vw, 1rem)",
             boxSizing: "border-box",
             fontFamily: "'Cormorant Garamond', 'Playfair Display', serif",
-            fontSize: "clamp(0.9rem, 1.8vw, 1.8rem)",
+            fontSize: "clamp(0.85rem, 1.5vw, 1.6rem)",
             lineHeight: 1.1,
             fontWeight: 600,
             letterSpacing: "0",
@@ -163,47 +172,42 @@ export default function CategoryMarketingHeroBanner({
           {tagline}
         </p>
 
-        <p
-          style={{
-            margin: "0.95rem 0 0",
-            paddingInline: "clamp(0.25rem, 1.2vw, 1rem)",
-            boxSizing: "border-box",
-            maxWidth: "min(40rem, calc(100vw - 3rem))",
-            color: "#1f1a16",
-            fontSize: "clamp(0.85rem, 1.2vw, 1.1rem)",
-            lineHeight: 1.4,
-            fontWeight: 400,
-            letterSpacing: "0",
-            textShadow: "0 1px 5px rgba(255,255,255,0.72)",
-            display: "-webkit-box",
-            WebkitLineClamp: 3,
-            WebkitBoxOrient: "vertical",
-            overflow: "hidden",
-          }}
-        >
-          {typeof description === "string" ? (
-            <span dangerouslySetInnerHTML={{ __html: description }} />
-          ) : (
-            description
-          )}
-        </p>
+        <div className="hidden sm:block">
+          <p
+            style={{
+              margin: "0.85rem 0 0",
+              paddingInline: "clamp(0.25rem, 1.2vw, 1rem)",
+              boxSizing: "border-box",
+              maxWidth: "min(40rem, calc(100vw - 3rem))",
+              color: "#1f1a16",
+              fontSize: "clamp(0.8rem, 1.1vw, 1rem)",
+              lineHeight: 1.4,
+              fontWeight: 400,
+              letterSpacing: "0",
+              textShadow: "0 1px 5px rgba(255,255,255,0.72)",
+              display: "-webkit-box",
+              WebkitLineClamp: 3,
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
+            }}
+          >
+            {typeof description === "string" ? (
+              <span dangerouslySetInnerHTML={{ __html: description }} />
+            ) : (
+              description
+            )}
+          </p>
+        </div>
 
         <div
+          className="mt-4 lg:mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6 items-center text-shadow-none pointer-events-auto w-full"
           style={{
-            marginTop: featureMarginTop,
-            paddingInline: "clamp(0.25rem, 1.2vw, 1rem)",
-            boxSizing: "border-box",
-            width: "min(43rem, calc(100vw - 3rem))",
-            display: "grid",
-            gridTemplateColumns: "minmax(15.5rem, 18.5rem) minmax(13rem, 1fr)",
-            alignItems: "center",
-            gap: "clamp(1rem, 2.4vw, 1.55rem)",
-            textShadow: "none",
+            maxWidth: "min(43rem, calc(100vw - 3rem))",
           }}
         >
           <div
+            className="w-full max-w-[20rem] sm:max-w-full"
             style={{
-              width: "100%",
               minHeight: "5.7rem",
               padding: "1rem clamp(1.05rem, 2.2vw, 1.45rem)",
               borderRadius: "12px",
@@ -244,8 +248,8 @@ export default function CategoryMarketingHeroBanner({
           </div>
 
           <ul
+            className="hidden sm:grid"
             style={{
-              display: "grid",
               gap: "0.42rem",
               listStyle: "none",
               margin: 0,
@@ -278,13 +282,9 @@ export default function CategoryMarketingHeroBanner({
         </div>
 
         <div
+          className="mt-4 sm:mt-6 w-full flex flex-col sm:flex-row gap-3 sm:gap-4 items-stretch sm:items-center"
           style={{
-            marginTop: "clamp(1rem, 2.4vh, 1.65rem)",
             paddingInline: "clamp(0.25rem, 1.2vw, 1rem)",
-            display: "flex",
-            gap: "1rem",
-            alignItems: "center",
-            flexWrap: "wrap",
             pointerEvents: "auto",
             textShadow: "none",
           }}
@@ -297,51 +297,16 @@ export default function CategoryMarketingHeroBanner({
               <Link
                 key={`${action.variant}-${action.label}`}
                 href={action.href}
+                className={`inline-flex items-center justify-center rounded-lg font-bold uppercase tracking-wider transition-all duration-300 hover:-translate-y-0.5 w-full sm:w-auto
+                  ${isPrimary
+                    ? "text-white bg-[#E6792A] border-2 border-white/55 shadow-[0_6px_20px_rgba(0,0,0,0.25)] hover:bg-[#D26D23] hover:shadow-[0_8px_28px_rgba(0,0,0,0.3)]"
+                    : "text-[#E6792A] bg-transparent border-2 border-[#E6792A] hover:bg-[#E6792A] hover:text-white hover:shadow-[0_8px_28px_rgba(0,0,0,0.2)]"
+                  }
+                  px-4 py-2.5 text-xs sm:px-6 sm:py-3 sm:text-xs md:text-sm lg:px-9 lg:py-3.5
+                `}
                 style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  padding: "14px 36px",
-                  borderRadius: "10px",
-                  fontWeight: 700,
-                  fontSize: "14px",
-                  letterSpacing: "0.04em",
-                  textTransform: "uppercase",
-                  color: isPrimary ? "#ffffff" : "#E6792A",
-                  background: isPrimary ? "#E6792A" : "transparent",
-                  boxShadow: isPrimary
-                    ? "0 6px 20px rgba(0,0,0,0.25), 0 2px 6px rgba(0,0,0,0.15)"
-                    : "none",
-                  border: isPrimary ? "2px solid rgba(255,255,255,0.55)" : "2px solid #E6792A",
                   cursor: "pointer",
                   textDecoration: "none",
-                  transition: "all 300ms cubic-bezier(0.22, 1, 0.36, 1)",
-                }}
-                onMouseEnter={(event) => {
-                  event.currentTarget.style.transform = "translateY(-2px)";
-
-                  if (isPrimary) {
-                    event.currentTarget.style.boxShadow =
-                      "0 8px 28px rgba(0,0,0,0.3), 0 3px 8px rgba(0,0,0,0.18)";
-                    event.currentTarget.style.background = "#D26D23";
-                  } else {
-                    event.currentTarget.style.background = "#E6792A";
-                    event.currentTarget.style.color = "#ffffff";
-                    event.currentTarget.style.boxShadow = "0 8px 28px rgba(0,0,0,0.2)";
-                  }
-                }}
-                onMouseLeave={(event) => {
-                  event.currentTarget.style.transform = "translateY(0)";
-
-                  if (isPrimary) {
-                    event.currentTarget.style.boxShadow =
-                      "0 6px 20px rgba(0,0,0,0.25), 0 2px 6px rgba(0,0,0,0.15)";
-                    event.currentTarget.style.background = "#E6792A";
-                  } else {
-                    event.currentTarget.style.background = "transparent";
-                    event.currentTarget.style.color = "#E6792A";
-                    event.currentTarget.style.boxShadow = "none";
-                  }
                 }}
               >
                 <Icon
@@ -357,16 +322,12 @@ export default function CategoryMarketingHeroBanner({
 
       <nav
         aria-label="Đường dẫn trang"
-        style={{
-          position: "absolute",
-          top: "6.5rem",
-          left: "4.5rem",
-          zIndex: 60,
-        }}
+        className="absolute top-20 left-4 lg:left-[4.5rem] lg:top-[8rem] z-30"
       >
         <ol
           style={{
             display: "flex",
+            flexWrap: "wrap",
             alignItems: "center",
             gap: "0.5rem",
             listStyle: "none",
@@ -419,6 +380,7 @@ export default function CategoryMarketingHeroBanner({
 
       {productImage && (
         <div
+          className="hidden lg:block"
           style={{
             position: "absolute",
             right: 200,
@@ -454,6 +416,20 @@ export default function CategoryMarketingHeroBanner({
           </motion.div>
         </div>
       )}
+
+      {/* CTA Banner — overlaps bottom edge */}
+      <div
+        className="absolute bottom-0 left-0 right-0 z-15 pointer-events-none translate-y-1/2 hidden sm:block"
+      >
+        <Image
+          src={ctaBannerSrc}
+          alt=""
+          aria-hidden="true"
+          width={960}
+          height={100}
+          className="mx-auto block h-16 lg:h-20 w-[90%] lg:w-[80%] object-contain"
+        />
+      </div>
     </section>
   );
 }

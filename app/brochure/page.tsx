@@ -1,7 +1,6 @@
-import CategoryPageClient from "@/components/category/CategoryPageClient";
-import { getProducts } from "@/lib/wordpress";
+import { redirect } from "next/navigation";
 
-export default async function BrochurePage() {
-  const products = await getProducts();
-  return <CategoryPageClient slug="to-gap" products={products} />;
+// SEO: /brochure → /danh-muc/to-gap (canonical URL)
+export default function BrochurePage() {
+  redirect("/danh-muc/to-gap");
 }

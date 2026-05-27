@@ -6,18 +6,29 @@ import OrderProcess from "@/components/OrderProcess";
 import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import Navbar from "@/components/Navbar";
-import OnboardingModal from "@/components/OnboardingModal";
-import PartnerCarousel from "@/components/PartnerCarousel";
+import BrandOutlineButton from "@/components/ui/BrandOutlineButton";
+import dynamic from "next/dynamic";
+
+const OnboardingModal = dynamic(() => import("@/components/OnboardingModal"), { ssr: false });
+const PartnerCarousel = dynamic(() => import("@/components/PartnerCarousel"), { ssr: false });
+const BlogCarousel = dynamic(() => import("@/components/BlogCarousel"), { ssr: false });
+import QualityCommitment from "@/components/QualityCommitment";
 import ProductGrid from "@/components/ProductGrid";
 import StoreLocationSection from "@/components/StoreLocationSection";
 import WarmButton from "@/components/WarmButton";
-import { AnimatePresence, motion } from "framer-motion";
-import QualityCommitment from "@/components/QualityCommitment";
+import { motion } from "framer-motion";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import Image from "next/image";
 
-export default function Home() {
-  const testimonials = [
+interface Testimonial {
+  id: string;
+  avatar: string;
+  content: string;
+  author: string;
+  role: string;
+}
+
+const testimonials: Testimonial[] = [
     {
       id: "thu",
       avatar: "/mau-2-150x150.png",
@@ -52,22 +63,7 @@ export default function Home() {
     },
   ];
 
-  const blogPosts = [
-    { id: 1, title: "In tem nhãn chống nước ở Cần Thơ", date: "29 Th4", image: "/nhap.webp", excerpt: "Tem nhãn chống nước đang trở thành lựa chọn gần như bắt buộc đối với nhiều doanh nghiệp, đặc biệt trong ngành thực phẩm." },
-    { id: 2, title: "Thiết kế in ấn danh thiếp ở Cần Thơ", date: "26 Th4", image: "/Bia-15.webp", excerpt: "Thiết kế in ấn danh thiếp vẫn là một trong những \"vũ khí nhỏ nhưng có võ\" trong kinh doanh hiện đại." },
-    { id: 3, title: "Dịch vụ in ấn ấn phẩm văn phòng", date: "23 Th4", image: "/Bia-12.webp", excerpt: "In ấn ấn phẩm văn phòng là một phần quan trọng trong cách doanh nghiệp thể hiện sự chuyên nghiệp." },
-    { id: 4, title: "In ấn ép nhựa giá rẻ theo yêu cầu", date: "20 Th4", image: "/Bia-14.webp", excerpt: "In ấn ép nhựa giá rẻ theo yêu cầu đang trở thành lựa chọn quen thuộc của nhiều cá nhân và doanh nghiệp." },
-  ];
-
-  const [blogStart, setBlogStart] = useState(0);
-
-  useEffect(() => {
-    const interval = window.setInterval(() => {
-      setBlogStart((prev) => (prev + 2) % blogPosts.length);
-    }, 5000);
-    return () => window.clearInterval(interval);
-  }, [blogPosts.length]);
-
+export default function Home() {
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.98 }}
@@ -96,7 +92,7 @@ export default function Home() {
       </section>
 
       {/* Why Choose Us - Luxury Style (Thiết kế & In ấn) */}
-      <section id="why-us-2" className="bg-white">
+      <section id="why-us-2" className="bg-white overflow-hidden">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: -30 }}
@@ -108,7 +104,7 @@ export default function Home() {
             <div className="flex items-center justify-center gap-4 mb-4">
               <span className="hidden md:block h-px w-20 lg:w-32" style={{ background: "linear-gradient(to right, transparent, #C8A882)" }} />
               <h2
-                className="mb-0 whitespace-nowrap uppercase"
+                className="mb-0 whitespace-normal md:whitespace-nowrap uppercase"
                 style={{
                   fontSize: "clamp(1.8rem, 3.5vw, 2.6rem)",
                   fontWeight: 600,
@@ -122,10 +118,31 @@ export default function Home() {
               </h2>
               <span className="hidden md:block h-px w-20 lg:w-32" style={{ background: "linear-gradient(to left, transparent, #C8A882)" }} />
             </div>
-            <div className="flex items-center justify-center gap-2">
-              <span className="h-0.5 w-12 rounded-full" style={{ background: "#E8DED4" }} />
-              <span className="h-0.5 w-20 rounded-full" style={{ background: "#E6792A" }} />
-              <span className="h-0.5 w-12 rounded-full" style={{ background: "#E8DED4" }} />
+            <div className="flex items-center justify-center gap-2 mb-5">
+              <motion.div
+                className="h-0.5 rounded-full"
+                style={{ background: "rgba(139,94,60,0.15)" }}
+                initial={{ width: 0 }}
+                whileInView={{ width: 40 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+              />
+              <motion.div
+                className="h-0.5 rounded-full"
+                style={{ background: "#E6792A" }}
+                initial={{ width: 0 }}
+                whileInView={{ width: 64 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+              />
+              <motion.div
+                className="h-0.5 rounded-full"
+                style={{ background: "rgba(139,94,60,0.15)" }}
+                initial={{ width: 0 }}
+                whileInView={{ width: 40 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+              />
             </div>
           </motion.div>
 
@@ -159,12 +176,10 @@ export default function Home() {
               </p>
 
               <div className="mt-10 flex justify-center lg:justify-start">
-                <Link
-                  href="/lien-he"
-                  className="group inline-flex items-center justify-center rounded-full border-2 bg-white px-6 py-2.5 text-sm font-medium text-[#B56A29] transition-all hover:bg-amber-600 hover:border-amber-600"
-                  style={{ borderColor: "#B56A29" }}
-                >
-                  <span className="text-[#B56A29] transition-colors group-hover:text-white">Tư Vấn Ngay</span>
+                <Link href="/lien-he">
+                  <BrandOutlineButton active>
+                    Tư Vấn Ngay
+                  </BrandOutlineButton>
                 </Link>
               </div>
             </div>
@@ -176,29 +191,47 @@ export default function Home() {
                 <div className="absolute left-8 top-20 h-8 w-8 rounded-full bg-amber-700/70" />
                 <div className="absolute bottom-10 right-12 h-6 w-6 rounded-full bg-amber-800/70" />
                 <div className="relative">
-                  <motion.img
-                    src="/bg001.png"
-                    alt="Thiết kế và in ấn tem nhãn"
-                    className="relative z-10 w-full object-contain drop-shadow-[0_24px_50px_rgba(0,0,0,0.12)]"
+                  <motion.div
+                    className="relative z-10 w-full drop-shadow-[0_24px_50px_rgba(0,0,0,0.12)]"
                     animate={{ y: [-8, 8, -8] }}
                     transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                  />
+                  >
+                    <Image
+                      src="/bg001.png"
+                      alt="Thiết kế và in ấn tem nhãn"
+                      width={560}
+                      height={400}
+                      className="w-full h-auto object-contain"
+                    />
+                  </motion.div>
 
-                  <motion.img
-                    src="/sanpham002.png"
-                    alt="Sản phẩm mẫu"
-                    className="pointer-events-none absolute left-[40%] top-[40%] z-20 w-[120%] max-w-[1500px] -translate-x-1/2 -translate-y-1/2 object-contain"
+                  <motion.div
+                    className="pointer-events-none absolute left-[40%] top-[40%] z-20 w-[120%] max-w-[1500px] -translate-x-1/2 -translate-y-1/2"
                     animate={{ y: [-12, 12, -12], rotate: [-2, 2, -2] }}
                     transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                  />
+                  >
+                    <Image
+                      src="/sanpham002.png"
+                      alt="Sản phẩm mẫu"
+                      width={672}
+                      height={480}
+                      className="w-full h-auto object-contain"
+                    />
+                  </motion.div>
 
-                  <motion.img
-                    src="/sanpham001.png"
-                    alt="Sản phẩm mẫu"
-                    className="pointer-events-none absolute left-[61%] top-[63%] z-20 w-[120%] max-w-[1500px] -translate-x-1/2 -translate-y-1/2 object-contain"
+                  <motion.div
+                    className="pointer-events-none absolute left-[61%] top-[63%] z-20 w-[80%] max-w-[900px] -translate-x-1/2 -translate-y-1/2"
                     animate={{ y: [8, -8, 8], rotate: [1, -1, 1] }}
                     transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 0.2 }}
-                  />
+                  >
+                    <Image
+                      src="/sanpham001.png"
+                      alt="Sản phẩm mẫu"
+                      width={480}
+                      height={340}
+                      className="w-full h-auto object-contain"
+                    />
+                  </motion.div>
                 </div>
               </div>
             </div>
@@ -239,30 +272,49 @@ export default function Home() {
             transition={{ duration: 0.6 }}
             className="text-center mb-14 container mx-auto px-4"
           >
-            <div className="flex items-center justify-center gap-3 mb-5">
-              <span className="h-px w-8 md:w-16" style={{ background: "linear-gradient(90deg, transparent, #E6D2BF)" }} />
-              <span
-                className="inline-flex items-center gap-2 rounded-full border border-[#E6792A]/25 bg-white/90 px-5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.35em] text-[#8B5E3C]"
-                style={{ boxShadow: "0 8px 18px -16px rgba(198,106,39,0.6)" }}
+            <div className="flex items-center justify-center gap-4 mb-4">
+              <span className="hidden md:block h-px w-20 lg:w-32" style={{ background: "linear-gradient(to right, transparent, #C8A882)" }} />
+              <h2
+                className="whitespace-normal md:whitespace-nowrap uppercase"
+                style={{
+                  fontSize: "clamp(1.8rem, 3.5vw, 2.6rem)",
+                  fontWeight: 600,
+                  lineHeight: 1.2,
+                  color: "#9A5B24",
+                  fontFamily: "'Nunito', Arial, Helvetica, sans-serif",
+                  letterSpacing: "0",
+                }}
               >
-                <span className="h-2 w-2 rounded-full bg-[#E6792A]" />
-                Đánh giá
-              </span>
-              <span className="h-px w-8 md:w-16" style={{ background: "linear-gradient(270deg, transparent, #E6D2BF)" }} />
+                KHÁCH HÀNG NÓI GÌ <span style={{ color: "#E6792A" }}>VỀ CHÚNG TÔI</span>
+              </h2>
+              <span className="hidden md:block h-px w-20 lg:w-32" style={{ background: "linear-gradient(to left, transparent, #C8A882)" }} />
             </div>
-            <h2
-              className="heading-gradient"
-              style={{
-                fontSize: "clamp(4rem, 3.2vw, 2.5rem)",
-                fontWeight: 700,
-                lineHeight: 1.25,
-                fontFamily: "'Nunito', Arial, Helvetica, sans-serif",
-                "--heading-gradient": "linear-gradient(135deg, #B08060 0%, #C08040 60%, #F0A050 100%)",
-              } as React.CSSProperties}
-            >
-              Khách hàng nói gì về chúng tôi
-            </h2>
-            <div className="mt-4 mx-auto w-20 h-1 rounded-full" style={{ background: "linear-gradient(90deg, #E6792A, #C66A27, #E6D2BF)" }} />
+            <div className="flex items-center justify-center gap-2 mb-5">
+              <motion.div
+                className="h-0.5 rounded-full"
+                style={{ background: "rgba(139,94,60,0.15)" }}
+                initial={{ width: 0 }}
+                whileInView={{ width: 40 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+              />
+              <motion.div
+                className="h-0.5 rounded-full"
+                style={{ background: "#E6792A" }}
+                initial={{ width: 0 }}
+                whileInView={{ width: 64 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+              />
+              <motion.div
+                className="h-0.5 rounded-full"
+                style={{ background: "rgba(139,94,60,0.15)" }}
+                initial={{ width: 0 }}
+                whileInView={{ width: 40 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+              />
+            </div>
             <p
               className="mt-4 mx-auto max-w-lg"
               style={{ fontSize: "14px", fontWeight: 400, color: "#7A6A58", lineHeight: 1.75 }}
@@ -314,15 +366,16 @@ export default function Home() {
                     {/* Author */}
                     <div className="flex items-center gap-3.5">
                       <div className="relative">
-                        <img
+                        <Image
                           src={testimonial.avatar}
                           alt={testimonial.author}
+                          width={48}
+                          height={48}
                           className="w-12 h-12 rounded-full object-cover"
                           style={{
                             boxShadow: "0 4px 14px rgba(92,61,30,0.15)",
                             border: "2.5px solid rgba(196,168,130,0.3)",
                           }}
-                          loading="lazy"
                         />
                         {/* Online indicator */}
                         <div
@@ -353,96 +406,7 @@ export default function Home() {
       </section>
 
       {/* Latest Blog Posts Section */}
-      <section id="latest-posts" className="relative py-16 md:py-20 bg-gray-50 overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: "radial-gradient(circle, rgba(139,94,60,0.04) 1px, transparent 1px)", backgroundSize: "24px 24px" }} />
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-            {/* Left — Title */}
-            <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="lg:col-span-4">
-              <div className="flex items-center gap-3 mb-5">
-                <span className="h-px w-8" style={{ background: "linear-gradient(90deg, transparent, #E6D2BF)" }} />
-    
-              </div>
-              <h2
-                className="heading-gradient"
-                style={{
-                  fontSize: "clamp(4.5rem, 5vw, 3.8rem)",
-                  fontWeight: 800,
-                  lineHeight: 1.1,
-                  fontFamily: "'Nunito', Arial, Helvetica, sans-serif",
-                  "--heading-gradient": "linear-gradient(135deg, #B08060 0%, #C08040 40%, #F0A050 100%)",
-                  filter: "drop-shadow(0 2px 6px rgba(154, 91, 36, 0.2))",
-                } as React.CSSProperties}
-              >
-                Bài viết mới nhất
-              </h2>
-              <div className="mt-5 mb-5 w-24 h-1.5 rounded-full" style={{ background: "linear-gradient(90deg, #E6792A, #C66A27, #E6D2BF)" }} />
-              <p style={{ fontSize: "15px", fontWeight: 400, color: "#6B5A48", lineHeight: 1.75 }}>Chia sẻ kiến thức và kinh nghiệm về thiết kế, in ấn tem nhãn chuyên nghiệp</p>
-              <Link href="/kinh-nghiem" className="group/link inline-flex items-center gap-2.5 mt-8 text-sm font-bold transition-all duration-300 hover:gap-3.5 hover:text-amber-700" style={{ color: "#8B5E3C" }}>
-                Xem tất cả bài viết
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
-              </Link>
-            </motion.div>
-            {/* Right — 2 Cards with overlay style */}
-            <div className="lg:col-span-8">
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.div key={blogStart} initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -40 }} transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }} className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  {blogPosts.slice(blogStart, blogStart + 2).map((post) => (
-                    <article key={post.id} className="group relative rounded-2xl overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2 hover:shadow-xl" style={{ height: "280px", boxShadow: "0 4px 20px rgba(92, 61, 30, 0.12)" }}>
-                      {/* Background Image */}
-                      <img
-                        src={post.image}
-                        alt={post.title}
-                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
-                        loading="lazy"
-                      />
-                      {/* Gradient Overlay — softer for text readability */}
-                      <div className="absolute inset-0 transition-all duration-500" style={{ background: "linear-gradient(to top, rgba(28, 16, 7, 0.75) 0%, rgba(28, 16, 7, 0.4) 40%, rgba(28, 16, 7, 0.08) 70%, transparent 100%)" }} />
-                      {/* Hover Overlay */}
-                      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ background: "linear-gradient(to top, rgba(230, 121, 42, 0.3) 0%, rgba(230, 121, 42, 0.1) 40%, transparent 60%)" }} />
-                      {/* Date Badge */}
-                      <div className="absolute top-4 left-4 z-10 px-3 py-1 rounded-full text-[11px] font-bold text-white" style={{ background: "rgba(139, 94, 60, 0.85)", backdropFilter: "blur(4px)" }}>{post.date}</div>
-                      {/* Content Overlay — Title only */}
-                      <div className="absolute bottom-0 left-0 right-0 p-5 z-10">
-                        <h3 className="mb-4 line-clamp-2 blog-card-title transition-colors duration-300" style={{ fontSize: "19px", fontWeight: 800, lineHeight: 1.3, fontFamily: "'Nunito', sans-serif", textShadow: "0 2px 12px rgba(0,0,0,0.8), 0 1px 4px rgba(0,0,0,0.6)" }}>{post.title}</h3>
-                        <Link href="/kinh-nghiem" className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-[12px] font-bold transition-all duration-300 hover:gap-3" style={{ background: "rgba(230, 121, 42, 0.9)", color: "#ffffff", backdropFilter: "blur(4px)" }}>
-                          Đọc tiếp
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
-                        </Link>
-                      </div>
-                    </article>
-                  ))}
-                </motion.div>
-              </AnimatePresence>
-              {/* Pagination Dots */}
-              <div className="flex items-center justify-center gap-3 mt-8">
-                {Array.from({ length: Math.ceil(blogPosts.length / 2) }).map((_, idx) => {
-                  const pageStart = idx * 2;
-                  const isActive = blogStart === pageStart;
-                  return (
-                    <button
-                      key={idx}
-                      onClick={() => setBlogStart(pageStart)}
-                      className="relative transition-all duration-300"
-                      style={{
-                        width: isActive ? "32px" : "10px",
-                        height: "10px",
-                        borderRadius: "9999px",
-                        background: isActive
-                          ? "linear-gradient(90deg, #E6792A, #C66A27)"
-                          : "rgba(139, 94, 60, 0.2)",
-                        boxShadow: isActive ? "0 2px 8px rgba(198, 106, 39, 0.4)" : "none",
-                      }}
-                      aria-label={`Chuyển sang trang ${idx + 1}`}
-                    />
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
+      <BlogCarousel />
       {/* Partners Section — Infinite Logo Ticker */}
       <PartnerCarousel />
 
@@ -606,16 +570,20 @@ export default function Home() {
               </div>
 
               {/* Character image */}
-              <img
+              <Image
                 src="/cau-hoi-700x827.png"
                 alt="Nhân viên tư vấn In tem Cần Thơ"
+                width={525}
+                height={620}
                 className="relative z-10 h-[620px] w-auto object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.2)]"
               />
               {/* Overlay FAQ image placed above the existing character image */}
-              <img
+              <Image
                 src="/faq.png"
                 alt="FAQ overlay"
                 aria-hidden="true"
+                width={500}
+                height={600}
                 className="absolute z-20 left-3 bottom-20 md:left-26 h-[400px] md:h-[600px] w-auto object-contain pointer-events-none drop-shadow-[0_12px_30px_rgba(0,0,0,0.15)]"
               />
             </motion.div>

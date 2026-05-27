@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, Minus, Plus, Trash2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
@@ -17,9 +18,28 @@ export default function Page() {
   const clearCart = useAppStore((s) => s.clearCart);
   const cartTotal = useAppStore((s) => s.cartTotal());
 
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const orderTotal = cartTotal;
 
   const formatPrice = (value: number) => `${value.toLocaleString("vi-VN")}đ`;
+
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-white">
+        <Navbar />
+        <main className="relative py-24 container mx-auto px-4 text-center z-10">
+          <div className="flex flex-col items-center justify-center min-h-[300px]">
+            <p className="text-[#7c6a5a] text-sm font-semibold">Đang tải giỏ hàng...</p>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white">

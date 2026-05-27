@@ -1,10 +1,11 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { ShoppingCart, ChevronDown, HelpCircle, Tag, CheckCircle2, ExternalLink, ChevronLeft, ChevronRight } from "lucide-react";
-import { useState, useRef, useCallback } from "react";
+import { ShoppingCart, ChevronDown, HelpCircle, Tag, CheckCircle2, ExternalLink, ChevronLeft, ChevronRight, X } from "lucide-react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useAppStore } from "@/lib/store";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import BrandOutlineButton from "@/components/ui/BrandOutlineButton";
 import BrandCard from "@/components/ui/BrandCard";
 
@@ -125,6 +126,40 @@ const DEFAULT_PRODUCT = {
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 
+function ThumbnailImage({ src, alt }: { src: string; alt: string }) {
+  const [imgSrc, setImgSrc] = useState(src);
+  useEffect(() => {
+    setImgSrc(src);
+  }, [src]);
+  return (
+    <Image
+      src={imgSrc}
+      alt={alt}
+      width={72}
+      height={72}
+      className="h-full w-full object-cover"
+      onError={() => setImgSrc("https://placehold.co/72x72/f0f0f0/999?text=SP")}
+    />
+  );
+}
+
+function ComboImage({ src, alt }: { src: string; alt: string }) {
+  const [imgSrc, setImgSrc] = useState(src);
+  useEffect(() => {
+    setImgSrc(src);
+  }, [src]);
+  return (
+    <Image
+      src={imgSrc}
+      alt={alt}
+      width={80}
+      height={56}
+      className="h-full w-full object-cover"
+      onError={() => setImgSrc("https://placehold.co/80x56/fde68a/d97706?text=Combo")}
+    />
+  );
+}
+
 export default function ProductDetail({ product }: ProductDetailProps) {
   const p = { ...DEFAULT_PRODUCT, ...product };
 
@@ -137,15 +172,43 @@ export default function ProductDetail({ product }: ProductDetailProps) {
   const [supportOption, setSupportOption] = useState<"new" | "redesign">("new");
   const [addedToCart, setAddedToCart] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
-  const [magnifierPos, setMagnifierPos] = useState({ x: 0, y: 0 });
-  const [showMagnifier, setShowMagnifier] = useState(false);
+  const [showLightbox, setShowLightbox] = useState(false);
   const router = useRouter();
   const imageContainerRef = useRef<HTMLDivElement>(null);
   const mainImageRef = useRef<HTMLImageElement>(null);
-  const MAGNIFIER_SIZE = 250;
-  const ZOOM = 2.5;
+
+  // Lock body scroll when lightbox is open
+  useEffect(() => {
+    if (showLightbox) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [showLightbox]);
+
+  // Close lightbox on Escape & support arrow key navigation
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setShowLightbox(false);
+      if (e.key === "ArrowLeft") handlePrevImage();
+      if (e.key === "ArrowRight") handleNextImage();
+    };
+    if (showLightbox) {
+      window.addEventListener("keydown", handler);
+      return () => window.removeEventListener("keydown", handler);
+    }
+  }, [showLightbox]);
 
   const gallery = p.gallery && p.gallery.length > 0 ? p.gallery : [p.image];
+
+  const [mainImgSrc, setMainImgSrc] = useState(gallery[selectedImageIndex]);
+
+  useEffect(() => {
+    setMainImgSrc(gallery[selectedImageIndex]);
+  }, [selectedImageIndex, gallery]);
 
   const handlePrevImage = () => {
     setSelectedImageIndex((prev) => (prev === 0 ? gallery.length - 1 : prev - 1));
@@ -235,7 +298,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
   return (
     <section className="bg-gray-50 min-h-screen py-10 px-4">
       <div className="mx-auto max-w-7xl">
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[620px_1fr]">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[620px_1fr] max-w-2xl mx-auto lg:max-w-none">
 
           {/* ── Left: Image Column ─────────────────────────────────────── */}
           <div className="flex flex-col gap-4">
@@ -248,97 +311,19 @@ export default function ProductDetail({ product }: ProductDetailProps) {
               <BrandCard className="relative overflow-hidden bg-white">
                 <div
                   ref={imageContainerRef}
-                  className="aspect-square w-full overflow-hidden bg-gray-100 relative cursor-crosshair"
-                  onMouseEnter={() => setShowMagnifier(true)}
-                  onMouseLeave={() => setShowMagnifier(false)}
-                  onMouseMove={(e) => {
-                    const rect = e.currentTarget.getBoundingClientRect();
-                    setMagnifierPos({
-                      x: e.clientX - rect.left,
-                      y: e.clientY - rect.top,
-                    });
-                  }}
+                  onClick={() => setShowLightbox(true)}
+                  className="aspect-square w-full overflow-hidden bg-gray-100 relative cursor-zoom-in"
                 >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    ref={mainImageRef}
-                    src={gallery[selectedImageIndex]}
+                  <Image
+                    src={mainImgSrc}
                     alt={p.title}
-                    className="h-full w-full object-cover"
-                    onError={(e) => {
-                      (e.currentTarget as HTMLImageElement).src =
-                        "https://placehold.co/600x400/e8f5e9/2d7a4a?text=BĂNG+RÔN+HIFLEX";
+                    fill
+                    sizes="(max-width: 768px) 100vw, 620px"
+                    className="h-full w-full object-cover transition-transform duration-300 hover:scale-102"
+                    onError={() => {
+                      setMainImgSrc("https://placehold.co/600x400/e8f5e9/2d7a4a?text=B%C4%80NG+R%C3%94N+HIFLEX");
                     }}
                   />
-
-                  {/* Magnifier lens */}
-                  {showMagnifier && mainImageRef.current && (() => {
-                    const img = mainImageRef.current;
-                    const containerW = imageContainerRef.current?.offsetWidth || 600;
-                    const containerH = imageContainerRef.current?.offsetHeight || 600;
-                    const naturalW = img.naturalWidth;
-                    const naturalH = img.naturalHeight;
-
-                    // Calculate object-cover displayed area
-                    const containerRatio = containerW / containerH;
-                    const imageRatio = naturalW / naturalH;
-                    let displayedW: number, displayedH: number, offsetX: number, offsetY: number;
-
-                    if (imageRatio > containerRatio) {
-                      // Image is wider - height fills, sides cropped
-                      displayedH = containerH;
-                      displayedW = containerH * imageRatio;
-                      offsetX = (containerW - displayedW) / 2;
-                      offsetY = 0;
-                    } else {
-                      // Image is taller - width fills, top/bottom cropped
-                      displayedW = containerW;
-                      displayedH = containerW / imageRatio;
-                      offsetX = 0;
-                      offsetY = (containerH - displayedH) / 2;
-                    }
-
-                    // Position relative to the actual displayed image
-                    const imgX = magnifierPos.x - offsetX;
-                    const imgY = magnifierPos.y - offsetY;
-
-                    // Background size of the magnified image
-                    const bgW = displayedW * ZOOM;
-                    const bgH = displayedH * ZOOM;
-
-                    // Clamp mouse position within the displayed image area
-                    const clampedImgX = Math.max(0, Math.min(imgX, displayedW));
-                    const clampedImgY = Math.max(0, Math.min(imgY, displayedH));
-
-                    // Background position: offset so the zoomed area is centered in the lens
-                    const bgX = -(clampedImgX * ZOOM - MAGNIFIER_SIZE / 2);
-                    const bgY = -(clampedImgY * ZOOM - MAGNIFIER_SIZE / 2);
-
-                    // Clamp lens position within container
-                    const lensX = Math.max(MAGNIFIER_SIZE / 2, Math.min(magnifierPos.x, containerW - MAGNIFIER_SIZE / 2));
-                    const lensY = Math.max(MAGNIFIER_SIZE / 2, Math.min(magnifierPos.y, containerH - MAGNIFIER_SIZE / 2));
-
-                    return (
-                      <>
-                        <div className="absolute inset-0 bg-black/5 pointer-events-none z-10" />
-                        <div
-                          className="absolute pointer-events-none rounded-full z-20"
-                          style={{
-                            width: `${MAGNIFIER_SIZE}px`,
-                            height: `${MAGNIFIER_SIZE}px`,
-                            left: `${lensX - MAGNIFIER_SIZE / 2}px`,
-                            top: `${lensY - MAGNIFIER_SIZE / 2}px`,
-                            backgroundImage: `url(${gallery[selectedImageIndex]})`,
-                            backgroundSize: `${bgW}px ${bgH}px`,
-                            backgroundPosition: `${bgX}px ${bgY}px`,
-                            backgroundRepeat: "no-repeat",
-                            border: "3px solid rgba(230,121,42,0.7)",
-                            boxShadow: "0 0 0 4px rgba(230,121,42,0.15), 0 20px 50px -12px rgba(0,0,0,0.3), inset 0 0 20px rgba(0,0,0,0.05)",
-                          }}
-                        />
-                      </>
-                    );
-                  })()}
                 </div>
               </BrandCard>
 
@@ -353,7 +338,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                     <ChevronLeft className="h-4 w-4" />
                   </button>
 
-                  <div className="flex flex-1 items-center justify-center gap-3 overflow-visible py-2 scrollbar-none">
+                  <div className="flex flex-1 items-center justify-start sm:justify-center gap-3 overflow-x-auto py-2 scrollbar-none">
                     {gallery.map((img, index) => (
                       <button
                         key={index}
@@ -365,16 +350,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                             : "border border-gray-200 opacity-60 hover:opacity-100 hover:border-gray-300 hover:shadow-sm"
                         }`}
                       >
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={img}
-                          alt={`${p.title} ${index + 1}`}
-                          className="h-full w-full object-cover"
-                          onError={(e) => {
-                            (e.currentTarget as HTMLImageElement).src =
-                              "https://placehold.co/72x72/f0f0f0/999?text=" + (index + 1);
-                          }}
-                        />
+                        <ThumbnailImage src={img} alt={`${p.title} ${index + 1}`} />
                       </button>
                     ))}
                   </div>
@@ -407,16 +383,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                         className="flex cursor-pointer items-center gap-4 rounded-xl border border-gray-200 bg-gray-50 p-3 transition-all hover:border-[#E6792A] hover:bg-[#fffbeb]"
                       >
                         <div className="flex h-14 w-20 shrink-0 items-center justify-center rounded-lg bg-[#fde68a]/40 overflow-hidden">
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img
-                            src={combo.image}
-                            alt={combo.title}
-                            className="h-full w-full object-cover"
-                            onError={(e) => {
-                              (e.currentTarget as HTMLImageElement).src =
-                                "https://placehold.co/80x56/fde68a/d97706?text=Combo";
-                            }}
-                          />
+                          <ComboImage src={combo.image} alt={combo.title} />
                         </div>
                         <div className="flex-1 min-w-0">
                           <p className="text-xs font-bold text-gray-800 uppercase truncate">{combo.title}</p>
@@ -558,7 +525,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                         placeholder="Nhập kích thước (vd: 200x100 cm)"
                         value={customSize}
                         onChange={(e) => setCustomSize(e.target.value)}
-                        className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-[#9a5b24] focus:outline-none focus:ring-2 focus:ring-[#9a5b24]/20"
+                        className="w-full max-w-[300px] rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-[#9a5b24] focus:outline-none focus:ring-2 focus:ring-[#9a5b24]/20"
                       />
                     </motion.div>
                   )}
@@ -609,7 +576,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
               {designOption === "has-file" ? (
                 <div className="border-2 !border-[#E6792A] shadow-sm bg-white overflow-hidden rounded-lg">
                   <label
-                    className="grid cursor-pointer grid-cols-[100px_1fr] items-center p-5 hover:bg-gray-50 transition-colors group"
+                    className="grid cursor-pointer grid-cols-[48px_1fr] items-center p-4 md:p-5 hover:bg-gray-50 transition-colors group"
                   >
                     <div className="flex items-center justify-center">
                       <div className="relative flex items-center justify-center">
@@ -642,7 +609,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                   <div className="border-t border-gray-200" />
 
                   <label
-                    className="grid cursor-pointer grid-cols-[100px_1fr] items-center p-5 hover:bg-gray-50 transition-colors group"
+                    className="grid cursor-pointer grid-cols-[48px_1fr] items-center p-4 md:p-5 hover:bg-gray-50 transition-colors group"
                   >
                     <div className="flex items-center justify-center">
                       <div className="relative flex items-center justify-center">
@@ -694,7 +661,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
               {designOption === "support" && (
                 <div className="border-2 !border-[#E6792A] shadow-sm bg-white overflow-hidden rounded-lg">
                   <label
-                    className="grid cursor-pointer grid-cols-[100px_1fr] items-center p-5 hover:bg-gray-50 transition-colors group"
+                    className="grid cursor-pointer grid-cols-[48px_1fr] items-center p-4 md:p-5 hover:bg-gray-50 transition-colors group"
                   >
                     <div className="flex items-center justify-center">
                       <div className="relative flex items-center justify-center">
@@ -726,7 +693,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                   <div className="border-t border-gray-200" />
 
                   <label
-                    className="grid cursor-pointer grid-cols-[100px_1fr] items-center p-5 hover:bg-gray-50 transition-colors group"
+                    className="grid cursor-pointer grid-cols-[48px_1fr] items-center p-4 md:p-5 hover:bg-gray-50 transition-colors group"
                   >
                     <div className="flex items-center justify-center">
                       <div className="relative flex items-center justify-center">
@@ -759,7 +726,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
 
               {/* Price & Delivery */}
               <div className="grid grid-cols-2 gap-3">
-                <BrandCard className="bg-white p-3.5 text-center">
+                <BrandCard className="bg-white p-3.5 flex flex-col justify-between items-center text-center">
                   <p className="text-xs text-gray-500 mb-1">
                     Thời gian dự kiến thành phẩm{" "}
                     <span className="text-[#d97706]">(*)</span>
@@ -769,9 +736,9 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                     (Từ khi xác nhận file thiết kế + Đặt cọc)
                   </p>
                 </BrandCard>
-                <BrandCard className="bg-white p-3.5 text-center">
+                <BrandCard className="bg-white p-3.5 flex flex-col justify-between items-center text-center">
                   <p className="text-xs text-gray-500 mb-1">Thành tiền</p>
-                  <p className="text-4xl font-black leading-tight !text-red-700 drop-shadow-sm">
+                  <p className="text-2xl sm:text-3xl lg:text-4xl font-black leading-tight !text-red-700 drop-shadow-sm break-all">
                     {formatPrice(p.price)}
                   </p>
                   <p className="mt-1 text-[10px] text-gray-400">
@@ -781,7 +748,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
               </div>
 
               {/* CTA Buttons */}
-              <div className="grid grid-cols-2 gap-3 pt-1">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
                 <motion.button
                   id="btn-order-now"
                   type="button"
@@ -856,6 +823,98 @@ export default function ProductDetail({ product }: ProductDetailProps) {
           </motion.div>
         </div>
       </div>
+
+      {/* Lightbox Slideshow Modal */}
+      <AnimatePresence>
+        {showLightbox && (
+          <motion.div
+            key="lightbox-modal"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-black/90 backdrop-blur-md"
+            onClick={() => setShowLightbox(false)}
+          >
+            {/* Close button in top-right */}
+            <button
+              type="button"
+              onClick={() => setShowLightbox(false)}
+              className="absolute right-6 top-6 z-[10000] flex flex-col items-center gap-1 text-white/70 transition hover:text-white hover:scale-105 cursor-pointer"
+            >
+              <X className="h-6 w-6" />
+              <span className="text-[10px] font-bold uppercase tracking-widest">Đóng</span>
+            </button>
+
+            {/* Main Lightbox Content Area */}
+            <div className="relative flex w-full max-w-5xl items-center justify-between px-4 animate-fade-in" onClick={(e) => e.stopPropagation()}>
+              {/* Prev Button */}
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handlePrevImage();
+                }}
+                className="flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20 active:scale-95 cursor-pointer"
+              >
+                <ChevronLeft className="h-6 w-6" />
+              </button>
+
+              {/* Centered Image */}
+              <div className="relative flex flex-col items-center justify-center">
+                <img
+                  src={gallery[selectedImageIndex]}
+                  alt={p.title}
+                  className="max-h-[70vh] max-w-[70vw] rounded-2xl object-contain shadow-2xl select-none"
+                />
+                
+                {/* Caption below image */}
+                <p className="mt-4 text-xs font-bold uppercase tracking-[0.2em] text-white/50">
+                  Hình ảnh
+                </p>
+              </div>
+
+              {/* Next Button */}
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleNextImage();
+                }}
+                className="flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20 active:scale-95 cursor-pointer"
+              >
+                <ChevronRight className="h-6 w-6" />
+              </button>
+            </div>
+
+            {/* Thumbnail Navigation at the bottom */}
+            {gallery.length > 1 && (
+              <div className="absolute bottom-8 flex gap-3 overflow-x-auto px-4" onClick={(e) => e.stopPropagation()}>
+                {gallery.map((img, index) => (
+                  <button
+                    key={index}
+                    type="button"
+                    onClick={() => setSelectedImageIndex(index)}
+                    className={`relative h-14 w-14 overflow-hidden rounded-xl transition-all duration-200 cursor-pointer ${
+                      selectedImageIndex === index
+                        ? "border-2 border-[#E6792A] scale-105 shadow-lg shadow-[#E6792A]/25"
+                        : "border border-white/20 opacity-55 hover:opacity-100"
+                    }`}
+                  >
+                    <Image
+                      src={img}
+                      alt={`Thumbnail ${index + 1}`}
+                      width={56}
+                      height={56}
+                      className="h-full w-full object-cover"
+                    />
+                  </button>
+                ))}
+              </div>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
