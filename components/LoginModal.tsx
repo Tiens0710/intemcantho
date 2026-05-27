@@ -6,6 +6,9 @@ import { apiPost } from "@/lib/apiClient";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { GoogleOAuthProvider, GoogleLogin, CredentialResponse } from "@react-oauth/google";
+import { authService } from "@/lib/api/services/authService";
+import { useAppStore } from "@/lib/store";
 
 type LoginModalProps = {
   open: boolean;
@@ -23,12 +26,6 @@ const GoogleIcon = () => (
   </svg>
 );
 
-const FacebookIcon = () => (
-  <svg className="h-5 w-5" viewBox="0 0 24 24" aria-hidden="true">
-    <path fill="#1877F2" d="M24 12a12 12 0 1 0-13.88 11.87v-8.4H7.08V12h3.04V9.4c0-3 1.8-4.66 4.55-4.66 1.32 0 2.7.24 2.7.24v2.97h-1.52c-1.5 0-1.97.93-1.97 1.88V12h3.35l-.54 3.47h-2.8v8.4A12 12 0 0 0 24 12Z" />
-  </svg>
-);
-
 const popupStyle = {
   borderColor: "#E69792",
   boxShadow: "0 0 20px rgba(230,151,146,0.4), 0 0 60px rgba(230,151,146,0.2), 0 30px 80px rgba(17,17,17,0.18)",
@@ -43,12 +40,14 @@ const buttonStyle = {
 
 export default function LoginModal({ open, onClose, onLoginSuccess, onSwitchToRegister }: LoginModalProps) {
   const router = useRouter();
+  const setAuthData = useAppStore((s) => s.setAuthData);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const GOOGLE_CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
 
   useEffect(() => {
     if (!open) return;
@@ -64,17 +63,21 @@ export default function LoginModal({ open, onClose, onLoginSuccess, onSwitchToRe
     return () => window.removeEventListener("keydown", handler);
   }, [open, onClose]);
 
-  const handleFacebookLogin = () => {
+  const handleGoogleSuccess = async (credentialResponse: CredentialResponse) => {
+    if (!credentialResponse.credential) return;
     setIsLoading(true);
-    setTimeout(() => {
-      const fbUser = { name: "Facebook User", email: "fb_user@facebook.com" };
-      localStorage.setItem("authToken", "fb_demo_token_" + Date.now());
-      localStorage.setItem("user", JSON.stringify(fbUser));
-      onLoginSuccess?.(fbUser);
+    setError(null);
+    try {
+      const data = await authService.loginWithGoogle(credentialResponse.credential);
+      setAuthData(data);
+      onLoginSuccess?.({ name: data.customer.fullName, email: data.customer.email });
       onClose();
       router.push("/tai-khoan");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Đăng nhập Google thất bại");
+    } finally {
       setIsLoading(false);
-    }, 800);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -82,18 +85,42 @@ export default function LoginModal({ open, onClose, onLoginSuccess, onSwitchToRe
     setError(null);
     setIsLoading(true);
     try {
-      const data = await apiPost<{ token: string }>("/api/auth/login", {
-        email, password, rememberMe,
-      }, { skipAuth: true });
-      const userName = email.split("@")[0] || "Tai khoan";
-      localStorage.setItem("authToken", data.token);
-      localStorage.setItem("user", JSON.stringify({ name: userName, email }));
-      if (rememberMe) localStorage.setItem("rememberMe", "true");
-      onLoginSuccess?.({ name: userName, email });
-      onClose();
-      router.push("/tai-khoan");
+      // Validate password length
+      if (password.length < 8) {
+        setError("Mật khẩu phải có ít nhất 8 ký tự");
+        setIsLoading(false);
+        return;
+      }
+      // Try login first
+      let data;
+      try {
+        data = await authService.login(email, password);
+      } catch (loginErr) {
+        // If login fails (user not found / wrong password), try auto-register
+        const errMsg = loginErr instanceof Error ? loginErr.message : "";
+        if (errMsg.includes("không đúng") || errMsg.includes("not found") || errMsg.includes("Invalid")) {
+          try {
+            data = await authService.register({
+              email,
+              password,
+              passwordConfirmation: password,
+            });
+          } catch (regErr) {
+            // Register failed too — likely "Email đã được đăng ký" (wrong password)
+            throw new Error("Mật khẩu không đúng. Vui lòng thử lại.");
+          }
+        } else {
+          throw loginErr;
+        }
+      }
+      if (data) {
+        setAuthData(data);
+        onLoginSuccess?.({ name: data.customer.fullName, email: data.customer.email });
+        onClose();
+        router.push("/tai-khoan");
+      }
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Login failed");
+      setError(err instanceof Error ? err.message : "Đăng nhập thất bại");
     } finally {
       setIsLoading(false);
     }
@@ -106,94 +133,97 @@ export default function LoginModal({ open, onClose, onLoginSuccess, onSwitchToRe
   ];
 
   return (
-    <AnimatePresence>
-      {open && (
-        <>
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm" onClick={onClose} />
-          <motion.div initial={{ opacity: 0, scale: 0.96, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.96, y: 20 }} transition={{ type: "spring", damping: 26, stiffness: 280 }} className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            <div className="relative w-full max-w-4xl" onClick={(e) => e.stopPropagation()}>
-              <div className="relative overflow-hidden rounded-3xl border-2 bg-gradient-to-br from-white/60 via-white/40 to-white/30 backdrop-blur-3xl" style={popupStyle}>
-                <button type="button" aria-label="Close" onClick={onClose} className="absolute right-5 top-5 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-white/60 bg-white/80 text-[#6f5d4b] shadow-sm transition hover:text-[#3b2a1f]"><X className="h-5 w-5" /></button>
-                <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr]">
-                  <div className="relative bg-gradient-to-br from-white/50 via-[#f7f4f0]/80 to-[#ede8e2]/60 backdrop-blur-xl p-6 md:p-8">
-                    <div className="text-center">
+    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID || ""}>
+      <AnimatePresence>
+        {open && (
+          <>
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm" onClick={onClose} />
+            <motion.div initial={{ opacity: 0, scale: 0.96, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.96, y: 20 }} transition={{ type: "spring", damping: 26, stiffness: 280 }} className="fixed inset-0 z-50 flex items-center justify-center p-4">
+              <div className="relative w-full max-w-4xl" onClick={(e) => e.stopPropagation()}>
+                <div className="relative overflow-hidden rounded-3xl border-2 bg-gradient-to-br from-white/60 via-white/40 to-white/30 backdrop-blur-3xl" style={popupStyle}>
+                  <button type="button" aria-label="Close" onClick={onClose} className="absolute right-5 top-5 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-white/60 bg-white/80 text-[#6f5d4b] shadow-sm transition hover:text-[#3b2a1f]"><X className="h-5 w-5" /></button>
+                  <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr]">
+                    <div className="relative bg-gradient-to-br from-white/50 via-[#f7f4f0]/80 to-[#ede8e2]/60 backdrop-blur-xl p-6 md:p-8">
+                      <div className="text-center">
+                      </div>
+                      <div className="mt-4 flex items-center justify-center">
+                        <img src="/logo_dangnhap.png" alt="Logo" className="max-h-[300px] max-w-[300px] w-full h-full object-contain" />
+                      </div>
+                      <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+                        {features.map((item) => {
+                          const Icon = item.icon;
+                          return (
+                            <div key={item.label} className="flex items-center gap-2 rounded-xl border border-white/70 bg-white/80 px-3 py-2 text-xs text-[#6f5d4b] shadow-sm">
+                              <div className="flex h-7 w-7 items-center justify-center rounded-full border border-[#ecdccc] bg-white flex-shrink-0"><Icon className="h-3.5 w-3.5 text-[#8b6b4f]" /></div>
+                              <div className="min-w-0">
+                                <p className="font-semibold uppercase tracking-[0.15em] text-[9px] text-[#8b6b4f]">{item.label}</p>
+                                <p className="font-medium text-[11px] text-[#4b382a]">{item.detail}</p>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
                     </div>
-                    <div className="mt-4 flex items-center justify-center">
-                      <img src="/logo_dangnhap.png" alt="Logo" className="max-h-[300px] max-w-[300px] w-full h-full object-contain" />
-                    </div>
-                    <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
-                      {features.map((item) => {
-                        const Icon = item.icon;
-                        return (
-                          <div key={item.label} className="flex items-center gap-2 rounded-xl border border-white/70 bg-white/80 px-3 py-2 text-xs text-[#6f5d4b] shadow-sm">
-                            <div className="flex h-7 w-7 items-center justify-center rounded-full border border-[#ecdccc] bg-white flex-shrink-0"><Icon className="h-3.5 w-3.5 text-[#8b6b4f]" /></div>
-                            <div className="min-w-0">
-                              <p className="font-semibold uppercase tracking-[0.15em] text-[9px] text-[#8b6b4f]">{item.label}</p>
-                              <p className="font-medium text-[11px] text-[#4b382a]">{item.detail}</p>
+                    <div className="bg-gradient-to-tl from-white/80 via-white/60 to-white/50 backdrop-blur-xl p-5 md:p-6 lg:p-8">
+                      <div className="w-full">
+                        <h2 className="text-xl font-semibold text-white" style={{ fontFamily: "'Cormorant Garamond', 'Playfair Display', serif" }}>Đăng nhập</h2>
+                        <p className="mt-1 text-xs text-[#8c7a68]">Nhập email và mật khẩu — hệ thống sẽ tự động tạo tài khoản nếu chưa có</p>
+                        <form onSubmit={handleSubmit} className="mt-4 space-y-3">
+                          <div>
+                            <label className="sr-only" htmlFor="email">Email</label>
+                            <input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required className="w-full rounded-[5px] border border-[#ebe1d6] bg-white px-4 py-3 text-sm text-[#3b2a1f] outline-none transition focus:border-[#c8a27c]" />
+                          </div>
+                          <div>
+                            <label className="sr-only" htmlFor="password">Password</label>
+                            <div className="relative">
+                              <input id="password" type={showPassword ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Mat khau" required className="w-full rounded-[5px] border border-[#ebe1d6] bg-white pl-4 pr-12 py-3 text-sm text-[#3b2a1f] outline-none transition focus:border-[#c8a27c]" />
+                              <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-4 top-1/2 -translate-y-1/2 text-[#b1a090] transition hover:text-[#6f5d4b]">
+                                {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                              </button>
                             </div>
                           </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                  <div className="bg-gradient-to-tl from-white/80 via-white/60 to-white/50 backdrop-blur-xl p-5 md:p-6 lg:p-8">
-                    <div className="w-full">
-                      <h2 className="text-xl font-semibold text-white" style={{ fontFamily: "'Cormorant Garamond', 'Playfair Display', serif" }}>Đăng nhập</h2>
-                      <p className="mt-1 text-xs text-[#8c7a68]">Tiep tuc mua sam cung Duky Store</p>
-                      <form onSubmit={handleSubmit} className="mt-4 space-y-3">
-                        <div>
-                          <label className="sr-only" htmlFor="email">Email</label>
-                          <input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required className="w-full rounded-[5px] border border-[#ebe1d6] bg-white px-4 py-3 text-sm text-[#3b2a1f] outline-none transition focus:border-[#c8a27c]" />
-                        </div>
-                        <div>
-                          <label className="sr-only" htmlFor="password">Password</label>
-                          <div className="relative">
-                            <input id="password" type={showPassword ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Mat khau" required className="w-full rounded-[5px] border border-[#ebe1d6] bg-white pl-4 pr-12 py-3 text-sm text-[#3b2a1f] outline-none transition focus:border-[#c8a27c]" />
-                            <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-4 top-1/2 -translate-y-1/2 text-[#b1a090] transition hover:text-[#6f5d4b]">
-                              {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                            </button>
-                          </div>
-                        </div>
-                        {error && (
-                          <div className="rounded-[5px] border border-red-200 bg-red-50 px-4 py-2"><p className="text-xs text-red-700">{error}</p></div>
-                        )}
-                        <div className="flex items-center justify-between text-sm">
-                          <label className="flex items-center gap-2 text-xs text-[#6f5d4b] whitespace-nowrap flex-shrink-0">
-                            <input type="checkbox" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} className="h-4 w-4 rounded border-[#d9cbbb] accent-[#2d1d12]" />
-                            Ghi nho dang nhap
-                          </label>
-                          <Link href="/quen-mat-khau" className="text-xs text-[#6f5d4b] hover:text-[#2d1d12]">Quen mat khau?</Link>
-                        </div>
-                        <button type="submit" disabled={isLoading} className="w-full rounded-[10px] py-3 text-sm font-semibold transition hover:-translate-y-[1px] disabled:cursor-not-allowed disabled:opacity-60 flex items-center justify-center gap-2" style={buttonStyle}>
-                          <LogIn className="h-4 w-4 text-white" strokeWidth={2} />
-                          {isLoading ? "Dang dang nhap..." : "Dang nhap"}
-                        </button>
-                        <div className="flex items-center gap-3 text-[11px] uppercase tracking-[0.25em] text-[#b1a090]">
-                          <span className="h-px flex-1 bg-[#efe4d8]" />
-                          Hoac tiep tuc voi
-                          <span className="h-px flex-1 bg-[#efe4d8]" />
-                        </div>
-                        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                          <button type="button" className="flex items-center justify-center gap-2 rounded-[5px] border border-[#ebe1d6] bg-white px-4 py-2.5 text-xs font-semibold text-[#3b2a1f] shadow-sm transition hover:bg-[#f7f4f0]"><GoogleIcon /> Google</button>
-                          <button type="button" onClick={handleFacebookLogin} disabled={isLoading} className="flex items-center justify-center gap-2 rounded-[5px] border border-[#ebe1d6] bg-white px-4 py-2.5 text-xs font-semibold text-[#3b2a1f] shadow-sm transition hover:bg-[#f7f4f0] disabled:opacity-50"><FacebookIcon /> Facebook</button>
-                        </div>
-                        <p className="text-center text-xs text-[#8c7a68]">
-                          Chua co tai khoan?{" "}
-                          {onSwitchToRegister ? (
-                            <button type="button" onClick={onSwitchToRegister} className="font-semibold text-[#2d1d12]">Dang ky ngay</button>
-                          ) : (
-                            <Link href="/dang-ky" className="font-semibold text-[#2d1d12]">Dang ky ngay</Link>
+                          {error && (
+                            <div className="rounded-[5px] border border-red-200 bg-red-50 px-4 py-2"><p className="text-xs text-red-700">{error}</p></div>
                           )}
-                        </p>
-                      </form>
+                          <div className="flex items-center justify-between text-sm">
+                            <label className="flex items-center gap-2 text-xs text-[#6f5d4b] whitespace-nowrap flex-shrink-0">
+                              <input type="checkbox" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} className="h-4 w-4 rounded border-[#d9cbbb] accent-[#2d1d12]" />
+                              Ghi nho dang nhap
+                            </label>
+                            <Link href="/quen-mat-khau" className="text-xs text-[#6f5d4b] hover:text-[#2d1d12]">Quen mat khau?</Link>
+                          </div>
+                          <button type="submit" disabled={isLoading} className="w-full rounded-[10px] py-3 text-sm font-semibold transition hover:-translate-y-[1px] disabled:cursor-not-allowed disabled:opacity-60 flex items-center justify-center gap-2" style={buttonStyle}>
+                            <LogIn className="h-4 w-4 text-white" strokeWidth={2} />
+                            {isLoading ? "Dang dang nhap..." : "Dang nhap"}
+                          </button>
+                          <div className="flex items-center gap-3 text-[11px] uppercase tracking-[0.25em] text-[#b1a090]">
+                            <span className="h-px flex-1 bg-[#efe4d8]" />
+                            Hoac tiep tuc voi
+                            <span className="h-px flex-1 bg-[#efe4d8]" />
+                          </div>
+                          <div className="w-full">
+                            <GoogleLogin
+                              onSuccess={handleGoogleSuccess}
+                              onError={() => setError("Đăng nhập Google thất bại")}
+                              useOneTap
+                              width="100%"
+                              text="signin_with"
+                              shape="rectangular"
+                            />
+                          </div>
+                          <p className="text-center text-[10px] text-[#b1a090] leading-relaxed">
+                            Tài khoản sẽ được tạo tự động nếu chưa có
+                          </p>
+                        </form>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </motion.div>
-        </>
-      )}
-    </AnimatePresence>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </GoogleOAuthProvider>
   );
 }

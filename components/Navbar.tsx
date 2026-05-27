@@ -12,6 +12,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { Customer } from "@/lib/api/services/authService";
+import { authService } from "@/lib/api/services/authService";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,19 +21,17 @@ export default function Navbar() {
   const [activeMegaMenu, setActiveMegaMenu] = useState<string | null>(null);
   const [expandedMobileItem, setExpandedMobileItem] = useState<string | null>(null);
   const closeMenuTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userName, setUserName] = useState("");
   const [showUserMenu, setShowUserMenu] = useState(false);
   const userMenuTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [hasLoggedInBefore, setHasLoggedInBefore] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
-  const [showRegisterModal, setShowRegisterModal] = useState(false);
   const [showProductSearch, setShowProductSearch] = useState(false);
-  const { persona } = useAppStore();
+  const { persona, customer, logout, isLoggedIn } = useAppStore();
   const cartItemCount = useAppStore((s) => s.cart.length);
   const cartBadgeLabel = cartItemCount > 99 ? "99+" : String(cartItemCount);
   const router = useRouter();
   const pathname = usePathname();
+  const userName = customer?.fullName || "Tài khoản";
   const isNavItemActive = (item: (typeof navigationData)[number]) => {
     const activePaths = item.activePaths ?? [item.href];
     return activePaths.some((path) => {
@@ -51,26 +51,6 @@ export default function Navbar() {
 
   // Check auth status
   useEffect(() => {
-    const token = localStorage.getItem("authToken");
-    const savedUser = localStorage.getItem("user");
-    const hasLoggedBefore = localStorage.getItem("duky_has_logged_in") === "true";
-
-    if (token) {
-      setIsLoggedIn(true);
-      if (!hasLoggedBefore) {
-        localStorage.setItem("duky_has_logged_in", "true");
-      }
-      if (savedUser) {
-        try {
-          const user = JSON.parse(savedUser);
-          setUserName(user.name || "Tài khoản");
-        } catch {
-          setUserName("Tài khoản");
-        }
-      }
-    }
-
-    setHasLoggedInBefore(hasLoggedBefore || !!token);
     setMounted(true);
   }, []);
 
@@ -84,10 +64,15 @@ export default function Navbar() {
     userMenuTimerRef.current = setTimeout(() => setShowUserMenu(false), 200);
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("authToken");
-    localStorage.removeItem("user");
-    setIsLoggedIn(false);
+  const handleLogout = async () => {
+    if (customer && useAppStore.getState().refreshToken) {
+       try {
+         await authService.logout(useAppStore.getState().refreshToken || "");
+       } catch (error) {
+         console.error("Logout failed", error);
+       }
+    }
+    logout();
     setShowUserMenu(false);
     router.push("/");
   };
@@ -360,18 +345,20 @@ export default function Navbar() {
               <Search className="w-[18px] h-[18px]" strokeWidth={2} />
             </motion.button>
 
-            {!isLoggedIn && !hasLoggedInBefore ? (
-              <button
-                type="button"
-                onClick={() => setShowLoginModal(true)}
-                className="border-amber-200 bg-white/80 text-amber-800 hover:bg-amber-50 ml-1 rounded-full border px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.25em] transition-colors"
-              >
-                Đăng nhập
-              </button>
+            {!customer ? (
+              <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+                <button
+                  type="button"
+                  onClick={() => setShowLoginModal(true)}
+                  className="p-2 rounded-full transition-colors inline-flex items-center justify-center text-slate-600 hover:text-amber-800 hover:bg-amber-50"
+                  aria-label="Đăng nhập"
+                >
+                  <User className="w-[18px] h-[18px]" strokeWidth={2} />
+                </button>
+              </motion.div>
             ) : (
               <>
                 {/* User Icon / Account */}
-                {isLoggedIn ? (
                   <div
                     className="relative"
                     onMouseEnter={openUserMenu}
@@ -456,18 +443,6 @@ export default function Navbar() {
                       )}
                     </AnimatePresence>
                   </div>
-                ) : (
-                  <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-                    <button
-                      type="button"
-                      onClick={() => setShowLoginModal(true)}
-                      className="p-2 rounded-full transition-colors inline-flex items-center justify-center text-slate-600 hover:text-amber-800 hover:bg-amber-50"
-                      aria-label="Đăng nhập"
-                    >
-                      <User className="w-[18px] h-[18px]" strokeWidth={2} />
-                    </button>
-                  </motion.div>
-                )}
 
                 {/* Cart Icon (navigates to /cart) */}
                 <Link href="/cart" aria-label="Giỏ hàng" className="inline-block" id="cart-icon">
@@ -523,7 +498,7 @@ export default function Navbar() {
 
           {/* Mobile Right Icons */}
           <div className="flex items-center gap-1">
-            {!isLoggedIn && !hasLoggedInBefore ? (
+            {!customer && !hasLoggedInBefore ? (
               <button
                 type="button"
                 onClick={() => setShowLoginModal(true)}
@@ -682,22 +657,14 @@ export default function Navbar() {
           )}
         </AnimatePresence>
       </nav>
-      {/* Login Modal */}
+      {/* Login Modal (with auto-register) */}
       <LoginModal
         open={showLoginModal}
         onClose={() => setShowLoginModal(false)}
-        onSwitchToRegister={() => { setShowLoginModal(false); setShowRegisterModal(true); }}
         onLoginSuccess={(user) => {
-          setIsLoggedIn(true);
-          setUserName(user.name);
           localStorage.setItem("duky_has_logged_in", "true");
           setHasLoggedInBefore(true);
         }}
-      />
-      <RegisterModal
-        open={showRegisterModal}
-        onClose={() => setShowRegisterModal(false)}
-        onSwitchToLogin={() => { setShowRegisterModal(false); setShowLoginModal(true); }}
       />
       <ProductSearch
         open={showProductSearch}

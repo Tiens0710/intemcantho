@@ -1,5 +1,6 @@
 import { getRecommendations, getFeaturedProducts, getTestimonials, getProcessSteps } from "@/lib/wordpress";
 import { success, error } from "@/lib/apiResponse";
+import axios from "axios";
 
 export async function GET(request: Request) {
   try {
@@ -12,6 +13,17 @@ export async function GET(request: Request) {
         ? personaParam
         : null;
 
+    const API_MODE = process.env.NEXT_PUBLIC_API_MODE || "mock";
+
+    if (API_MODE === "live") {
+      // Proxy to real backend
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api/v1";
+      const response = await axios.get(`${API_URL}/homepage`, { params: { persona } });
+      // Backend returns { EC, EM, DT }, we want to return the same format
+      return success(response.data.DT);
+    }
+
+    // Mock mode
     const [recommendations, featured, testimonials, processSteps] = await Promise.all([
       getRecommendations(persona),
       getFeaturedProducts(persona),

@@ -92,7 +92,7 @@ export default function Home() {
       </section>
 
       {/* Why Choose Us - Luxury Style (Thiết kế & In ấn) */}
-      <section id="why-us-2" className="bg-white overflow-hidden">
+      <section id="why-us-2" className="bg-white overflow-hidden pt-12 pb-16 md:pt-16 md:pb-24">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: -30 }}

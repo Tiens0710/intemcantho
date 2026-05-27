@@ -2,15 +2,19 @@
 
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
-import { blogPosts, categoryColors, type BlogPost } from "@/lib/data/blog-posts";
+import { categoryColors, type BlogPost } from "@/lib/data/blog-posts";
+import { fetchBlogPosts, type BlogPostFromAPI } from "@/lib/blogApi";
 import BrandCard from "@/components/ui/BrandCard";
 import WarmButton from "@/components/WarmButton";
 import { motion } from "framer-motion";
 import { ChevronRight, MessageCircle, Share2, User } from "lucide-react";
 import Link from "next/link";
 import { useState, useEffect, useCallback } from "react";
+
 import { useSearchParams } from "next/navigation";
 import FeaturedProducts from "@/components/FeaturedProducts";
+
+const PLACEHOLDER_IMG = "/no-image.svg";
 
 const allCategories = [
   { id: "tem-nhan", label: "Tem nhãn" },
@@ -20,12 +24,59 @@ const allCategories = [
   { id: "mua-in", label: "Mua in ấn" },
 ];
 
-function parseDate(dateStr: string): { day: string; month: string } {
+function parseDate(dateStr: string | null): { day: string; month: string } {
+  if (!dateStr) return { day: "01", month: "TH01" };
+  
+  // Try ISO date format first (from API)
+  const isoDate = new Date(dateStr);
+  if (!isNaN(isoDate.getTime())) {
+    return {
+      day: String(isoDate.getDate()).padStart(2, "0"),
+      month: `TH${String(isoDate.getMonth() + 1).padStart(2, "0")}`,
+    };
+  }
+  
+  // Fallback: Vietnamese format "29 Tháng 4, 2024"
   const match = dateStr.match(/(\d+)\s*Tháng\s*(\d+)/i);
   if (match) {
     return { day: match[1], month: `TH${match[2]}` };
   }
   return { day: "01", month: "TH01" };
+}
+
+/**
+ * Map backend blog post to frontend BlogPost format
+ */
+function mapApiPostToBlogPost(post: BlogPostFromAPI, index: number): BlogPost {
+  const categoryName = post.categories?.[0]?.name || "";
+  const categorySlug = post.categories?.[0]?.slug || "";
+  
+  // Map backend category slug to frontend category id
+  const categoryMap: Record<string, { id: string; label: string }> = {
+    "tem-nhan": { id: "tem-nhan", label: "Tem nhãn" },
+    "bao-bi": { id: "bao-bi", label: "Bao bì" },
+    "an-pham": { id: "an-pham", label: "Ấn phẩm văn phòng" },
+    "thiet-ke": { id: "thiet-ke", label: "Thiết kế" },
+    "mua-in": { id: "mua-in", label: "Mua in ấn" },
+  };
+  
+  const mapped = categoryMap[categorySlug] || { id: categorySlug || "other", label: categoryName || "Khác" };
+  
+  const imageUrl = post.coverMedia?.url || post.coverMedia?.secureUrl || "/no-image.svg";
+  
+  return {
+    id: index + 1,
+    slug: post.slug,
+    title: post.title,
+    date: post.publishedAt || post.createdAt,
+    readTime: "5 phút đọc",
+    category: mapped.id,
+    categoryLabel: mapped.label,
+    featured: index < 2,
+    image: imageUrl,
+    excerpt: post.excerpt || "",
+    content: post.content || "",
+  };
 }
 
 interface ExperiencePageProps {
@@ -47,6 +98,43 @@ export default function ExperiencePage({
   const [activeCategory, setActiveCategory] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 10;
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Fetch blog posts from API
+  useEffect(() => {
+    let cancelled = false;
+    
+    async function loadPosts() {
+      try {
+        setLoading(true);
+        setError(null);
+        const response = await fetchBlogPosts({ limit: 100 });
+        if (cancelled) return;
+        
+        // Map all posts from API to frontend format
+        // If backend categories don't match allowedCategories, show all posts
+        const allMapped = response.data.map((post, idx) => mapApiPostToBlogPost(post, idx));
+        
+        const matchedPosts = allMapped.filter((post) => 
+          allowedCategories.includes(post.category)
+        );
+        
+        // If matched posts exist, use them; otherwise show all posts as fallback
+        setBlogPosts(matchedPosts.length > 0 ? matchedPosts : allMapped);
+      } catch (err) {
+        if (cancelled) return;
+        console.error("Failed to fetch blog posts:", err);
+        setError("Không thể tải bài viết. Vui lòng thử lại sau.");
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+    
+    loadPosts();
+    return () => { cancelled = true; };
+  }, [allowedCategories]);
 
   useEffect(() => {
     if (catParam && allowedCategories.includes(catParam)) {
@@ -58,8 +146,8 @@ export default function ExperiencePage({
     }
   }, [catParam, allowedCategories]);
 
-  // Filter posts by allowed categories
-  const pagePosts = blogPosts.filter((post) => allowedCategories.includes(post.category));
+  // blogPosts already contains the right set (all posts as fallback if no category match)
+  const pagePosts = blogPosts;
 
   // Filter posts by tab
   const filteredPosts =
@@ -111,6 +199,38 @@ export default function ExperiencePage({
     { id: "all", label: pageTitle.toLowerCase().includes("tin") ? "Tất cả tin tức" : "Tất cả" },
     ...allCategories.filter((cat) => allowedCategories.includes(cat.id)),
   ];
+
+  // Loading state
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-white text-gray-900">
+        <Navbar />
+        <div className="flex items-center justify-center min-h-[60vh]">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#E6792A]"></div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  // Error state
+  if (error && blogPosts.length === 0) {
+    return (
+      <div className="min-h-screen bg-white text-gray-900">
+        <Navbar />
+        <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
+          <p className="text-gray-500">{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="px-6 py-2 rounded-full bg-[#E6792A] text-white font-medium text-sm"
+          >
+            Thử lại
+          </button>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white text-gray-900">
@@ -211,6 +331,7 @@ export default function ExperiencePage({
                               src={featuredPost1.image}
                               alt={featuredPost1.title}
                               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                              onError={(e) => { (e.target as HTMLImageElement).src = PLACEHOLDER_IMG; }}
                             />
                           </div>
                           <div className="p-5">
@@ -237,6 +358,7 @@ export default function ExperiencePage({
                               src={featuredPost2.image}
                               alt={featuredPost2.title}
                               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                              onError={(e) => { (e.target as HTMLImageElement).src = PLACEHOLDER_IMG; }}
                             />
                           </div>
                           <div className="p-4">
@@ -270,11 +392,12 @@ export default function ExperiencePage({
                                   <Link key={post.id} href={`/kinh-nghiem/${post.slug}`}>
                                     <BrandCard className="overflow-hidden group cursor-pointer h-full">
                                       <div className="overflow-hidden bg-gray-100 aspect-[16/7]">
-                                        <img
-                                          src={post.image}
-                                          alt={post.title}
-                                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                        />
+                                <img
+                                  src={post.image}
+                                  alt={post.title}
+                                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                  onError={(e) => { (e.target as HTMLImageElement).src = PLACEHOLDER_IMG; }}
+                                />
                                       </div>
                                       <div className="p-2">
                                         <h3
@@ -331,11 +454,12 @@ export default function ExperiencePage({
                         <BrandCard className="overflow-hidden flex flex-col sm:flex-row hover:shadow-lg transition-all duration-300 cursor-pointer group">
                           <div className="relative w-full sm:w-48 md:w-56 flex-shrink-0 overflow-hidden bg-gray-100">
                             <div className="aspect-[4/3] sm:aspect-auto sm:h-full">
-                              <img
-                                src={post.image}
-                                alt={post.title}
-                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                              />
+                            <img
+                              src={post.image}
+                              alt={post.title}
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                              onError={(e) => { (e.target as HTMLImageElement).src = PLACEHOLDER_IMG; }}
+                            />
                             </div>
                             <div
                               className="absolute top-3 left-3 text-white rounded-lg px-2.5 py-1.5 text-center leading-tight shadow-lg"
@@ -350,8 +474,8 @@ export default function ExperiencePage({
                               <span
                                 className="inline-block px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider"
                                 style={{
-                                  background: `${categoryColors[post.category]}15`,
-                                  color: categoryColors[post.category],
+                                  background: `${categoryColors[post.category] || "#E6792A"}15`,
+                                  color: categoryColors[post.category] || "#E6792A",
                                 }}
                               >
                                 {post.categoryLabel}
