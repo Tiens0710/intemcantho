@@ -175,79 +175,94 @@ export default function Navbar() {
                       {activeMegaMenu === item.label && (
                         <motion.div
                           key={item.label}
-                          initial={{ opacity: 0, y: 30, scale: 0.94, rotateX: -8 }}
-                          animate={{ opacity: 1, y: 0, scale: 1, rotateX: 0 }}
-                          exit={{ opacity: 0, y: 20, scale: 0.94, rotateX: -8, pointerEvents: "none" as any }}
-                          transition={{
-                            duration: 0.5,
-                            ease: [0.16, 1, 0.3, 1],
-                          }}
-                          className="fixed left-1/2 w-[min(1400px,calc(100vw-3rem))] -translate-x-1/2 overflow-hidden bg-white p-0.5"
-                          style={{ top: "60px", zIndex: 60, borderRadius: "24px", boxShadow: "0 50px 140px -30px rgba(15,23,42,0.6), 0 0 1px rgba(0,0,0,0.2)", perspective: "1500px", transformOrigin: "top center" }}
+                          initial={{ opacity: 0, y: 20, scale: 0.97 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: 12, scale: 0.97, pointerEvents: "none" as any }}
+                          transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                          className="fixed left-1/2 w-[min(1100px,calc(100vw-3rem))] -translate-x-1/2"
+                          style={{ top: "64px", zIndex: 60, transformOrigin: "top center" }}
                           onMouseEnter={cancelCloseTimer}
                           onMouseLeave={closeMegaMenu}
                         >
-                          <div className="absolute inset-0 rounded-[42px] bg-gradient-to-b from-white via-white/20 to-white/5 opacity-100" />
+                          {/* Outer glow */}
+                          <div className="absolute -inset-1 rounded-[28px] bg-gradient-to-b from-amber-200/40 via-amber-100/20 to-orange-100/30 blur-sm" />
 
-                          <div className="relative h-full w-full overflow-hidden rounded-[40px] bg-white/98 p-10 backdrop-blur-[160px] backdrop-saturate-[180%] shadow-[inset_0_2px_4px_rgba(255,255,255,1),inset_0_-2px_4px_rgba(0,0,0,0.05)]">
-                            <div className="relative grid grid-cols-12 gap-8">
-                              <div className="col-span-4">
+                          {/* Main panel */}
+                          <div className="relative overflow-hidden rounded-[20px] bg-white border border-amber-100/70 shadow-[0_25px_80px_-15px_rgba(150,100,40,0.25),0_0_0_1px_rgba(0,0,0,0.03)]">
+                            {/* Top accent line */}
+                            <div className="absolute top-0 inset-x-0 h-[3px] bg-gradient-to-r from-amber-300 via-amber-500 to-orange-400" />
+
+                            <div className="grid grid-cols-12 gap-0">
+                              {/* Banner side */}
+                              <div className="col-span-4 p-6 pr-5">
                                 <Link
                                   href={item.href}
-                                  className="group block overflow-hidden rounded-[24px] border border-white/80 bg-white/70 p-3 shadow-[0_12px_40px_rgba(15,23,42,0.15)] transition-all hover:shadow-[0_20px_50px_rgba(15,23,42,0.2)]"
+                                  className="group block overflow-hidden rounded-2xl bg-white transition-all duration-500 hover:shadow-lg hover:shadow-gray-200/60"
                                 >
-                                  <div className="relative h-[260px] overflow-hidden rounded-2xl">
+                                  <div className="relative aspect-[4/3] overflow-hidden">
                                     <Image
                                       src={item.megaMenu.banner.src}
                                       alt={item.megaMenu.banner.alt}
                                       fill
-                                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                                     />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                                   </div>
 
-                                  <div className="px-1 py-4 text-center">
-                                    <p className="text-[1.15rem] font-bold tracking-tight text-slate-800">
+                                  <div className="px-4 py-4">
+                                    <p className="text-[0.95rem] font-bold tracking-tight text-slate-800 transition-colors group-hover:text-amber-900">
                                       {item.megaMenu.banner.title}
                                     </p>
-                                    <p className="text-sm font-medium text-amber-700 uppercase tracking-widest mt-1">
-                                      {item.megaMenu.banner.subtitle}
-                                    </p>
+                                    <div className="mt-1.5 flex items-center gap-1.5">
+                                      <span className="h-[2px] w-4 rounded-full bg-amber-400" />
+                                      <p className="text-[10px] font-bold text-amber-500 uppercase tracking-[0.18em]">
+                                        {item.megaMenu.banner.subtitle}
+                                      </p>
+                                    </div>
                                   </div>
                                 </Link>
                               </div>
 
-                              <div className="col-span-8 grid grid-cols-3 gap-6">
-                                {item.megaMenu.columns.map((group) => (
-                                  <div key={group.title} className="space-y-4">
-                                    {group.href ? (
-                                      <Link href={group.href}>
-                                        <h4 className="px-2 text-[0.85rem] font-extrabold uppercase tracking-[0.15em] text-amber-800 hover:text-amber-600 border-l-2 border-amber-700/30 transition-colors">
+                              {/* Divider */}
+                              <div className="col-span-1 flex items-center justify-center">
+                                <div className="h-32 w-px bg-gradient-to-b from-transparent via-amber-200/80 to-transparent" />
+                              </div>
+
+                              {/* Links side */}
+                              <div className="col-span-7 p-6 pl-4">
+                                <div className="grid grid-cols-3 gap-7">
+                                  {item.megaMenu.columns.map((group, gi) => (
+                                    <div key={group.title} className="space-y-3">
+                                      {group.href ? (
+                                        <Link href={group.href}>
+                                          <h4 className="inline-flex items-center gap-1.5 text-[11px] font-black uppercase tracking-[0.18em] text-amber-800 transition-colors hover:text-amber-600">
+                                            <span className="inline-block h-[3px] w-3 rounded-full bg-amber-500/60" />
+                                            {group.title}
+                                          </h4>
+                                        </Link>
+                                      ) : (
+                                        <h4 className="inline-flex items-center gap-1.5 text-[11px] font-black uppercase tracking-[0.18em] text-amber-800/70">
+                                          <span className="inline-block h-[3px] w-3 rounded-full bg-amber-300/50" />
                                           {group.title}
                                         </h4>
-                                      </Link>
-                                    ) : (
-                                      <h4 className="px-2 text-[0.85rem] font-extrabold uppercase tracking-[0.15em] text-amber-800/80 border-l-2 border-amber-700/30">
-                                        {group.title}
-                                      </h4>
-                                    )}
-                                    <ul className="space-y-1">
-                                      {group.items.map((entry) => (
-                                        <li key={entry.label}>
-                                          <Link
-                                            href={entry.href}
-                                            className="group flex items-center rounded-xl px-3 py-2.5 transition-all hover:bg-amber-500/10"
-                                          >
-                                            <span className="mr-3 h-1.5 w-1.5 rounded-full bg-amber-700/20 transition-all group-hover:w-3 group-hover:bg-amber-700" />
-                                            <span className="text-[15px] font-medium text-slate-600 transition-colors group-hover:text-amber-900">
-                                              {entry.label}
-                                            </span>
-                                          </Link>
-                                        </li>
-                                      ))}
-                                    </ul>
-                                  </div>
-                                ))}
+                                      )}
+                                      <ul className="space-y-0.5">
+                                        {group.items.map((entry) => (
+                                          <li key={entry.label}>
+                                            <Link
+                                              href={entry.href}
+                                              className="group flex items-center gap-3 rounded-lg px-3 py-2.5 transition-all duration-200 hover:bg-gradient-to-r hover:from-amber-50 hover:to-orange-50/60"
+                                            >
+                                              <span className="flex-shrink-0 h-[5px] w-[5px] rounded-full bg-amber-300 transition-all duration-200 group-hover:h-[5px] group-hover:w-[18px] group-hover:rounded-full group-hover:bg-gradient-to-r group-hover:from-amber-500 group-hover:to-orange-400" />
+                                              <span className="text-[14px] font-medium text-slate-600 transition-colors duration-200 group-hover:text-amber-900">
+                                                {entry.label}
+                                              </span>
+                                            </Link>
+                                          </li>
+                                        ))}
+                                      </ul>
+                                    </div>
+                                  ))}
+                                </div>
                               </div>
                             </div>
                           </div>
