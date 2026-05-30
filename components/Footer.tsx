@@ -3,7 +3,7 @@
 import { Mail, MapPin, Phone } from "lucide-react";
 import Link from "next/link";
 import { BannerPage } from "./BannerPage";
-  
+
 /* ─── Inline SVG social icons ─── */
 const FacebookIcon = () => (
   <svg className="h-[18px] w-[18px]" viewBox="0 0 24 24" aria-hidden="true">

@@ -535,23 +535,75 @@ export default function ExperiencePage({
                         </BrandCard>
                       </Link>
                     </motion.div>
-                    {adAfter && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.1 }}
-                        className="mt-6 rounded-2xl overflow-hidden"
-                      >
-                        <Link href="/lien-he">
-                          <img
-                            src="/standee/standee_cta.png"
-                            alt="Quảng cáo in standee"
-                            className="w-full h-auto object-cover hover:opacity-90 transition-opacity duration-300"
-                          />
-                        </Link>
-                      </motion.div>
-                    )}
+                    {adAfter && (() => {
+                      const banners = ["/standee/standee_cta.png", "/cta_chitietsanpham.png"];
+                      const bannerIndex = Math.floor((globalIndex + 1) / 4) - 1;
+                      const bannerSrc = banners[bannerIndex % banners.length];
+                      if (bannerSrc === "/cta_chitietsanpham.png") {
+                        return (
+                          <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: 0.1 }}
+                            className="mt-6 rounded-2xl overflow-hidden relative w-full aspect-[340/130] md:aspect-[1200/190]"
+                          >
+                            <img
+                              src="/cta_chitietsanpham.png"
+                              alt="CTA Banner"
+                              className="absolute inset-0 w-full h-full object-fill pointer-events-none"
+                            />
+                            <div className="absolute inset-0 z-10 flex flex-col md:flex-row items-center justify-between px-4 sm:px-6 lg:px-8 py-3 md:py-0">
+                              <div className="flex-grow md:max-w-[48%] lg:max-w-[50%] h-6 md:h-0" />
+                              <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0 z-20 md:pr-2 lg:pr-4">
+                                <Link
+                                  href="https://zalo.me/0932757270"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="inline-flex items-center gap-1.5 md:gap-2 rounded-full px-3 py-1.8 md:px-5 md:py-2.5 text-[11px] md:text-xs font-bold transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 whitespace-nowrap"
+                                  style={{
+                                    background: "linear-gradient(135deg, #E6792A 0%, #D26D23 100%)",
+                                    boxShadow: "0 4px 14px rgba(230, 121, 42, 0.3)",
+                                    color: "#ffffff",
+                                  }}
+                                >
+                                  <MessageCircle className="h-3.5 w-3.5 md:h-4 md:w-4" style={{ stroke: "#ffffff" }} />
+                                  Nhắn Zalo ngay
+                                </Link>
+                                <Link
+                                  href="/bang-gia"
+                                  className="inline-flex items-center gap-1.5 md:gap-2 rounded-full px-3 py-1.8 md:px-5 md:py-2.5 text-[11px] md:text-xs font-bold transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 whitespace-nowrap"
+                                  style={{
+                                    border: "1.5px solid #E6792A",
+                                    backgroundColor: "#ffffff",
+                                    color: "#E6792A",
+                                  }}
+                                >
+                                  Xem bảng giá
+                                </Link>
+                              </div>
+                            </div>
+                          </motion.div>
+                        );
+                      }
+                      return (
+                        <motion.div
+                          initial={{ opacity: 0, y: 20 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          viewport={{ once: true }}
+                          transition={{ delay: 0.1 }}
+                          className="mt-6 rounded-2xl overflow-hidden shadow-sm border border-gray-100/50"
+                        >
+                          <Link href="/lien-he">
+                            <img
+                              src="/standee/standee_cta.png"
+                              alt="Quảng cáo in ấn tem nhãn"
+                              className="w-full h-auto object-cover hover:opacity-90 transition-opacity duration-300"
+                            />
+                          </Link>
+                        </motion.div>
+                      );
+                    })()}
                   </div>
                 );
               })}

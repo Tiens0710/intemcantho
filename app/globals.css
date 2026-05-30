@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&display=swap');
 /* Google Fonts are loaded via <link> tags in layout.tsx for better performance */
 @import "tailwindcss";
 
@@ -1759,6 +1760,147 @@ select:focus {
 .scrollbar-none {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
+}
+
+/* =============================================
+   HERO SLIDER - Slide 1 Custom HTML Text Styles
+   ============================================= */
+.hero-slide1-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: left;
+  max-width: 820px;
+  position: relative;
+  z-index: 10;
+}
+
+.hero-slide1-badge {
+  display: inline-block;
+  background-color: #E27D2F;
+  color: #ffffff;
+  font-size: clamp(0.75rem, 1.2vw, 0.95rem);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 6px 20px;
+  border-radius: 9999px;
+  width: fit-content;
+  font-family: 'Nunito', sans-serif;
+  box-shadow: 0 4px 12px rgba(226, 125, 47, 0.25);
+}
+
+.hero-slide1-title1 {
+  font-family: 'Nunito', sans-serif;
+  font-size: clamp(2.2rem, 5vw, 4.2rem);
+  font-weight: 900;
+  color: #FFFFFF;
+  text-transform: uppercase;
+  font-style: italic;
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+  -webkit-text-stroke: 1.5px #C66218;
+  text-shadow: 3px 3px 0px #C66218, 0px 4px 20px rgba(0,0,0,0.15);
+  margin: 0;
+  paint-order: stroke fill;
+}
+
+.hero-slide1-title2 {
+  font-family: 'Nunito', sans-serif;
+  font-size: clamp(1.9rem, 4.5vw, 3.6rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  font-style: italic;
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+  margin: 0;
+}
+
+.hero-slide1-title2-part1 {
+  color: #E27D2F;
+  text-shadow: 2px 2px 0px rgba(0,0,0,0.05);
+}
+
+.hero-slide1-title2-part2 {
+  color: #1E1E1E;
+  text-shadow: 2px 2px 0px rgba(255,255,255,0.2);
+}
+
+.hero-slide1-list {
+  display: flex;
+  align-items: center;
+  font-family: 'Nunito', sans-serif;
+  font-size: clamp(0.85rem, 1.6vw, 1.15rem);
+  font-weight: 700;
+  font-style: italic;
+  color: #1E1E1E;
+  margin-top: 4px;
+  margin-bottom: 12px;
+}
+
+.hero-slide1-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  width: 100%;
+  margin-top: 12px;
+}
+
+.hero-slide1-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #FFFFFF;
+  padding: 12px 14px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.02);
+}
+
+.hero-slide1-card-icon {
+  color: #E27D2F;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.hero-slide1-card-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  line-height: 1.2;
+  font-family: 'Nunito', sans-serif;
+}
+
+.hero-slide1-card-text span {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #1E1E1E;
+}
+
+@media (max-width: 1023px) {
+  .hero-slide1-content {
+    align-items: center;
+    text-align: center;
+    margin: 0 auto;
+  }
+  
+  .hero-slide1-list {
+    justify-content: center;
+  }
+  
+  .hero-slide1-grid {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 500px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-slide1-grid {
+    grid-template-columns: 1fr;
+    max-width: 100%;
+  }
 }
 
  

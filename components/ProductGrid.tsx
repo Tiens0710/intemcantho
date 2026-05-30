@@ -163,7 +163,7 @@ export default function ProductGrid() {
                   transition={itemTransition}
                   className="group flex h-full flex-col transition-all duration-500 hover:-translate-y-2 hover:shadow-xl"
                 >
-                  <BrandCard borderOpacity={0.28} shadowOpacity={0.08} className="flex flex-col h-full overflow-hidden">
+                  <BrandCard borderOpacity={0.42} shadowOpacity={0.12} className="flex flex-col h-full overflow-hidden">
                     <Link href={`/san-pham/${product.id}`} className="flex flex-col h-full">
                       {/* Image Area */}
                       <div className="relative aspect-[4/3] w-full overflow-hidden" style={{ background: "linear-gradient(180deg, #FBF8F4 0%, #F5F0E8 100%)" }}>

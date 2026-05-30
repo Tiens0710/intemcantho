@@ -172,7 +172,7 @@ export default function ProductCard({
     <>
     <Link
       href={href || "#"}
-      className="group relative flex flex-col overflow-hidden rounded-2xl border border-gray-200/80 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-[#E6792A]/30 hover:shadow-[0_12px_40px_rgba(230,121,42,0.12)]"
+      className="group relative flex flex-col overflow-hidden rounded-2xl border border-[#E6792A]/42 bg-white shadow-[0_4px_20px_rgba(230,121,42,0.12)] transition-all duration-300 hover:-translate-y-1.5 hover:border-[#E6792A]/60 hover:shadow-[0_12px_40px_rgba(230,121,42,0.18)]"
     >
       {/* Image Container */}
       <div className="relative aspect-[4/3] overflow-hidden bg-gray-100">

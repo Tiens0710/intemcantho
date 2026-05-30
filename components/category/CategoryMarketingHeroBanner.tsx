@@ -4,7 +4,8 @@ import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ChevronRight, CircleCheck, type LucideIcon } from "lucide-react";
+import { ChevronRight, CircleCheck, ArrowRight, type LucideIcon } from "lucide-react";
+import BrandOutlineButton from "@/components/ui/BrandOutlineButton";
 
 type BreadcrumbItem = {
   label: string;
@@ -96,6 +97,239 @@ export default function CategoryMarketingHeroBanner({
             width: var(--desktop-width) !important;
           }
         }
+        .marketing-hero-badge {
+          display: inline-block !important;
+          background-color: #E27D2F !important;
+          color: #ffffff !important;
+          font-size: clamp(0.75rem, 1.2vw, 0.95rem) !important;
+          font-weight: 800 !important;
+          text-transform: uppercase !important;
+          letter-spacing: 0.1em !important;
+          padding: 6px 20px !important;
+          border-radius: 9999px !important;
+          width: fit-content !important;
+          font-family: inherit !important;
+          box-shadow: 0 4px 12px rgba(226, 125, 47, 0.25) !important;
+          margin-bottom: 8px !important;
+          pointer-events: auto !important;
+        }
+        .marketing-hero-title1 {
+          font-family: inherit !important;
+          font-style: italic !important;
+          font-size: clamp(2rem, 3.9vw, 3.4rem) !important;
+          font-weight: 900 !important;
+          color: #FFFFFF !important;
+          text-transform: uppercase !important;
+          line-height: 1.2 !important;
+          letter-spacing: 0.01em !important;
+          text-shadow: 
+            -1.8px -1.8px 0 #C66218,  
+             1.8px -1.8px 0 #C66218,
+            -1.8px  1.8px 0 #C66218,
+             1.8px  1.8px 0 #C66218,
+             2.5px  2.5px 0 #C66218,
+             3.5px  3.5px 0 #C66218,
+             4.5px  4.5px 0 #C66218,
+             5.5px  5.5px 0 #C66218 !important;
+          margin: 0 !important;
+          white-space: nowrap !important;
+        }
+        .marketing-hero-title2 {
+          font-family: 'Arial Black', 'Impact', sans-serif !important;
+          font-size: clamp(1.5rem, 2.9vw, 2.6rem) !important;
+          font-weight: 900 !important;
+          text-transform: uppercase !important;
+          line-height: 1.2 !important;
+          letter-spacing: 0.01em !important;
+          margin: 0.2rem 0 0 !important;
+          white-space: nowrap !important;
+        }
+        .marketing-hero-title2-part1 {
+          color: #E27D2F !important;
+          -webkit-text-stroke: 1px #E27D2F !important;
+          text-shadow: 2px 2px 0px rgba(0,0,0,0.05) !important;
+          paint-order: stroke fill !important;
+        }
+        .marketing-hero-title2-part2 {
+          color: #1E1E1E !important;
+          -webkit-text-stroke: 1px #1E1E1E !important;
+          text-shadow: 2px 2px 0px rgba(255,255,255,0.2) !important;
+          paint-order: stroke fill !important;
+        }
+        .marketing-hero-tagline {
+          display: flex !important;
+          align-items: center !important;
+          font-family: inherit !important;
+          font-size: clamp(1rem, 1.8vw, 1.35rem) !important;
+          font-weight: 700 !important;
+          font-style: italic !important;
+          color: #1E1E1E !important;
+          margin-top: 8px !important;
+          margin-bottom: 12px !important;
+        }
+        .marketing-hero-desc {
+          font-family: inherit !important;
+          color: #1E1E1E !important;
+          font-size: clamp(0.85rem, 1.1vw, 1rem) !important;
+          line-height: 1.5 !important;
+          font-weight: 500 !important;
+          margin-top: 4px !important;
+          max-width: 580px !important;
+          text-shadow: 0 1px 4px rgba(255,255,255,0.85) !important;
+        }
+        .marketing-hero-card {
+          display: flex !important;
+          align-items: center !important;
+          gap: 12px !important;
+          background-color: #FFFFFF !important;
+          padding: 14px 18px !important;
+          border-radius: 12px !important;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04) !important;
+          border: 1px solid rgba(0, 0, 0, 0.02) !important;
+        }
+        .marketing-hero-card-icon {
+          color: #E27D2F !important;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          flex-shrink: 0 !important;
+        }
+        .marketing-hero-card-icon svg {
+          width: 26px !important;
+          height: 26px !important;
+        }
+        .marketing-hero-card-text {
+          display: flex !important;
+          flex-direction: column !important;
+          justify-content: center !important;
+          line-height: 1.25 !important;
+          font-family: inherit !important;
+        }
+        .marketing-hero-card-text span {
+          font-size: clamp(0.72rem, 1.1vw, 0.85rem) !important;
+          font-weight: 700 !important;
+          color: #1E1E1E !important;
+          white-space: normal !important;
+          line-height: 1.25 !important;
+        }
+        .marketing-hero-price-label {
+          font-size: 0.76rem !important;
+          font-weight: 700 !important;
+          color: #4A4A4A !important;
+          text-transform: uppercase !important;
+          letter-spacing: 0.05em !important;
+        }
+        .marketing-hero-price-val {
+          font-size: 1.25rem !important;
+          font-weight: 900 !important;
+          color: #B7510E !important;
+          white-space: nowrap !important;
+        }
+        .marketing-hero-primary-btn {
+          align-items: center !important;
+          appearance: none !important;
+          background-color: #E6792A !important;
+          border-radius: 8px !important;
+          border: 2px solid #E6792A !important;
+          box-shadow: rgba(230, 121, 42, 0.2) 0 2px 4px, rgba(230, 121, 42, 0.15) 0 7px 13px -3px, #C66218 0 -3px 0 inset !important;
+          box-sizing: border-box !important;
+          color: #ffffff !important;
+          cursor: pointer !important;
+          display: inline-flex !important;
+          font-family: inherit !important;
+          height: 48px !important;
+          justify-content: center !important;
+          line-height: 1 !important;
+          list-style: none !important;
+          overflow: hidden !important;
+          padding-left: 24px !important;
+          padding-right: 24px !important;
+          position: relative !important;
+          text-align: center !important;
+          text-decoration: none !important;
+          transition: box-shadow 0.15s, transform 0.15s, background-color 0.15s, color 0.15s !important;
+          user-select: none !important;
+          -webkit-user-select: none !important;
+          touch-action: manipulation !important;
+          white-space: nowrap !important;
+          will-change: box-shadow, transform !important;
+          font-size: 13px !important;
+          font-weight: 700 !important;
+          text-transform: uppercase !important;
+          letter-spacing: 0.05em !important;
+        }
+        .marketing-hero-primary-btn:focus {
+          outline: none !important;
+          box-shadow: #C66218 0 0 0 1.5px inset, rgba(230, 121, 42, 0.4) 0 2px 4px, rgba(230, 121, 42, 0.3) 0 7px 13px -3px, #C66218 0 -3px 0 inset !important;
+        }
+        .marketing-hero-primary-btn:hover {
+          box-shadow: rgba(230, 121, 42, 0.35) 0 4px 12px, rgba(230, 121, 42, 0.2) 0 7px 13px -3px, #F0C49E 0 -3px 0 inset !important;
+          transform: translateY(-2px) !important;
+          background-color: #ffffff !important;
+          color: #E6792A !important;
+        }
+        .marketing-hero-primary-btn:active {
+          box-shadow: #C66218 0 3px 7px inset !important;
+          transform: translateY(2px) !important;
+        }
+        .marketing-hero-secondary-btn {
+          align-items: center !important;
+          appearance: none !important;
+          background-color: #ffffff !important;
+          border-radius: 8px !important;
+          border: 2px solid #E6792A !important;
+          box-shadow: rgba(230, 121, 42, 0.2) 0 2px 4px, rgba(230, 121, 42, 0.15) 0 7px 13px -3px, #F0C49E 0 -3px 0 inset !important;
+          box-sizing: border-box !important;
+          color: #E6792A !important;
+          cursor: pointer !important;
+          display: inline-flex !important;
+          font-family: inherit !important;
+          height: 48px !important;
+          justify-content: center !important;
+          line-height: 1 !important;
+          list-style: none !important;
+          overflow: hidden !important;
+          padding-left: 24px !important;
+          padding-right: 24px !important;
+          position: relative !important;
+          text-align: center !important;
+          text-decoration: none !important;
+          transition: box-shadow 0.15s, transform 0.15s, background-color 0.15s, color 0.15s !important;
+          user-select: none !important;
+          -webkit-user-select: none !important;
+          touch-action: manipulation !important;
+          white-space: nowrap !important;
+          will-change: box-shadow, transform !important;
+          font-size: 13px !important;
+          font-weight: 700 !important;
+          text-transform: uppercase !important;
+          letter-spacing: 0.05em !important;
+        }
+        .marketing-hero-secondary-btn:focus {
+          outline: none !important;
+          box-shadow: #F0C49E 0 0 0 1.5px inset, rgba(230, 121, 42, 0.4) 0 2px 4px, rgba(230, 121, 42, 0.3) 0 7px 13px -3px, #F0C49E 0 -3px 0 inset !important;
+        }
+        .marketing-hero-secondary-btn:hover {
+          box-shadow: rgba(230, 121, 42, 0.35) 0 4px 12px, rgba(230, 121, 42, 0.2) 0 7px 13px -3px, #C66218 0 -3px 0 inset !important;
+          transform: translateY(-2px) !important;
+          background-color: #E6792A !important;
+          color: #ffffff !important;
+        }
+        .marketing-hero-secondary-btn:active {
+          box-shadow: #F0C49E 0 3px 7px inset !important;
+          transform: translateY(2px) !important;
+        }
+        @media (max-width: 1023px) {
+          .marketing-hero-title1 {
+            white-space: normal !important;
+          }
+          .marketing-hero-title2 {
+            white-space: normal !important;
+          }
+          .marketing-hero-tagline {
+            justify-content: center !important;
+          }
+        }
       `}} />
 
       <script
@@ -119,168 +353,73 @@ export default function CategoryMarketingHeroBanner({
         aria-label={ariaLabel}
         className="relative z-20 w-full max-w-full overflow-hidden px-4 sm:px-6 md:px-8 pt-28 pb-16 lg:p-0 flex flex-col items-start desktop-absolute-hero"
         style={{
-          color: "#9a5b24",
           pointerEvents: "none",
-          textShadow: "0 2px 8px rgba(255,255,255,0.75)",
           ["--desktop-top" as any]: contentTop,
           ["--desktop-left" as any]: contentLeft,
           ["--desktop-width" as any]: contentWidth,
         }}
       >
-        <h1
-          style={{
-            margin: 0,
-            paddingInline: "clamp(0.25rem, 1.2vw, 1rem)",
-            boxSizing: "border-box",
-            fontFamily: "'Cormorant Garamond', 'Playfair Display', serif",
-            fontSize: "clamp(1.75rem, 4.5vw, 4.5rem)",
-            lineHeight: 1,
-            fontWeight: 700,
-            display: "flex",
-            flexWrap: "wrap",
-            columnGap: "0.18em",
-            letterSpacing: "0",
-            textTransform: "uppercase",
-            width: "100%",
-          }}
-        >
-          <span className="whitespace-normal lg:whitespace-nowrap">{title}</span>
-          <span
-            className="whitespace-normal lg:whitespace-nowrap"
-            style={{
-              color: "#d06d08",
-              textShadow: "0 2px 8px rgba(255,255,255,0.65)",
-            }}
-          >
-            {accentTitle}
-          </span>
-        </h1>
-
-        <p
-          style={{
-            margin: "1rem 0 0",
-            paddingInline: "clamp(0.25rem, 1.2vw, 1rem)",
-            boxSizing: "border-box",
-            fontFamily: "'Cormorant Garamond', 'Playfair Display', serif",
-            fontSize: "clamp(0.85rem, 1.5vw, 1.6rem)",
-            lineHeight: 1.1,
-            fontWeight: 600,
-            letterSpacing: "0",
-            maxWidth: "min(30rem, calc(100vw - 3rem))",
-          }}
-        >
-          {tagline}
-        </p>
-
-        <div className="hidden sm:block">
-          <p
-            style={{
-              margin: "0.85rem 0 0",
-              paddingInline: "clamp(0.25rem, 1.2vw, 1rem)",
-              boxSizing: "border-box",
-              maxWidth: "min(40rem, calc(100vw - 3rem))",
-              color: "#1f1a16",
-              fontSize: "clamp(0.8rem, 1.1vw, 1rem)",
-              lineHeight: 1.4,
-              fontWeight: 400,
-              letterSpacing: "0",
-              textShadow: "0 1px 5px rgba(255,255,255,0.72)",
-              display: "-webkit-box",
-              WebkitLineClamp: 3,
-              WebkitBoxOrient: "vertical",
-              overflow: "hidden",
-            }}
-          >
-            {typeof description === "string" ? (
-              <span dangerouslySetInnerHTML={{ __html: description }} />
-            ) : (
-              description
-            )}
-          </p>
+        {/* Badge */}
+        <div className="marketing-hero-badge">
+          DUKY - PRINTING
         </div>
 
+        {/* Title */}
+        <h1 className="marketing-hero-title1">
+          {title} {accentTitle}
+        </h1>
+
+        {/* Tagline */}
+        <div className="marketing-hero-tagline">
+          <svg width="36" height="12" viewBox="0 0 36 12" fill="none" style={{ marginRight: '12px', flexShrink: 0 }}>
+            <path d="M2 3H18" stroke="#E27D2F" strokeWidth="2.5" strokeLinecap="round" />
+            <path d="M2 8H26" stroke="#E27D2F" strokeWidth="2.5" strokeLinecap="round" />
+            <circle cx="32" cy="8" r="2.5" fill="#E27D2F" />
+          </svg>
+          <span>{tagline}</span>
+        </div>
+
+        {/* Description */}
+        <div className="marketing-hero-desc hidden sm:block">
+          {typeof description === "string" ? (
+            <span dangerouslySetInnerHTML={{ __html: description }} />
+          ) : (
+            description
+          )}
+        </div>
+
+        {/* Highlights Grid */}
         <div
-          className="mt-4 lg:mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6 items-center text-shadow-none pointer-events-auto w-full"
+          className="mt-4 lg:mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pointer-events-auto w-full"
           style={{
-            maxWidth: "min(43rem, calc(100vw - 3rem))",
+            maxWidth: "680px",
           }}
         >
-          <div
-            className="w-full max-w-[20rem] sm:max-w-full"
-            style={{
-              minHeight: "5.7rem",
-              padding: "1rem clamp(1.05rem, 2.2vw, 1.45rem)",
-              borderRadius: "12px",
-              background: "linear-gradient(135deg, rgba(255,255,255,0.78), rgba(255,255,255,0.56))",
-              border: "1px solid rgba(255,255,255,0.9)",
-              boxShadow:
-                "inset 0 1px 0 rgba(255,255,255,0.95), 0 14px 34px rgba(72,49,25,0.13), 0 3px 10px rgba(72,49,25,0.08)",
-              backdropFilter: "blur(18px) saturate(1.08)",
-              WebkitBackdropFilter: "blur(18px) saturate(1.08)",
-            }}
-          >
-            <div
-              style={{
-                fontSize: "clamp(0.88rem, 1.15vw, 1.05rem)",
-                lineHeight: 1.15,
-                fontWeight: 500,
-                color: "#2f2218",
-              }}
-            >
-              {price.label}
-            </div>
-            <div
-              style={{
-                marginTop: "0.35rem",
-                display: "flex",
-                alignItems: "baseline",
-                gap: "0.4rem",
-                color: "#a94600",
-                fontFamily: "'Cormorant Garamond', 'Playfair Display', serif",
-                fontWeight: 700,
-                lineHeight: 0.95,
-                whiteSpace: "nowrap",
-              }}
-            >
-              <span style={{ fontSize: "clamp(2rem, 3.55vw, 3.35rem)" }}>{price.amount}</span>
-              <span style={{ fontSize: "clamp(0.85rem, 1.35vw, 1.25rem)" }}>{price.currency}</span>
-            </div>
-          </div>
-
-          <ul
-            className="hidden sm:grid"
-            style={{
-              gap: "0.42rem",
-              listStyle: "none",
-              margin: 0,
-              padding: 0,
-              color: "#211a14",
-              fontSize: "clamp(0.9rem, 1.2vw, 1.08rem)",
-              lineHeight: 1.15,
-              fontWeight: 500,
-              minWidth: 0,
-            }}
-          >
-            {highlights.map((item) => (
-              <li key={item} style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+          {highlights.map((item) => (
+            <div key={item} className="marketing-hero-card">
+              <div className="marketing-hero-card-icon">
                 <CircleCheck
                   aria-hidden="true"
                   fill="#c46b0d"
                   color="#ffffff"
                   strokeWidth={3}
                   style={{
-                    width: "1em",
-                    height: "1em",
+                    width: "20px",
+                    height: "20px",
                     flexShrink: 0,
                     filter: "drop-shadow(0 2px 4px rgba(196,107,13,0.28))",
                   }}
                 />
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
+              </div>
+              <div className="marketing-hero-card-text">
+                <span style={{ fontSize: "0.85rem", fontWeight: 700, color: "#1E1E1E" }}>{item}</span>
+              </div>
+            </div>
+          ))}
         </div>
 
+
+        {/* CTA Buttons */}
         <div
           className="mt-4 sm:mt-6 w-full flex flex-col sm:flex-row gap-3 sm:gap-4 items-stretch sm:items-center"
           style={{
@@ -293,29 +432,41 @@ export default function CategoryMarketingHeroBanner({
             const Icon = action.icon;
             const isPrimary = action.variant === "primary";
 
-            return (
-              <Link
-                key={`${action.variant}-${action.label}`}
-                href={action.href}
-                className={`inline-flex items-center justify-center rounded-lg font-bold uppercase tracking-wider transition-all duration-300 hover:-translate-y-0.5 w-full sm:w-auto
-                  ${isPrimary
-                    ? "text-white bg-[#E6792A] border-2 border-white/55 shadow-[0_6px_20px_rgba(0,0,0,0.25)] hover:bg-[#D26D23] hover:shadow-[0_8px_28px_rgba(0,0,0,0.3)]"
-                    : "text-[#E6792A] bg-transparent border-2 border-[#E6792A] hover:bg-[#E6792A] hover:text-white hover:shadow-[0_8px_28px_rgba(0,0,0,0.2)]"
-                  }
-                  px-4 py-2.5 text-xs sm:px-6 sm:py-3 sm:text-xs md:text-sm lg:px-9 lg:py-3.5
-                `}
-                style={{
-                  cursor: "pointer",
-                  textDecoration: "none",
-                }}
-              >
-                <Icon
-                  style={{ width: "16px", height: "16px", marginRight: "8px", flexShrink: 0 }}
-                  strokeWidth={2.5}
-                />
-                {action.label}
-              </Link>
-            );
+            if (isPrimary) {
+              return (
+                <Link
+                  key={`${action.variant}-${action.label}`}
+                  href={action.href}
+                  className="marketing-hero-primary-btn w-full sm:w-auto"
+                  style={{
+                    textDecoration: "none",
+                  }}
+                >
+                  <ArrowRight
+                    style={{ width: "16px", height: "16px", marginRight: "8px", flexShrink: 0 }}
+                    strokeWidth={2.5}
+                  />
+                  {action.label}
+                </Link>
+              );
+            } else {
+              return (
+                <Link
+                  key={`${action.variant}-${action.label}`}
+                  href={action.href}
+                  className="marketing-hero-secondary-btn w-full sm:w-auto"
+                  style={{
+                    textDecoration: "none",
+                  }}
+                >
+                  <Icon
+                    style={{ width: "16px", height: "16px", marginRight: "8px", flexShrink: 0 }}
+                    strokeWidth={2.5}
+                  />
+                  {action.label}
+                </Link>
+              );
+            }
           })}
         </div>
       </div>
