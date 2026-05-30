@@ -240,6 +240,7 @@ function ServiceCard({ service }: { service: Service }) {
     <div
       className="group relative flex flex-col justify-between overflow-hidden rounded-2xl bg-white cursor-pointer aspect-[4/5] w-full"
       style={{
+        border: "1px solid #E6792A",
         boxShadow: "0 4px 14px rgba(230, 121, 42, 0.08)",
         transition: "box-shadow 0.3s ease, transform 0.3s ease",
       }}
