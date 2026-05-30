@@ -7,7 +7,7 @@ import { fetchBlogPosts, type BlogPostFromAPI } from "@/lib/blogApi";
 import BrandCard from "@/components/ui/BrandCard";
 import WarmButton from "@/components/WarmButton";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronRight, MessageCircle, Share2, User, Bell, Phone, ShieldCheck, AlertCircle } from "lucide-react";
+import { ChevronRight, MessageCircle, Share2, User, Bell, Phone, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import { useState, useEffect, useCallback } from "react";
 
@@ -157,14 +157,15 @@ export default function ExperiencePage({
       ? pagePosts
       : pagePosts.filter((post) => post.category === activeCategory);
 
-  const listPosts = activeCategory === "all" ? filteredPosts.slice(2) : filteredPosts;
+  const listPosts = activeCategory === "all" ? filteredPosts.slice(3) : filteredPosts;
   const totalPages = Math.ceil(listPosts.length / postsPerPage);
   const startIdx = (currentPage - 1) * postsPerPage;
   const displayedPosts = listPosts.slice(startIdx, startIdx + postsPerPage);
 
   const featuredPost1 = pagePosts[0];
   const featuredPost2 = pagePosts[1];
-  const allPostsForCarousel = pagePosts.slice(2);
+  const featuredPost3 = pagePosts[2];
+  const allPostsForCarousel = pagePosts.slice(3);
   const postsPerSlide = 3;
   const totalSmallSlides = Math.ceil(allPostsForCarousel.length / postsPerSlide);
   const [currentSmallSlide, setCurrentSmallSlide] = useState(0);
@@ -313,7 +314,7 @@ export default function ExperiencePage({
         <div className="container mx-auto px-4">
           <div className="flex flex-col lg:flex-row gap-8">
             {/* Left */}
-            <div className="flex-1 min-w-0 space-y-6 lg:border-r lg:border-gray-200 lg:pr-8">
+            <div className="flex-1 min-w-0 space-y-6">
               {pagePosts.length > 0 && activeCategory === "all" && currentPage === 1 && (
                 <div className="mb-2">
                   <h2 className="text-lg font-semibold text-gray-900 mb-4">Bài viết mới nhất</h2>
@@ -321,10 +322,10 @@ export default function ExperiencePage({
                     {featuredPost1 && (
                       <Link
                         href={`/kinh-nghiem/${featuredPost1.slug}`}
-                        className={`${featuredPost2 ? "md:col-span-2" : "md:col-span-3"} self-start`}
+                        className={`${featuredPost2 ? "md:col-span-2" : "md:col-span-3"} self-stretch`}
                       >
-                        <BrandCard className="overflow-hidden group cursor-pointer h-full">
-                          <div className="overflow-hidden bg-gray-100 aspect-[16/9]">
+                        <BrandCard className="overflow-hidden group cursor-pointer h-full flex flex-col">
+                          <div className="overflow-hidden bg-gray-100 flex-1">
                             <img
                               src={featuredPost1.image}
                               alt={featuredPost1.title}
@@ -349,28 +350,54 @@ export default function ExperiencePage({
                       </Link>
                     )}
                     {featuredPost2 && (
-                      <Link href={`/kinh-nghiem/${featuredPost2.slug}`} className="mt-12">
-                        <BrandCard className="overflow-hidden group cursor-pointer h-full">
-                          <div className="overflow-hidden bg-gray-100 aspect-[16/13]">
-                            <img
-                              src={featuredPost2.image}
-                              alt={featuredPost2.title}
-                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                              onError={(e) => { (e.target as HTMLImageElement).src = PLACEHOLDER_IMG; }}
-                            />
-                          </div>
-                          <div className="p-4">
-                            <h3 className="text-base font-semibold text-gray-900 mb-2 group-hover:text-[#E6792A] transition-colors line-clamp-2 leading-snug">
-                              {featuredPost2.title}
-                            </h3>
-                            <div className="flex items-center gap-2 text-xs text-gray-400">
-                              <span>{featuredPost2.date}</span>
-                              <span>&bull;</span>
-                              <span>{featuredPost2.readTime}</span>
+                      <div className="md:col-span-1 flex flex-col gap-4">
+                        <Link href={`/kinh-nghiem/${featuredPost2.slug}`} className="block">
+                          <BrandCard className="overflow-hidden group cursor-pointer h-full flex flex-col">
+                            <div className="overflow-hidden bg-gray-100 aspect-square">
+                              <img
+                                src={featuredPost2.image}
+                                alt={featuredPost2.title}
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                onError={(e) => { (e.target as HTMLImageElement).src = PLACEHOLDER_IMG; }}
+                              />
                             </div>
-                          </div>
-                        </BrandCard>
-                      </Link>
+                            <div className="p-4">
+                              <h3 className="text-sm font-semibold text-gray-900 mb-1 group-hover:text-[#E6792A] transition-colors line-clamp-2 leading-snug">
+                                {featuredPost2.title}
+                              </h3>
+                              <div className="flex items-center gap-2 text-xs text-gray-400">
+                                <span>{featuredPost2.date}</span>
+                                <span>&bull;</span>
+                                <span>{featuredPost2.readTime}</span>
+                              </div>
+                            </div>
+                          </BrandCard>
+                        </Link>
+                        {featuredPost3 && (
+                          <Link href={`/kinh-nghiem/${featuredPost3.slug}`} className="block">
+                            <BrandCard className="overflow-hidden group cursor-pointer h-full flex flex-col">
+                              <div className="overflow-hidden bg-gray-100 aspect-square">
+                                <img
+                                  src={featuredPost3.image}
+                                  alt={featuredPost3.title}
+                                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                  onError={(e) => { (e.target as HTMLImageElement).src = PLACEHOLDER_IMG; }}
+                                />
+                              </div>
+                              <div className="p-4">
+                                <h3 className="text-sm font-semibold text-gray-900 mb-1 group-hover:text-[#E6792A] transition-colors line-clamp-2 leading-snug">
+                                  {featuredPost3.title}
+                                </h3>
+                                <div className="flex items-center gap-2 text-xs text-gray-400">
+                                  <span>{featuredPost3.date}</span>
+                                  <span>&bull;</span>
+                                  <span>{featuredPost3.readTime}</span>
+                                </div>
+                              </div>
+                            </BrandCard>
+                          </Link>
+                        )}
+                      </div>
                     )}
                   </div>
 
@@ -389,7 +416,7 @@ export default function ExperiencePage({
                                 .map((post) => (
                                   <Link key={post.id} href={`/kinh-nghiem/${post.slug}`}>
                                     <BrandCard className="overflow-hidden group cursor-pointer h-full">
-                                      <div className="overflow-hidden bg-gray-100 aspect-[16/7]">
+                                      <div className="overflow-hidden bg-gray-100 aspect-square">
                                 <img
                                   src={post.image}
                                   alt={post.title}

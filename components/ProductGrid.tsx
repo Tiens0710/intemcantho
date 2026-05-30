@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import BrandCard from "@/components/ui/BrandCard";
 import BrandOutlineButton from "@/components/ui/BrandOutlineButton";
 import { getFeaturedProducts, getCategoryUrl, Product as WPProduct } from "@/lib/wordpress";
@@ -14,13 +15,14 @@ function ProductCardImage({ src, alt }: { src: string; alt: string }) {
     setImgSrc(src || "/no-image.svg");
   }, [src]);
 
-  // Use regular <img> for dynamic backend URLs to avoid Next.js Image optimization proxy issues
+  // Use Next.js <Image> to proxy remote URLs (same as trang tiep-thi)
   return (
-    <img
+    <Image
       src={imgSrc}
       alt={alt}
-      loading="lazy"
-      className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+      fill
+      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+      className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
       onError={() => setImgSrc("/no-image.svg")}
     />
   );
