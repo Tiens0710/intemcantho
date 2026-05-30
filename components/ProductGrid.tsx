@@ -2,30 +2,10 @@
 
 import { motion } from "framer-motion";
 import { useEffect, useState, useCallback } from "react";
-import { useAppStore } from "@/lib/store";
-import { apiGet } from "@/lib/apiClient";
 import Link from "next/link";
-import Image from "next/image";
 import BrandCard from "@/components/ui/BrandCard";
 import BrandOutlineButton from "@/components/ui/BrandOutlineButton";
-
-type Product = {
-  id: string;
-  title: string;
-  description: string;
-  category: string;
-  image: string;
-  price: string;
-  personas: Array<"cafe-owner" | "office-worker" | "fashion-lover">;
-  featured: boolean;
-};
-
-type HomepageData = {
-  recommendedProducts: Product[];
-  featuredProducts: Product[];
-  testimonials: unknown[];
-  processSteps: unknown[];
-};
+import { getFeaturedProducts, getCategoryUrl, Product as WPProduct } from "@/lib/wordpress";
 
 function ProductCardImage({ src, alt }: { src: string; alt: string }) {
   const [imgSrc, setImgSrc] = useState(src || "/no-image.svg");
@@ -34,39 +14,36 @@ function ProductCardImage({ src, alt }: { src: string; alt: string }) {
     setImgSrc(src || "/no-image.svg");
   }, [src]);
 
+  // Use regular <img> for dynamic backend URLs to avoid Next.js Image optimization proxy issues
   return (
-    <Image
+    <img
       src={imgSrc}
       alt={alt}
-      width={400}
-      height={300}
+      loading="lazy"
       className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
       onError={() => setImgSrc("/no-image.svg")}
     />
   );
 }
 
 export default function ProductGrid() {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<WPProduct[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { persona } = useAppStore();
 
   const loadProducts = useCallback(async () => {
     setIsLoading(true);
     setError(null);
     try {
-      const query = persona ? `?persona=${encodeURIComponent(persona)}` : "";
-      const data = await apiGet<HomepageData>(`/api/v1/homepage${query}`, { skipAuth: true });
-      setProducts(data?.recommendedProducts ?? []);
+      const featured = await getFeaturedProducts();
+      setProducts(featured ?? []);
     } catch (err) {
       console.error("Failed to load products:", err);
       setError("Không thể tải sản phẩm. Vui lòng thử lại.");
     } finally {
       setIsLoading(false);
     }
-  }, [persona]);
+  }, []);
 
   useEffect(() => {
     loadProducts();
@@ -203,7 +180,7 @@ export default function ProductGrid() {
                             color: "#A08060",
                           }}
                         >
-                          {product.category === "office-products" ? "Văn phòng" : product.category}
+                          {getCategoryUrl(product.category).label}
                         </p>
                         <h3
                           className="mb-2 line-clamp-2"
@@ -224,7 +201,7 @@ export default function ProductGrid() {
 
                         <div className="mt-auto flex items-center justify-between">
                           <span style={{ fontSize: "14px", fontWeight: 800, color: "#5C3D1E" }}>
-                            {product.price.includes("$") ? product.price : `${parseInt(product.price).toLocaleString("vi-VN")}đ`}
+                            {product.price}
                           </span>
                         </div>
                       </div>

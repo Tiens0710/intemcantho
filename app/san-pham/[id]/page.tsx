@@ -112,7 +112,8 @@ export default async function ProductPage({ params }: Props) {
         product={{
           id,
           title: product.title,
-          subtitle: product.description,
+          subtitle: product.shortDescription || "",
+          description: product.description,
           image: product.image,
           specs: product.specs,
           sizes: product.sizes,
@@ -122,7 +123,7 @@ export default async function ProductPage({ params }: Props) {
           gallery: product.gallery,
         }}
       />
-      <ProductDetailTabs productName={product.title} />
+      <ProductDetailTabs productName={product.title} productDescription={product.description} />
       <FeaturedProducts />
       <StoreLocationSection />
       <Footer />

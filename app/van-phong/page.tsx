@@ -14,10 +14,12 @@ const logoIcon = (
 );
 
 function getOfficeCategory(product: Product) {
-  if (product.id.includes("business-card")) return "business-card";
-  if (product.id.includes("envelope")) return "envelope";
-  if (product.id.includes("folder")) return "folder";
-  if (product.id.includes("uniform")) return "uniform";
+  const id = product.id.toLowerCase();
+  const title = product.title.toLowerCase();
+  if (id.includes("business-card") || id.includes("danh-thiep") || title.includes("danh thiếp")) return "business-card";
+  if (id.includes("envelope") || id.includes("bao-thu") || title.includes("bao thư")) return "envelope";
+  if (id.includes("folder") || title.includes("folder") || title.includes("bìa đựng")) return "folder";
+  if (id.includes("uniform") || id.includes("dong-phuc") || title.includes("đồng phục")) return "uniform";
   return "other";
 }
 

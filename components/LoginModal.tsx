@@ -190,7 +190,6 @@ export default function LoginModal({ open, onClose, onLoginSuccess, onSwitchToRe
                               <input type="checkbox" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} className="h-4 w-4 rounded border-[#d9cbbb] accent-[#2d1d12]" />
                               Ghi nho dang nhap
                             </label>
-                            <Link href="/quen-mat-khau" className="text-xs text-[#6f5d4b] hover:text-[#2d1d12]">Quen mat khau?</Link>
                           </div>
                           <button type="submit" disabled={isLoading} className="w-full rounded-[10px] py-3 text-sm font-semibold transition hover:-translate-y-[1px] disabled:cursor-not-allowed disabled:opacity-60 flex items-center justify-center gap-2" style={buttonStyle}>
                             <LogIn className="h-4 w-4 text-white" strokeWidth={2} />
@@ -213,6 +212,10 @@ export default function LoginModal({ open, onClose, onLoginSuccess, onSwitchToRe
                           </div>
                           <p className="text-center text-[10px] text-[#b1a090] leading-relaxed">
                             Tài khoản sẽ được tạo tự động nếu chưa có
+                          </p>
+                          <p className="text-center text-xs text-[#8c7a68]">
+                            Chưa có tài khoản?{" "}
+                            <Link href="/dang-ky" className="font-semibold text-[#2d1d12]">Đăng ký</Link>
                           </p>
                         </form>
                       </div>

@@ -19,8 +19,20 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
+        protocol: "http",
+        hostname: "localhost",
+      },
+      {
+        protocol: "https",
+        hostname: "localhost",
+      },
+      {
         protocol: "https",
         hostname: "d2xsxph8kpxj0f.cloudfront.net",
+      },
+      {
+        protocol: "https",
+        hostname: "intemcantho.vn",
       },
       {
         protocol: "https",

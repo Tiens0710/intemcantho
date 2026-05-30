@@ -111,9 +111,10 @@ function TabTitle({ children }: { children: React.ReactNode }) {
 
 interface ProductDetailTabsProps {
   productName?: string;
+  productDescription?: string;
 }
 
-export default function ProductDetailTabs({ productName }: ProductDetailTabsProps) {
+export default function ProductDetailTabs({ productName, productDescription }: ProductDetailTabsProps) {
   const [activeTab, setActiveTab] = useState<TabKey>("intro");
   const [replyTexts, setReplyTexts] = useState<Record<string, string>>({});
   const [writeReview, setWriteReview] = useState(false);
@@ -183,25 +184,24 @@ export default function ProductDetailTabs({ productName }: ProductDetailTabsProp
             {activeTab === "intro" && (
               <div className="space-y-10">
                 {/* Title */}
-                <TabTitle>{productName ?? "Băng Rôn Hiflex"}</TabTitle>
+                <TabTitle>{productName ?? "Sản Phẩm"}</TabTitle>
                 {/* Description */}
-                <p className="text-sm leading-relaxed !text-gray-600">
-                  Băng rôn · Banner · Backdrop chung 1 nghĩa giống nhau đều là biểu ngữ để quảng cáo hay làm phông
-                  nền quảng bá cho một sự kiện gì đó. Băng rôn thường được làm bằng chất liệu Hiflex.
-                </p>
-
-                <div className="space-y-4 text-sm leading-relaxed !text-gray-600">
-                  <p>
-                    Danh thiếp là ấn phẩm marketing không thể thiếu đối với cá nhân, doanh nghiệp và cửa hàng kinh doanh trong thời đại hiện nay. Một mẫu danh thiếp đẹp, chuyên nghiệp không chỉ cung cấp thông tin liên hệ mà còn thể hiện rõ hình ảnh thương hiệu, phong cách và mức độ uy tín của người sử dụng. Vì vậy, việc thiết kế và in ấn danh thiếp chất lượng cao luôn được nhiều khách hàng quan tâm.
-                  </p>
-
-                  <p>
-                    Danh thiếp thường bao gồm các thông tin quan trọng như: tên cá nhân hoặc doanh nghiệp, chức vụ, số điện thoại, email, địa chỉ, website và logo thương hiệu. Tùy theo nhu cầu, khách hàng có thể lựa chọn nhiều kiểu dáng khác nhau như bo góc, ép kim, cán mờ/cán bóng hay danh thiếp giấy mỹ thuật cao cấp. Mỗi loại đều mang đến ấn tượng riêng, giúp người nhận dễ dàng ghi nhớ và nhận diện thương hiệu.
-                  </p>
-
-                  <p>
-                    Chất liệu in phổ biến hiện nay là giấy Couche, Bristol, Ivory hoặc giấy mỹ thuật với độ dày từ 300gsm – 350gsm, đảm bảo độ cứng cáp, bền đẹp và sang trọng, góp phần nâng cao hình ảnh chuyên nghiệp cho doanh nghiệp.
-                  </p>
+                <div className="text-sm leading-relaxed !text-gray-600 space-y-4">
+                  {productDescription ? (
+                    productDescription.split('\n').filter(Boolean).map((para, i) => (
+                      <p key={i}>{para}</p>
+                    ))
+                  ) : (
+                    <>
+                      <p>
+                        Sản phẩm được in ấn với công nghệ hiện đại, đảm bảo chất lượng màu sắc sắc nét và bền bỉ.
+                        Phù hợp cho nhiều nhu cầu sử dụng khác nhau từ cá nhân đến doanh nghiệp.
+                      </p>
+                      <p>
+                        Liên hệ với chúng tôi để được tư vấn chi tiết về sản phẩm, chất liệu và báo giá phù hợp nhất.
+                      </p>
+                    </>
+                  )}
                 </div>
 
                 {/* YouTube Embed */}

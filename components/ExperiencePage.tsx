@@ -6,8 +6,8 @@ import { categoryColors, type BlogPost } from "@/lib/data/blog-posts";
 import { fetchBlogPosts, type BlogPostFromAPI } from "@/lib/blogApi";
 import BrandCard from "@/components/ui/BrandCard";
 import WarmButton from "@/components/WarmButton";
-import { motion } from "framer-motion";
-import { ChevronRight, MessageCircle, Share2, User } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronRight, MessageCircle, Share2, User, Bell, Phone, ShieldCheck, AlertCircle } from "lucide-react";
 import Link from "next/link";
 import { useState, useEffect, useCallback } from "react";
 
@@ -97,6 +97,8 @@ export default function ExperiencePage({
 
   const [activeCategory, setActiveCategory] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
+  const [emailSubscribed, setEmailSubscribed] = useState(false);
+  const [emailInput, setEmailInput] = useState("");
   const postsPerPage = 10;
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
@@ -184,13 +186,9 @@ export default function ExperiencePage({
     if (totalPages <= 5) {
       for (let i = 1; i <= totalPages; i++) pages.push(i);
     } else {
-      pages.push(1);
-      if (currentPage > 3) pages.push("...");
-      for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) {
-        pages.push(i);
-      }
-      if (currentPage < totalPages - 2) pages.push("...");
-      pages.push(totalPages);
+      pages.push(1, 2, 3);
+      pages.push("...");
+      pages.push(totalPages - 2, totalPages - 1, totalPages);
     }
     return pages;
   };
@@ -588,6 +586,140 @@ export default function ExperiencePage({
               <div className="rounded-2xl overflow-hidden border border-gray-200 shadow-sm">
                 <img src="/banner_doc.webp" alt="In tem nhãn tại Cần Thơ" className="w-full h-auto object-cover" />
               </div>
+
+              {/* Premium Price Alert Box */}
+              <div className="relative overflow-hidden bg-gradient-to-br from-white to-amber-50/20 border border-amber-200/60 shadow-xl shadow-amber-900/5 rounded-[32px] p-6 md:p-8">
+                <div className="absolute -top-10 -right-10 w-28 h-28 bg-amber-500/15 rounded-full blur-2xl pointer-events-none" />
+                <div className="absolute -bottom-10 -left-10 w-28 h-28 bg-orange-500/10 rounded-full blur-2xl pointer-events-none" />
+                <div className="relative z-10 text-center space-y-5">
+                  <div className="inline-flex p-3.5 bg-gradient-to-br from-amber-50 to-amber-100/50 border border-amber-200/50 rounded-2xl text-amber-800 shadow-inner">
+                    <Bell className="w-6 h-6 animate-bounce" style={{ animationDuration: '3s' }} />
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="text-lg font-extrabold text-slate-800 tracking-tight">Nhận Báo Giá Ngay</h3>
+                    <p className="text-xs text-slate-500 leading-relaxed px-1">
+                      Đăng ký nhận báo giá và cập nhật biến động giá nguyên liệu hằng tuần để tối ưu chi phí in ấn.
+                    </p>
+                  </div>
+                  <AnimatePresence mode="wait">
+                    {!emailSubscribed ? (
+                      <motion.form
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                          if (emailInput.trim() && emailInput.includes("@")) {
+                            setEmailSubscribed(true);
+                            setEmailInput("");
+                          }
+                        }}
+                        className="space-y-3 pt-2"
+                      >
+                        <div className="relative">
+                          <input
+                            type="email"
+                            required
+                            placeholder="Nhập email của bạn..."
+                            value={emailInput}
+                            onChange={(e) => setEmailInput(e.target.value)}
+                            className="w-full px-4 py-3 text-xs rounded-xl border border-slate-200 bg-white shadow-sm focus:border-amber-600 focus:ring-1 focus:ring-amber-600/30 focus:outline-none transition-all"
+                          />
+                        </div>
+                        <button
+                          type="submit"
+                          className="w-full bg-gradient-to-r from-amber-700 to-amber-800 hover:from-amber-800 hover:to-amber-900 text-white font-bold py-3 rounded-xl text-xs uppercase tracking-widest transition-all duration-300 shadow-md shadow-amber-700/20 active:scale-[0.98] cursor-pointer"
+                        >
+                          Đăng ký ngay
+                        </button>
+                      </motion.form>
+                    ) : (
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="p-5 bg-emerald-50 border border-emerald-200/80 rounded-2xl flex flex-col items-center gap-3 pt-4 shadow-sm"
+                      >
+                        <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 shadow-inner">
+                          <ShieldCheck className="w-5 h-5" />
+                        </div>
+                        <div className="space-y-1">
+                          <p className="text-xs font-bold text-emerald-800 text-center">Đăng ký thành công!</p>
+                          <p className="text-[10px] text-emerald-600/90 text-center leading-relaxed">
+                            Bạn sẽ nhận được tin tức biến động giá mới nhất hàng tuần qua hòm thư.
+                          </p>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              </div>
+
+              {/* Consultation Hotline Card */}
+              <div className="bg-white rounded-[32px] text-slate-900 p-8 shadow-lg relative overflow-hidden border border-slate-200/70">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-amber-200/40 rounded-full blur-2xl pointer-events-none" />
+                <div className="absolute bottom-0 left-0 w-32 h-32 bg-orange-200/40 rounded-full blur-2xl pointer-events-none" />
+                <div className="relative z-10 space-y-6">
+                  <div className="space-y-2">
+                    <span className="text-[10px] uppercase font-bold tracking-widest text-amber-700 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200">
+                      Đại lý & In ấn
+                    </span>
+                    <h3 className="text-lg font-extrabold tracking-tight">Tư Vấn Giá & Ưu Đãi</h3>
+                    <p className="text-xs text-slate-600 leading-relaxed">
+                      Bạn là doanh nghiệp, đại lý quảng cáo cần in ấn bao bì, decal tem nhãn định kỳ với số lượng lớn? Hãy liên hệ ngay với phòng kinh doanh để nhận chính sách chiết khấu tốt nhất.
+                    </p>
+                  </div>
+                  <div className="pt-2 space-y-3">
+                    <a
+                      href="tel:0985463403"
+                      className="flex items-center justify-center gap-3 w-full py-3.5 bg-amber-700 hover:bg-amber-600 text-white rounded-xl text-xs font-bold transition-all duration-300 shadow-lg shadow-amber-700/30 active:scale-[0.98]"
+                    >
+                      <Phone className="w-4 h-4" />
+                      Hotline: 0985 463 403
+                    </a>
+                    <a
+                      href="https://zalo.me/0985463403"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-center gap-2.5 w-full py-3.5 bg-white hover:bg-amber-50 border border-amber-200 text-amber-700 rounded-xl text-xs font-bold transition-all duration-300 active:scale-[0.98]"
+                    >
+                      <span>Nhắn tin Zalo hỗ trợ giá</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              {/* Industry Alerts Timeline */}
+              <div className="bg-white rounded-[32px] border border-slate-200/60 shadow-sm p-6 md:p-8">
+                <h3 className="text-xs font-black uppercase tracking-widest text-slate-800 mb-6 pb-3 border-b border-slate-100 flex items-center gap-2">
+                  <span className="w-1.5 h-3.5 bg-amber-700 rounded-full" />
+                  Tin vắn ngành in
+                </h3>
+                <div className="relative pl-4 border-l border-slate-150 space-y-6">
+                  {[
+                    {
+                      date: "21/05",
+                      title: "Cảng Hải Phòng tăng phụ phí xếp dỡ, dự kiến ảnh hưởng nhẹ đến giá bột giấy nhập khẩu cuối tháng 5.",
+                    },
+                    {
+                      date: "18/05",
+                      title: "Fasson giới thiệu dòng decal giấy tự hủy thân thiện môi trường mới với lớp keo acrylic dễ tẩy rửa.",
+                    },
+                    {
+                      date: "15/05",
+                      title: "Cầu đường Cần Thơ hoàn thiện quy trình giao vận nội tỉnh mới giúp giảm thời gian giao hàng in ấn xuống 20%.",
+                    }
+                  ].map((item, i) => (
+                    <div key={i} className="relative space-y-1">
+                      <span className="absolute -left-[21px] top-1 w-2.5 h-2.5 rounded-full bg-amber-700 ring-4 ring-amber-50" />
+                      <span className="inline-block text-[10px] font-bold text-amber-800 bg-amber-50 border border-amber-200/50 px-2 py-0.5 rounded">
+                        {item.date}
+                      </span>
+                      <p className="text-xs text-slate-600 leading-relaxed font-medium">{item.title}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
               <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-5">
                 <h3
                   className="text-sm font-bold uppercase tracking-wider mb-4 pb-3 border-b border-gray-100"

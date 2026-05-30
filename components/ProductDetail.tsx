@@ -29,6 +29,7 @@ interface ProductDetailProps {
     id?: string;
     title?: string;
     subtitle?: string;
+    description?: string;
     image?: string;
     specs?: { label: string; value: string; hasTooltip?: boolean }[];
     sizes?: SizeOption[];
@@ -163,10 +164,10 @@ function ComboImage({ src, alt }: { src: string; alt: string }) {
 export default function ProductDetail({ product }: ProductDetailProps) {
   const p = { ...DEFAULT_PRODUCT, ...product };
 
-  const [selectedSize, setSelectedSize] = useState(p.sizes[1].value);
+  const [selectedSize, setSelectedSize] = useState(p.sizes?.length > 1 ? p.sizes[1].value : p.sizes?.[0]?.value ?? "");
   const [customSize, setCustomSize] = useState("");
   const [quantity, setQuantity] = useState("1");
-  const [purpose, setPurpose] = useState(p.purposes[0]);
+  const [purpose, setPurpose] = useState(p.purposes?.[0] ?? "");
   const [designOption, setDesignOption] = useState<"has-file" | "online" | "support">("has-file");
   const [reviewOption, setReviewOption] = useState<"review" | "skip">("review");
   const [supportOption, setSupportOption] = useState<"new" | "redesign">("new");
@@ -443,7 +444,9 @@ export default function ProductDetail({ product }: ProductDetailProps) {
               <h1 className="!font-sans text-xl font-extrabold uppercase tracking-wide !text-[#E6792A]">
                 {p.title}
               </h1>
-              <p className="mt-1 text-sm !text-gray-500">{p.subtitle}</p>
+              {p.subtitle && (
+                <p className="mt-1 text-sm !text-gray-500">{p.subtitle}</p>
+              )}
             </div>
 
             {/* ── Thông số cơ bản ── */}

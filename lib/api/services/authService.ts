@@ -16,6 +16,12 @@ export interface AuthResponse {
   customer: Customer;
 }
 
+export interface ForgotPasswordResponse {
+  success: boolean;
+  message: string;
+  resetToken?: string; // dev mode only
+}
+
 export const authService = {
   loginWithGoogle: async (idToken: string) => {
     try {
@@ -35,11 +41,44 @@ export const authService = {
     }
   },
 
-  register: async (data: { email: string; password: string; passwordConfirmation: string }) => {
+  register: async (data: {
+    email?: string;
+    phone?: string;
+    password: string;
+    passwordConfirmation: string;
+  }) => {
     try {
       return await axiosClient.post<any, AuthResponse>("/customer/auth/register", data);
     } catch (error) {
       console.error("Register failed:", error);
+      throw error;
+    }
+  },
+
+  forgotPassword: async (email: string): Promise<ForgotPasswordResponse> => {
+    try {
+      return await axiosClient.post<any, ForgotPasswordResponse>(
+        "/customer/auth/forgot-password",
+        { email }
+      );
+    } catch (error) {
+      console.error("Forgot password failed:", error);
+      throw error;
+    }
+  },
+
+  resetPassword: async (data: {
+    token: string;
+    password: string;
+    passwordConfirmation: string;
+  }) => {
+    try {
+      return await axiosClient.post<any, { success: boolean; message: string }>(
+        "/customer/auth/reset-password",
+        data
+      );
+    } catch (error) {
+      console.error("Reset password failed:", error);
       throw error;
     }
   },

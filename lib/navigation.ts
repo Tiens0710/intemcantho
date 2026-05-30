@@ -182,13 +182,9 @@ export const navigationData: NavItem[] = [
     },
   },
   {
-    label: "Kinh nghiệm",
-    href: "/kinh-nghiem",
-    activePaths: ["/kinh-nghiem", "/kinh-nghiem/kien-thuc", "/kinh-nghiem/tin-tuc"],
-    dropdownItems: [
-      { label: "Kiến Thức In Ấn", href: "/kinh-nghiem/kien-thuc" },
-      { label: "Tin Tức", href: "/kinh-nghiem/tin-tuc" },
-    ],
+    label: "Kiến thức",
+    href: "/kinh-nghiem/kien-thuc",
+    activePaths: ["/kinh-nghiem", "/kinh-nghiem/kien-thuc"],
   },
   { label: "Liên hệ", href: "/lien-he" },
 ];

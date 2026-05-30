@@ -14,7 +14,7 @@ export async function GET(request: Request) {
       // Proxy to real backend
       const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api/v1";
       const response = await axios.get(`${API_URL}/products`, {
-        params: { category, search: query }
+        params: { categorySlug: category, search: query }
       });
       return success(response.data.DT);
     }

@@ -4,12 +4,18 @@
  * In production, this would fetch from a real WordPress REST API
  */
 
+import axios from "axios";
+
+const API_MODE = process.env.NEXT_PUBLIC_API_MODE || "mock";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api/v1";
+
 export type PersonaType = "cafe-owner" | "office-worker" | "fashion-lover" | null;
 
 export interface Product {
   id: string;
   title: string;
   description: string;
+  shortDescription?: string;
   category: string;
   image: string;
   price: string;
@@ -1372,10 +1378,168 @@ export function getCategoryUrl(category: string): { url: string; label: string }
   return categoryMap[category] || { url: "/van-phong", label: "Sản phẩm" };
 }
 
+function detectCategoryFromSlugAndTitle(slug: string, title: string): string {
+  const s = slug.toLowerCase();
+  const t = title.toLowerCase();
+
+  // Tem nhãn Decal — PHẢI nằm TRƯỚC packaging vì slug chứa "decal"
+  if (s.includes("decal") || s.includes("sticker") || s.includes("tem-nhan") || s.includes("tem-be") || s.includes("bao-hanh") ||
+      t.includes("decal") || t.includes("sticker") || t.includes("tem nhãn") || t.includes("tem vỡ") || t.includes("tem bảo hành") ||
+      t.includes("tem nhãn decal")) {
+    return "nhan-dan";
+  }
+
+  // Office products
+  if (s.includes("danh-thiep") || s.includes("business-card") || t.includes("danh thiếp") || t.includes("card") ||
+      s.includes("bao-thu") || s.includes("envelope") || t.includes("bao thư") ||
+      s.includes("folder") || t.includes("folder") || t.includes("bìa đựng") ||
+      s.includes("dong-phuc") || s.includes("uniform") || t.includes("đồng phục") || t.includes("áo thun")) {
+    return "office-products";
+  }
+
+  // Packaging products (bao bì — hộp giấy, túi giấy, etc.)
+  if (s.includes("bao-bi") || t.includes("bao bì") || t.includes("hộp giấy") || t.includes("túi giấy") ||
+      s.includes("tui-giay") || s.includes("hop-giay") || s.includes("tui-ni-long") || t.includes("túi ni lông")) {
+    return "bao-bi";
+  }
+
+  // Catalogue
+  if (s.includes("catalogue") || t.includes("catalogue")) {
+    return "catalogue";
+  }
+
+  // Menu
+  if (s.includes("menu") || t.includes("menu")) {
+    return "menu";
+  }
+
+  // Voucher / thẻ tích điểm
+  if (s.includes("voucher") || s.includes("the-cao") || s.includes("the-tich-diem") ||
+      t.includes("voucher") || t.includes("thẻ cào") || t.includes("tích điểm")) {
+    return "voucher";
+  }
+
+  // Hashtag cầm tay
+  if (s.includes("hashtag") || t.includes("hashtag")) {
+    return "hashtag-cam-tay";
+  }
+
+  // Hiflex / Banner / Băng rôn
+  if (s.includes("backdrop") || t.includes("backdrop") ||
+      s.includes("banner") || s.includes("hiflex") || s.includes("bang-ron") || t.includes("băng rôn") || t.includes("hiflex")) {
+    return "hiflex";
+  }
+
+  // Standee
+  if (s.includes("standee") || t.includes("standee")) {
+    return "standee";
+  }
+
+  // Brochure / Tờ rơi / Tờ gấp
+  if (s.includes("brochure") || s.includes("brouchure") || s.includes("to-gap") || t.includes("brochure") || t.includes("brouchure") || t.includes("tờ gấp") ||
+      s.includes("to-roi") || t.includes("tờ rơi")) {
+    return "marketing";
+  }
+
+  // Ảnh ép nhựa
+  if (s.includes("anh-ep-nhua") || s.includes("ep-nhua") || t.includes("ảnh ép nhựa") || t.includes("ép nhựa")) {
+    return "anh-ep-nhua";
+  }
+
+  // Ảnh ép gỗ
+  if (s.includes("anh-ep-go") || s.includes("ep-go") || t.includes("ảnh ép gỗ") || t.includes("ép gỗ")) {
+    return "anh-ep-go";
+  }
+
+  // Ảnh cưới
+  if (s.includes("anh-cuoi") || t.includes("ảnh cưới")) {
+    return "anh-cuoi";
+  }
+
+  // Photobook
+  if (s.includes("photobook") || t.includes("photobook")) {
+    return "photobook";
+  }
+
+  // Băng gôn
+  if (s.includes("bang-gon") || t.includes("băng gôn")) {
+    return "bang-gon";
+  }
+
+  // Ảnh trending
+  if (s.includes("anh-trending") || s.includes("trending") || t.includes("ảnh trending")) {
+    return "anh-trending";
+  }
+
+  return "other";
+}
+
+function mapBackendProductToFrontend(p: any): Product {
+  let priceText = "Liên hệ";
+  if (p.contactForPrice) {
+    priceText = "Liên hệ";
+  } else if (p.salePrice) {
+    priceText = `${p.salePrice.toLocaleString("vi-VN")}₫`;
+  } else if (p.originalPrice) {
+    priceText = `${p.originalPrice.toLocaleString("vi-VN")}₫`;
+  }
+
+    const categorySlug = detectCategoryFromSlugAndTitle(p.slug, p.name);
+
+    // Backend returns `image` (singular) for public list, `images` (plural) for admin/detail
+    const rawThumbnail = p.thumbnailMedia?.url || null;
+    const rawPrimaryImage = p.image?.media?.url
+      || (p.images && p.images.length > 0 ? p.images[0]?.media?.url : null);
+    const rawGallery = p.images
+      ? p.images.map((img: any) => img.media?.url).filter(Boolean)
+      : (rawPrimaryImage ? [rawPrimaryImage] : []);
+
+    return {
+      id: p.slug,
+      title: p.name,
+      description: p.description || "",
+      shortDescription: p.shortDescription || (p.description
+        ? p.description
+            .replace(/<[^>]*>/g, '')
+            .replace(/&nbsp;/g, ' ')
+            .replace(/&/g, '&')
+            .replace(/\s+/g, ' ')
+            .trim()
+            .split(/[.!?]+/)[0]
+            ?.trim() + '.'
+        : ""),
+      category: categorySlug,
+      image: rawThumbnail || rawPrimaryImage || "/no-image.svg",
+      price: priceText,
+      personas: p.personas || [],
+      featured: p.isFeatured || false,
+      updatedAt: p.updatedAt,
+      gallery: rawGallery,
+      specs: p.specs || [],
+      sizes: p.sizes || [],
+      purposes: p.purposes || [],
+      deliveryDate: p.deliveryDate || "Giao hàng từ 3-5 ngày",
+    };
+}
+
 /**
  * Fetch all products (with optional persona filtering)
  */
 export async function getProducts(persona?: PersonaType): Promise<Product[]> {
+  if (API_MODE === "live") {
+    try {
+      const response = await axios.get(`${API_URL}/products`, {
+        params: { limit: 100 }
+      });
+      const dt = response.data.DT;
+      const list = dt && dt.data ? dt.data : [];
+      return list.map(mapBackendProductToFrontend);
+    } catch (e) {
+      console.warn("Live API unavailable, falling back to mock data:", e);
+      // Fall through to mock data below
+    }
+  }
+
   // Simulate network delay
   await new Promise((resolve) => setTimeout(resolve, 300));
 
@@ -1393,14 +1557,32 @@ export async function getProducts(persona?: PersonaType): Promise<Product[]> {
 export async function getFeaturedProducts(
   persona?: PersonaType
 ): Promise<Product[]> {
-  const products = await getProducts(persona);
-  return products.filter((p) => p.featured);
+  // Get all products first (reuse getProducts which has fallback logic)
+  const allProducts = await getProducts(persona);
+  const featured = allProducts.filter((p) => p.featured);
+  // Always return something — if no featured, return first 8 products
+  return featured.length > 0 ? featured : allProducts.slice(0, 8);
 }
 
 /**
- * Fetch a single product by ID
+ * Fetch a single product by ID (which is slug)
  */
 export async function getProduct(id: string): Promise<Product | null> {
+  if (API_MODE === "live") {
+    try {
+      const response = await axios.get(`${API_URL}/products/${id}`);
+      const dt = response.data.DT;
+      if (dt) {
+        return mapBackendProductToFrontend(dt);
+      }
+      return null;
+    } catch (e) {
+      console.error(`Failed to fetch product ${id} from live API:`, e);
+      return null;
+    }
+  }
+
+  // Simulate network delay
   await new Promise((resolve) => setTimeout(resolve, 200));
   return PRODUCTS.find((p) => p.id === id) || null;
 }
@@ -1412,6 +1594,20 @@ export async function searchProducts(
   query: string,
   persona?: PersonaType
 ): Promise<Product[]> {
+  if (API_MODE === "live") {
+    try {
+      const response = await axios.get(`${API_URL}/products`, {
+        params: { search: query, limit: 20 }
+      });
+      const dt = response.data.DT;
+      const list = dt && dt.data ? dt.data : [];
+      return list.map(mapBackendProductToFrontend);
+    } catch (e) {
+      console.error("Failed to search products from live API:", e);
+      return [];
+    }
+  }
+
   await new Promise((resolve) => setTimeout(resolve, 400));
 
   const lowerQuery = query.toLowerCase();
@@ -1435,6 +1631,12 @@ export async function searchProducts(
 export async function getRecommendations(
   persona: PersonaType
 ): Promise<Product[]> {
+  if (API_MODE === "live") {
+    // Return first 8 products as recommendation
+    const products = await getProducts();
+    return products.slice(0, 8);
+  }
+
   await new Promise((resolve) => setTimeout(resolve, 300));
 
   // Show featured products when no persona is selected
